@@ -13,15 +13,28 @@ export function GenerateQuestButton() {
   const handleGenerate = async () => {
     setLoading(true);
     try {
-      await generateDailyQuest({
+      console.log("Requesting new quest...");
+      const result = await generateDailyQuest({
         time_window_min: 30, // Default for now
         muscle_soreness: [],
       });
+
+      console.log("Quest Generation Result:", result);
+
+      if (!result) {
+        throw new Error("Server returned no data (undefined/null)");
+      }
+
+      if (!result.id) {
+        throw new Error("Server returned invalid data (missing ID)");
+      }
+
       toast.success("New mandate received.");
       router.refresh(); // Force UI update
-    } catch (error) {
-      toast.error("System Error: Quest generation failed.");
-      console.error(error);
+    } catch (error: any) {
+      const msg = error?.message || "Quest generation failed.";
+      toast.error(`System Error: ${msg}`);
+      console.error("Full Error Object:", error);
     } finally {
       setLoading(false);
     }
