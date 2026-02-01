@@ -5,7 +5,7 @@ import { XPBar } from "@/components/gamification/XPBar";
 import { RankBadge } from "@/components/gamification/RankBadge";
 import { QuestCard } from "@/components/quest/QuestCard";
 import { GenerateQuestButton } from "@/components/dashboard/GenerateQuestButton";
-import { getActiveQuest } from "@/server/actions/quest-actions";
+import { getActiveQuest, getTodayQuest } from "@/server/actions/quest-actions";
 import { checkRankUpEligibility } from "@/server/actions/rank-up-actions";
 import { RankUpBanner } from "@/components/rankup/RankUpBanner";
 import { WorkoutPlan } from "@/types/schemas";
@@ -35,6 +35,7 @@ export default async function DashboardPage() {
   }
 
   const activeQuest = await getActiveQuest();
+  const todayQuest = await getTodayQuest();
   const { eligible, nextRank } = await checkRankUpEligibility(user.id);
 
   return (
@@ -86,6 +87,11 @@ export default async function DashboardPage() {
                 plan_json: (activeQuest as any).plan_json as unknown as WorkoutPlan,
                 status: (activeQuest as any).status || "Active"
               }} />
+            ) : todayQuest && (todayQuest as any).status === "Completed" ? (
+              <div className="text-center py-12 border border-dashed border-system-cyan/30 rounded-xl bg-system-cyan/5">
+                <p className="text-white font-display text-xl mb-2 uppercase tracking-widest">Daily Mandate Complete</p>
+                <p className="text-white/60 font-mono text-sm">Rest, Hunter. The System awaits your return tomorrow.</p>
+              </div>
             ) : (
               <GenerateQuestButton />
             )}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SystemButton } from "@/components/ui/SystemButton";
 import { generateDailyQuest } from "@/server/actions/quest-actions";
@@ -7,6 +8,7 @@ import { toast } from "sonner";
 
 export function GenerateQuestButton() {
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleGenerate = async () => {
     setLoading(true);
@@ -16,6 +18,7 @@ export function GenerateQuestButton() {
         muscle_soreness: [],
       });
       toast.success("New mandate received.");
+      router.refresh(); // Force UI update
     } catch (error) {
       toast.error("System Error: Quest generation failed.");
       console.error(error);

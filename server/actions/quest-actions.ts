@@ -94,6 +94,27 @@ export async function getActiveQuest() {
   return quest;
 }
 
+export async function getTodayQuest() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (!user) return null;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const { data: quest } = await supabase
+    .from("quests")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("quest_type", "Daily")
+    .gte("created_at", today.toISOString())
+    .limit(1)
+    .single();
+
+  return quest;
+}
+
 export async function getQuestById(id: string) {
   const supabase = await createClient();
   
