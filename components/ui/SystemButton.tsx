@@ -10,7 +10,7 @@ interface SystemButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const SystemButton = forwardRef<HTMLButtonElement, SystemButtonProps>(
   ({ className, variant = "primary", size = "md", glow = false, ...props }, ref) => {
     const variants = {
-      primary: "bg-system-cyan text-black hover:bg-system-cyan/90 border-transparent font-bold tracking-wider",
+      primary: "bg-system-cyan text-white hover:bg-system-cyan/90 border-transparent font-bold tracking-wider",
       secondary: "bg-transparent text-system-cyan border-system-cyan/40 hover:bg-system-cyan/10",
       danger: "bg-transparent text-status-danger border-status-danger/40 hover:bg-status-danger/10",
       ghost: "bg-transparent text-white/60 hover:text-white border-transparent",
