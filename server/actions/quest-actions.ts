@@ -10,10 +10,15 @@ interface GenerateQuestInput {
 }
 
 export async function generateDailyQuest(input: GenerateQuestInput) {
+  console.log("[QuestAction] Starting generation for input:", input);
+  
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   
-  if (!user) throw new Error("Not authenticated");
+  if (!user) {
+    console.error("[QuestAction] No user found");
+    throw new Error("Not authenticated");
+  }
 
   // Get user profile
   const { data: profileData, error: profileError } = await supabase
@@ -22,7 +27,10 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     .eq("id", user.id)
     .single();
 
-  if (profileError || !profileData) throw new Error("Profile not found");
+  if (profileError || !profileData) {
+    console.error("[QuestAction] Profile error:", profileError);
+    throw new Error("Profile not found");
+  }
 
   const profile = profileData as any;
 
@@ -40,22 +48,41 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     .single();
 
   if (existingQuest) {
+    console.log("[QuestAction] Existing quest found:", existingQuest.id);
     return existingQuest;
   }
 
   // Generate workout plan
-  const plan = await generateWorkoutPlan({
-    user_class: profile.class || "Novice",
-    user_rank: profile.rank_tier || "E-Rank",
-    time_window_min: input.time_window_min,
-    equipment: profile.equipment || [],
-    muscle_soreness: input.muscle_soreness,
-  });
+  console.log("[QuestAction] Calling Groq Architect...");
+  let plan;
+  try {
+    // Add a timeout race to prevent infinite hanging
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error("Groq Timeout")), 15000)
+    );
+    
+    plan = await Promise.race([
+      generateWorkoutPlan({
+        user_class: profile.class || "Novice",
+        user_rank: profile.rank_tier || "E-Rank",
+        time_window_min: input.time_window_min,
+        equipment: profile.equipment || [],
+        muscle_soreness: input.muscle_soreness,
+      }),
+      timeoutPromise
+    ]) as any;
+    
+    console.log("[QuestAction] Plan generated successfully");
+  } catch (err) {
+    console.error("[QuestAction] AI Generation Failed:", err);
+    throw new Error("AI Generation Failed: " + (err as Error).message);
+  }
 
   // Save to database
   const expiresAt = new Date();
   expiresAt.setHours(23, 59, 59, 999); // Expires at midnight
 
+  console.log("[QuestAction] Saving to DB...");
   const { data: quest, error } = await (supabase.from("quests") as any)
     .insert({
       user_id: user.id,
@@ -70,8 +97,12 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     .select()
     .single();
 
-  if (error) throw error;
+  if (error) {
+    console.error("[QuestAction] DB Insert Failed:", error);
+    throw error;
+  }
 
+  console.log("[QuestAction] Success. Quest ID:", quest.id);
   revalidatePath("/dashboard");
   return quest;
 }
