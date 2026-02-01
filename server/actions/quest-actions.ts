@@ -76,7 +76,43 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     console.log("[QuestAction] Plan generated successfully");
   } catch (err) {
     console.error("[QuestAction] AI Generation Failed:", err);
-    throw new Error("AI Generation Failed: " + (err as Error).message);
+    // FALLBACK QUEST LOGIC
+    console.log("[QuestAction] Falling back to default protocol.");
+    plan = {
+      quest_name: "Basic Training Protocol (Offline)",
+      quest_rank: "E-Rank",
+      quest_type: "Daily",
+      narrative_intro: "The System connection is unstable. Execute emergency protocol.",
+      base_xp: 50,
+      stat_gain: { strength: 1, stamina: 1 },
+      estimated_duration_min: 15,
+      target_class: "Novice",
+      requires_proof: false,
+      exercises: [
+        {
+          id: "ex_fallback_1",
+          name: "Push-ups",
+          type: "Compound",
+          sets: 3,
+          reps: "10",
+          rest_sec: 60,
+          rpe_target: 5,
+          target_muscle: "Chest",
+          tips: "System offline. maintain form.",
+        },
+        {
+          id: "ex_fallback_2",
+          name: "Squats",
+          type: "Compound",
+          sets: 3,
+          reps: "15",
+          rest_sec: 60,
+          rpe_target: 5,
+          target_muscle: "Legs",
+          tips: "Knees over toes.",
+        }
+      ],
+    };
   }
 
   // Save to database
