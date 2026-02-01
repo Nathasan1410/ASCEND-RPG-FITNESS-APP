@@ -48,7 +48,8 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     .single();
 
   if (existingQuest) {
-    console.log("[QuestAction] Existing quest found:", existingQuest.id);
+    const existing = existingQuest as any;
+    console.log("[QuestAction] Existing quest found:", existing.id);
     return existingQuest;
   }
 
