@@ -50,7 +50,7 @@ export default function LandingPage() {
         >
           <button
             onClick={() => setShowAuth(true)}
-            className="group inline-flex items-center gap-3 px-8 py-4 bg-system-cyan text-black font-bold text-lg rounded-lg hover:bg-system-cyan/90 transition-all shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:shadow-[0_0_40px_rgba(0,255,255,0.6)] uppercase tracking-widest"
+            className="group inline-flex items-center gap-3 px-8 py-4 bg-system-cyan text-white font-bold text-lg rounded-lg hover:bg-system-cyan/90 transition-all shadow-[0_0_20px_rgba(0,255,255,0.4)] hover:shadow-[0_0_40px_rgba(0,255,255,0.6)] uppercase tracking-widest"
           >
             Begin Ascension
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
