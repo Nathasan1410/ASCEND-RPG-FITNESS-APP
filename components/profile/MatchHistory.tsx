@@ -1,0 +1,97 @@
+import { WorkoutPlan } from "@/types/schemas";
+import { formatQuestDate } from "@/lib/utils/date-helpers";
+import { cn } from "@/lib/utils/cn";
+import { Camera, Clock, Trophy, AlertCircle } from "lucide-react";
+
+type MatchHistoryEntry = {
+  id: string;
+  xp_awarded: number | null;
+  duration_actual: number;
+  integrity_score: number | null;
+  proof_media_url: string | null;
+  verification_status: string | null;
+  completed_at: string | null;
+  quests: {
+    plan_json: unknown;
+    rank_difficulty: string;
+  } | null;
+};
+
+interface MatchHistoryProps {
+  logs: MatchHistoryEntry[];
+}
+
+export function MatchHistory({ logs }: MatchHistoryProps) {
+  if (logs.length === 0) {
+    return (
+      <div className="text-center py-8 border border-dashed border-white/20 rounded-xl">
+        <p className="text-white/40 font-mono">No operations logged.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {logs.map((log) => {
+        const plan = log.quests?.plan_json as WorkoutPlan;
+        const integrity = (log.integrity_score || 0) * 100;
+        const isVerified = log.verification_status === "Verified" || log.verification_status === "Auto_Approved";
+        
+        return (
+          <div 
+            key={log.id} 
+            className="bg-system-panel/50 border border-white/10 rounded-lg p-4 flex flex-col md:flex-row justify-between md:items-center gap-4 transition-colors hover:bg-white/5"
+          >
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className={cn(
+                  "text-[10px] font-mono uppercase px-1.5 py-0.5 rounded border",
+                  isVerified ? "text-system-cyan border-system-cyan/30" : "text-white/40 border-white/10"
+                )}>
+                  {log.quests?.rank_difficulty}
+                </span>
+                <h4 className="font-bold text-white text-sm">{plan?.quest_name || "Unknown Protocol"}</h4>
+              </div>
+              <div className="flex items-center gap-4 text-xs text-white/40 font-mono">
+                <span>{formatQuestDate(log.completed_at || "")}</span>
+                <span className="flex items-center gap-1">
+                  <Clock className="w-3 h-3" /> {log.duration_actual}m
+                </span>
+                {log.proof_media_url && (
+                  <a 
+                    href={log.proof_media_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-system-cyan hover:underline"
+                  >
+                    <Camera className="w-3 h-3" /> Proof
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <div className="flex items-center gap-6">
+              <div className="text-right">
+                <p className="text-[10px] text-white/40 font-mono uppercase">Integrity</p>
+                <p className={cn(
+                  "text-sm font-bold font-mono",
+                  integrity < 70 ? "text-status-warning" : "text-system-cyan"
+                )}>
+                  {integrity.toFixed(0)}%
+                </p>
+              </div>
+              
+              <div className="text-right min-w-[60px]">
+                <p className="text-[10px] text-white/40 font-mono uppercase">Reward</p>
+                <div className="flex items-center justify-end gap-1 text-system-cyan font-bold">
+                  <Trophy className="w-3 h-3" />
+                  +{log.xp_awarded}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
