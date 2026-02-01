@@ -45,7 +45,7 @@ Evaluate now.
 
   try {
     const completion = await groq.chat.completions.create({
-      model: "llama-3.1-70b-versatile",
+      model: "llama-3.3-70b-versatile",
       messages: [
         { role: "system", content: JUDGE_PROMPT },
         { role: "user", content: userMessage },
