@@ -34,7 +34,7 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
 
   const profile = profileData as any;
 
-  // Check if active daily quest already exists
+  // Check if active or completed daily quest already exists (Ignore Failed/Skipped)
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   
@@ -44,12 +44,14 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     .eq("user_id", user.id)
     .eq("quest_type", "Daily")
     .gte("created_at", today.toISOString())
+    .neq("status", "Failed") // Allow regenerating if previous failed
+    .neq("status", "Skipped")
     .limit(1)
     .single();
 
   if (existingQuest) {
     const existing = existingQuest as any;
-    console.log("[QuestAction] Existing quest found:", existing.id);
+    console.log("[QuestAction] Existing valid quest found:", existing.id);
     return existingQuest;
   }
 
