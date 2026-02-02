@@ -36,14 +36,15 @@ export function SystemNavbar() {
             LEADERBOARD
           </Link>
         </div>
+      </div>
 
-        <div className="relative">
-          <button 
-            onClick={() => setUserMenuOpen(!userMenuOpen)}
-            className="w-8 h-8 rounded border border-white/20 flex items-center justify-center bg-void-deep hover:border-white/40 transition-colors"
-          >
-            <User className="w-4 h-4 text-white/60" />
-          </button>
+      <div className="relative">
+        <button 
+          onClick={() => setUserMenuOpen(!userMenuOpen)}
+          className="w-8 h-8 rounded border border-white/20 flex items-center justify-center bg-void-deep hover:border-white/40 transition-colors"
+        >
+          <User className="w-4 h-4 text-white/60" />
+        </button>
         
         {userMenuOpen && (
           <div className="absolute right-0 top-12 w-48 bg-void-panel border border-white/10 rounded-lg shadow-xl overflow-hidden">
@@ -72,8 +73,8 @@ export function SystemNavbar() {
                 Sign Out
               </button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </nav>
   );

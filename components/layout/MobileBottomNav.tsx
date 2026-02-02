@@ -1,16 +1,25 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Home, ScrollText, Trophy, User } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
+import { createClient } from "@/lib/supabase/client";
 
 export function MobileBottomNav() {
   const pathname = usePathname();
-  
+  const [username, setUsername] = useState<string>("");
+
+  useEffect(() => {
+    createClient().auth.getUser().then(({ data }) => {
+      setUsername(data.user?.user_metadata?.username || "");
+    });
+  }, []);
+
   const navItems = [
     { href: "/dashboard", icon: Home, label: "Dashboard" },
-    { href: "/dashboard/quests", icon: ScrollText, label: "Quests" },
+    { href: "/dashboard/quests", icon: ScrollText, label: "Archive" },
     { href: "/dashboard/leaderboard", icon: Trophy, label: "Rankings" },
   ];
 
@@ -19,7 +28,7 @@ export function MobileBottomNav() {
       {navItems.map((item) => {
         const isActive = pathname === item.href;
         const Icon = item.icon;
-        
+
         return (
           <Link
             href={item.href}
@@ -35,10 +44,10 @@ export function MobileBottomNav() {
           </Link>
         );
       })}
-      
+
       {/* Profile Button - Always Right-Aligned */}
       <Link
-        href="/profile/me"
+        href={`/profile/${username}`}
         className="flex items-center gap-1 px-2 py-2 rounded-lg transition-all duration-300"
       >
         <User className="w-5" />
