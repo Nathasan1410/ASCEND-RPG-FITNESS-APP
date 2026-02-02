@@ -1,20 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { User, Trophy, Settings, LogOut } from "lucide-react";
+import { User, Trophy, Settings, LogOut, Users, Bell } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
+import { getUnreadCount } from "@/server/actions/notification-actions";
 
 export function SystemNavbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [username, setUsername] = useState<string>("");
+  const [unreadCount, setUnreadCount] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
-    createClient().auth.getUser().then(({ data }) => {
+    createClient().auth.getUser().then(async ({ data }) => {
       setUsername(data.user?.user_metadata?.username || "");
+      const count = await getUnreadCount();
+      setUnreadCount(count);
     });
   }, []);
 
@@ -30,10 +34,23 @@ export function SystemNavbar() {
           ASCEND
         </Link>
         
-        <div className="hidden md:flex items-center gap-6">
+         <div className="hidden md:flex items-center gap-6">
           <Link href="/dashboard/leaderboard" className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2">
             <Trophy className="w-4 h-4 text-white/60" />
             LEADERBOARD
+          </Link>
+          <Link href="/friends" className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2">
+            <Users className="w-4 h-4 text-white/60" />
+            FRIENDS
+          </Link>
+          <Link href="/notifications" className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2 relative">
+            <Bell className="w-4 h-4 text-white/60" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-status-danger text-[10px] text-white flex items-center justify-center font-bold">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
+            NOTIFICATIONS
           </Link>
         </div>
       </div>
@@ -46,7 +63,7 @@ export function SystemNavbar() {
           <User className="w-4 h-4 text-white/60" />
         </button>
         
-        {userMenuOpen && (
+         {userMenuOpen && (
           <div className="absolute right-0 top-12 w-48 bg-void-panel border border-white/10 rounded-lg shadow-xl overflow-hidden">
             <div className="p-2 space-y-1">
               <Link
@@ -55,6 +72,29 @@ export function SystemNavbar() {
               >
                 <User className="w-4 h-4 text-white/60" />
                 My Profile
+              </Link>
+              
+              <Link
+                href="/friends"
+                className="block px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white rounded transition-colors"
+              >
+                <Users className="w-4 h-4 text-white/60" />
+                Friends
+              </Link>
+              
+              <Link
+                href="/notifications"
+                className="block px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white rounded transition-colors flex items-center justify-between"
+              >
+                <div className="flex items-center gap-2">
+                  <Bell className="w-4 h-4 text-white/60" />
+                  Notifications
+                </div>
+                {unreadCount > 0 && (
+                  <span className="w-5 h-5 rounded-full bg-status-danger text-[10px] text-white flex items-center justify-center font-bold">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
               </Link>
               
               <Link
