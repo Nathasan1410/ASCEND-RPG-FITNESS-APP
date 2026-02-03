@@ -13,7 +13,7 @@
 -- Index for profile lookups by user + rank
 -- Used in: Dashboard, Leaderboard, Profile pages
 CREATE INDEX IF NOT EXISTS idx_profiles_user_rank
-ON profiles(user_id, rank_tier DESC);
+ON profiles(id, rank_tier DESC);
 
 -- Composite index for quest queries
 -- Used in: Dashboard (active quest), Quest History
@@ -25,7 +25,7 @@ ON quests(user_id, status, created_at DESC);
 -- Used in: Profile pages, Match History, XP calculations
 -- Pattern: Get user's workout history ordered by date
 CREATE INDEX IF NOT EXISTS idx_logs_user_created
-ON logs(user_id, created_at DESC);
+ON logs(user_id, completed_at DESC);
 
 -- Partial index for leaderboard (exclude Corrupted users)
 -- Used in: Leaderboard page, Global rankings
@@ -36,10 +36,10 @@ WHERE hunter_status != 'Corrupted';
 
 -- Partial index for public profiles (activity feed)
 -- Used in: Public profile feed, Discovery
--- Pattern: Show only public profiles, ordered by recent activity
+-- Pattern: Show only onboarding-completed profiles, ordered by total XP
 CREATE INDEX IF NOT EXISTS idx_profiles_public_partial
-ON profiles(public_profile, created_at DESC)
-WHERE public_profile = true;
+ON profiles(onboarding_done, total_xp DESC, created_at DESC)
+WHERE onboarding_done = true;
 
 -- ============================================
 -- 2. SECONDARY INDEXES (Frequent Query Patterns)
@@ -85,7 +85,7 @@ COMMENT ON INDEX idx_profiles_user_rank IS 'Primary lookup index for profile que
 COMMENT ON INDEX idx_quests_user_status_created IS 'Composite index for quest filtering by user, status, date';
 COMMENT ON INDEX idx_logs_user_created IS 'Index for workout history queries, ordered by completion date';
 COMMENT ON INDEX idx_leaderboard_xp_partial IS 'Partial index excluding corrupted users from rankings';
-COMMENT ON INDEX idx_profiles_public_partial IS 'Partial index for public profile discovery feed';
+COMMENT ON INDEX idx_profiles_public_partial IS 'Partial index for onboarding-completed profile discovery feed';
 
 -- ============================================
 -- VERIFICATION QUERIES (Run to verify indexes)

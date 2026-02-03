@@ -286,7 +286,7 @@ export default function SettingsPage() {
               </label>
               <button
                 className={cn(
-                  "w-12 h-6 rounded-full transition-all duration-300",
+                  "w-12 h-12 rounded-full transition-all duration-300",
                   settings.soundEnabled
                     ? "bg-system-cyan text-void-deep"
                     : "bg-white/20 text-white/60"
@@ -326,7 +326,7 @@ export default function SettingsPage() {
               </label>
               <button
                 className={cn(
-                  "w-12 h-6 rounded-full transition-all duration-300",
+                  "w-12 h-12 rounded-full transition-all duration-300",
                   settings.publicProfile
                     ? "bg-system-cyan text-void-deep"
                     : "bg-white/20 text-white/60"
@@ -334,14 +334,14 @@ export default function SettingsPage() {
                 onClick={() => setSettings({ ...settings, publicProfile: !settings.publicProfile })}
               />
             </div>
-
+            
             <div className="flex items-center justify-between">
               <label className="text-sm text-white/60">
                 Show Stats
               </label>
               <button
                 className={cn(
-                  "w-12 h-6 rounded-full transition-all duration-300",
+                  "w-12 h-12 rounded-full transition-all duration-300",
                   settings.showStats
                     ? "bg-system-cyan text-void-deep"
                     : "bg-white/20 text-white/60"
@@ -349,14 +349,14 @@ export default function SettingsPage() {
                 onClick={() => setSettings({ ...settings, showStats: !settings.showStats })}
               />
             </div>
-
+            
             <div className="flex items-center justify-between">
               <label className="text-sm text-white/60">
                 Allow Friend Requests
               </label>
               <button
                 className={cn(
-                  "w-12 h-6 rounded-full transition-all duration-300",
+                  "w-12 h-12 rounded-full transition-all duration-300",
                   settings.allowFriendRequests
                     ? "bg-system-cyan text-void-deep"
                     : "bg-white/20 text-white/60"
@@ -384,27 +384,27 @@ export default function SettingsPage() {
               Select available equipment. The System will tailor quests accordingly.
             </p>
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {equipmentOptions.map((item) => (
-                <label key={item} className="flex items-center gap-3 p-3 border border-white/10 rounded-lg cursor-pointer hover:border-white/20 transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={equipment.includes(item)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setEquipment([...equipment, item]);
-                      } else {
-                        setEquipment(equipment.filter(eq => eq !== item));
-                      }
-                    }}
-                    className="w-5 h-5 rounded border-white/20 accent-system-cyan"
-                  />
-                  <span className="text-sm text-white/80">
-                    {item}
-                  </span>
-                </label>
-              ))}
-            </div>
+             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+               {equipmentOptions.map((item) => (
+                 <label key={item} className="flex items-center gap-3 p-3 border border-white/10 rounded-lg cursor-pointer hover:border-white/20 transition-colors">
+                   <input
+                     type="checkbox"
+                     checked={equipment.includes(item)}
+                     onChange={(e) => {
+                       if (e.target.checked) {
+                         setEquipment([...equipment, item]);
+                       } else {
+                         setEquipment(equipment.filter(eq => eq !== item));
+                       }
+                     }}
+                     className="w-11 h-11 rounded border-white/20 accent-system-cyan"
+                   />
+                   <span className="text-sm text-white/80">
+                     {item}
+                   </span>
+                 </label>
+               ))}
+             </div>
           </div>
 
           <SystemButton onClick={handleSaveEquipment} disabled={isLoading} glow className="mt-4">

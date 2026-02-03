@@ -43,7 +43,7 @@ export function useProfile(userId: string) {
       'A-Rank': 'text-purple-400',
       'S-Rank': 'text-yellow-400',
     };
-    return colors[profile?.rank_tier] || 'text-gray-400';
+    return colors[(profile?.rank_tier as keyof typeof colors) || 'E-Rank'] || 'text-gray-400';
   }, [profile]);
 
   // Memoize stats display data

@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    // Call the RPC function to log error
     const { data, error } = await supabase.rpc('log_error', {
       p_error_name: error_name,
       p_error_message: error_message,
@@ -31,6 +30,19 @@ export async function POST(request: NextRequest) {
       p_component_stack: component_stack || null,
       p_url: url || null,
       p_user_agent: user_agent || null,
+    } as any);
+
+    if (error || !data) {
+      console.error('Failed to log error:', error);
+      return NextResponse.json(
+        { error: 'Failed to log error' },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      error_id: data,
     });
 
     if (error) {

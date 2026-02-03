@@ -46,7 +46,36 @@ export default function AchievementsPage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    const result = await checkAchievements(user.id, {});
+    const { data: profileData } = await supabase
+      .from("profiles")
+      .select("total_xp, level, rank_tier, streak_current, stats_strength, stats_agility, stats_stamina")
+      .eq("id", user.id)
+      .single();
+
+    if (!profileData) return;
+
+    const { data: logsData } = await supabase
+      .from("logs")
+      .select("id")
+      .eq("user_id", user.id);
+
+    const { data: friendsData } = await supabase
+      .from("friends")
+      .select("id")
+      .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`);
+
+    const profile = profileData as any;
+    const userStats = {
+      totalQuests: logsData?.length || 0,
+      totalReps: (profile.stats_strength || 10) + (profile.stats_agility || 10) + (profile.stats_stamina || 10),
+      currentStreak: profile.streak_current || 0,
+      level: profile.level || 1,
+      rank: profile.rank_tier || "E-Rank",
+      friendCount: friendsData?.length || 0,
+      totalXp: profile.total_xp || 0,
+    };
+
+    const result = await checkAchievements(user.id, userStats);
     if (result.unlockedIds.length > 0) {
       toast.success(`Unlocked ${result.unlockedIds.length} new achievement${result.unlockedIds.length > 1 ? 's' : ''}!`);
       loadAchievements();

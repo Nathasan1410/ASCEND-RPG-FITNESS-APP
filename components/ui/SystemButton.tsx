@@ -17,7 +17,7 @@ const SystemButton = forwardRef<HTMLButtonElement, SystemButtonProps>(
     };
 
     const sizes = {
-      sm: "px-3 py-1.5 text-xs",
+      sm: "px-3 py-2.5 min-h-[44px] text-xs",
       md: "px-6 py-3 text-sm",
       lg: "px-8 py-4 text-lg",
     };
