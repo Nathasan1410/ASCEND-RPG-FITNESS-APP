@@ -29,7 +29,6 @@ const nextConfig = {
 
   // Enable React Server Components streaming
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: ['lucide-react', 'recharts', 'framer-motion'],
   },
 
