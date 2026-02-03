@@ -48,42 +48,35 @@ const nextConfig = {
   // SECURITY HEADERS
   // ============================================
 
-  // Security headers
+  // Security headers (as function)
   headers: async () => {
     return [
       {
-        key: 'X-DNS-Prefetch-Control',
-        value: 'on',
-      },
-      {
-        key: 'X-Frame-Options',
-        value: 'DENY',
-      },
-      {
-        key: 'X-Content-Type-Options',
-        value: 'nosniff',
-      },
-      {
-        key: 'Referrer-Policy',
-        value: 'strict-origin-when-cross-origin',
-      },
-      {
-        key: 'X-XSS-Protection',
-        value: '1; mode=block',
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
       },
     ];
-  },
-
-  // ============================================
-  // WEB VITALS CONFIGURATION
-  // ============================================
-
-  // Enable Web Vitals reporting
-  // Note: Web Vitals component is in app/layout.tsx
-  webVitalsReporting: {
-    // Report to /api/analytics/performance
-    // Set appropriate sample rate
-    sampleRate: 0.5, // Sample 50% of traffic
   },
 
   // ============================================
