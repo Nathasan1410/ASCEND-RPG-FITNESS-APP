@@ -2,21 +2,22 @@
 
 import { createClient } from "@/lib/supabase/server";
 
-export async function getLeaderboard(limit: number = 50) {
+export async function getLeaderboard(limit: number = 50, rankFilter: string = "all", classFilter: string = "all") {
   const supabase = await createClient();
 
-  const { data, error } = await supabase.rpc("get_leaderboard", {
-    limit_count: limit,
+  const { data, error } = await supabase.rpc("get_leaderboard_optimized", {
+    p_limit: limit,
+    p_rank_filter: rankFilter,
+    p_class_filter: classFilter,
   } as any);
 
   if (error) {
     console.warn("Leaderboard RPC failed, falling back to direct query:", error.message);
-    // Fallback to direct query if RPC fails
     const { data: profiles } = await supabase
       .from("profiles")
       .select("id, username, total_xp, level, rank_tier, class, hunter_status, streak_current")
       .eq("onboarding_done", true)
-      .neq("hunter_status", "Corrupted")  // Exclude cheaters
+      .neq("hunter_status", "Corrupted")
       .order("total_xp", { ascending: false })
       .limit(limit);
 

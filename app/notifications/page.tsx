@@ -13,6 +13,7 @@ import {
   getUnreadCount
 } from "@/server/actions/notification-actions";
 import { useRouter } from "next/navigation";
+import { CardSkeleton } from "@/components/loading/EnhancedSkeleton";
 
 type NotificationType = 
   | "friend_request" 
@@ -106,7 +107,7 @@ export default function NotificationsPage() {
             <span className="text-sm text-white/60">{unreadCount} unread</span>
             <button
               onClick={handleMarkAllAsRead}
-              className="px-3 py-1 text-xs font-medium bg-system-cyan text-void-deep rounded-lg hover:bg-system-cyan/90 transition-colors"
+              className="px-4 py-3 min-h-[44px] text-sm font-medium bg-system-cyan text-void-deep rounded-lg hover:bg-system-cyan/90 transition-colors"
             >
               Mark All Read
             </button>
@@ -115,7 +116,11 @@ export default function NotificationsPage() {
       </div>
 
       {loading ? (
-        <div className="text-center py-12 text-white/60">Loading...</div>
+        <div className="space-y-3">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
       ) : notifications.length === 0 ? (
         <div className="text-center py-12 border border-dashed border-white/10 rounded-xl">
           <Bell className="w-12 h-12 text-white/40 mx-auto mb-4" />
@@ -180,10 +185,10 @@ export default function NotificationsPage() {
                     e.stopPropagation();
                     handleDelete(notification.id);
                   }}
-                  className="flex-shrink-0 p-2 text-white/40 hover:text-status-danger hover:bg-status-danger/10 rounded-lg transition-colors"
+                  className="w-11 h-11 flex items-center justify-center flex-shrink-0 text-white/40 hover:text-status-danger hover:bg-status-danger/10 rounded-lg transition-colors"
                   title="Delete notification"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
             );

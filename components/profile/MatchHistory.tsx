@@ -58,13 +58,13 @@ export function MatchHistory({ logs }: MatchHistoryProps) {
                   <Clock className="w-3 h-3" /> {log.duration_actual}m
                 </span>
                 {log.proof_media_url && (
-                  <a 
-                    href={log.proof_media_url} 
-                    target="_blank" 
+                  <a
+                    href={log.proof_media_url}
+                    target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-system-cyan hover:underline"
+                    className="flex items-center gap-2 text-system-cyan hover:underline px-2 py-2 -ml-2"
                   >
-                    <Camera className="w-3 h-3" /> Proof
+                    <Camera className="w-4 h-4" /> Proof
                   </a>
                 )}
               </div>

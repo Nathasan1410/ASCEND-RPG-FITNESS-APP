@@ -1,5 +1,5 @@
 import { SystemNavbar } from "@/components/layout/SystemNavbar";
-import { FloatingNavDock } from "@/components/layout/FloatingNavDock";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 
 export default function DashboardLayout({
   children,
@@ -14,7 +14,7 @@ export default function DashboardLayout({
         {children}
       </main>
       
-      <FloatingNavDock />
+      <MobileBottomNav />
     </div>
   );
 }

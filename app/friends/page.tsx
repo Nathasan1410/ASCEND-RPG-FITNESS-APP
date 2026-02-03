@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils/cn";
 import { sendFriendRequest, removeFriend, searchUsers, getFriends } from "@/server/actions/friend-actions";
 import { RankBadge } from "@/components/gamification/RankBadge";
+import { CardSkeleton } from "@/components/loading/EnhancedSkeleton";
 
 export default function FriendsPage() {
   const supabase = createClient();
@@ -90,7 +91,7 @@ export default function FriendsPage() {
             placeholder="Search by username..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-void-deep border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder:text-white/30 focus:border-system-cyan focus:outline-none transition-colors"
+            className="w-full bg-void-deep border border-white/20 rounded-lg pl-10 pr-4 py-4 text-base text-white placeholder:text-white/30 focus:border-system-cyan focus:outline-none transition-colors"
           />
         </div>
 
@@ -112,7 +113,7 @@ export default function FriendsPage() {
                 </div>
                 <button
                   onClick={() => handleAddFriend(user.username)}
-                  className="flex items-center gap-2 px-4 py-2 bg-system-cyan text-void-deep rounded-lg font-medium hover:bg-system-cyan/90 transition-colors"
+                  className="flex items-center gap-2 px-4 py-3 min-h-[44px] bg-system-cyan text-void-deep rounded-lg font-medium hover:bg-system-cyan/90 transition-colors"
                 >
                   <UserPlus className="w-4 h-4" />
                   Add
@@ -144,6 +145,12 @@ export default function FriendsPage() {
               Search for hunters above to start building your network
             </p>
           </div>
+        ) : isLoading ? (
+          <div className="grid gap-3">
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+          </div>
         ) : (
           <div className="grid gap-3">
             {friends.map((friend: any) => {
@@ -168,7 +175,7 @@ export default function FriendsPage() {
                   </div>
                   <button
                     onClick={() => handleRemoveFriend(profile.id)}
-                    className="p-2 text-white/40 hover:text-status-danger hover:bg-status-danger/10 rounded-lg transition-colors"
+                    className="w-11 h-11 flex items-center justify-center text-white/40 hover:text-status-danger hover:bg-status-danger/10 rounded-lg transition-colors"
                     title="Remove friend"
                   >
                     <MoreHorizontal className="w-5 h-5" />

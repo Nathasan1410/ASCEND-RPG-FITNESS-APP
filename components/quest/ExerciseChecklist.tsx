@@ -33,18 +33,18 @@ export function ExerciseChecklist({ exercises, onUpdate }: ExerciseChecklistProp
               : "bg-void-panel border-void-border"
           )}
         >
-          <div className="flex justify-between items-start mb-2">
+            <div className="flex justify-between items-start mb-2">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => toggleExercise(ex.id)}
                 className={cn(
-                  "w-6 h-6 border rounded flex items-center justify-center transition-colors",
+                  "w-11 h-11 border rounded flex items-center justify-center transition-colors",
                   completed.includes(ex.id)
                     ? "bg-system-cyan border-system-cyan"
                     : "border-white/40 hover:border-white"
                 )}
               >
-                {completed.includes(ex.id) && <span className="text-black font-bold">✓</span>}
+                {completed.includes(ex.id) && <span className="text-black font-bold text-lg">✓</span>}
               </button>
               <div>
                 <h4 className="font-bold text-white">{ex.name}</h4>

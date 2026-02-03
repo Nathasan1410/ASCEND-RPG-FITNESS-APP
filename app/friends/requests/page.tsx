@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { toast } from "sonner";
 import { acceptFriendRequest, declineFriendRequest, getFriendRequests } from "@/server/actions/friend-actions";
 import { RankBadge } from "@/components/gamification/RankBadge";
+import { CardSkeleton } from "@/components/loading/EnhancedSkeleton";
 
 export default function FriendRequestsPage() {
   const supabase = createClient();
@@ -54,7 +55,11 @@ export default function FriendRequestsPage() {
       </div>
 
       {loading ? (
-        <div className="text-center py-12 text-white/60">Loading...</div>
+        <div className="grid gap-3">
+          <CardSkeleton />
+          <CardSkeleton />
+          <CardSkeleton />
+        </div>
       ) : requests.length === 0 ? (
         <div className="text-center py-12 border border-dashed border-white/10 rounded-xl">
           <User className="w-12 h-12 text-white/40 mx-auto mb-4" />
@@ -89,14 +94,14 @@ export default function FriendRequestsPage() {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleAccept(request.id, sender.username)}
-                    className="flex items-center gap-2 px-4 py-2 bg-status-success text-white rounded-lg font-medium hover:bg-status-success/90 transition-colors"
+                    className="flex items-center gap-2 px-4 py-3 min-h-[44px] bg-status-success text-white rounded-lg font-medium hover:bg-status-success/90 transition-colors"
                   >
                     <Check className="w-4 h-4" />
                     Accept
                   </button>
                   <button
                     onClick={() => handleDecline(request.id, sender.username)}
-                    className="flex items-center gap-2 px-4 py-2 bg-status-danger text-white rounded-lg font-medium hover:bg-status-danger/90 transition-colors"
+                    className="flex items-center gap-2 px-4 py-3 min-h-[44px] bg-status-danger text-white rounded-lg font-medium hover:bg-status-danger/90 transition-colors"
                   >
                     <X className="w-4 h-4" />
                     Decline
