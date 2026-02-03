@@ -1,9 +1,4 @@
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "500 - Server Error",
-  description: "An unexpected server error occurred",
-};
+"use client";
 
 export default function ServerError() {
   return (
