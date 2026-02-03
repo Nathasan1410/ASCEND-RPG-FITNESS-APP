@@ -43,7 +43,7 @@ CREATE OR REPLACE FUNCTION log_error(
   p_user_agent TEXT DEFAULT NULL
 )
 RETURNS UUID
-LANGUAGE sql
+LANGUAGE plpgsql
 AS $$
 BEGIN
   INSERT INTO error_logs (
