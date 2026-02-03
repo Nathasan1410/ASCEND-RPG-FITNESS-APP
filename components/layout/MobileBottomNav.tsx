@@ -2,10 +2,17 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Home, Users, Trophy, User, Radio, Settings } from "lucide-react";
+import { Home, User, Radio, Settings, Trophy, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 import { createClient } from "@/lib/supabase/client";
+
+const navItems = [
+  { href: "/dashboard", icon: Home, label: "Dashboard" },
+  { href: "/feed/mobile", icon: Radio, label: "Feed" },
+  { href: "/profile/me", icon: User, label: "Profile" },
+  { href: "/settings", icon: Settings, label: "Settings" },
+];
 
 export function MobileBottomNav() {
   const pathname = usePathname();
@@ -17,16 +24,9 @@ export function MobileBottomNav() {
     });
   }, []);
 
-  const navItems = [
-    { href: "/dashboard", icon: Home, label: "Dashboard" },
-    { href: "/feed/mobile", icon: Radio, label: "Feed" },
-    { href: "/friends", icon: Users, label: "Friends" },
-    { href: "/settings", icon: Settings, label: "Settings" },
-  ];
-
   return (
     <nav className="md:hidden fixed bottom-4 left-4 right-4 z-50">
-      <div className="bg-zinc-900/80 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+      <div className="bg-zinc-900/90 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
         <div className="flex items-center justify-around px-1 py-3">
           {navItems.map((item) => {
             const isActive = pathname === item.href;
@@ -34,6 +34,7 @@ export function MobileBottomNav() {
 
             return (
               <Link
+                key={item.href}
                 href={item.href}
                 className={cn(
                   "relative group flex flex-col items-center gap-1 px-4 py-2.5 rounded-full transition-all duration-300",
@@ -59,14 +60,6 @@ export function MobileBottomNav() {
           })}
         </div>
       </div>
-
-      {/* Profile Button - Floating Above */}
-      <Link
-        href={`/profile/${username}`}
-        className="absolute -top-2 -right-2 w-11 h-11 bg-system-cyan border-2 border-white/20 rounded-full flex items-center justify-center shadow-[0_4px_20px_rgba(0,255,255,0.3)] hover:scale-105 transition-all"
-      >
-        <User className="w-5 h-5 text-white" />
-      </Link>
     </nav>
   );
 }
