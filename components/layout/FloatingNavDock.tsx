@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { LayoutGrid, ScrollText, Trophy, User, Settings } from "lucide-react";
+import { LayoutGrid, ScrollText, Trophy, User, Settings, Radio } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 import { motion, AnimatePresence } from "framer-motion";
@@ -12,6 +12,11 @@ const navItems = [
     href: "/dashboard",
     icon: LayoutGrid,
     label: "Dashboard",
+  },
+  {
+    href: "/feed",
+    icon: Radio,
+    label: "Hunter Network",
   },
   {
     href: "/dashboard/leaderboard",

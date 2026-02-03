@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Home, ScrollText, Trophy, User } from "lucide-react";
+import { Home, ScrollText, Trophy, User, Radio } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 import { createClient } from "@/lib/supabase/client";
@@ -19,6 +19,7 @@ export function MobileBottomNav() {
 
   const navItems = [
     { href: "/dashboard", icon: Home, label: "Dashboard" },
+    { href: "/feed", icon: Radio, label: "Feed" },
     { href: "/dashboard/quests", icon: ScrollText, label: "Archive" },
     { href: "/dashboard/leaderboard", icon: Trophy, label: "Rankings" },
   ];

@@ -9,7 +9,7 @@ ALTER TABLE profiles
   ADD COLUMN IF NOT EXISTS allow_friend_requests BOOLEAN DEFAULT TRUE;
 
 -- Indexes for performance
-CREATE INDEX IF NOT EXISTS idx_profiles_public ON profiles(public_profile, total_xp DESC);
+CREATE INDEX IF NOT EXISTS idx_profiles_public ON profiles(onboarding_done, total_xp DESC);
 CREATE INDEX IF NOT EXISTS idx_profiles_rank ON profiles(rank_tier, level DESC);
 CREATE INDEX IF NOT EXISTS idx_profiles_class ON profiles(class, total_xp DESC);
 
@@ -25,7 +25,7 @@ SELECT
   p.stats_strength,
   p.stats_agility,
   p.stats_stamina,
-  ROW_NUMBER() OVER (PARTITION BY p.rank_tier ORDER BY p.total_xp DESC) as rank_in_tier
+  ROW_NUMBER() OVER ("PARTITION" BY p.rank_tier ORDER BY p.total_xp DESC) as rank_in_tier
 FROM profiles p
 WHERE p.hunter_status != 'Corrupted'
 WITH DATA;

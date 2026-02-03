@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { User, Trophy, Settings, LogOut, Users, Bell } from "lucide-react";
+import { User, Trophy, Settings, LogOut, Users, Bell, Radio } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -35,6 +35,10 @@ export function SystemNavbar() {
         </Link>
         
          <div className="hidden md:flex items-center gap-6">
+          <Link href="/feed" className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2">
+            <Radio className="w-4 h-4 text-white/60" />
+            HUNTER NETWORK
+          </Link>
           <Link href="/dashboard/leaderboard" className="text-sm text-white/70 hover:text-white transition-colors flex items-center gap-2">
             <Trophy className="w-4 h-4 text-white/60" />
             LEADERBOARD

@@ -89,8 +89,8 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trigger_friend_request_notification
 AFTER INSERT ON friends
-WHEN (NEW.status = 'pending')
 FOR EACH ROW
+WHEN (NEW.status = 'pending')
 EXECUTE FUNCTION notify_friend_request();
 
 -- Trigger to create notification when friend request is accepted
