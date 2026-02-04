@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { User, Shield, LogOut, Bell, Dumbbell, Trash2, Edit3, AlertTriangle } from "lucide-react";
+import { User, Shield, LogOut, Bell, Dumbbell, Trash2, Edit3, AlertTriangle, UserCircle, Palette, Volume2, Package, Sword, Save, Check, X, Image, Upload } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { SystemButton } from "@/components/ui/SystemButton";
@@ -15,9 +15,21 @@ import {
   deleteAccount
 } from "@/server/actions/settings-actions";
 
+// Navigation sections config
+const settingsSections = [
+  { id: "account", icon: User, label: "Account" },
+  { id: "profile", icon: UserCircle, label: "Profile" },
+  { id: "audio", icon: Volume2, label: "Audio" },
+  { id: "privacy", icon: Shield, label: "Privacy" },
+  { id: "equipment", icon: Dumbbell, label: "Equipment" },
+  { id: "class", icon: Sword, label: "Class" },
+  { id: "danger", icon: AlertTriangle, label: "Danger Zone", danger: true },
+];
+
 export default function SettingsPage() {
   const router = useRouter();
   const supabase = createClient();
+  const [activeSection, setActiveSection] = useState("account");
 
   const [settings, setSettings] = useState({
     soundEnabled: true,
@@ -26,6 +38,31 @@ export default function SettingsPage() {
     showStats: true,
     allowFriendRequests: true,
   });
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    const sections = document.querySelectorAll('section[id]');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
+  }, []);
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
