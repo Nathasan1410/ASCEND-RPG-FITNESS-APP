@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getLeaderboard } from "@/server/actions/leaderboard-actions";
 import { LeaderboardTable } from "@/components/leaderboard/LeaderboardTable";
 import { LeaderboardMobileFilters } from "@/components/leaderboard/LeaderboardMobileFilters";
+import { LeaderboardDesktopFilters } from "@/components/leaderboard/LeaderboardDesktopFilters";
 
 export default async function LeaderboardPage() {
   const supabase = await createClient();
@@ -9,8 +10,8 @@ export default async function LeaderboardPage() {
   const leaderboard = await getLeaderboard(50);
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-700">
-      <div className="flex justify-between items-end">
+    <div className="animate-in fade-in duration-700">
+      <div className="flex justify-between items-end mb-6">
         <div>
           <h1 className="text-3xl font-display font-bold text-white uppercase tracking-wider">
             Global Rankings
@@ -21,13 +22,21 @@ export default async function LeaderboardPage() {
         </div>
       </div>
 
-      <LeaderboardMobileFilters />
-
-      <div className="md:pt-0 pt-40">
-        <LeaderboardTable
-          entries={leaderboard as any}
-          currentUserId={user?.id}
-        />
+      <div className="flex gap-6">
+        <div className="hidden md:block w-64 flex-shrink-0">
+          <LeaderboardDesktopFilters />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="mb-4 md:hidden">
+            <LeaderboardMobileFilters />
+          </div>
+          <div>
+            <LeaderboardTable
+              entries={leaderboard as any}
+              currentUserId={user?.id}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

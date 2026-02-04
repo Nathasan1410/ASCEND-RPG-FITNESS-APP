@@ -4,16 +4,17 @@ import { useState } from "react";
 import { Hash, TrendingUp, Users, RefreshCw, Target, UserPlus, Trophy } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  mockTrendingTags, 
-  mockSuggestedHunters, 
+import { Avatar } from "@/components/ui/Avatar";
+import {
+  mockTrendingTags,
+  mockSuggestedHunters,
   mockActiveChallenges,
   type TrendingTag,
   type SuggestedHunter,
   type ActiveChallenge
 } from "@/lib/mock/sidebar-data";
 
-export function RightSidebar() {
+export function RightSidebar({ collapsed = false }: { collapsed?: boolean }) {
   const [sectionsExpanded, setSectionsExpanded] = useState({
     trending: true,
     suggestions: true,
@@ -21,6 +22,10 @@ export function RightSidebar() {
   });
   const [following, setFollowing] = useState<Set<number>>(new Set());
   const [refreshing, setRefreshing] = useState(false);
+
+  if (collapsed) {
+    return null;
+  }
 
   const handleFollow = (hunterId: number) => {
     setFollowing(prev => {
@@ -43,7 +48,7 @@ export function RightSidebar() {
     <aside className={cn(
       "hidden lg:flex lg:w-80 lg:flex-col lg:fixed lg:right-0 lg:top-16 lg:bottom-0",
       "bg-void-panel/50 backdrop-blur-xl border-l border-white/10",
-      "overflow-y-auto overflow-x-hidden"
+      "overflow-y-auto overflow-x-hidden scrollbar-hide"
     )}>
       <div className="p-6 space-y-6">
         <TrendingSection 
@@ -231,9 +236,12 @@ function HunterCard({
 
   return (
     <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 hover:border-system-cyan/20 transition-all duration-300 border border-transparent">
-      <div className="w-10 h-10 rounded-full border-2 border-white/20 bg-gradient-to-br from-system-cyan/20 to-blue-600/20 flex items-center justify-center flex-shrink-0">
-        <UserPlus className="w-5 h-5 text-system-cyan" />
-      </div>
+      <Avatar
+        src={hunter.avatar}
+        username={hunter.displayName}
+        size="md"
+        verified={hunter.hunterStatus === "Verified"}
+      />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <p className="text-sm font-medium text-white truncate">{hunter.username}</p>
@@ -246,11 +254,6 @@ function HunterCard({
         </div>
         <div className="flex items-center gap-2">
           <p className="text-xs text-white/50">{hunter.class}</p>
-          {hunter.hunterStatus === "Verified" && (
-            <div className="flex items-center gap-0.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-400" />
-            </div>
-          )}
         </div>
       </div>
       <button

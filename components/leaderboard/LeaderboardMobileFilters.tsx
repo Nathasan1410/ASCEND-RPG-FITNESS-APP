@@ -27,11 +27,11 @@ export function LeaderboardMobileFilters() {
   };
 
   return (
-    <div className="md:hidden fixed top-20 left-4 right-4 z-40">
+    <div className="md:hidden">
       {/* Filter Toggle Button */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full h-12 min-h-[44px] flex items-center justify-between px-4 bg-void-panel/90 backdrop-blur-xl rounded-2xl border border-white/10 shadow-xl active:scale-95 transition-transform"
+        className="w-full h-12 min-h-[44px] flex items-center justify-between px-4 bg-void-panel/90 backdrop-blur-xl rounded-2xl border border-white/10 active:scale-95 transition-transform"
       >
         <div className="flex items-center gap-3">
           <Filter className={cn(

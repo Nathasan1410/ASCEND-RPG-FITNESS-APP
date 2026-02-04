@@ -26,7 +26,52 @@ body {
   box-shadow: 0 0 10px rgba(0, 184, 255, 0.5), 0 0 20px rgba(0, 184, 255, 0.3);
 }
 
+/* Hide scrollbar - X/Twitter style */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+/* Custom scrollbar - X/Twitter style thin */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 184, 255, 0.3);
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin {
+  -ms-overflow-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) rgba(255, 255, 255, 0.05);
+}
+
 /* System card base */
 .system-card {
   @apply bg-system-panel border border-system-border rounded-lg p-6;
+}
+
+/* Particles background */
+.particles-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }

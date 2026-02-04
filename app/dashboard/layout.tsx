@@ -22,7 +22,7 @@ export default function DashboardLayout({
     },
     {
       id: "feed",
-      href: "/feed",
+      href: "/feed/mobile",
       label: "Feed",
       icon: Radio,
     },
@@ -48,10 +48,12 @@ export default function DashboardLayout({
   }, []);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <MobileSystemNavbar />
-      
-      <main className="flex-1 p-4 md:p-6 max-w-7xl mx-auto w-full pb-20 md:pb-6">
+    <div className="min-h-screen flex flex-col">
+      <div className="md:hidden">
+        <MobileSystemNavbar />
+      </div>
+
+      <main className="flex-1 p-4 md:p-6 max-w-7xl mx-auto w-full pb-20 md:pb-6 md:pt-20">
         {children}
       </main>
 

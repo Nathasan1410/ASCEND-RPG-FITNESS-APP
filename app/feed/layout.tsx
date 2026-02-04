@@ -5,10 +5,12 @@ export default function FeedLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <MobileSystemNavbar />
+    <div className="min-h-screen flex flex-col">
+      <div className="md:hidden">
+        {/* <MobileSystemNavbar /> */}
+      </div>
 
-      <main className="flex-1 pb-20 md:pb-6">
+      <main className="flex-1 pb-20 md:pb-6 md:pt-20">
         {children}
       </main>
     </div>

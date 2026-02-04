@@ -31,6 +31,10 @@ ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_achievements ENABLE ROW LEVEL SECURITY;
 
 -- RLS Policies
+DROP POLICY IF EXISTS "public_view_achievements" ON achievements;
+DROP POLICY IF EXISTS "users_view_own_achievements" ON user_achievements;
+DROP POLICY IF EXISTS "users_create_own_achievements" ON user_achievements;
+
 CREATE POLICY "public_view_achievements" ON achievements
   FOR SELECT
   TO anon, authenticated
@@ -107,19 +111,19 @@ ON CONFLICT (name) DO NOTHING;
 CREATE OR REPLACE FUNCTION notify_achievement_unlock()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO notifications (user_id, type, title, message, link, xp_reward)
+  INSERT INTO notifications (user_id, type, title, message, link)
   VALUES (
     NEW.user_id,
     'achievement_unlocked',
     (SELECT name FROM achievements WHERE id = NEW.achievement_id),
     'Achievement Unlocked: ' || (SELECT name FROM achievements WHERE id = NEW.achievement_id),
-    '/achievements',
-    (SELECT xp_reward FROM achievements WHERE id = NEW.achievement_id)
+    '/achievements'
   );
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS trigger_achievement_notification ON user_achievements;
 CREATE TRIGGER trigger_achievement_notification
 AFTER INSERT ON user_achievements
 FOR EACH ROW

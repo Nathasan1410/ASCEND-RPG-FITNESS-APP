@@ -2,30 +2,35 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { 
-  User, Settings, Trophy, Target, Star, 
+import {
+  User, Settings, Trophy, Target, Star,
   Flame, Zap, Crown, ChevronDown, ChevronUp, TrendingUp, CheckCircle
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  mockUserProfile, 
-  mockQuickActions, 
-  type UserProfile 
+import { Avatar } from "@/components/ui/Avatar";
+import {
+  mockUserProfile,
+  mockQuickActions,
+  type UserProfile
 } from "@/lib/mock/sidebar-data";
 
-export function LeftSidebar() {
+export function LeftSidebar({ collapsed = false }: { collapsed?: boolean }) {
   const [sectionsExpanded, setSectionsExpanded] = useState({
     profile: true,
     quickActions: true,
     stats: true,
   });
 
+  if (collapsed) {
+    return null;
+  }
+
   return (
     <aside className={cn(
       "hidden lg:flex lg:w-80 lg:flex-col lg:fixed lg:left-0 lg:top-16 lg:bottom-0",
       "bg-void-panel/50 backdrop-blur-xl border-r border-white/10",
-      "overflow-y-auto overflow-x-hidden"
+      "overflow-y-auto overflow-x-hidden scrollbar-hide"
     )}>
       <div className="p-6 space-y-6">
         <UserProfileCard 
@@ -80,10 +85,13 @@ function UserProfileCard({
             className="overflow-hidden"
           >
             <div className="p-6 flex flex-col items-center text-center">
-              <div className="w-20 h-20 mb-4 rounded-full border-2 border-system-cyan/50 bg-gradient-to-br from-system-cyan/20 to-blue-600/20 flex items-center justify-center">
-                <User className="w-10 h-10 text-system-cyan" />
-              </div>
-              
+              <Avatar
+                src={profile.avatar}
+                username={profile.displayName}
+                size="xl"
+                className="mb-4 border-2 border-system-cyan/50"
+              />
+
               <h3 className="text-xl font-bold text-white mb-1">{profile.displayName}</h3>
               <p className="text-sm text-white/60 mb-3">@{profile.username}</p>
               

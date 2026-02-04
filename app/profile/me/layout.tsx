@@ -8,7 +8,7 @@ export default function ProfileMeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className="min-h-screen flex flex-col">
       <SystemNavbar />
       <MobileBottomNav />
       <main className="flex-1 p-4 md:p-6 max-w-7xl mx-auto w-full pb-20 md:pb-6">

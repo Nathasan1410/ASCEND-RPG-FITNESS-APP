@@ -22,7 +22,7 @@ export default function OnboardingLayout({
     },
     {
       id: "feed",
-      href: "/feed",
+      href: "/feed/mobile",
       label: "Feed",
       icon: Radio,
       badge: "NEW",

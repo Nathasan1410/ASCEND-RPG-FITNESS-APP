@@ -51,25 +51,28 @@ export async function getPublicProfile(username: string, filters?: {
     query = query.lte("completed_at", filters.endDate);
   }
 
-  const { data: logs } = await query
+  const { data: logsData } = await query
     .order("completed_at", { ascending: false })
     .limit(20);
 
-  const transformedLogs = (logsData || []).map((log: any) => ({
-    id: log.log_id,
-    quest_id: log.quest_id,
-    xp_awarded: log.xp_awarded,
-    duration_actual: log.duration_actual,
-    integrity_score: log.integrity_score,
-    proof_media_url: log.proof_media_url,
-    proof_type: log.proof_type,
-    verification_status: 'Verified',
-    completed_at: log.completed_at,
-    quests: {
-      plan_json: { quest_name: log.quest_name },
-      rank_difficulty: log.rank_difficulty,
-    },
-  }));
+  const transformedLogs = (logsData || []).map((log: any) => {
+    const questName = log.quests?.plan_json?.quest_name || 'Unknown Quest';
+    const rankDifficulty = log.quests?.rank_difficulty || 'E-Rank';
+    
+    return {
+      id: log.id,
+      quest_id: log.quest_id,
+      xp_awarded: log.xp_awarded,
+      duration_actual: log.duration_actual,
+      integrity_score: log.integrity_score,
+      proof_media_url: log.proof_media_url,
+      proof_type: log.proof_type,
+      verification_status: log.verification_status || 'Auto_Approved',
+      completed_at: log.completed_at,
+      quest_name: questName,
+      rank_difficulty: rankDifficulty,
+    };
+  });
 
   return buildProfileResponse(profile, transformedLogs);
 }

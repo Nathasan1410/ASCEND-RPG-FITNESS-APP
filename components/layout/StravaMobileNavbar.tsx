@@ -20,7 +20,7 @@ export function StravaMobileNavbar() {
 
   const navItems = [
     { href: "/dashboard", icon: Home, label: "Dashboard" },
-    { href: "/feed", icon: Radio, label: "Hunter Network" },
+    { href: "/feed/mobile", icon: Radio, label: "Hunter Network" },
     { href: "/dashboard/leaderboard", icon: Trophy, label: "Leaderboard" },
     { href: "/friends", icon: Users, label: "Friends" },
     { href: "/notifications", icon: Bell, label: "Notifications", hasBadge: false },

@@ -26,8 +26,8 @@ export function SystemNavbar() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <header className="hidden md:flex fixed top-0 left-0 right-0 z-50 h-16 bg-void-deep/80 backdrop-blur-xl border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between w-full">
         {/* Logo */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-gradient-to-br from-system-cyan to-blue-600 rounded-lg flex items-center justify-center">
@@ -40,7 +40,7 @@ export function SystemNavbar() {
         </div>
 
         {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="flex items-center gap-1">
           <Link
             href="/dashboard"
             className={cn(
@@ -58,25 +58,25 @@ export function SystemNavbar() {
             )} />
             <span className="text-sm font-medium">Dashboard</span>
           </Link>
-          <Link
+          {/* <Link
             href="/feed/mobile"
             className={cn(
               "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
-              pathname?.includes("/feed/mobile")
+              pathname?.includes("/feed")
                 ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
                 : "text-white/70 hover:text-white hover:bg-white/5"
             )}
           >
             <Radio className={cn(
               "w-5 h-5 transition-all",
-              pathname?.includes("/feed/mobile") 
+              pathname?.includes("/feed") 
                 ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
                 : "text-white/60"
             )} />
-            <span className="text-sm font-medium">Mobile Feed</span>
-          </Link>
+            <span className="text-sm font-medium">Hunter Networ (Mobile)</span>
+          </Link> */}
           <Link
-            href="/feed"
+            href="/feed/web"
             className={cn(
               "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
               pathname === "/feed"

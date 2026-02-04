@@ -22,7 +22,7 @@ export default function SettingsLayout({
     },
     {
       id: "feed",
-      href: "/feed",
+      href: "/feed/mobile",
       label: "Feed",
       icon: Radio,
       badge: "NEW",
@@ -49,10 +49,12 @@ export default function SettingsLayout({
   }, []);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      <MobileSystemNavbar />
+    <div className="min-h-screen flex flex-col">
+      <div className="md:hidden">
+        <MobileSystemNavbar />
+      </div>
 
-      <main className="flex-1 p-4 md:p-6 max-w-4xl mx-auto w-full pb-20 md:pb-6">
+      <main className="flex-1 p-4 md:p-6 max-w-4xl mx-auto w-full pb-20 md:pb-6 md:pt-20">
         {children}
       </main>
 

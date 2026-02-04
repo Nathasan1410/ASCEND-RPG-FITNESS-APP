@@ -105,7 +105,7 @@ export default function DevFeedPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       {/* Dev Mode Banner */}
       <div className="bg-red-600 text-white text-center py-2 px-4 text-sm font-bold">
         🔴 DEV MODE: /dev/feed - Testing environment

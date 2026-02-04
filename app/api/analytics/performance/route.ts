@@ -51,8 +51,9 @@ async function storeMetric(metric: WebVitalMetric) {
 
 export async function POST(request: NextRequest) {
   try {
-    const metrics: WebVitalMetric[] = await request.json();
-
+    const body = await request.json();
+    const metrics: WebVitalMetric[] = Array.isArray(body) ? body : [body];
+ 
     // Calculate rating for each metric
     const enrichedMetrics = metrics.map(metric => ({
       ...metric,

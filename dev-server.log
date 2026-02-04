@@ -1,0 +1,426 @@
+
+> ascend-fitness-rpg@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+ ⚠ Port 3001 is in use, trying 3002 instead.
+ ⚠ Port 3002 is in use, trying 3003 instead.
+  ▲ Next.js 14.2.5
+  - Local:        http://localhost:3003
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 11.5s
+ ○ Compiling /middleware ...
+ ✓ Compiled /middleware in 1666ms (168 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 17.7s (1542 modules)
+ GET / 200 in 18540ms
+ ✓ Compiled in 2.5s (735 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (133kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ GET / 200 in 100ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 1940ms (1485 modules)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 4596ms
+ ○ Compiling /dashboard ...
+ ✓ Compiled /api/analytics/performance in 18.4s (2657 modules)
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 999.7999999970198,
+  rating: 'needs-improvement',
+  delta: 999.7999999970198
+}
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 999.7999999970198,
+  rating: 'needs-improvement',
+  delta: 999.7999999970198
+}
+ POST /api/analytics/performance 200 in 8096ms
+ POST /api/analytics/performance 200 in 8097ms
+ GET /_next/static/chunks/app/LayoutGroupContext.mjs.map 404 in 9150ms
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+ GET /dashboard 200 in 682ms
+ │ GET https://lwzdgxyhorocyysu../auth/v1/user 200 in 143ms (cache skip)
+ │ │ Cache skipped reason: (auto no cache)
+ │ │ GET https://lwzdgxyhorocyysu../rest/v1/profiles?select=*&id=eq... 200 in 102ms (cache skip)
+ │ │ │ Cache skipped reason: (auto no cache)
+ │ │ GET https://lwzdgxyhorocyysu../rest/v1/quests?select=*&user_i.. 406 in 80ms (cache skip)
+ │ │ │ Cache skipped reason: (auto no cache)
+ │ │ GET https://lwzdgxyhorocyysu../rest/v1/quests?select=*&user_i.. 406 in 68ms (cache skip)
+ │ │ │ Cache skipped reason: (auto no cache)
+ │ │ GET https://lwzdgxyhorocyysu../rest/v1/profiles?select=level%2C.. 200 in 73ms (cache skip)
+ │ │ │ Cache skipped reason: (auto no cache)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 46ms
+ GET /_next/static/chunks/app/dashboard/LayoutGroupContext.mjs.map 404 in 63ms
+ GET /_next/static/chunks/app/dashboard/LayoutGrou ✓ Compiled in 7.7s (735 modules)
+ ✓ Compiled in 657ms (735 modules)
+ ✓ Compiled in 7.1s (735 modules)
+ ✓ Compiled in 5.7s (668 modules)
+ ✓ Compiled in 857ms (668 modules)
+ ✓ Compiled in 1233ms (668 modules)
+}
+ POST /api/analytics/performance 200 in 47ms
+📊 Web Vital: { name: 'LCP', value: 1388, rating: 'good', delta: 1388 }
+ POST /api/analytics/performance 200 in 28ms
+📊 Web Vital: {
+  name: 'FID',
+  value: 22.19999998807907,
+  rating: 'good',
+  delta: 22.19999998807907
+}
+ POST /api/analytics/performance 200 in 19ms
+📊 Web Vital: { name: 'LCP', value: 1388, rating: 'good', delta: 1388 }
+ POST /api/analytics/performance 200 in 40ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 840.8000000119209,
+  rating: 'needs-improvement',
+  delta: 840.8000000119209
+}
+ POST /api/analytics/performance 200 in 37ms
+📊 Web Vital: {
+  name: 'FID',
+  value: 22.19999998807907,
+  rating: 'good',
+  delta: 22.19999998807907
+}
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 840.8000000119209,
+  rating: 'needs-improvement',
+  delta: 840.8000000119209
+}
+ POST /api/analytics/performance 200 in 85ms
+ POST /api/analytics/performance 200 in 80ms
+ GET /profile 404 in 52ms
+📊 Web Vital: { name: 'CLS', value: 0, rating: 'good', delta: 0 }
+📊 Web Vital: { name: 'INP', value: 64, rating: 'good', delta: 64 }
+ POST /api/analytics/performance 200 in 32ms
+ POST /api/analytics/performance 200 in 31ms
+📊 Web Vital: { name: 'CLS', value: 0, rating: 'good', delta: 0 }
+ POST /api/analytics/performance 200 in 20ms
+📊 Web Vital: { name: 'INP', value: 64, rating: 'good', delta: 64 }
+ POST /api/analytics/performance 200 in 34ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 95ms
+📊 Web Vital: {
+  name: 'FID',
+  value: 90.90000000596046,
+  rating: 'good',
+  delta: 90.90000000596046
+}
+📊 Web Vital: { name: 'FCP', value: 1488, rating: 'good', delta: 1488 }
+ POST /api/analytics/performance 200 in 39ms
+ POST /api/analytics/performance 200 in 34ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 230.19999998807907,
+  rating: 'good',
+  delta: 230.19999998807907
+}
+📊 Web Vital: { name: 'FCP', value: 1488, rating: 'good', delta: 1488 }
+ POST /api/analytics/performance 200 in 38ms
+ POST /api/analytics/performance 200 in 37ms
+📊 Web Vital: {
+  name: 'FID',
+  value: 90.90000000596046,
+  rating: 'good',
+  delta: 90.90000000596046
+}
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 230.19999998807907,
+  rating: 'good',
+  delta: 230.19999998807907
+}
+ POST /api/analytics/performance 200 in 33ms
+ POST /api/analytics/performance 200 in 32ms
+📊 Web Vital: { name: 'CLS', value: 0, rating: 'good', delta: 0 }
+📊 Web Vital: { name: 'INP', value: 928, rating: 'poor', delta: 928 }
+ POST /api/analytics/performance 200 in 19ms
+ POST /api/analytics/performance 200 in 11ms
+📊 Web Vital: { name: 'CLS', value: 0, rating: 'good', delta: 0 }
+📊 Web Vital: { name: 'INP', value: 928, rating: 'poor', delta: 928 }
+ POST /api/analytics/performance 200 in 19ms
+ POST /api/analytics/performance 200 in 18ms
+ ✓ Compiled in 4.4s (1169 modules)
+ GET /dashboard 200 in 1740ms
+ GET /profile 404 in 85ms
+The width(-1) and height(-1) of chart should be greater than 0,
+       please check the style of container, or the props width(100%) and height(100%),
+       or add a minWidth(0) or minHeight(undefined) or use aspect(undefined) to control the
+       height and width.
+📊 Web Vital: { name: 'FCP', value: 1528, rating: 'good', delta: 1528 }
+ POST /api/analytics/performance 200 in 831ms
+📊 Web Vital: { name: 'FCP', value: 1528, rating: 'good', delta: 1528 }
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 238.6000000089407,
+  rating: 'good',
+  delta: 238.6000000089407
+}
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 238.6000000089407,
+  rating: 'good',
+  delta: 238.6000000089407
+}
+ POST /api/analytics/performance 200 in 878ms
+ POST /api/analytics/performance 200 in 369ms
+ POST /api/analytics/performance 200 in 369ms
+ ✓ Compiled in 1354ms (1169 modules)
+📊 Web Vital: {
+  name: 'FID',
+  value: 0.7000000029802322,
+  rating: 'good',
+  delta: 0.7000000029802322
+}
+📊 Web Vital: {
+  name: 'FID',
+  value: 0.7000000029802322,
+  rating: 'good',
+  delta: 0.7000000029802322
+}
+ POST /api/analytics/performance 200 in 126ms
+ POST /api/analytics/performance 200 in 125ms
+📊 Web Vital: { name: 'FCP', value: 1528, rating: 'good', delta: 1528 }
+📊 Web Vital: {
+  name: 'FID',
+  value: 0.7000000029802322,
+  rating: 'good',
+  delta: 0.7000000029802322
+}
+ POST /api/analytics/performance 200 in 533ms
+ POST /api/analytics/performance 200 in 134ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 238.6000000089407,
+  rating: 'good',
+  delta: 238.6000000089407
+}
+ POST /api/analytics/performance 200 in 192ms
+📊 Web Vital: { name: 'FCP', value: 31876, rating: 'poor', delta: 31876 }
+ POST /api/analytics/performance 200 in 144ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 999.7999999970198,
+  rating: 'needs-improvement',
+  delta: 999.7999999970198
+}
+ POST /api/analytics/performance 200 in 199ms
+ ○ Compiling /dashboard/leaderboard ...
+ ✓ Compiled /dashboard/leaderboard in 2.1s (2702 modules)
+📊 Web Vital: { name: 'FCP', value: 31876, rating: 'poor', delta: 31876 }
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 999.7999999970198,
+  rating: 'needs-improvement',
+  delta: 999.7999999970198
+}
+ POST /api/analytics/performance 200 in 114ms
+ POST /api/analytics/performance 200 in 103ms
+📊 Web Vital: { name: 'FCP', value: 1528, rating: 'good', delta: 1528 }
+ POST /api/analytics/performance 200 in 13ms
+📊 Web Vital: {
+  name: 'FID',
+  value: 0.7000000029802322,
+  rating: 'good',
+  delta: 0.7000000029802322
+}
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 238.6000000089407,
+  rating: 'good',
+  delta: 238.6000000089407
+}
+ POST /api/analytics/performance 200 in 14ms
+ POST /api/analytics/performance 200 in 13ms
+📊 Web Vital: { name: 'INP', value: 152, rating: 'good', delta: 152 }
+📊 Web Vital: {
+  name: 'CLS',
+  value: 0.000009862931441114476,
+  rating: 'good',
+  delta: 0.000009862931441114476
+}
+ POST /api/analytics/performance 200 in 147ms
+ POST /api/analytics/performance 200 in 146ms
+📊 Web Vital: { name: 'INP', value: 152, rating: 'good', delta: 152 }
+📊 Web Vital: { name: 'INP', value: 152, rating: 'good', delta: 152 }
+ POST /api/analytics/performance 200 in 162ms
+ POST /api/analytics/performance 200 in 127ms
+📊 Web Vital: {
+  name: 'CLS',
+  value: 0.000009862931441114476,
+  rating: 'good',
+  delta: 0.000009862931441114476
+}
+ POST /api/analytics/performance 200 in 62ms
+📊 Web Vital: {
+  name: 'CLS',
+  value: 0.000009862931441114476,
+  rating: 'good',
+  delta: 0.000009862931441114476
+}
+ POST /api/analytics/performance 200 in 70ms
+📊 Web Vital: { name: 'INP', value: 152, rating: 'good', delta: 152 }
+📊 Web Vital: {
+  name: 'CLS',
+  value: 0.000009862931441114476,
+  rating: 'good',
+  delta: 0.000009862931441114476
+}
+ POST /api/analytics/performance 200 in 17ms
+ POST /api/analytics/performance 200 in 14ms
+📊 Web Vital: { name: 'LCP', value: 31876, rating: 'poor', delta: 31876 }
+ POST /api/analytics/performance 200 in 24ms
+📊 Web Vital: { name: 'LCP', value: 31876, rating: 'poor', delta: 31876 }
+ POST /api/analytics/performance 200 in 14ms
+ ✓ Compiled in 625ms (1178 modules)
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 999.7999999970198,
+  rating: 'needs-improvement',
+  delta: 999.7999999970198
+}
+📊 Web Vital: { name: 'FCP', value: 31876, rating: 'poor', delta: 31876 }
+ POST /api/analytics/performance 200 in 12ms
+ POST /api/analytics/performance 200 in 12ms
+📊 Web Vital: { name: 'FCP', value: 1528, rating: 'good', delta: 1528 }
+ POST /api/analytics/performance 200 in 13ms
+📊 Web Vital: {
+  name: 'FID',
+  value: 0.7000000029802322,
+  rating: 'good',
+  delta: 0.7000000029802322
+}
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 238.6000000089407,
+  rating: 'good',
+  delta: 238.6000000089407
+}
+ POST /api/analytics/performance 200 in 32ms
+ POST /api/analytics/performance 200 in 18ms
+ ○ Compiling /profile/me ...
+ ✓ Compiled /profile/me in 3.9s (2674 modules)
+ ○ Compiling /profile/[username] ...
+ ✓ Compiled /profile/[username] in 9.8s (3016 modules)
+ ○ Compiling /api/analytics/performance ...
+ ✓ Compiled /api/analytics/performance in 766ms (1819 modules)
+📊 Web Vital: { name: 'INP', value: 184, rating: 'good', delta: 32 }
+📊 Web Vital: {
+  name: 'CLS',
+  value: 0.000009862931441114476,
+  rating: 'good',
+  delta: 0.000009862931441114476
+}
+📊 Web Vital: { name: 'INP', value: 184, rating: 'good', delta: 32 }
+📊 Web Vital: { name: 'INP', value: 184, rating: 'good', delta: 32 }
+📊 Web Vital: { name: 'INP', value: 184, rating: 'good', delta: 32 }
+ POST /api/analytics/performance 200 in 904ms
+ POST /api/analytics/performance 200 in 902ms
+ POST /api/analytics/performance 200 in 838ms
+ POST /api/analytics/performance 200 in 836ms
+ POST /api/analytics/performance 200 in 920ms
+📊 Web Vital: { name: 'INP', value: 184, rating: 'good', delta: 184 }
+ POST /api/analytics/performance 200 in 21ms
+ ✓ Compiled in 3.4s (3058 modules)
+📊 Web Vital: { name: 'FCP', value: 1528, rating: 'good', delta: 1528 }
+ POST /api/analytics/performance 200 in 156ms
+📊 Web Vital: {
+  name: 'FID',
+  value: 0.7000000029802322,
+  rating: 'good',
+  delta: 0.7000000029802322
+}
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 238.6000000089407,
+  rating: 'good',
+  delta: 238.6000000089407
+}
+ POST /api/analytics/performance 200 in 90ms
+ POST /api/analytics/performance 200 in 83ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 1883ms (1820 modules)
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 999.7999999970198,
+  rating: 'needs-improvement',
+  delta: 999.7999999970198
+}
+ POST /api/analytics/performance 200 in 1815ms
+📊 Web Vital: { name: 'INP', value: 184, rating: 'good', delta: 184 }
+ POST /api/analytics/performance 200 in 407ms
+ POST /api/analytics/performance 404 in 3217ms
+📊 Web Vital: {
+  name: 'CLS',
+  value: 0.000009862931441114476,
+  rating: 'good',
+  delta: 0.000009862931441114476
+}
+ POST /api/analytics/performance 200 in 75ms
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 9.8s (3268 modules)
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 11173ms
+ GET /_next/static/chunks/app/dashboard/LayoutGroupContext.mjs.map 404 in 8505ms
+ GET /_next/static/chunks/app/dashboard/leaderboard/LayoutGroupContext.mjs.map 404 in 8477ms
+ GET /_next/static/chunks/app/profile/LayoutGroupContext.mjs.map 404 in 8476ms
+ GET /_next/static/chunks/app/dashboard/LayoutGroupContext.mjs.map 404 in 261ms
+📊 Web Vital: { name: 'FCP', value: 31876, rating: 'poor', delta: 31876 }
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 999.7999999970198,
+  rating: 'needs-improvement',
+  delta: 999.7999999970198
+}
+ POST /api/analytics/performance 200 in 66ms
+ POST /api/analytics/performance 200 in 45ms
+📊 Web Vital: { name: 'FCP', value: 1528, rating: 'good', delta: 1528 }
+ POST /api/analytics/performance 200 in 15ms
+📊 Web Vital: { name: 'INP', value: 416, rating: 'needs-improvement', delta: 232 }
+ POST /api/analytics/performance 200 in 11ms
+📊 Web Vital: { name: 'INP', value: 416, rating: 'needs-improvement', delta: 232 }
+📊 Web Vital: { name: 'INP', value: 416, rating: 'needs-improvement', delta: 232 }
+ POST /api/analytics/performance 200 in 32ms
+ POST /api/analytics/performance 200 in 23ms
+📊 Web Vital: {
+  name: 'CLS',
+  value: 0.000009862931441114476,
+  rating: 'good',
+  delta: 0.000009862931441114476
+}
+ POST /api/analytics/performance 200 in 42ms
+📊 Web Vital: { name: 'INP', value: 416, rating: 'needs-improvement', delta: 232 }
+ POST /api/analytics/performance 200 in 52ms
+📊 Web Vital: { name: 'INP', value: 416, rating: 'needs-improvement', delta: 232 }
+📊 Web Vital: { name: 'INP', value: 416, rating: 'needs-improvement', delta: 232 }
+ POST /api/analytics/performance 200 in 64ms
+ POST /api/analytics/performance 200 in 61ms
+📊 Web Vital: {
+  name: 'FID',
+  value: 0.7000000029802322,
+  rating: 'good',
+  delta: 0.7000000029802322
+}
+📊 Web Vital: { name: 'INP', value: 416, rating: 'needs-improvement', delta: 416 }
+ POST /api/analytics/performance 200 in 25ms
+ POST /api/analytics/performance 200 in 21ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 238.6000000089407,
+  rating: 'good',
+  delta: 238.6000000089407
+}
+ POST /api/analytics/performance 200 in 23ms
+ ○ Compiling /feed/mobile ...
+ ✓ Compiled /feed/mobile in 1730ms (3312 modules)
+ GET /_next/static/chunks/app/feed/LayoutGroupContext.mjs.map 404 in 472ms
+ GET /_next/static/chunks/app/feed/mobile/LayoutGroupContext.mjs.map 404 in 39ms

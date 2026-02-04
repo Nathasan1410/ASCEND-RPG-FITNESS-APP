@@ -3,7 +3,9 @@
 import { motion } from "framer-motion";
 import { ThumbsUp, Repeat, MessageCircle, Bookmark, MoreHorizontal, Share2 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
+import { Avatar } from "@/components/ui/Avatar";
 import type { HunterPost } from "@/types/social";
+import Link from "next/link";
 
 interface HunterFeedCardProps {
   post: HunterPost;
@@ -28,26 +30,18 @@ export function HunterFeedCard({ post }: HunterFeedCardProps) {
     >
       <div className="p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <img
-              src={post.author.avatar_url || "/placeholder-avatar.png"}
-              alt={post.author.username}
-              className="w-12 h-12 rounded-full border-2 border-white/20"
-            />
-            {post.author.hunter_status === "Verified" && (
-              <div className="absolute -bottom-1 -right-1 bg-rank-a rounded-full p-0.5">
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-2m-4 4m0 6 4-2" />
-                </svg>
-              </div>
-            )}
-          </div>
+          <Avatar
+            src={post.author.avatar_url}
+            username={post.author.username}
+            size="lg"
+            verified={post.author.hunter_status === "Verified"}
+          />
 
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-white">
+              <Link href={`/profile/${post.author.username}`} className="font-bold text-white hover:text-system-cyan transition-colors">
                 {post.author.username}
-              </span>
+              </Link>
               <div className={cn(
                 "px-2 py-0.5 text-xs font-bold",
                 post.author.rank === "S" && "text-rank-s bg-rank-s/20",

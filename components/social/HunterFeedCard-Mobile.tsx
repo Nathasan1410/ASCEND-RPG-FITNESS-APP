@@ -3,6 +3,8 @@
 import { Heart, MessageCircle, Share2, MoreVertical } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { motion } from "framer-motion";
+import { Avatar } from "@/components/ui/Avatar";
+import Link from "next/link";
 
 // Rank Colors
 const rankColors: Record<string, { bg: string; text: string; border: string }> = {
@@ -80,29 +82,24 @@ export function HunterFeedCard({ post }: HunterFeedCardProps) {
           {/* Left: User Info */}
           <div className="flex items-center gap-3 flex-1 min-w-0">
             {/* Avatar with Rank Ring */}
-            <div className={`relative flex-shrink-0`}>
-              <div className={cn(
-                "w-12 h-12 rounded-full flex items-center justify-center",
-                rankColor.bg,
+            <Avatar
+              username={post.username}
+              size="lg"
+              verified={post.hunter_status === "Verified"}
+              className={cn(
                 `ring-2 ${rankColor.border}`
-              )}>
-                <span className="text-lg font-bold text-white">
-                  {post.username[0]?.toUpperCase()}
-                </span>
-              </div>
-              {/* Verification Badge */}
-              <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-void-deep border-2 border-white/20 flex items-center justify-center">
-                <span className="text-[10px]">{verification.icon}</span>
-              </div>
-            </div>
+              )}
+            />
 
             {/* User Name + Badges */}
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 {/* Username */}
-                <span className="font-bold text-white truncate">
-                  {post.username}
-                </span>
+                <Link href={`/profile/${post.username}`} className="flex-1 min-w-0">
+                  <span className="font-bold text-white truncate hover:text-system-cyan transition-colors">
+                    {post.username}
+                  </span>
+                </Link>
 
                 {/* Rank Badge */}
                 <span className={cn(

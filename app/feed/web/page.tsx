@@ -2,15 +2,18 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Radio, Home, Users, Zap, Shield, ArrowRight, Wrench, Clock, ThumbsUp, MessageCircle, Bookmark } from "lucide-react";
+import { Radio, Home, Users, Zap, Shield, ArrowRight, Wrench, Clock, ThumbsUp, MessageCircle, Bookmark, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { HunterFeedCard } from "@/components/social/HunterFeedCard";
 import type { HunterPost } from "@/types/social";
 import { SystemNavbar } from "@/components/layout/SystemNavbar";
 import { LeftSidebar } from "@/components/layout/LeftSidebar";
 import { RightSidebar } from "@/components/layout/RightSidebar";
+import { cn } from "@/lib/utils/cn";
 
 export default function WebFeedPlaceholderPage() {
+  const [leftSidebarVisible, setLeftSidebarVisible] = useState(true);
+  const [rightSidebarVisible, setRightSidebarVisible] = useState(true);
   const [posts] = useState<HunterPost[]>([
     {
       id: "1",
@@ -142,20 +145,322 @@ export default function WebFeedPlaceholderPage() {
       updated_at: new Date(Date.now() - 43200000).toISOString(),
       tags: [],
     },
+    {
+      id: "6",
+      author: {
+        username: "FlameKnight",
+        rank: "A",
+        hunter_status: "Verified",
+        avatar_url: null,
+      },
+      post_type: "quest_completion",
+      title: "Heavy Tank Protocol Complete",
+      body: "Tank protocol complete! Heavy lifting day hit PRs on all compounds. 5 plates on deadlift! 🏋️",
+      quest_id: "6",
+      quest_data: {
+        name: "Heavy Tank Protocol",
+        xp_earned: 3200,
+        duration_min: 60,
+        exercises_count: 6,
+      },
+      created_at: new Date(Date.now() - 54000000).toISOString(),
+      kudos_count: 167,
+      respects_count: 28,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 54000000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "7",
+      author: {
+        username: "BladeRunner",
+        rank: "B",
+        hunter_status: "Normal",
+        avatar_url: null,
+      },
+      post_type: "level_up",
+      title: "Level 50 Achieved!",
+      body: "Just hit Level 50! Halfway to S-Rank. The grind continues! 🔥",
+      quest_id: null,
+      quest_data: null,
+      created_at: new Date(Date.now() - 64800000).toISOString(),
+      kudos_count: 95,
+      respects_count: 19,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 64800000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "8",
+      author: {
+        username: "StormRider",
+        rank: "S",
+        hunter_status: "Verified",
+        avatar_url: null,
+      },
+      post_type: "tip",
+      title: "HIIT Training Tips",
+      body: "HIIT TIP: Never skip warm-up. 5 minutes of dynamic stretching prevents injuries and improves performance. Learn from my mistakes! 🚀",
+      quest_id: null,
+      quest_data: null,
+      created_at: new Date(Date.now() - 75600000).toISOString(),
+      kudos_count: 312,
+      respects_count: 45,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 75600000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "9",
+      author: {
+        username: "VoidWalker",
+        rank: "A",
+        hunter_status: "Normal",
+        avatar_url: null,
+      },
+      post_type: "quest_completion",
+      title: "Stealth Agility Complete",
+      body: "Stealth agility training complete. 200 burpees + 100 pull-ups + 50 pistol squats. My body is broken but my soul is stronger. 😤",
+      quest_id: "9",
+      quest_data: {
+        name: "Stealth Agility Protocol",
+        xp_earned: 2800,
+        duration_min: 45,
+        exercises_count: 5,
+      },
+      created_at: new Date(Date.now() - 86400000).toISOString(),
+      kudos_count: 143,
+      respects_count: 31,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 86400000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "10",
+      author: {
+        username: "IronHeart",
+        rank: "B",
+        hunter_status: "Verified",
+        avatar_url: null,
+      },
+      post_type: "achievement",
+      title: "Iron Will Badge Earned",
+      body: "Earned 'Iron Will' badge! Completed 30-day consistency challenge without missing a single quest. Discipline equals freedom! 💪",
+      quest_id: null,
+      quest_data: null,
+      created_at: new Date(Date.now() - 97200000).toISOString(),
+      kudos_count: 187,
+      respects_count: 38,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 97200000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "11",
+      author: {
+        username: "ThunderBolt",
+        rank: "S",
+        hunter_status: "Verified",
+        avatar_url: null,
+      },
+      post_type: "rank_up",
+      title: "S-Rank Achieved!",
+      body: "S-Rank Achieved! After 2 years of grinding, I made it to the top tier. This is just the beginning! ⚡",
+      quest_id: null,
+      quest_data: null,
+      created_at: new Date(Date.now() - 108000000).toISOString(),
+      kudos_count: 524,
+      respects_count: 89,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 108000000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "12",
+      author: {
+        username: "FrostMage",
+        rank: "C",
+        hunter_status: "Normal",
+        avatar_url: null,
+      },
+      post_type: "quest_completion",
+      title: "Morning Cardio Blast",
+      body: "Morning cardio session done! 5km run + 30 min HIIT. Starting the day right. Morning warriors rise together! 🌅",
+      quest_id: "12",
+      quest_data: {
+        name: "Morning Cardio Blast",
+        xp_earned: 1200,
+        duration_min: 40,
+        exercises_count: 3,
+      },
+      created_at: new Date(Date.now() - 118800000).toISOString(),
+      kudos_count: 67,
+      respects_count: 12,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 118800000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "13",
+      author: {
+        username: "ShadowBlade",
+        rank: "A",
+        hunter_status: "Verified",
+        avatar_url: null,
+      },
+      post_type: "tip",
+      title: "Stretching Recovery Tip",
+      body: "STRETCHING TIP: Spend 10 minutes post-workout on static stretching. Recovery is as important as training. Future you will thank you! 🙏",
+      quest_id: null,
+      quest_data: null,
+      created_at: new Date(Date.now() - 130000000).toISOString(),
+      kudos_count: 234,
+      respects_count: 41,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 130000000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "14",
+      author: {
+        username: "TitanPunch",
+        rank: "B",
+        hunter_status: "Normal",
+        avatar_url: null,
+      },
+      post_type: "level_up",
+      title: "Level 45 Unlocked",
+      body: "Level 45 unlocked! New abilities acquired. The quest for S-Rank continues! 🎯",
+      quest_id: null,
+      quest_data: null,
+      created_at: new Date(Date.now() - 141000000).toISOString(),
+      kudos_count: 78,
+      respects_count: 16,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 141000000).toISOString(),
+      tags: [],
+    },
   ]);
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <SystemNavbar />
+
+      {/* Fixed Toggle Buttons - Persistent on Scroll */}
+      <div className="fixed left-1 top-24 z-50 flex flex-col items-center gap-1">
+        <div className="flex flex-col items-center gap-1">
+          <button
+            onClick={() => setLeftSidebarVisible(!leftSidebarVisible)}
+            className={cn(
+              "flex flex-col items-center gap-1 px-3 py-1.5 rounded-r-lg text-sm font-medium transition-all shadow-lg",
+              leftSidebarVisible
+                ? "bg-system-cyan/10 text-system-cyan hover:bg-system-cyan/20"
+                : "bg-void-deep/95 backdrop-blur-xl border-r border-white/10 text-white hover:bg-white/10"
+            )}
+          >
+            <span className="text-xs font-bold tracking-wider whitespace-nowrap">
+              {leftSidebarVisible ? '<' : '>'}
+            </span>
+            <span className="text-xs font-bold tracking-wider whitespace-nowrap">
+              {leftSidebarVisible ? 'H' : 'S'}
+            </span>
+            <span className="text-xs font-bold tracking-wider whitespace-nowrap">
+              {leftSidebarVisible ? 'I' : 'H'}
+            </span>
+            <span className="text-xs font-bold tracking-wider whitespace-nowrap">
+              {leftSidebarVisible ? 'D' : 'O'}
+            </span>
+            <span className="text-xs font-bold tracking-wider whitespace-nowrap">
+              {leftSidebarVisible ? 'E' : 'W'}
+            </span>
+          </button>
+          <div className="flex gap-0.5 text-[6px] text-white/20 font-mono">RIGHT</div>
+          <div className="flex gap-0.5 text-[6px] text-white/20 font-mono">SIDEBAR</div>
+        </div>
+      </div>
+
+      <div className="fixed right-1 top-24 z-50 flex flex-col items-center gap-1">
+        <div className="flex flex-col items-center gap-1">
+          <div className="flex gap-0.5 text-[6px] text-white/20 font-mono">RIGHT</div>
+          <div className="flex gap-0.5 text-[6px] text-white/20 font-mono">SIDEBAR</div>
+          <button
+            onClick={() => setRightSidebarVisible(!rightSidebarVisible)}
+            className={cn(
+              "flex flex-col items-center gap-1 px-3 py-1.5 rounded-l-lg text-sm font-medium transition-all shadow-lg",
+              rightSidebarVisible
+                ? "bg-system-cyan/10 text-system-cyan hover:bg-system-cyan/20"
+                : "bg-void-deep/95 backdrop-blur-xl border-l border-white/10 text-white hover:bg-white/10"
+            )}
+          >
+            <span className="text-xs font-bold tracking-wider whitespace-nowrap">
+              {rightSidebarVisible ? '>' : '<'}
+            </span>
+            <span className="text-xs font-bold tracking-wider whitespace-nowrap">
+              {rightSidebarVisible ? 'H' : 'S'}
+            </span>
+            <span className="text-xs font-bold tracking-wider whitespace-nowrap">
+              {rightSidebarVisible ? 'I' : 'H'}
+            </span>
+            <span className="text-xs font-bold tracking-wider whitespace-nowrap">
+              {rightSidebarVisible ? 'D' : 'O'}
+            </span>
+            <span className="text-xs font-bold tracking-wider whitespace-nowrap">
+              {rightSidebarVisible ? 'E' : 'W'}
+            </span>
+          </button>
+        </div>
+      </div>
 
       {/* Main Content - 3 Column Strava Layout */}
       <main className="pt-20 pb-12">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-6">
+          <div className="flex flex-col lg:flex-row gap-6 relative">
             {/* Left Sidebar - Phase VII Components */}
-            <LeftSidebar />
+            <div className={cn(
+              "lg:w-80 lg:shrink-0 relative",
+              !leftSidebarVisible && "hidden lg:block lg:w-0 lg:p-0"
+            )}>
+              <LeftSidebar collapsed={!leftSidebarVisible} />
+            </div>
 
             {/* Center Column - Feed Preview + Coming Soon */}
-            <main className="space-y-6">
+            <main className="space-y-6 max-w-2xl mx-auto w-full flex-1">
               {/* Feed Preview Section */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -201,6 +506,7 @@ export default function WebFeedPlaceholderPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
+                    className="w-full max-w-2xl mx-auto"
                   >
                     <HunterFeedCard post={post} />
                   </motion.div>
@@ -376,7 +682,13 @@ export default function WebFeedPlaceholderPage() {
             </main>
 
             {/* Right Sidebar - Phase VII Components */}
-            <RightSidebar />
+            <div className={cn(
+              "lg:w-80 lg:shrink-0 relative",
+              !rightSidebarVisible && "hidden lg:block lg:w-0 lg:p-0"
+            )}>
+              {/* Toggle Button - Stacked with Sidebar */}
+              <RightSidebar collapsed={!rightSidebarVisible} />
+            </div>
           </div>
         </div>
       </main>

@@ -69,6 +69,8 @@ RETURNS TABLE (
   global_rank BIGINT
 )
 LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
 AS $$
   SELECT
     p.id as user_id,

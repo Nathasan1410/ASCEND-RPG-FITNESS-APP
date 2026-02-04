@@ -13,11 +13,16 @@ const config: Config = {
       colors: {
         background: "#050505",
         foreground: "#ffffff",
+        void: {
+          deep: "#050505",
+        },
         system: {
           dark: "#0a0a0f",
           panel: "#12121a",
           border: "#2a2a35",
           accent: "#00b8ff",
+          cyan: "#00b8ff",
+          blue: "#0066ff",
         },
         rank: {
           e: { DEFAULT: "#8a8a8a", glow: "rgba(138, 138, 138, 0.5)" },

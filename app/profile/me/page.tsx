@@ -9,7 +9,22 @@ export default async function ProfileMePage() {
     redirect("/auth/login");
   }
 
-  const username = user.user_metadata?.username;
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("username, onboarding_done")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile) {
+    redirect("/onboarding");
+  }
+
+  const username = (profile as any).username;
+  const onboardingDone = (profile as any).onboarding_done;
+
+  if (!onboardingDone) {
+    redirect("/onboarding");
+  }
 
   if (username) {
     redirect(`/profile/${username}`);
