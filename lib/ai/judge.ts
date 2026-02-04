@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 import { JudgeVerdictSchema, type JudgeVerdict, type WorkoutPlan, type QuestLogInput, type UserClass } from "@/types/schemas";
 import { JUDGE_PROMPT } from "./prompts";
-import { opikClient } from "./opik";
+import { getOpikClient } from "./opik";
 
 const apiKey = process.env.GROQ_API_KEY;
 
@@ -38,7 +38,8 @@ Evaluate now.
 `;
 
   // Start Opik Trace
-  const trace = opikClient.trace({
+  const client = await getOpikClient();
+  const trace = client.trace({
     name: "System_Judge_Evaluation",
     input: { system: JUDGE_PROMPT, user: userMessage },
   });

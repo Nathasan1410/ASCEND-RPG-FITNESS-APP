@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 import { WorkoutPlanSchema, type WorkoutPlan } from "@/types/schemas";
 import { ARCHITECT_PROMPT } from "./prompts";
-import { opikClient } from "./opik";
+import { getOpikClient } from "./opik";
 
 const apiKey = process.env.GROQ_API_KEY;
 
@@ -36,7 +36,8 @@ Generate a quest now.
 `;
 
   // Start Opik Trace
-  const trace = opikClient.trace({
+  const client = await getOpikClient();
+  const trace = client.trace({
     name: "Architect_Quest_Generation",
     input: { system: ARCHITECT_PROMPT, user: userMessage },
   });

@@ -16,7 +16,7 @@ const navItems = [
 
 export function MobileBottomNav() {
   const pathname = usePathname();
-  const [username, setUsername] = useState<string>("");
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     createClient().auth.getUser().then(({ data }) => {

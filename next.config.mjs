@@ -23,6 +23,16 @@ const nextConfig = {
   // Optimize SWC minification
   swcMinify: true,
 
+  // Webpack configuration to handle opik package
+  webpack: (config, { isServer }) => {
+    // Externalize opik package on server to avoid build issues
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push('opik');
+    }
+    return config;
+  },
+
   // ============================================
   // EXPERIMENTAL FEATURES
   // ============================================

@@ -6,20 +6,17 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
-import { getUnreadCount } from "@/server/actions/notification-actions";
 
 export function SystemNavbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [username, setUsername] = useState<string>("");
+  const [username, setUsername] = useState("");
   const [unreadCount, setUnreadCount] = useState(0);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    createClient().auth.getUser().then(async ({ data }) => {
+    createClient().auth.getUser().then(({ data }) => {
       setUsername(data.user?.user_metadata?.username || "");
-      const count = await getUnreadCount();
-      setUnreadCount(count);
     });
   }, []);
 
