@@ -4,7 +4,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 import { WebVitals } from "@/components/analytics/WebVitals";
 import { ErrorBoundary } from "@/components/error/ErrorBoundary";
-import { SystemNavbar } from "@/components/layout/SystemNavbar";
+import { SystemNavbar } from "@/components/layout/SystemNavbar.jsx";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-geist-mono" }); // Mapping JetBrains to geist-mono var as per design plan preference for mono

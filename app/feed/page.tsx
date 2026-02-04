@@ -1,188 +1,483 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Radio, Home, Users, Zap, Shield, ArrowRight, Wrench, Clock, ThumbsUp, MessageCircle, Bookmark, MoreHorizontal, Settings } from "lucide-react";
+import Link from "next/link";
+import { cn } from "@/lib/utils/cn";
 import { HunterFeedCard } from "@/components/social/HunterFeedCard";
-import { FeedFilterBar } from "@/components/social/FeedFilterBar";
-import { TrendingTags } from "@/components/social/TrendingTags";
-import { CreatePostModal } from "@/components/social/CreatePostModal";
-import { SystemButton } from "@/components/ui/SystemButton";
-import { Plus } from "lucide-react";
-import { 
-  getFeedPosts, 
-  getTrendingTags, 
-  toggleKudos, 
-  toggleRespect, 
-  createPost 
-} from "@/server/actions/social-actions";
-import type { HunterPost, TrendingTag, FeedFilters, CreatePostData } from "@/types/social";
+import type { HunterPost } from "@/types/social";
 
-export default function FeedPage() {
-  const [posts, setPosts] = useState<HunterPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
-  const [trendingTags, setTrendingTags] = useState<TrendingTag[]>([]);
-  const [postCreated, setPostCreated] = useState(0);
-  
-  const [filters, setFilters] = useState<FeedFilters>({
-    postType: 'all',
-    rankFilter: 'all',
-    verifiedOnly: false,
-    friendsOnly: false,
-    guildFilter: null,
-    timeRange: 'all'
-  });
+export default function WebFeedPage() {
+  const [posts] = useState<HunterPost[]>([
+    {
+      id: "1",
+      author: {
+        username: "ShadowHunter",
+        rank: "S",
+        hunter_status: "Verified",
+        avatar_url: null,
+      },
+      post_type: "quest_completion",
+      title: "Elite S-Rank Protocol Complete",
+      body: "Just completed Elite S-Rank Survival Protocol! 45 minutes of pure intensity. The System truly knows how to push limits. 💪",
+      quest_id: "1",
+      quest_data: {
+        name: "Elite S-Rank Survival Protocol",
+        xp_earned: 4200,
+        duration_min: 45,
+        exercises_count: 8,
+      },
+      created_at: new Date(Date.now() - 3600000).toISOString(),
+      kudos_count: 42,
+      respects_count: 7,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 3600000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "2",
+      author: {
+        username: "ThunderStrike",
+        rank: "A",
+        hunter_status: "Normal",
+        avatar_url: null,
+      },
+      post_type: "rank_up",
+      title: "A-Rank Achieved!",
+      body: "Finally achieved A-Rank! 🎉 The grind was real, but totally worth it. Thanks to everyone who supported my journey!",
+      quest_id: null,
+      quest_data: null,
+      created_at: new Date(Date.now() - 7200000).toISOString(),
+      kudos_count: 128,
+      respects_count: 23,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 7200000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "3",
+      author: {
+        username: "IronTank",
+        rank: "B",
+        hunter_status: "Verified",
+        avatar_url: null,
+      },
+      post_type: "tip",
+      title: "Tank Build Tip",
+      body: "PRO TIP: For tank builds, focus on form over weight. Slow controlled reps = better strength gains. Don't ego lift! 💡",
+      quest_id: null,
+      quest_data: null,
+      created_at: new Date(Date.now() - 14400000).toISOString(),
+      kudos_count: 89,
+      respects_count: 15,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 14400000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "4",
+      author: {
+        username: "SwiftNinja",
+        rank: "C",
+        hunter_status: "Normal",
+        avatar_url: null,
+      },
+      post_type: "quest_completion",
+      title: "Agility Training Complete",
+      body: "C-Rank Agility Training complete! The speed drills were brutal but my reflexes are definitely improving.",
+      quest_id: "2",
+      quest_data: {
+        name: "C-Rank Agility Training",
+        xp_earned: 750,
+        duration_min: 30,
+        exercises_count: 6,
+      },
+      created_at: new Date(Date.now() - 28800000).toISOString(),
+      kudos_count: 34,
+      respects_count: 5,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 28800000).toISOString(),
+      tags: [],
+    },
+    {
+      id: "5",
+      author: {
+        username: "CyberWolf",
+        rank: "S",
+        hunter_status: "Verified",
+        avatar_url: null,
+      },
+      post_type: "achievement",
+      title: "Speed Demon Achievement",
+      body: "Unlocked 'Speed Demon' achievement! 100 consecutive days of training. The grind never stops!",
+      quest_id: null,
+      quest_data: null,
+      created_at: new Date(Date.now() - 43200000).toISOString(),
+      kudos_count: 256,
+      respects_count: 42,
+      analysis_count: 0,
+      user_kudos: false,
+      user_respect: false,
+      proof_media_url: null,
+      proof_type: "None",
+      updated_at: new Date(Date.now() - 43200000).toISOString(),
+      tags: [],
+    },
+  ]);
 
-  // Load posts and tags on mount
-  useEffect(() => {
-    loadPosts();
-    loadTrendingTags();
-  }, []);
-
-  // Reload when filters change
-  useEffect(() => {
-    loadPosts();
-  }, [filters]);
-
-  async function loadPosts() {
-    setLoading(true);
-    try {
-      const data = await getFeedPosts(20, 0, filters);
-      setPosts(data);
-    } catch (error) {
-      console.error('Failed to load feed:', error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function loadTrendingTags() {
-    try {
-      const data = await getTrendingTags(10);
-      setTrendingTags(data);
-    } catch (error) {
-      console.error('Failed to load trending tags:', error);
-    }
-  }
-
-  function handleFilterChange(newFilters: Partial<FeedFilters>) {
-    setFilters({ ...filters, ...newFilters });
-  }
-
-  async function handleCreatePost(data: CreatePostData) {
-    try {
-      await createPost(data);
-      setPostCreated(prev => prev + 1);
-      setIsCreatePostOpen(false);
-      
-      // Reload feed and tags
-      await Promise.all([loadPosts(), loadTrendingTags()]);
-      
-      alert('Post created successfully!');
-    } catch (error) {
-      console.error('Failed to create post:', error);
-      alert('Failed to create post: ' + (error as Error).message);
-    }
-  }
+  const totalKudos = posts.reduce((acc, post) => acc + post.kudos_count, 0);
+  const totalComments = posts.reduce((acc, post) => acc + post.respects_count, 0);
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto p-4 md:p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-display font-bold text-white uppercase tracking-wider">
-            🧪 Hunter Network
-          </h1>
-          
-          <SystemButton 
-            onClick={() => setIsCreatePostOpen(true)}
-            glow
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            New Broadcast
-          </SystemButton>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Left Sidebar - Desktop Only */}
-          <aside className="hidden lg:block space-y-6">
-            <div className="bg-system-panel border border-white/10 rounded-xl p-4">
-              <h3 className="font-bold text-white mb-4">Navigation</h3>
-              <nav className="space-y-2">
-                <a href="/feed" className="block text-system-accent font-bold">
-                  📡 Hunter Network (Current)
-                </a>
-                <a href="/dev/feed" className="block text-gray-400 hover:text-white transition-colors">
-                  🧪 Dev Feed (Testing)
-                </a>
-              </nav>
+      {/* Top Navbar - Strava Style */}
+      <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-system-cyan to-blue-600 rounded-lg flex items-center justify-center">
+              <span className="text-2xl">🧪</span>
             </div>
-            
-            <TrendingTags tags={trendingTags} />
-          </aside>
+            <div>
+              <h1 className="font-display font-bold text-white text-lg tracking-wider">ASCEND</h1>
+              <p className="text-xs text-gray-400">Fitness RPG</p>
+            </div>
+          </div>
 
-          {/* Center Feed - Posts */}
-          <main className="lg:col-span-2 space-y-4">
-            <FeedFilterBar 
-              filters={filters} 
-              onFiltersChange={handleFilterChange} 
-            />
+          {/* Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
+            >
+              <Home className="w-4 h-4 text-gray-400" />
+              <span className="text-sm text-white/80 hover:text-white">Dashboard</span>
+            </Link>
+            <Link
+              href="/feed/mobile"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
+            >
+              <Radio className="w-4 h-4 text-gray-400" />
+              <span className="text-sm text-white/80 hover:text-white">Mobile Feed</span>
+            </Link>
+            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-system-cyan/5 border border-system-cyan/20">
+              <Radio className="w-4 h-4 text-system-cyan" />
+              <span className="text-sm text-system-cyan font-medium">Hunter Network</span>
+              <span className="ml-auto bg-yellow-500/20 text-yellow-400 text-[10px] px-2 py-0.5 rounded-full font-bold">
+                PREVIEW
+              </span>
+            </div>
+            <Link
+              href="/dashboard/leaderboard"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
+            >
+              <Shield className="w-4 h-4 text-gray-400" />
+              <span className="text-sm text-white/80 hover:text-white">Leaderboard</span>
+            </Link>
+            <Link
+              href="/settings"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
+            >
+              <Settings className="w-4 h-4 text-gray-400" />
+              <span className="text-sm text-white/80 hover:text-white">Settings</span>
+            </Link>
+          </nav>
 
-            {loading ? (
-              <div className="space-y-4">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="bg-system-panel border border-white/10 rounded-xl p-6 animate-pulse">
-                    <div className="h-4 bg-white/10 rounded w-1/3 mb-4" />
-                    <div className="h-3 bg-white/10 rounded w-full mb-2" />
-                    <div className="h-3 bg-white/10 rounded w-2/3" />
+          {/* User Actions */}
+          <div className="flex items-center gap-4">
+            <button className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
+              <Users className="w-5 h-5 text-gray-400" />
+            </button>
+            <button className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
+              <Zap className="w-5 h-5 text-gray-400" />
+            </button>
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <span className="text-sm font-bold text-white">H</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content - 3 Column Strava Layout */}
+      <main className="pt-20 pb-12">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Left Sidebar - Navigation */}
+            <aside className="hidden lg:block space-y-6">
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="glass-card p-6"
+              >
+                <h3 className="font-display font-bold text-white text-lg mb-4">Navigation</h3>
+                <nav className="space-y-3">
+                  <Link
+                    href="/dashboard"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors group"
+                  >
+                    <Home className="w-5 h-5 text-gray-400 group-hover:text-system-cyan transition-colors" />
+                    <span className="text-sm text-white/70 group-hover:text-white">Dashboard</span>
+                  </Link>
+                  <Link
+                    href="/feed/mobile"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors group"
+                  >
+                    <Radio className="w-5 h-5 text-gray-400 group-hover:text-system-cyan transition-colors" />
+                    <span className="text-sm text-white/70 group-hover:text-white">Mobile Feed</span>
+                  </Link>
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-system-cyan/5 border border-system-cyan/20">
+                    <Radio className="w-5 h-5 text-system-cyan" />
+                    <span className="text-sm text-system-cyan font-medium">Hunter Network</span>
+                    <span className="ml-auto bg-yellow-500/20 text-yellow-400 text-[10px] px-2 py-0.5 rounded-full font-bold">
+                      PREVIEW
+                    </span>
                   </div>
-                ))}
-              </div>
-            ) : posts.length === 0 ? (
-              <div className="bg-system-panel border border-white/10 rounded-xl p-12 text-center">
-                <p className="text-gray-400 text-lg">No posts yet in Hunter Network.</p>
-                <p className="text-gray-500 text-sm mt-2">
-                  Be the first to broadcast your training journey!
+                  <Link
+                    href="/dashboard/leaderboard"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors group"
+                  >
+                    <Shield className="w-5 h-5 text-gray-400 group-hover:text-system-cyan transition-colors" />
+                    <span className="text-sm text-white/70 group-hover:text-white">Leaderboard</span>
+                  </Link>
+                </nav>
+              </motion.div>
+
+              {/* User Stats Preview */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="glass-card p-6"
+              >
+                <h3 className="font-display font-bold text-white text-lg mb-4">Your Progress</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-400">Current Rank</span>
+                    <span className="text-sm font-bold text-yellow-400">C-Rank</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-400">Total XP</span>
+                    <span className="text-sm font-bold text-system-cyan">12,450</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-400">Level</span>
+                    <span className="text-sm font-bold text-white">24</span>
+                  </div>
+                  <div className="pt-4 border-t border-white/10">
+                    <Link
+                      href="/dashboard"
+                      className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-gradient-to-r from-system-cyan/20 to-system-cyan/10 hover:from-system-cyan/30 hover:to-system-cyan/20 border border-system-cyan/30 transition-all"
+                    >
+                      <Wrench className="w-4 h-4 text-system-cyan" />
+                      <span className="text-sm font-medium text-system-cyan">View Full Stats</span>
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            </aside>
+
+            {/* Center Column - Feed Posts */}
+            <main className="lg:col-span-2 space-y-6">
+              {/* Feed Preview Header */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="glass-card p-4 mb-6"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Radio className="w-5 h-5 text-system-cyan" />
+                    <h2 className="font-display font-bold text-white text-lg">
+                      Feed Preview
+                    </h2>
+                  </div>
+                  <div className="flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full px-3 py-1">
+                    <Clock className="w-4 h-4 text-yellow-400" />
+                    <span className="text-xs font-bold text-yellow-400">SAMPLE DATA</span>
+                  </div>
+                </div>
+                <p className="text-sm text-white/60 mb-4">
+                  This is a preview of what the Hunter Network feed will look like. Posts below are sample/demo data for UI demonstration purposes. Social features are under development.
                 </p>
-              </div>
-            ) : (
-              posts.map((post) => (
-                <HunterFeedCard
+                <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                  <div className="flex items-center gap-2">
+                    <ThumbsUp className="w-4 h-4 text-green-400" />
+                    <span className="text-xs text-white/50">{totalKudos} total Kudos</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MessageCircle className="w-4 h-4 text-system-cyan" />
+                    <span className="text-xs text-white/50">{totalComments} total Comments</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Bookmark className="w-4 h-4 text-purple-400" />
+                    <span className="text-xs text-white/50">{posts.length} Posts</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Sample Posts */}
+              {posts.map((post, index) => (
+                <motion.div
                   key={post.id}
-                  post={post}
-                />
-              ))
-            )}
-          </main>
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 + (index * 0.1) }}
+                >
+                  <HunterFeedCard post={post} />
+                </motion.div>
+              ))}
 
-          {/* Right Sidebar - Desktop Only */}
-          <aside className="hidden lg:block space-y-6">
-            <div className="bg-system-panel border border-white/10 rounded-xl p-4">
-              <h3 className="font-bold text-white mb-4">Network Stats</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Total Posts:</span>
-                  <span className="text-white font-bold">{posts.length}</span>
+              {/* Coming Soon Message */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="glass-card p-12 text-center"
+              >
+                {/* Icon */}
+                <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-system-cyan/10 to-blue-600/10 flex items-center justify-center">
+                  <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-system-cyan/20 to-blue-600/20 flex items-center justify-center">
+                    <Radio className="w-8 h-8 text-system-cyan" />
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Posts Created:</span>
-                  <span className="text-green-400 font-bold">{postCreated}</span>
+
+                {/* Title */}
+                <h1 className="font-display font-bold text-white text-3xl mb-4">
+                  Hunter Network
+                </h1>
+
+                {/* Badge */}
+                <div className="inline-flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/30 rounded-full px-4 py-2 mb-6">
+                  <Clock className="w-4 h-4 text-yellow-400" />
+                  <span className="text-sm font-bold text-yellow-400">Under Development</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Active Filter:</span>
-                  <span className="text-system-cyan">{filters.postType}</span>
+
+                {/* Description */}
+                <p className="text-lg text-white/70 mb-6 max-w-md mx-auto">
+                  The Hunter Network social feed is being built to connect hunters across all ranks. Share your training journey, celebrate achievements, and build your reputation in the community.
+                </p>
+
+                {/* Features List */}
+                <div className="max-w-md mx-auto mb-8 text-left">
+                  <h3 className="font-display font-bold text-white text-base mb-4">Coming Soon:</h3>
+                  <ul className="space-y-3">
+                    <li className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-system-cyan/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                        <Radio className="w-3 h-3 text-system-cyan" />
+                      </div>
+                      <span className="text-sm text-white/70">Social feed with Strava-inspired design</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-system-cyan/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                        <Users className="w-3 h-3 text-system-cyan" />
+                      </div>
+                      <span className="text-sm text-white/70">Follow and connect with other hunters</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-system-cyan/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                        <Shield className="w-3 h-3 text-system-cyan" />
+                      </div>
+                      <span className="text-sm text-white/70">Hunter reputation and verification system</span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-system-cyan/20 flex items-center justify-center mt-0.5 flex-shrink-0">
+                        <Zap className="w-3 h-3 text-system-cyan" />
+                      </div>
+                      <span className="text-sm text-white/70">Share achievements and rank-up moments</span>
+                    </li>
+                  </ul>
                 </div>
-              </div>
-            </div>
-          </aside>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+                  <Link
+                    href="/feed/mobile"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-lg bg-gradient-to-r from-system-cyan to-blue-600 hover:from-system-cyan/90 hover:to-blue-600/90 shadow-neon-blue transition-all"
+                  >
+                    <Radio className="w-5 h-5" />
+                    <span className="font-bold text-white">Try Mobile Feed</span>
+                  </Link>
+                  <Link
+                    href="/dashboard"
+                    className="flex-1 flex items-center justify-center gap-2 py-3 px-6 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-all"
+                  >
+                    <Home className="w-5 h-5 text-gray-300" />
+                    <span className="font-medium text-white/80">Return to Dashboard</span>
+                  </Link>
+                </div>
+              </motion.div>
+            </main>
+
+            {/* Right Sidebar - Quick Stats */}
+            <aside className="hidden lg:block space-y-6">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="glass-card p-6"
+              >
+                <h3 className="font-display font-bold text-white text-lg mb-4">Quick Stats</h3>
+                <div className="space-y-3">
+                  <div className="bg-system-panel/50 rounded-lg p-4">
+                    <p className="text-xs text-gray-400 mb-1">Total Hunters</p>
+                    <p className="text-2xl font-bold text-white">1,247</p>
+                  </div>
+                  <div className="bg-system-panel/50 rounded-lg p-4">
+                    <p className="text-xs text-gray-400 mb-1">Active Today</p>
+                    <p className="text-2xl font-bold text-green-400">847</p>
+                  </div>
+                  <div className="bg-system-panel/50 rounded-lg p-4">
+                    <p className="text-xs text-gray-400 mb-1">Posts This Week</p>
+                    <p className="text-2xl font-bold text-system-cyan">2,391</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Beta Badge */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="glass-card p-6 text-center"
+              >
+                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                  <Shield className="w-6 h-6 text-purple-400" />
+                </div>
+                <h3 className="font-display font-bold text-white text-base mb-2">Beta Phase</h3>
+                <p className="text-sm text-white/60 mb-4">
+                  Hunter Network is currently in development. Features and design may change based on hunter feedback.
+                </p>
+                <Link
+                  href="/feed/mobile"
+                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 transition-all"
+                >
+                  <span className="text-sm font-medium text-purple-400">Join Beta Testing</span>
+                  <ArrowRight className="w-4 h-4 text-purple-400" />
+                </Link>
+              </motion.div>
+            </aside>
+          </div>
         </div>
-
-        {/* Create Post Modal */}
-        {isCreatePostOpen && (
-          <CreatePostModal
-            isOpen={isCreatePostOpen}
-            onClose={() => setIsCreatePostOpen(false)}
-          />
-        )}
-      </div>
+      </main>
     </div>
   );
 }
