@@ -202,7 +202,7 @@ components/layout/MobileSystemNavbar.tsx
 - Create `components/roadmap/roadmap-data.ts`
 - Create `components/roadmap/RoadmapFeatureCard.tsx`
 - Implement hero section
-- Implement timeline sections (short/medium/long-term)
+- Implement timeline sections (Q2, Q3, Q4 2026)
 - Implement innovation section with star ratings
 - Add expandable sections for mobile
 - Apply glassmorphism design
@@ -253,7 +253,7 @@ components/layout/MobileSystemNavbar.tsx
 ### Roadmap Page
 - ✅ Page created at `/roadmap`
 - ✅ All 17 future features displayed
-- ✅ Timeline sections (short/medium/long-term)
+- ✅ Timeline sections (Q2, Q3, Q4 2026)
 - ✅ Innovation section with star ratings
 - ✅ Expandable sections for mobile
 - ✅ Glassmorphism design applied

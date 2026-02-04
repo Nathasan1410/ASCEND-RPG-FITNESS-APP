@@ -260,9 +260,9 @@ export function Roadmap() {
   };
 
   // Render sections based on timeline
-  // Short-term (1-2 weeks)
-  // Medium-term (1-2 months)
-  // Long-term (3-6 months)
+  // Q2 2026 (April-June)
+  // Q3 2026 (July-September)
+  // Q4 2026 (October-December)
   // Innovation features
 
   return (
