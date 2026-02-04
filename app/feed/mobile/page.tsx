@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Home, Radio, User, Plus, ArrowRight, Users, Shield, Zap, Clock } from "lucide-react";
+import { Home, Radio, User, Plus, ArrowRight, Users, Shield, Zap, Clock, HelpCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { HunterFeedCard } from "@/components/social/HunterFeedCard-Mobile";
@@ -52,6 +52,12 @@ export default function MobileFeedPage() {
       href: "/settings",
       label: "More",
       icon: Plus,
+    },
+    {
+      id: "help",
+      href: "/help",
+      label: "Help",
+      icon: HelpCircle,
     },
   ];
 

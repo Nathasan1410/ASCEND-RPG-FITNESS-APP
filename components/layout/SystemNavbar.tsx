@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { User, Trophy, Settings, LogOut, Users, Bell, Radio, Home, Zap, Shield } from "lucide-react";
+import { User, Trophy, Settings, LogOut, Users, Bell, Radio, Home, Zap, Shield, HelpCircle } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, usePathname } from "next/navigation";
@@ -130,6 +130,23 @@ export function SystemNavbar() {
                 : "text-white/60"
             )} />
             <span className="text-sm font-medium">Settings</span>
+          </Link>
+          <Link
+            href="/help"
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
+              pathname?.includes("/help")
+                ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
+            )}
+          >
+            <HelpCircle className={cn(
+              "w-5 h-5 transition-all",
+              pathname?.includes("/help")
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+                : "text-white/60"
+            )} />
+            <span className="text-sm font-medium">Help</span>
           </Link>
         </nav>
 

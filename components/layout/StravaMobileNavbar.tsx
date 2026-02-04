@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Home, Radio, Trophy, Users, Bell, Settings } from "lucide-react";
+import { Home, Radio, Trophy, Users, Bell, Settings, HelpCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 import { createClient } from "@/lib/supabase/client";
@@ -25,6 +25,7 @@ export function StravaMobileNavbar() {
     { href: "/friends", icon: Users, label: "Friends" },
     { href: "/notifications", icon: Bell, label: "Notifications", hasBadge: false },
     { href: "/settings", icon: Settings, label: "Settings" },
+    { href: "/help", icon: HelpCircle, label: "Help" },
   ];
 
   return (

@@ -66,9 +66,10 @@ The width(-1) and height(-1) of chart should be greater than 0,
  ✓ Compiled in 5.7s (668 modules)
  ✓ Compiled in 857ms (668 modules)
  ✓ Compiled in 1233ms (668 modules)
-}
- POST /api/analytics/performance 200 in 47ms
-📊 Web Vital: { name: 'LCP', value: 1388, rating: 'good', delta: 1388 }
+ ✓ Compiled in 22.5s (836 modules)
+ ✓ Compiled in 2.3s (836 modules)
+ ✓ Compiled in 7.6s (836 modules)
+lta: 1388 }
  POST /api/analytics/performance 200 in 28ms
 📊 Web Vital: {
   name: 'FID',
@@ -424,3 +425,98 @@ The width(-1) and height(-1) of chart should be greater than 0,
  ✓ Compiled /feed/mobile in 1730ms (3312 modules)
  GET /_next/static/chunks/app/feed/LayoutGroupContext.mjs.map 404 in 472ms
  GET /_next/static/chunks/app/feed/mobile/LayoutGroupContext.mjs.map 404 in 39ms
+ ✓ Compiled in 3.6s (3191 modules)
+📊 Web Vital: { name: 'FCP', value: 1528, rating: 'good', delta: 1528 }
+ POST /api/analytics/performance 200 in 249ms
+📊 Web Vital: {
+  name: 'FID',
+  value: 0.7000000029802322,
+  rating: 'good',
+  delta: 0.7000000029802322
+}
+ POST /api/analytics/performance 200 in 48ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 238.6000000089407,
+  rating: 'good',
+  delta: 238.6000000089407
+}
+ POST /api/analytics/performance 200 in 55ms
+📊 Web Vital: { name: 'FCP', value: 31876, rating: 'poor', delta: 31876 }
+ POST /api/analytics/performance 200 in 110ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 999.7999999970198,
+  rating: 'needs-improvement',
+  delta: 999.7999999970198
+}
+ POST /api/analytics/performance 200 in 32ms
+ ✓ Compiled in 6.1s (3173 modules)
+ GET /feed/mobile 200 in 12547ms
+ ○ Compiling /_not-found ...
+ GET /feed/mobile 200 in 990ms
+ ✓ Compiled /_not-found in 10.6s (3188 modules)
+ POST /api/analytics/performance 404 in 6032ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 3864ms
+ POST /api/analytics/performance 404 in 6025ms
+ GET /.well-known/appspecific/com.chrome.devtools.json 404 in 77ms
+📊 Web Vital: { name: 'FCP', value: 31876, rating: 'poor', delta: 31876 }
+ POST /api/analytics/performance 200 in 34ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 999.7999999970198,
+  rating: 'needs-improvement',
+  delta: 999.7999999970198
+}
+ POST /api/analytics/performance 200 in 18ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 5988.20000000298,
+  rating: 'poor',
+  delta: 5988.20000000298
+}
+ POST /api/analytics/performance 200 in 30ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 5988.20000000298,
+  rating: 'poor',
+  delta: 5988.20000000298
+}
+ POST /api/analytics/performance 200 in 16ms
+ GET /_next/static/chunks/app/feed/mobile/LayoutGroupContext.mjs.map 404 in 92ms
+ ○ Compiling /friends ...
+ ✓ Compiled /friends in 2.1s (3211 modules)
+📊 Web Vital: { name: 'FCP', value: 31876, rating: 'poor', delta: 31876 }
+ POST /api/analytics/performance 200 in 52ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 999.7999999970198,
+  rating: 'needs-improvement',
+  delta: 999.7999999970198
+}
+ POST /api/analytics/performance 200 in 27ms
+ GET /_next/static/chunks/app/friends/LayoutGroupContext.mjs.map 404 in 166ms
+📊 Web Vital: {
+  name: 'TTFB',
+  value: 5988.20000000298,
+  rating: 'poor',
+  delta: 5988.20000000298
+}
+ POST /api/analytics/performance 200 in 15ms
+ POST /friends 200 in 417ms
+ POST /friends 200 in 166ms
+📊 Web Vital: { name: 'INP', value: 80, rating: 'good', delta: 80 }
+📊 Web Vital: { name: 'INP', value: 80, rating: 'good', delta: 80 }
+📊 Web Vital: { name: 'INP', value: 80, rating: 'good', delta: 80 }
+ POST /api/analytics/performance 200 in 71ms
+ POST /api/analytics/performance 200 in 69ms
+ POST /api/analytics/performance 200 in 69ms
+📊 Web Vital: { name: 'INP', value: 112, rating: 'good', delta: 32 }
+ POST /api/analytics/performance 200 in 411ms
+📊 Web Vital: { name: 'INP', value: 112, rating: 'good', delta: 32 }
+ POST /api/analytics/performance 200 in 244ms
+📊 Web Vital: { name: 'INP', value: 112, rating: 'good', delta: 32 }
+ POST /api/analytics/performance 200 in 365ms
+ ✓ Compiled in 18.8s (3321 modules)
+ ✓ Compiled in 9s (3321 modules)
+ ✓ Compiled in 42.5s (3321 modules)

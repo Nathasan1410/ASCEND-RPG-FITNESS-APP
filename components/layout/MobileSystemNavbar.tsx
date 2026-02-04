@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Home, ScrollText, Trophy, User, Settings, Menu, X, Radio, Bell, Users } from "lucide-react";
+import { Home, ScrollText, Trophy, User, Settings, Menu, X, Radio, Bell, Users, HelpCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 import { createClient } from "@/lib/supabase/client";
@@ -16,6 +16,7 @@ const navItems = [
   { href: "/friends", icon: Users, label: "Friends" },
   { href: "/notifications", icon: Bell, label: "Notifications", hasBadge: true },
   { href: "/settings", icon: Settings, label: "Settings" },
+  { href: "/help", icon: HelpCircle, label: "Help" },
 ];
 
 export function MobileSystemNavbar() {
