@@ -3,7 +3,11 @@
 
 import { createClient } from "@/lib/supabase/server";
 
-export async function getPublicProfile(username: string) {
+export async function getPublicProfile(username: string, filters?: {
+  questType?: string;
+  startDate?: string;
+  endDate?: string;
+}) {
   const supabase = await createClient();
 
   const { data: profileData } = await supabase
@@ -16,37 +20,40 @@ export async function getPublicProfile(username: string) {
 
   if (!profile) return null;
 
-  const { data: logsData, error: rpcError } = await supabase.rpc("get_match_history_optimized", {
-    p_user_id: profile.id,
-    p_limit: 20,
-    p_offset: 0,
-  } as any);
+  let query = supabase
+    .from("logs")
+    .select(`
+      id,
+      xp_awarded,
+      duration_actual,
+      integrity_score,
+      proof_media_url,
+      proof_type,
+      verification_status,
+      completed_at,
+      quests (
+        plan_json,
+        rank_difficulty
+      )
+    `)
+    .eq("user_id", profile.id)
+    .eq("is_public", true);
 
-  if (rpcError || !logsData) {
-    console.warn("Match history RPC failed, falling back to direct query:", rpcError?.message);
-    const { data: logs } = await supabase
-      .from("logs")
-      .select(`
-        id,
-        xp_awarded,
-        duration_actual,
-        integrity_score,
-        proof_media_url,
-        proof_type,
-        verification_status,
-        completed_at,
-        quests (
-          plan_json,
-          rank_difficulty
-        )
-      `)
-      .eq("user_id", profile.id)
-      .eq("is_public", true)
-      .order("completed_at", { ascending: false })
-      .limit(20);
-
-    return buildProfileResponse(profile, logs || []);
+  if (filters?.questType && filters.questType !== "all") {
+    query = query.eq("quest_type", filters.questType);
   }
+
+  if (filters?.startDate) {
+    query = query.gte("completed_at", filters.startDate);
+  }
+
+  if (filters?.endDate) {
+    query = query.lte("completed_at", filters.endDate);
+  }
+
+  const { data: logs } = await query
+    .order("completed_at", { ascending: false })
+    .limit(20);
 
   const transformedLogs = (logsData || []).map((log: any) => ({
     id: log.log_id,

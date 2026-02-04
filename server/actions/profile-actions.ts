@@ -53,3 +53,56 @@ export async function completeOnboarding(data: OnboardingData) {
   revalidatePath("/dashboard");
   redirect("/dashboard");
 }
+
+export async function getUserAchievements(userId: string) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("user_achievements")
+    .select(`
+      unlocked_at,
+      achievements (
+        id,
+        name,
+        description,
+        icon,
+        rarity
+      )
+    `)
+    .eq("user_id", userId)
+    .order("unlocked_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching achievements:", error);
+    return [];
+  }
+
+  return data || [];
+}
+
+export async function getFriendPreviews(userId: string) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("friends")
+    .select(`
+      friend_id,
+      profiles!friend_id (
+        id,
+        username,
+        display_name,
+        rank_tier,
+        class
+      )
+    `)
+    .or(`user_id.eq.${userId},friend_id.eq.${userId}`)
+    .limit(6)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching friends:", error);
+    return [];
+  }
+
+  return data || [];
+}
