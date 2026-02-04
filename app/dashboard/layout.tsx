@@ -1,10 +1,52 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { Home, Radio, User, Plus } from "lucide-react";
 import { MobileSystemNavbar } from "@/components/layout/MobileSystemNavbar";
+import { StravaMobileNav } from "@/components/layout/StravaMobileNav";
+import { createClient } from "@/lib/supabase/client";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [username, setUsername] = useState<string>("");
+
+  const navItems = [
+    {
+      id: "home",
+      href: "/dashboard",
+      label: "Activity",
+      icon: Home,
+    },
+    {
+      id: "feed",
+      href: "/feed",
+      label: "Feed",
+      icon: Radio,
+    },
+    {
+      id: "profile",
+      href: `/profile/${username}`,
+      label: "You",
+      icon: User,
+      showAvatar: true,
+    },
+    {
+      id: "settings",
+      href: "/settings",
+      label: "More",
+      icon: Plus,
+    },
+  ];
+
+  useEffect(() => {
+    createClient().auth.getUser().then(({ data }) => {
+      setUsername(data.user?.user_metadata?.username || "");
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <MobileSystemNavbar />
@@ -12,6 +54,8 @@ export default function DashboardLayout({
       <main className="flex-1 p-4 md:p-6 max-w-7xl mx-auto w-full pb-20 md:pb-6">
         {children}
       </main>
+
+      <StravaMobileNav navItems={navItems} username={username} />
     </div>
   );
 }

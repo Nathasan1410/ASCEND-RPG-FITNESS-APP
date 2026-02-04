@@ -1,21 +1,48 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Radio, Plus, Home, Search, Bell } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils/cn";
-import { createClient } from "@/lib/supabase/client";
+import { Home, Radio, User, Plus } from "lucide-react";
 import { motion } from "framer-motion";
 import { HunterFeedCard } from "@/components/social/HunterFeedCard-Mobile";
 import { CreatePostSection } from "@/components/social/CreatePostSection-Mobile";
 import { MobileSystemNavbar } from "@/components/layout/MobileSystemNavbar";
 import { FeedSkeletonLoader, EmptyFeedState } from "@/components/loading/FeedSkeletonLoader";
+import { StravaMobileNav } from "@/components/layout/StravaMobileNav";
+import { createClient } from "@/lib/supabase/client";
 
 export default function MobileFeedPage() {
-  const pathname = usePathname();
   const [username, setUsername] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const navItems = [
+    {
+      id: "home",
+      href: "/dashboard",
+      label: "Home",
+      icon: Home,
+    },
+    {
+      id: "feed",
+      href: "/feed",
+      label: "Feed",
+      icon: Radio,
+      badge: "NEW",
+    },
+    {
+      id: "profile",
+      href: `/profile/${username}`,
+      label: "You",
+      icon: User,
+      showAvatar: true,
+    },
+    {
+      id: "settings",
+      href: "/settings",
+      label: "More",
+      icon: Plus,
+    },
+  ];
 
   // Sample posts for demonstration
   const [posts] = useState([
@@ -94,6 +121,8 @@ export default function MobileFeedPage() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
+      <MobileSystemNavbar />
+      
       {/* Main Content - Strava Layout */}
       <main className="max-w-xl mx-auto">
         {/* Create Post Section - Collapsible */}
@@ -115,59 +144,7 @@ export default function MobileFeedPage() {
         </div>
       </main>
 
-      {/* Bottom Navigation - Strava Style */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-void-deep/95 backdrop-blur-xl border-t border-white/10 z-50 md:hidden">
-        <div className="flex items-center justify-around py-2">
-          <Link
-            href="/dashboard"
-            className="flex flex-col items-center gap-1 px-4 py-2 transition-colors"
-          >
-            <Home className={cn("w-6 h-6", pathname === "/dashboard" ? "text-system-cyan" : "text-white/50")} />
-            <span className={cn("text-[10px] font-medium", pathname === "/dashboard" ? "text-system-cyan" : "text-white/50")}>
-              Home
-            </span>
-          </Link>
-
-          <Link
-            href="/feed"
-            className="flex flex-col items-center gap-1 px-4 py-2 transition-colors relative"
-          >
-            <div className="absolute -top-2 bg-system-cyan text-void-deep rounded-full px-3 py-0.5 text-[10px] font-bold">
-              NEW
-            </div>
-            <Radio className={cn("w-6 h-6", pathname === "/feed" ? "text-system-cyan" : "text-white/50")} />
-            <span className={cn("text-[10px] font-medium", pathname === "/feed" ? "text-system-cyan" : "text-white/50")}>
-              Feed
-            </span>
-          </Link>
-
-          <Link
-            href={`/profile/${username}`}
-            className="flex flex-col items-center gap-1 px-4 py-2 transition-colors"
-          >
-            <div className="w-6 h-6 rounded-full bg-system-cyan/20 flex items-center justify-center">
-              <span className="text-xs font-bold text-system-cyan">
-                {username[0]?.toUpperCase() || "H"}
-              </span>
-            </div>
-            <span className={cn("text-[10px] font-medium", pathname?.includes("/profile") ? "text-system-cyan" : "text-white/50")}>
-              You
-            </span>
-          </Link>
-
-          <Link
-            href="/settings"
-            className="flex flex-col items-center gap-1 px-4 py-2 transition-colors"
-          >
-            <Plus className={cn("w-6 h-6", pathname === "/settings" ? "text-system-cyan" : "text-white/50")} />
-            <span className={cn("text-[10px] font-medium", pathname === "/settings" ? "text-system-cyan" : "text-white/50")}>
-              More
-            </span>
-          </Link>
-        </div>
-      </nav>
+      <StravaMobileNav navItems={navItems} username={username} />
     </div>
   );
 }
-
-import Link from "next/link";

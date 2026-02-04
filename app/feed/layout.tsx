@@ -1,5 +1,4 @@
 import { MobileSystemNavbar } from "@/components/layout/MobileSystemNavbar";
-
 export default function FeedLayout({
   children,
 }: {
