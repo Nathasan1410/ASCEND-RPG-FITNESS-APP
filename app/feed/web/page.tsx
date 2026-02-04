@@ -7,6 +7,8 @@ import Link from "next/link";
 import { HunterFeedCard } from "@/components/social/HunterFeedCard";
 import type { HunterPost } from "@/types/social";
 import { SystemNavbar } from "@/components/layout/SystemNavbar";
+import { LeftSidebar } from "@/components/layout/LeftSidebar";
+import { RightSidebar } from "@/components/layout/RightSidebar";
 
 export default function WebFeedPlaceholderPage() {
   const [posts] = useState<HunterPost[]>([
@@ -148,87 +150,12 @@ export default function WebFeedPlaceholderPage() {
       {/* Main Content - 3 Column Strava Layout */}
       <main className="pt-20 pb-12">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            {/* Left Sidebar - Navigation */}
-            <aside className="hidden lg:block space-y-6">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="glass-card p-6"
-              >
-                <h3 className="font-display font-bold text-white text-lg mb-4">Navigation</h3>
-                <nav className="space-y-3">
-                  <Link
-                    href="/dashboard"
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors group"
-                  >
-                    <Home className="w-5 h-5 text-gray-400 group-hover:text-system-cyan transition-colors" />
-                    <span className="text-sm text-white/70 group-hover:text-white">Dashboard</span>
-                  </Link>
-                  <Link
-                    href="/feed/mobile"
-                    className="flex items-center gap-3 p-3 rounded-lg bg-system-cyan/5 border border-system-cyan/20"
-                  >
-                    <Radio className="w-5 h-5 text-system-cyan" />
-                    <span className="text-sm text-system-cyan font-medium">Mobile Feed</span>
-                    <span className="ml-auto bg-green-500/20 text-green-400 text-[10px] px-2 py-0.5 rounded-full font-bold">
-                      LIVE
-                    </span>
-                  </Link>
-                  <div className="flex items-center gap-3 p-3 rounded-lg text-gray-400 cursor-not-allowed">
-                    <Radio className="w-5 h-5" />
-                    <span className="text-sm font-medium">Hunter Network</span>
-                    <span className="ml-auto bg-yellow-500/20 text-yellow-400 text-[10px] px-2 py-0.5 rounded-full font-bold">
-                      SOON
-                    </span>
-                  </div>
-                  <Link
-                    href="/dashboard/leaderboard"
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors group"
-                  >
-                    <Shield className="w-5 h-5 text-gray-400 group-hover:text-system-cyan transition-colors" />
-                    <span className="text-sm text-white/70 group-hover:text-white">Leaderboard</span>
-                  </Link>
-                </nav>
-              </motion.div>
-
-              {/* User Stats Preview */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="glass-card p-6"
-              >
-                <h3 className="font-display font-bold text-white text-lg mb-4">Your Progress</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-400">Current Rank</span>
-                    <span className="text-sm font-bold text-yellow-400">C-Rank</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-400">Total XP</span>
-                    <span className="text-sm font-bold text-system-cyan">12,450</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-400">Level</span>
-                    <span className="text-sm font-bold text-white">24</span>
-                  </div>
-                  <div className="pt-4 border-t border-white/10">
-                    <Link
-                      href="/dashboard"
-                      className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-gradient-to-r from-system-cyan/20 to-system-cyan/10 hover:from-system-cyan/30 hover:to-system-cyan/20 border border-system-cyan/30 transition-all"
-                    >
-                      <Wrench className="w-4 h-4 text-system-cyan" />
-                      <span className="text-sm font-medium text-system-cyan">View Full Stats</span>
-                    </Link>
-                  </div>
-                </div>
-              </motion.div>
-            </aside>
+          <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] gap-6">
+            {/* Left Sidebar - Phase VII Components */}
+            <LeftSidebar />
 
             {/* Center Column - Feed Preview + Coming Soon */}
-            <main className="lg:col-span-2 space-y-6">
+            <main className="space-y-6">
               {/* Feed Preview Section */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -368,7 +295,7 @@ export default function WebFeedPlaceholderPage() {
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-display font-bold text-white text-lg">Development Progress</h3>
                   <span className="bg-system-cyan/10 text-system-cyan text-xs px-3 py-1 rounded-full font-bold">
-                    PHASE 1/8
+                    PHASE 7/8
                   </span>
                 </div>
                 <div className="space-y-4">
@@ -384,24 +311,51 @@ export default function WebFeedPlaceholderPage() {
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm text-gray-400">Component Updates</span>
-                      <span className="text-xs font-bold text-system-cyan">IN PROGRESS</span>
+                      <span className="text-xs font-bold text-green-400">COMPLETE</span>
                     </div>
                     <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                      <div className="h-full bg-system-cyan rounded-full animate-pulse" style={{ width: '40%' }} />
+                      <div className="h-full bg-green-500 rounded-full" style={{ width: '100%' }} />
                     </div>
                   </div>
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm text-gray-400">Web Feed Layout</span>
-                      <span className="text-xs font-bold text-gray-500">PENDING</span>
+                      <span className="text-xs font-bold text-green-400">COMPLETE</span>
                     </div>
                     <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                      <div className="h-full bg-gray-500 rounded-full" style={{ width: '0%' }} />
+                      <div className="h-full bg-green-500 rounded-full" style={{ width: '100%' }} />
                     </div>
                   </div>
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-sm text-gray-400">Feed Card Enhancement</span>
+                      <span className="text-xs font-bold text-green-400">COMPLETE</span>
+                    </div>
+                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-green-500 rounded-full" style={{ width: '100%' }} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-400">Sidebar Components</span>
+                      <span className="text-xs font-bold text-green-400">COMPLETE</span>
+                    </div>
+                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-green-500 rounded-full" style={{ width: '100%' }} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-400">Interactive Features</span>
+                      <span className="text-xs font-bold text-system-cyan">IN PROGRESS</span>
+                    </div>
+                    <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-system-cyan rounded-full animate-pulse" style={{ width: '30%' }} />
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-gray-400">Final Polish</span>
                       <span className="text-xs font-bold text-gray-500">PENDING</span>
                     </div>
                     <div className="h-2 bg-white/5 rounded-full overflow-hidden">
@@ -421,54 +375,8 @@ export default function WebFeedPlaceholderPage() {
               </motion.div>
             </main>
 
-            {/* Right Sidebar - Placeholder */}
-            <aside className="hidden lg:block space-y-6">
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                className="glass-card p-6"
-              >
-                <h3 className="font-display font-bold text-white text-lg mb-4">Quick Stats</h3>
-                <div className="space-y-3">
-                  <div className="bg-system-panel/50 rounded-lg p-4">
-                    <p className="text-xs text-gray-400 mb-1">Total Hunters</p>
-                    <p className="text-2xl font-bold text-white">1,247</p>
-                  </div>
-                  <div className="bg-system-panel/50 rounded-lg p-4">
-                    <p className="text-xs text-gray-400 mb-1">Active Today</p>
-                    <p className="text-2xl font-bold text-green-400">847</p>
-                  </div>
-                  <div className="bg-system-panel/50 rounded-lg p-4">
-                    <p className="text-xs text-gray-400 mb-1">Posts This Week</p>
-                    <p className="text-2xl font-bold text-system-cyan">2,391</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Beta Badge */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="glass-card p-6 text-center"
-              >
-                <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-purple-400" />
-                </div>
-                <h3 className="font-display font-bold text-white text-base mb-2">Beta Phase</h3>
-                <p className="text-sm text-white/60 mb-4">
-                  Hunter Network is currently in development. Features and design may change based on hunter feedback.
-                </p>
-                <Link
-                  href="/feed/mobile"
-                  className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 transition-all"
-                >
-                  <span className="text-sm font-medium text-purple-400">Join Beta Testing</span>
-                  <ArrowRight className="w-4 h-4 text-purple-400" />
-                </Link>
-              </motion.div>
-            </aside>
+            {/* Right Sidebar - Phase VII Components */}
+            <RightSidebar />
           </div>
         </div>
       </main>
