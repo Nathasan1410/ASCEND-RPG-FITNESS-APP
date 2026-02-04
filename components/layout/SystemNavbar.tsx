@@ -68,11 +68,11 @@ export function SystemNavbar() {
         </button>
         
          {userMenuOpen && (
-          <div className="absolute right-0 top-12 w-48 bg-void-panel border border-white/10 rounded-lg shadow-xl overflow-hidden">
+          <div className="absolute right-0 top-12 w-48 bg-[#0a0a0f] border border-white/10 rounded-lg shadow-2xl overflow-hidden backdrop-blur-md">
             <div className="p-2 space-y-1">
               <Link
                 href="/profile/me"
-                className="block px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white rounded transition-colors"
+                className="block px-3 py-2 text-sm text-white/80 hover:bg-white/15 hover:text-white rounded transition-colors"
               >
                 <User className="w-4 h-4 text-white/60" />
                 My Profile
@@ -80,7 +80,7 @@ export function SystemNavbar() {
               
               <Link
                 href="/friends"
-                className="block px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white rounded transition-colors"
+                className="block px-3 py-2 text-sm text-white/80 hover:bg-white/15 hover:text-white rounded transition-colors"
               >
                 <Users className="w-4 h-4 text-white/60" />
                 Friends
@@ -88,7 +88,7 @@ export function SystemNavbar() {
               
               <Link
                 href="/notifications"
-                className="block px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white rounded transition-colors flex items-center justify-between"
+                className="block px-3 py-2 text-sm text-white/80 hover:bg-white/15 hover:text-white rounded transition-colors flex items-center justify-between"
               >
                 <div className="flex items-center gap-2">
                   <Bell className="w-4 h-4 text-white/60" />
@@ -103,7 +103,7 @@ export function SystemNavbar() {
               
               <Link
                 href="/settings"
-                className="block px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white rounded transition-colors"
+                className="block px-3 py-2 text-sm text-white/80 hover:bg-white/15 hover:text-white rounded transition-colors"
               >
                 <Settings className="w-4 h-4 text-white/60" />
                 Settings
@@ -111,7 +111,7 @@ export function SystemNavbar() {
               
               <button
                 onClick={handleLogout}
-                className="w-full px-3 py-2 text-sm text-status-danger hover:bg-white/10 hover:text-status-danger rounded transition-colors"
+                className="w-full px-3 py-2 text-sm text-status-danger hover:bg-red-500/20 hover:text-status-danger rounded transition-colors"
               >
                 <LogOut className="w-4 h-4 text-white/60" />
                 Sign Out

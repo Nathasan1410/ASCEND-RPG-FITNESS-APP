@@ -177,5 +177,3 @@ export function MobileSystemNavbar() {
     </>
   );
 }
-
-import Link from "next/link";
