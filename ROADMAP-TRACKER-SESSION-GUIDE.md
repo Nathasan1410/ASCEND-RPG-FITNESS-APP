@@ -249,7 +249,7 @@ interface Feature {
 // (You'll create features data from FUTURE-ROADMAP.md)
 
 export function Roadmap() {
-  const [expandedSections, setExpandedSections] = useState<string[]>(['short-term']);
+  const [expandedSections, setExpandedSections] = useState<string[]>(['q2-2026']);
 
   const toggleSection = (section: string) => {
     setExpandedSections(prev =>
@@ -268,9 +268,9 @@ export function Roadmap() {
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100">
       {/* Hero Section */}
-      {/* Short-Term Section */}
-      {/* Medium-Term Section */}
-      {/* Long-Term Section */}
+      {/* Q2 2026 Section */}
+      {/* Q3 2026 Section */}
+      {/* Q4 2026 Section */}
       {/* Innovation Section */}
       {/* Footer */}
     </div>
@@ -286,14 +286,14 @@ export function Roadmap() {
 // Convert to TypeScript interfaces
 
 export const roadmapFeatures: Feature[] = [
-  // Short-Term (1-2 weeks)
+  // Q2 2026 (April-June)
   {
     id: 'help-system-completion',
     name: 'Complete Help System',
     description: 'Finish UI/UX tutorial, features documentation, and FAQ pages',
     status: 'Planned',
     priority: 'High',
-    timeline: '1-2 weeks',
+    timeline: 'Q2 2026 (April-June)',
     category: 'Core',
   },
   {
@@ -302,7 +302,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'Create comprehensive technical documentation with Opik integration evidence',
     status: 'Planned',
     priority: 'High',
-    timeline: '1-2 weeks',
+    timeline: 'Q2 2026 (April-June)',
     category: 'Core',
   },
   {
@@ -311,18 +311,18 @@ export const roadmapFeatures: Feature[] = [
     description: 'Add Help, Roadmap, and Tracker links to all navigation components',
     status: 'Planned',
     priority: 'High',
-    timeline: '1-2 weeks',
+    timeline: 'Q2 2026 (April-June)',
     category: 'Core',
   },
 
-  // Medium-Term (1-2 months)
+  // Q3 2026 (July-September)
   {
     id: 'ai-chatbot',
     name: 'AI Chatbot',
     description: 'Interactive chatbot for exercise explanations, form corrections, and workout guidance',
     status: 'Planned',
     priority: 'High',
-    timeline: '1-2 months',
+    timeline: 'Q3 2026 (July-September)',
     category: 'AI',
     starRating: 5,
   },
@@ -332,7 +332,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'Track meals, macros, and calories with AI macro estimation from food photos',
     status: 'Planned',
     priority: 'Medium',
-    timeline: '1-2 months',
+    timeline: 'Q3 2026 (July-September)',
     category: 'Core',
     starRating: 4.5,
   },
@@ -342,7 +342,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'Bluetooth scale integration, supplement tracking, body composition monitoring',
     status: 'Planned',
     priority: 'Medium',
-    timeline: '1-2 months',
+    timeline: 'Q3 2026 (July-September)',
     category: 'Innovation',
     starRating: 5,
   },
@@ -352,7 +352,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'Integrate with Technogym, Peloton, iFit, Echelon, and other gym equipment',
     status: 'Planned',
     priority: 'Medium',
-    timeline: '1-2 months',
+    timeline: 'Q3 2026 (July-September)',
     category: 'Innovation',
     starRating: 5,
   },
@@ -362,7 +362,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'GitHub-style progress graphs, detailed analytics, historical data visualization',
     status: 'Planned',
     priority: 'High',
-    timeline: '1-2 months',
+    timeline: 'Q3 2026 (July-September)',
     category: 'Core',
     starRating: 5,
   },
@@ -372,19 +372,19 @@ export const roadmapFeatures: Feature[] = [
     description: 'Share workouts to Instagram, TikTok, Twitter/X, Strava',
     status: 'Planned',
     priority: 'Medium',
-    timeline: '1-2 months',
+    timeline: 'Q3 2026 (July-September)',
     category: 'Social',
     starRating: 5,
   },
 
-  // Long-Term (3-6 months)
+  // Q4 2026 (October-December)
   {
     id: 'custom-workout-builder',
     name: 'Custom Workout Builder',
     description: 'Full control over workouts, exercise database, drag-and-drop builder',
     status: 'Planned',
     priority: 'Medium',
-    timeline: '3-6 months',
+    timeline: 'Q4 2026 (October-December)',
     category: 'Core',
     starRating: 5,
   },
@@ -394,7 +394,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'Guilds, dungeons, raids, boss battles, territory wars, team competitions',
     status: 'Planned',
     priority: 'Medium',
-    timeline: '3-6 months',
+    timeline: 'Q4 2026 (October-December)',
     category: 'Social',
     starRating: 5,
   },
@@ -404,7 +404,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'Free/Pre/Pro/Max tiers with different features and pricing',
     status: 'Planned',
     priority: 'Low',
-    timeline: '3-6 months',
+    timeline: 'Q4 2026 (October-December)',
     category: 'Monetization',
     starRating: 5,
   },
@@ -414,7 +414,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'Multi-category leaderboards, historical data, advanced filtering',
     status: 'Planned',
     priority: 'Medium',
-    timeline: '3-6 months',
+    timeline: 'Q4 2026 (October-December)',
     category: 'Social',
     starRating: 5,
   },
@@ -424,7 +424,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'Gym partnerships, IRL events, territory battles, local competitions',
     status: 'Planned',
     priority: 'Low',
-    timeline: '3-6 months',
+    timeline: 'Q4 2026 (October-December)',
     category: 'Innovation',
     starRating: 5,
   },
@@ -434,7 +434,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'Native iOS and Android apps with full feature parity',
     status: 'Planned',
     priority: 'Medium',
-    timeline: '3-6 months',
+    timeline: 'Q4 2026 (October-December)',
     category: 'Core',
     starRating: 5,
   },
@@ -444,7 +444,7 @@ export const roadmapFeatures: Feature[] = [
     description: 'Animated mascot, sound effects, enhanced visual identity',
     status: 'Planned',
     priority: 'Low',
-    timeline: '3-6 months',
+    timeline: 'Q4 2026 (October-December)',
     category: 'Core',
     starRating: 5,
   },
@@ -462,9 +462,9 @@ export const innovationFeatures = roadmapFeatures.filter(f => f.starRating);
 
 // Sections to implement:
 // 1. Hero with overall progress
-// 2. Short-Term (1-2 weeks) - 3 features
-// 3. Medium-Term (1-2 months) - 6 features
-// 4. Long-Term (3-6 months) - 8 features
+// 2. Q2 2026 (April-June) - 3 features
+// 3. Q3 2026 (July-September) - 6 features
+// 4. Q4 2026 (October-December) - 8 features
 // 5. Innovation Section - All features with star ratings
 ```
 
@@ -1150,7 +1150,7 @@ git push origin main
 ### Roadmap Page (1-1.5 hours)
 - ✅ Page created at `/roadmap`
 - ✅ All future features displayed
-- ✅ Timeline sections (short/medium/long-term)
+- ✅ Timeline sections (Q2, Q3, Q4 2026)
 - ✅ Innovation section with star ratings
 - ✅ Expandable sections for mobile
 - ✅ Glassmorphism design applied
@@ -1204,7 +1204,7 @@ git push origin main
 
 ### Roadmap Page Features
 - ✅ Timeline view of 17 planned features
-- ✅ Categorized by timeframe (short/medium/long-term)
+- ✅ Categorized by quarters (Q2, Q3, Q4 2026)
 - ✅ Innovation features with star ratings (4.5-5 stars)
 - ✅ Expandable sections for mobile
 - ✅ Glassmorphism design
@@ -1336,9 +1336,9 @@ Priority:
 
 ### Roadmap Stats
 ```
-Short-Term (1-2 weeks): 3 features
-Medium-Term (1-2 months): 6 features
-Long-Term (3-6 months): 8 features
+Q2 2026 (April-June): 3 features
+Q3 2026 (July-September): 6 features
+Q4 2026 (October-December): 8 features
 Total Planned: 17 features
 
 Innovation Features:

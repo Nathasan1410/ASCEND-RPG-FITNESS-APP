@@ -32,9 +32,9 @@
 
 **Features to Implement:**
 - Timeline view of 17 planned features
-- Short-Term section (1-2 weeks): 3 features
-- Medium-Term section (1-2 months): 6 features
-- Long-Term section (3-6 months): 8 features
+- Q2 2026 section (April-June): 3 features
+- Q3 2026 section (July-September): 6 features
+- Q4 2026 section (October-December): 8 features
 - Innovation section: All features with star ratings (4.5-5 stars)
 - Expandable sections for mobile-friendly experience
 - Glassmorphism design with brand colors
@@ -94,19 +94,22 @@
 2. Help System Completion (57% progress - 4/7 pages)
 
 **Planned (15 features):**
-1. AI Chatbot (⭐ 5/5)
-2. Nutrition Tracking (⭐ 4.5/5)
-3. IoT Scale Tracking (⭐ 5/5)
-4. Gym Tools Integration (⭐ 5/5)
-5. Better Stats Tracker (⭐ 5/5)
-6. Social Media Integration (⭐ 5/5)
-7. Custom Workout Builder (⭐ 5/5)
-8. Guild Features (⭐ 5/5)
-9. Monetization System (⭐ 5/5)
-10. Leaderboard 2.0 (⭐ 5/5)
-11. Real-World Integration (⭐ 5/5)
-12. Mobile Apps (⭐ 5/5)
-13. Brand Evolution (⭐ 5/5)
+1. Help System Completion (Q2 2026)
+2. GitBook Documentation (Q2 2026)
+3. Navigation Integration (Q2 2026)
+4. AI Chatbot (⭐ 5/5) - Q3 2026
+5. Nutrition Tracking (⭐ 4.5/5) - Q3 2026
+6. IoT Scale Tracking (⭐ 5/5) - Q3 2026
+7. Gym Tools Integration (⭐ 5/5) - Q3 2026
+8. Better Stats Tracker (⭐ 5/5) - Q3 2026
+9. Social Media Integration (⭐ 5/5) - Q3 2026
+10. Custom Workout Builder (⭐ 5/5) - Q4 2026
+11. Guild Features (⭐ 5/5) - Q4 2026
+12. Monetization System (⭐ 5/5) - Q4 2026
+13. Leaderboard 2.0 (⭐ 5/5) - Q4 2026
+14. Real-World Integration (⭐ 5/5) - Q4 2026
+15. Mobile Apps (⭐ 5/5) - Q4 2026
+16. Brand Evolution (⭐ 5/5) - Q4 2026
 
 ### 5. Navigation Integration Specifications
 **Files to Update:**
@@ -297,7 +300,7 @@ components/layout/MobileSystemNavbar.tsx
 
 **Roadmap Page Features:**
 - ✅ Timeline view of 17 planned features
-- ✅ Categorized by timeframe
+- ✅ Categorized by quarters (Q2, Q3, Q4 2026)
 - ✅ Innovation features with star ratings (4.5-5 stars)
 - ✅ Expandable sections for mobile
 - ✅ Glassmorphism design
