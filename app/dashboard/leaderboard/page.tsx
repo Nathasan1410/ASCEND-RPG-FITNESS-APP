@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { getLeaderboard } from "@/server/actions/leaderboard-actions";
 import { LeaderboardTable } from "@/components/leaderboard/LeaderboardTable";
+import { LeaderboardMobileFilters } from "@/components/leaderboard/LeaderboardMobileFilters";
 
 export default async function LeaderboardPage() {
   const supabase = await createClient();
@@ -20,10 +21,14 @@ export default async function LeaderboardPage() {
         </div>
       </div>
 
-      <LeaderboardTable 
-        entries={leaderboard as any} 
-        currentUserId={user?.id} 
-      />
+      <LeaderboardMobileFilters />
+
+      <div className="md:pt-0 pt-40">
+        <LeaderboardTable
+          entries={leaderboard as any}
+          currentUserId={user?.id}
+        />
+      </div>
     </div>
   );
 }
