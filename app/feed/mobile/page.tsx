@@ -94,9 +94,6 @@ export default function MobileFeedPage() {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      {/* Mobile Navigation Bar with Hamburger Menu */}
-      <MobileSystemNavbar />
-
       {/* Main Content - Strava Layout */}
       <main className="max-w-xl mx-auto">
         {/* Create Post Section - Collapsible */}
