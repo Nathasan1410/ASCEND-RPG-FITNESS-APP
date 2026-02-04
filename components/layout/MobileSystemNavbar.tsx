@@ -57,7 +57,7 @@ export function MobileSystemNavbar() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors"
+              className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors active:bg-white/20"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? (
@@ -128,18 +128,26 @@ export function MobileSystemNavbar() {
                       key={item.href}
                       onClick={() => handleNavClick(item.href)}
                       className={cn(
-                        "w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all",
+                        "w-full flex items-center gap-4 px-4 py-3 min-h-[48px] rounded-xl transition-all duration-300 relative",
                         isActive
-                          ? "bg-system-cyan text-void-deep shadow-[0_0_15px_rgba(0,255,255,0.3)]"
-                          : "hover:bg-white/10 text-white/80"
+                          ? "bg-system-cyan/10 border border-system-cyan/30 text-white shadow-[0_0_15px_rgba(0,255,255,0.2)]"
+                          : "hover:bg-white/10 text-white/80 active:bg-white/15"
                       )}
                     >
-                      <Icon className="w-6 h-6 flex-shrink-0" />
-                      <span className="flex-1 text-left font-medium text-base">
+                      <Icon className={cn(
+                        "w-6 h-6 flex-shrink-0 transition-all",
+                        isActive
+                          ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]"
+                          : "text-white/60"
+                      )} />
+                      <span className={cn(
+                        "flex-1 text-left font-medium text-base transition-all",
+                        isActive ? "text-white" : "text-white/70"
+                      )}>
                         {item.label}
                       </span>
                       {hasNotification && (
-                        <span className="w-6 h-6 rounded-full bg-status-danger flex items-center justify-center text-xs font-bold text-white">
+                        <span className="w-6 h-6 min-w-[24px] rounded-full bg-status-danger flex items-center justify-center text-xs font-bold text-white shadow-lg">
                           {unreadCount > 9 ? '9+' : unreadCount}
                         </span>
                       )}
@@ -154,7 +162,7 @@ export function MobileSystemNavbar() {
                   onClick={() => {
                     handleNavClick(`/profile/me`);
                   }}
-                  className="w-full flex items-center gap-4 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-white/80"
+                  className="w-full flex items-center gap-4 px-4 py-3 min-h-[48px] rounded-xl bg-white/5 hover:bg-white/10 active:bg-white/15 transition-colors text-white/80"
                 >
                   <User className="w-6 h-6 flex-shrink-0" />
                   <span className="flex-1 text-left font-medium text-base">
@@ -163,7 +171,7 @@ export function MobileSystemNavbar() {
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-status-danger/10 transition-colors text-status-danger mt-2"
+                  className="w-full flex items-center gap-4 px-4 py-3 min-h-[48px] rounded-xl hover:bg-status-danger/10 active:bg-status-danger/20 transition-colors text-status-danger mt-2"
                 >
                   <X className="w-6 h-6 flex-shrink-0" />
                   <span className="flex-1 text-left font-medium text-base">

@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import type { FeedFilters } from "@/types/social";
 import { cn } from "@/lib/utils/cn";
+import { ActiveFilterChips } from "@/components/ui/ActiveFilterChips";
+import { X } from "lucide-react";
 
 interface FeedFilterBarProps {
   filters: FeedFilters;
@@ -61,8 +64,28 @@ export function FeedFilterBar({ filters, onFiltersChange }: FeedFilterBarProps) 
         />
       </div>
 
+      {/* Active Filters Chips */}
+      <ActiveFilterChips
+        filters={filters}
+        onRemoveFilter={(key) => {
+          if (key === 'postType') onFiltersChange({ ...filters, postType: 'all' });
+          else if (key === 'rankFilter') onFiltersChange({ ...filters, rankFilter: 'all' });
+          else if (key === 'timeRange') onFiltersChange({ ...filters, timeRange: 'all' });
+          else if (key === 'verifiedOnly') onFiltersChange({ ...filters, verifiedOnly: false });
+          else if (key === 'friendsOnly') onFiltersChange({ ...filters, friendsOnly: false });
+        }}
+        onClearAll={() => onFiltersChange({
+          postType: 'all',
+          rankFilter: 'all',
+          verifiedOnly: false,
+          friendsOnly: false,
+          timeRange: 'all',
+          guildFilter: null,
+        })}
+      />
+
       <div className="border-t border-white/10 pt-4 space-y-3">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-4">
           <ToggleSwitch
             label="Verified Hunters Only"
             checked={filters.verifiedOnly}
@@ -112,19 +135,20 @@ function FilterSection({
       </label>
       <div className="flex flex-wrap gap-2">
         {options.map((option) => (
-          <button
+          <motion.button
             key={option.value}
             onClick={() => onChange(option.value)}
-            className={`
-              px-3 py-2 rounded-lg text-sm font-medium transition-all
-              ${selected === option.value
-                ? 'bg-system-cyan text-void-deep border-system-cyan'
-                : 'bg-void-deep border-white/20 text-white/70 hover:border-white/40'
-              }
-            `}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className={cn(
+              "px-3 py-2 rounded-lg text-sm font-medium border transition-all duration-300",
+              selected === option.value
+                ? "bg-system-cyan text-void-deep border-system-cyan shadow-[0_0_10px_rgba(0,255,255,0.3)] scale-105"
+                : "bg-void-deep border-white/20 text-white/70 hover:border-white/40 hover:bg-white/5"
+            )}
           >
             {option.label}
-          </button>
+          </motion.button>
         ))}
       </div>
     </div>
@@ -141,24 +165,34 @@ function ToggleSwitch({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="flex items-center gap-2 cursor-pointer">
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
-        className="sr-only"
-      />
-      <div className={`
-        relative w-10 h-6 rounded-full transition-all
-        ${checked ? 'bg-system-cyan' : 'bg-void-deep border-2'}
-      `}>
-        <div
-          className={`absolute left-0.5 top-0.5 w-5 h-5 rounded-full transition-all ${
-            checked ? 'left-5 opacity-100' : 'opacity-0'
-          }`}
+    <label className="flex items-center gap-3 cursor-pointer group">
+      <div className="relative">
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          className="sr-only"
         />
+        <div className={cn(
+          "w-12 h-7 rounded-full transition-all duration-300 relative",
+          checked 
+            ? "bg-system-cyan shadow-[0_0_10px_rgba(0,255,255,0.4)]"
+            : "bg-void-deep border-2 border-white/20"
+        )}>
+          <motion.div
+            animate={{ x: checked ? 20 : 2 }}
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            className={cn(
+              "absolute top-0.5 w-6 h-6 rounded-full transition-colors",
+              checked ? "bg-void-deep" : "bg-white/40"
+            )}
+          />
+        </div>
       </div>
-      <span className="text-sm text-white/70">
+      <span className={cn(
+        "text-sm font-medium transition-colors",
+        checked ? "text-white" : "text-white/60 group-hover:text-white/80"
+      )}>
         {label}
       </span>
     </label>

@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Radio, Home, Users, Zap, Shield, ArrowRight, Wrench, Clock, ThumbsUp, MessageCircle, Bookmark, MoreHorizontal, Settings } from "lucide-react";
+import { Radio, Home, Users, Zap, Shield, ArrowRight, Wrench, Clock, ThumbsUp, MessageCircle, Bookmark } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils/cn";
 import { HunterFeedCard } from "@/components/social/HunterFeedCard";
 import type { HunterPost } from "@/types/social";
+import { SystemNavbar } from "@/components/layout/SystemNavbar";
 
 export default function WebFeedPage() {
   const [posts] = useState<HunterPost[]>([
@@ -147,73 +147,7 @@ export default function WebFeedPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Top Navbar - Strava Style */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-system-cyan to-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-2xl">🧪</span>
-            </div>
-            <div>
-              <h1 className="font-display font-bold text-white text-lg tracking-wider">ASCEND</h1>
-              <p className="text-xs text-gray-400">Fitness RPG</p>
-            </div>
-          </div>
-
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
-            >
-              <Home className="w-4 h-4 text-gray-400" />
-              <span className="text-sm text-white/80 hover:text-white">Dashboard</span>
-            </Link>
-            <Link
-              href="/feed/mobile"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
-            >
-              <Radio className="w-4 h-4 text-gray-400" />
-              <span className="text-sm text-white/80 hover:text-white">Mobile Feed</span>
-            </Link>
-            <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-system-cyan/5 border border-system-cyan/20">
-              <Radio className="w-4 h-4 text-system-cyan" />
-              <span className="text-sm text-system-cyan font-medium">Hunter Network</span>
-              <span className="ml-auto bg-yellow-500/20 text-yellow-400 text-[10px] px-2 py-0.5 rounded-full font-bold">
-                PREVIEW
-              </span>
-            </div>
-            <Link
-              href="/dashboard/leaderboard"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
-            >
-              <Shield className="w-4 h-4 text-gray-400" />
-              <span className="text-sm text-white/80 hover:text-white">Leaderboard</span>
-            </Link>
-            <Link
-              href="/settings"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
-            >
-              <Settings className="w-4 h-4 text-gray-400" />
-              <span className="text-sm text-white/80 hover:text-white">Settings</span>
-            </Link>
-          </nav>
-
-          {/* User Actions */}
-          <div className="flex items-center gap-4">
-            <button className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
-              <Users className="w-5 h-5 text-gray-400" />
-            </button>
-            <button className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
-              <Zap className="w-5 h-5 text-gray-400" />
-            </button>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <span className="text-sm font-bold text-white">H</span>
-            </div>
-          </div>
-        </div>
-      </header>
+      <SystemNavbar />
 
       {/* Main Content - 3 Column Strava Layout */}
       <main className="pt-20 pb-12">

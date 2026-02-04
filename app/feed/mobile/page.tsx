@@ -6,14 +6,24 @@ import { motion } from "framer-motion";
 import { HunterFeedCard } from "@/components/social/HunterFeedCard-Mobile";
 import { CreatePostSection } from "@/components/social/CreatePostSection-Mobile";
 import { MobileSystemNavbar } from "@/components/layout/MobileSystemNavbar";
+import { MobileFilterBar } from "@/components/social/MobileFilterBar";
 import { FeedSkeletonLoader, EmptyFeedState } from "@/components/loading/FeedSkeletonLoader";
 import { StravaMobileNav } from "@/components/layout/StravaMobileNav";
 import { createClient } from "@/lib/supabase/client";
+import type { FeedFilters } from "@/types/social";
 
 export default function MobileFeedPage() {
   const [username, setUsername] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [filters, setFilters] = useState<FeedFilters>({
+    postType: 'all',
+    rankFilter: 'all',
+    verifiedOnly: false,
+    friendsOnly: false,
+    timeRange: 'all',
+    guildFilter: null,
+  });
 
   const navItems = [
     {
@@ -122,11 +132,17 @@ export default function MobileFeedPage() {
   return (
     <div className="min-h-screen bg-background pb-20">
       <MobileSystemNavbar />
-      
+
       {/* Main Content - Strava Layout */}
       <main className="max-w-xl mx-auto">
         {/* Create Post Section - Collapsible */}
         <CreatePostSection username={username} />
+
+        {/* Mobile Filter Bar */}
+        <MobileFilterBar
+          filters={filters}
+          onFiltersChange={setFilters}
+        />
 
         {/* Feed Posts */}
         <div className="space-y-0">

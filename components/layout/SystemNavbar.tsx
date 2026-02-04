@@ -40,35 +40,58 @@ export function SystemNavbar() {
         </div>
 
         {/* Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-1">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
+              pathname === "/dashboard"
+                ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
+            )}
           >
-            <Home className="w-4 h-4 text-gray-400" />
-            <span className="text-sm text-white/80 hover:text-white">Dashboard</span>
+            <Home className={cn(
+              "w-5 h-5 transition-all",
+              pathname === "/dashboard" 
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+                : "text-white/60"
+            )} />
+            <span className="text-sm font-medium">Dashboard</span>
           </Link>
           <Link
             href="/feed/mobile"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
+              pathname?.includes("/feed/mobile")
+                ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
+            )}
           >
-            <Radio className="w-4 h-4 text-gray-400" />
-            <span className="text-sm text-white/80 hover:text-white">Mobile Feed</span>
+            <Radio className={cn(
+              "w-5 h-5 transition-all",
+              pathname?.includes("/feed/mobile") 
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+                : "text-white/60"
+            )} />
+            <span className="text-sm font-medium">Mobile Feed</span>
           </Link>
           <Link
             href="/feed"
             className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-lg",
-              pathname?.includes("/feed") 
-                ? "bg-system-cyan/5 border border-system-cyan/20"
-                : "hover:bg-white/5"
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
+              pathname === "/feed"
+                ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
             )}
           >
-            <Radio className={cn("w-4 h-4", pathname?.includes("/feed") ? "text-system-cyan" : "text-gray-400")} />
-            <span className={cn("text-sm font-medium", pathname?.includes("/feed") ? "text-system-cyan" : "text-white/80 hover:text-white")}>
-              Hunter Network
-            </span>
-            {pathname?.includes("/feed") && (
+            <Radio className={cn(
+              "w-5 h-5 transition-all",
+              pathname === "/feed" 
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+                : "text-white/60"
+            )} />
+            <span className="text-sm font-medium">Hunter Network</span>
+            {pathname === "/feed" && (
               <span className="ml-auto bg-yellow-500/20 text-yellow-400 text-[10px] px-2 py-0.5 rounded-full font-bold">
                 PREVIEW
               </span>
@@ -76,17 +99,37 @@ export function SystemNavbar() {
           </Link>
           <Link
             href="/dashboard/leaderboard"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
+              pathname === "/dashboard/leaderboard"
+                ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
+            )}
           >
-            <Shield className="w-4 h-4 text-gray-400" />
-            <span className="text-sm text-white/80 hover:text-white">Leaderboard</span>
+            <Shield className={cn(
+              "w-5 h-5 transition-all",
+              pathname === "/dashboard/leaderboard" 
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+                : "text-white/60"
+            )} />
+            <span className="text-sm font-medium">Leaderboard</span>
           </Link>
           <Link
             href="/settings"
-            className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-white/5 transition-colors"
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
+              pathname === "/settings"
+                ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
+            )}
           >
-            <Settings className="w-4 h-4 text-gray-400" />
-            <span className="text-sm text-white/80 hover:text-white">Settings</span>
+            <Settings className={cn(
+              "w-5 h-5 transition-all",
+              pathname === "/settings" 
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+                : "text-white/60"
+            )} />
+            <span className="text-sm font-medium">Settings</span>
           </Link>
         </nav>
 
