@@ -1105,9 +1105,9 @@ git add .
 git commit -m "feat: Add Roadmap and Implementation Tracker pages
 
 - Created Roadmap page with timeline view of future features
-  - Short-term (1-2 weeks): 3 features
-  - Medium-term (1-2 months): 6 features
-  - Long-term (3-6 months): 8 features
+  - Q2 2026 (April-June): 3 features
+  - Q3 2026 (July-September): 6 features
+  - Q4 2026 (October-December): 8 features
   - Innovation section with star ratings
   - Expandable sections for mobile-friendly experience
   - Glassmorphism design with brand colors
