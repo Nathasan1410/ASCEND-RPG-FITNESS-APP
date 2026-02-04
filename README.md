@@ -1,9 +1,85 @@
-# THE SYSTEM - DOCUMENTATION INDEX
-> **Version:** 2.0  
-> **Last Updated:** Feb 1, 2026  
-> **Changelog:** Added Anti-Cheat System documentation across all files
+# ASCEND: FITNESS RPG
 
-## Quick Reference
+> **Turn Workouts into Epic Quests**
+
+---
+
+## 🚀 Quick Start
+
+### Demo Accounts
+Try ASCEND with pre-configured hunter accounts (all use password: `Test123!`):
+- **S-Rank:** shadowhunter@test.com, phantomblade@test.com
+- **A-Rank:** thunderstrike@test.com, frostwarrior@test.com
+- **B-Rank:** swiftwolf@test.com, cyberdragon@test.com
+- **C-Rank:** swiftninja@test.com, cyberwolf@test.com
+
+**[View All 24 Demo Accounts](app/help/demo-accounts)**
+
+---
+
+## 🎯 Hackathon Documentation
+
+### Complete Technical Documentation
+
+**GitBook Documentation** (11 sections with Opik evidence):
+- **[GitBook README](gitbook/README.md)** - Complete project overview with:
+  - Tech stack badges (Next.js, React, TypeScript, Supabase, Groq, Opik)
+  - Mermaid architecture diagrams
+  - Quick start with demo accounts
+  - Links to all 11 documentation sections
+- **[Getting Started](gitbook/1-Getting-Started/)** - Quick start, installation, demo accounts
+- **[Architecture](gitbook/2-Architecture/)** - System overview, frontend, backend, AI integration
+- **[Database](gitbook/3-Database/)** - Schema, RLS policies, relationships
+- **[Features](gitbook/4-Features/)** - Quest system, gamification, social, leaderboard, anti-cheat
+- **[Security](gitbook/5-Security/)** - Authentication, RLS, API security, proof validation
+- **[Performance](gitbook/6-Performance/)** - Frontend optimization, Opik monitoring
+- **[AI Implementation](gitbook/7-AI-Implementation/)** - Groq quest generation, Opik AI judge, traces
+- **[Testing](gitbook/8-Testing/)** - Unit, integration, load testing
+- **[Code Examples](gitbook/9-Code-Examples/)** - Server actions, components, hooks
+- **[Innovation](gitbook/10-Innovation/)** - Key innovations, future roadmap
+
+### User-Facing Help System
+
+**Help Center** (7 pages with glassmorphism design):
+- **[Help Center](app/help)** - Main hub with search
+- **[UI/UX Guide](app/help/ui-ux)** - Navigation, screens, design examples, accessibility
+- **[Features](app/help/features)** - Quest system, gamification, social features
+- **[FAQ](app/help/faq)** - 6 categories (30+ questions)
+- **[Getting Started](app/help/getting-started)** - 5-minute onboarding
+- **[Demo Accounts](app/help/demo-accounts)** - 24 accounts with filters
+- **[Opik Transparency](app/help/opik)** - Privacy-first AI monitoring
+
+### Key Highlights for Hackathon Judges
+
+**Opik Bonus Category** ($5,000):
+- ✅ Quest generation traces documented
+- ✅ AI judge evaluation traces (form, effort, consistency factors)
+- ✅ Performance monitoring (API response time, database query time)
+- ✅ Error tracking (global handler with traces)
+- ✅ User rights (dashboard access, opt-out, data deletion)
+- ✅ Goal alignment demonstration
+
+**Documentation Quality**:
+- ✅ Architecture diagrams using Mermaid
+- ✅ Code examples with syntax highlighting
+- ✅ Mobile-responsive design documented
+- ✅ Comprehensive technical coverage (11 sections)
+- ✅ Professional formatting throughout
+
+**Real-World Relevance**:
+- ✅ Problem statement: Lack of motivation in fitness
+- ✅ Solution: AI-powered gamified workout system
+- ✅ User testimonials and demo accounts
+- ✅ Innovation: Unique combination of RPG + AI + Fitness
+
+---
+
+## 📚 Documentation Files
+- **[Quick Start Guide](app/help/getting-started)** - 5-minute onboarding
+
+---
+
+## 📚 Documentation
 
 **Project:** The System - AI Hunter Gym  
 **Duration:** 7 Days (Feb 1-8, 2026)  
