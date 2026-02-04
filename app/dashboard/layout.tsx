@@ -1,5 +1,4 @@
-import { SystemNavbar } from "@/components/layout/SystemNavbar";
-import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
+import { MobileSystemNavbar } from "@/components/layout/MobileSystemNavbar";
 
 export default function DashboardLayout({
   children,
@@ -8,8 +7,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <StravaMobileNavbar />
-      <MobileBottomNav />
+      <MobileSystemNavbar />
       
       <main className="flex-1 p-4 md:p-6 max-w-7xl mx-auto w-full pb-20 md:pb-6">
         {children}

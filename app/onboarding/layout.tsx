@@ -1,3 +1,4 @@
+import { MobileSystemNavbar } from "@/components/layout/MobileSystemNavbar";
 export default function OnboardingLayout({
   children,
 }: Readonly<{
@@ -5,6 +6,7 @@ export default function OnboardingLayout({
 }>) {
   return (
     <div className="min-h-screen">
+      <MobileSystemNavbar />
       {children}
     </div>
   );

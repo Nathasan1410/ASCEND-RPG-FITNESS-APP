@@ -1,4 +1,5 @@
-import { SystemNavbar, MobileBottomNav } from "@/components/layout/SystemNavbar";
+import { SystemNavbar } from "@/components/layout/SystemNavbar";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import Link from "next/link";
 
 export default function ProfileMeLayout({
