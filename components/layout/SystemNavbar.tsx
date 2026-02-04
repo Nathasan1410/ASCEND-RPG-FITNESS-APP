@@ -109,7 +109,7 @@ export function SystemNavbar() {
         <div className="fixed right-6 top-16 z-40 w-56 bg-[#0a0a0f] border border-white/10 rounded-xl shadow-2xl overflow-hidden backdrop-blur-md">
           <div className="p-2 space-y-1">
             <Link
-              href={`/profile/${username}`}
+              href={`/profile/me`}
               className="block px-3 py-2 text-sm text-white/80 hover:bg-white/15 hover:text-white rounded transition-colors"
             >
               <div className="flex items-center gap-2">

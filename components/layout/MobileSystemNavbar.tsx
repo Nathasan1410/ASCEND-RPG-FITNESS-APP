@@ -152,7 +152,7 @@ export function MobileSystemNavbar() {
               <div className="p-4 border-t border-white/10">
                 <button
                   onClick={() => {
-                    handleNavClick(`/profile/${username}`);
+                    handleNavClick(`/profile/me`);
                   }}
                   className="w-full flex items-center gap-4 px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 transition-colors text-white/80"
                 >
