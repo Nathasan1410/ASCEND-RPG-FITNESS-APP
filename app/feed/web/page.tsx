@@ -1,9 +1,12 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Radio, Home, Users, Zap, Shield, ArrowRight, Wrench, Clock } from "lucide-react";
+import { Radio, Home, Users, Zap, Shield, ArrowRight, Wrench, Clock, ThumbsUp, MessageCircle, Bookmark, MoreHorizontal } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
+import { HunterFeedCard } from "@/components/social/HunterFeedCard";
+import type { HunterPost } from "@/types/social";
 
 export default function WebFeedPlaceholderPage() {
   return (
