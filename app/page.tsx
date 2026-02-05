@@ -2,36 +2,56 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Github, Twitter, Instagram, Linkedin, BarChart3, MapPin, HelpCircle, BookOpen, Zap, Award, Shield, MessageCircle, User, Users, Clock, Play, Camera } from "lucide-react";
+import { ArrowRight, Github, Twitter, Instagram, Linkedin, BookOpen, Zap, Award, Shield, MessageCircle, User, Users, Clock, Play, Camera } from "lucide-react";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { motion, AnimatePresence } from "framer-motion";
-import LightPillar from "@/components/effects/LightPillar";
+import LaserFlow from "@/components/laserFlow";
+import { useSnapCarousel } from 'react-snap-carousel';
 
 export default function LandingPage() {
   const [showAuth, setShowAuth] = useState(false);
+  const { scrollRef, next, prev, goTo, pages, activePageIndex } = useSnapCarousel();
 
   return (
-    <main className="min-h-screen flex flex-col relative overflow-hidden">
-      <div className="flex-1 flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 w-full h-full bg-void-deep">
-          <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-            <LightPillar
-              topColor="#00b8ff"
-              bottomColor="#bd00ff"
-              intensity={1}
-              rotationSpeed={0.3}
-              glowAmount={0.002}
-              pillarWidth={3}
-              pillarHeight={0.4}
-              noiseIntensity={0.5}
-              pillarRotation={25}
-              interactive={false}
-              mixBlendMode="screen"
-              quality="high"
+    <main className="min-h-screen flex flex-col relative bg-void-deep">
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <LaserFlow
+          color="#00b8ff"
+          wispDensity={2.0}
+          flowSpeed={1.4}
+          verticalSizing={4.5}
+          horizontalSizing={3.5}
+          fogIntensity={1.5}
+          fogScale={0.25}
+          wispSpeed={30}
+          wispIntensity={8.0}
+          flowStrength={0.3}
+          decay={1.5}
+          horizontalBeamOffset={0.0}
+          verticalBeamOffset={-0.48}
+          dpr={typeof window !== 'undefined' ? window.devicePixelRatio : 1}
+          className="w-full h-full"
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
+
+      <header className="relative z-30 p-6">
+        <Link href="/" className="inline-flex items-center gap-3 group hover:opacity-90 transition-opacity">
+          <div className="relative w-12 h-12 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(0,184,255,0.4)] group-hover:shadow-[0_0_30px_rgba(0,184,255,0.6)] transition-all">
+            <img
+              src="/img/logo.jpg"
+              alt="ASCEND Logo"
+              className="w-full h-full object-cover"
             />
           </div>
-        </div>
+          <div>
+            <h1 className="text-2xl font-display font-bold text-white tracking-tight">ASCEND</h1>
+            <p className="text-xs text-white/60 font-mono">Fitness RPG</p>
+          </div>
+        </Link>
+      </header>
 
+      <div className="flex-1 flex items-center justify-center relative overflow-hidden z-10">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
@@ -63,18 +83,34 @@ export default function LandingPage() {
             <ArrowRight className="w-4 h-4 text-white/40 group-hover:text-white transition-colors flex-shrink-0" />
           </a>
 
+          <a
+            href="https://nathasan1410.gitbook.io/ascend-fitness-rpg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all mb-3 group"
+          >
+            <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+              <BookOpen className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-sm font-bold text-white truncate">Documentation</div>
+              <div className="text-xs text-white/60 truncate">Technical GitBook</div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-white/40 group-hover:text-white transition-colors flex-shrink-0" />
+          </a>
+
           <div className="space-y-2 mb-5">
             <a
-              href="https://twitter.com/ascend_fitness"
+              href="https://x.com/NthnaelSan"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all group"
             >
               <Twitter className="w-4 h-4 text-white/60 group-hover:text-white transition-colors flex-shrink-0" />
-              <span className="text-sm text-white/80 group-hover:text-white transition-colors truncate flex-1">Twitter</span>
+              <span className="text-sm text-white/80 group-hover:text-white transition-colors truncate flex-1">Twitter/X</span>
             </a>
             <a
-              href="https://instagram.com/ascend.fitness"
+              href="https://www.instagram.com/nthnael.san/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all group"
@@ -83,7 +119,7 @@ export default function LandingPage() {
               <span className="text-sm text-white/80 group-hover:text-white transition-colors truncate flex-1">Instagram</span>
             </a>
             <a
-              href="https://linkedin.com/company/ascend-fitness"
+              href="https://www.linkedin.com/in/nathanaelsantoso/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all group"
@@ -115,109 +151,52 @@ export default function LandingPage() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="fixed right-4 top-1/2 -translate-y-1/2 w-72 bg-void-deep/90 backdrop-blur-xl border border-white/10 rounded-2xl p-5 hidden lg:block z-20"
-        >
-          <div className="mb-5 pb-4 border-b border-white/10">
-            <h3 className="text-base font-bold text-white mb-1">
-              Explore
-            </h3>
-            <p className="text-xs text-white/60">
-              Discover what's possible
-            </p>
-          </div>
-
-          <Link
-            href="/tracker"
-            className="flex items-center gap-3 p-3 bg-gradient-to-r from-system-cyan/20 to-blue-600/20 hover:from-system-cyan/30 hover:to-blue-600/30 border border-system-cyan/30 rounded-xl transition-all mb-3 group"
-          >
-            <div className="w-9 h-9 rounded-lg bg-system-cyan/20 flex items-center justify-center flex-shrink-0">
-              <BarChart3 className="w-5 h-5 text-system-cyan group-hover:scale-110 transition-transform" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-bold text-white group-hover:text-system-cyan transition-colors truncate">
-                Implementation Tracker
-              </div>
-              <div className="text-xs text-white/60 truncate">View development progress</div>
-            </div>
-          </Link>
-
-          <a
-            href="https://ascend-fitness-rpg.gitbook.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all mb-3 group"
-          >
-            <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-              <BookOpen className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-sm font-bold text-white group-hover:text-system-cyan transition-colors truncate">
-                Documentation
-              </div>
-              <div className="text-xs text-white/60 truncate">Technical GitBook</div>
-            </div>
-            <ArrowRight className="w-4 h-4 text-white/40 group-hover:text-white transition-colors flex-shrink-0" />
-          </a>
-
-          <div className="border-t border-white/10 pt-4 mt-3">
-            <h4 className="text-xs font-bold text-white mb-2.5">
-              Quick Navigation
-            </h4>
-            <div className="space-y-2">
-              <Link
-                href="/roadmap"
-                className="flex items-center gap-3 p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all group"
-              >
-                <MapPin className="w-4 h-4 text-white/60 group-hover:text-system-cyan transition-colors flex-shrink-0" />
-                <span className="text-sm text-white/80 group-hover:text-white transition-colors truncate flex-1">Roadmap</span>
-              </Link>
-              <Link
-                href="/help"
-                className="flex items-center gap-3 p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all group"
-              >
-                <HelpCircle className="w-4 h-4 text-white/60 group-hover:text-system-cyan transition-colors flex-shrink-0" />
-                <span className="text-sm text-white/80 group-hover:text-white transition-colors truncate flex-1">Help Center</span>
-              </Link>
-              <Link
-                href="/help/demo-accounts"
-                className="flex items-center gap-3 p-2.5 bg-white/5 hover:bg-white/10 rounded-xl transition-all group"
-              >
-                <Users className="w-4 h-4 text-white/60 group-hover:text-system-cyan transition-colors flex-shrink-0" />
-                <span className="text-sm text-white/80 group-hover:text-white transition-colors truncate flex-1">Demo Accounts</span>
-              </Link>
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="max-w-4xl mx-auto space-y-6 z-10 p-4"
+          className="w-[85vw] max-w-[75vw] mx-auto z-10 p-4 relative"
         >
-          <motion.div
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            <h1 className="text-7xl md:text-9xl font-display font-bold tracking-tighter mb-4">
-              <span className="text-system-cyan">ASCEND</span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/40 font-mono uppercase tracking-[0.3em] mb-6">
-              Fitness RPG
-            </p>
-          </motion.div>
+          <div className="relative bg-gradient-to-br from-void-deep/90 via-void-deep/95 to-void-deep/90 backdrop-blur-2xl border-4 border-white/20 rounded-2xl py-[120px] px-[20px] shadow-[0_0_60px_rgba(0,184,255,0.3)] overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-system-cyan/5 via-transparent to-blue-600/5 pointer-events-none" />
+            
+            <div className="absolute top-0 left-0 w-16 h-16 border-t-4 border-l-4 border-system-cyan/50 rounded-tl-2xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-16 h-16 border-t-4 border-r-4 border-system-cyan/50 rounded-tr-2xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-16 h-16 border-b-4 border-l-4 border-system-cyan/50 rounded-bl-2xl pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-16 h-16 border-b-4 border-r-4 border-system-cyan/50 rounded-br-2xl pointer-events-none" />
+            
+            <div className="absolute inset-0 border-2 border-white/5 rounded-xl pointer-events-none" />
+            
+            <div className="relative z-10 text-center">
+              <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+              >
+                <h1 className="text-7xl md:text-9xl font-display font-bold tracking-tighter mb-4 relative inline-block">
+                  <span className="text-system-cyan drop-shadow-[0_0_40px_rgba(0,184,255,0.9)] animate-pulse hover:drop-shadow-[0_0_60px_rgba(0,184,255,1)] transition-all duration-300">ASCEND</span>
+                </h1>
+                <p className="text-2xl md:text-3xl text-white/50 font-mono uppercase tracking-[0.3em] mb-8">
+                  Fitness RPG
+                </p>
+              </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-2xl md:text-3xl text-white/70 max-w-2xl mx-auto leading-relaxed"
-          >
-            Turn Workouts into Epic Quests. Earn XP, level up, and climb the hunter rankings.
-          </motion.p>
+              <motion.div
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5, duration: 0.6, type: "spring" }}
+                className="absolute top-6 right-6 w-12 h-12 rounded-full bg-system-cyan/20 backdrop-blur-xl border-2 border-system-cyan/50 flex items-center justify-center shadow-[0_0_20px_rgba(0,184,255,0.4)]"
+              >
+                <span className="text-system-cyan font-bold text-xl">!</span>
+              </motion.div>
+            </div>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="text-xl md:text-2xl text-white/70 max-w-2xl mx-auto leading-relaxed"
+            >
+              Turn Workouts into Epic Quests. Earn XP, level up, and climb the hunter rankings.
+            </motion.p>
 
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -239,6 +218,7 @@ export default function LandingPage() {
               Try Demo Accounts
             </Link>
           </motion.div>
+          </div>
         </motion.div>
       </div>
 
@@ -247,7 +227,7 @@ export default function LandingPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ delay: 0.2, duration: 0.8 }}
-        className="py-24 px-4 max-w-7xl mx-auto"
+        className="py-24 px-4 max-w-7xl mx-auto relative z-10"
       >
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
@@ -258,7 +238,7 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { icon: Zap, title: "AI-Powered Quests", desc: "Personalized workouts by Groq AI" },
             { icon: Award, title: "Gamification", desc: "Earn XP, level up, unlock ranks" },
@@ -275,7 +255,7 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 + index * 0.1, duration: 0.6 }}
-                className="bg-void-deep/50 border border-white/10 rounded-2xl p-6 hover:border-system-cyan/30 hover:bg-white/5 transition-all group"
+                className="bg-void-deep/80 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 hover:border-system-cyan/30 hover:bg-void-deep/90 transition-all group shadow-2xl"
               >
                 <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-system-cyan/20 to-blue-600/20 border border-system-cyan/30 flex items-center justify-center mb-4">
                   <Icon className="w-7 h-7 text-system-cyan group-hover:scale-110 transition-transform" />
@@ -297,7 +277,7 @@ export default function LandingPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ delay: 0.3, duration: 0.8 }}
-        className="py-24 px-4 max-w-7xl mx-auto"
+        className="py-24 px-0 max-w-full mx-auto relative z-10 overflow-hidden"
       >
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
@@ -308,7 +288,13 @@ export default function LandingPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+          ref={scrollRef}
+          className="flex overflow-x-auto scroll-smooth scrollbar-hide px-[15vw] md:px-[20vw]"
+          style={{
+            scrollSnapType: 'x mandatory'
+          }}
+        >
           {[
             { id: 1, title: "Dashboard", desc: "Your fitness command center" },
             { id: 2, title: "AI Quest Generation", desc: "Personalized workout quests" },
@@ -323,11 +309,13 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 + index * 0.1, duration: 0.6 }}
-              className="bg-void-deep/50 border border-white/10 rounded-2xl overflow-hidden group"
+              whileHover={{ scale: 1.02 }}
+              className="flex-shrink-0 w-[70vw] md:w-[60vw] lg:w-[50vw] aspect-video bg-void-deep/80 backdrop-blur-2xl border border-white/10 overflow-hidden group shadow-2xl hover:shadow-[0_0_30px_rgba(0,184,255,0.4)] mx-3"
+              style={{ scrollSnapAlign: 'center' }}
             >
-              <div className="relative w-full aspect-video bg-gradient-to-br from-system-cyan/20 to-blue-600/20 flex items-center justify-center">
+              <div className="relative w-full h-full bg-gradient-to-br from-system-cyan/20 to-blue-600/20 flex items-center justify-center group-hover:shadow-[0_0_50px_rgba(0,184,255,0.6)] transition-all duration-300">
                 <div className="text-center">
-                  <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-xl border-2 border-white/20 flex items-center justify-center mb-3">
+                  <div className="w-16 h-16 bg-white/10 backdrop-blur-xl border-2 border-white/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                     <Camera className="w-8 h-8 text-white/40" />
                   </div>
                   <p className="text-sm font-bold text-white/80">
@@ -339,16 +327,44 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <div className="p-5">
-                <h3 className="text-base font-bold text-white mb-2 group-hover:text-system-cyan transition-colors">
+              <div className="p-6 pb-8 absolute bottom-0 left-0 right-0">
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-system-cyan transition-colors">
                   {screenshot.title}
                 </h3>
-                <p className="text-sm text-white/60">
+                <p className="text-base text-white/60">
                   {screenshot.desc}
                 </p>
               </div>
             </motion.div>
           ))}
+        </div>
+
+        <div className="flex justify-center gap-4 mt-8">
+          <button
+            onClick={(e) => { e.preventDefault(); prev(); }}
+            disabled={activePageIndex === 0}
+            className="p-3 bg-void-deep/80 backdrop-blur-2xl border border-white/10 rounded-lg hover:border-system-cyan/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-2xl"
+          >
+            <ArrowRight className="w-6 h-6 text-white rotate-180" />
+          </button>
+          {pages.map((_, index) => (
+            <button
+              key={index}
+              onClick={(e) => { e.preventDefault(); goTo(index); }}
+              className={`w-3 h-3 rounded-full transition-all ${
+                activePageIndex === index 
+                  ? 'bg-system-cyan w-8' 
+                  : 'bg-white/20 hover:bg-white/40'
+              }`}
+            />
+          ))}
+          <button
+            onClick={(e) => { e.preventDefault(); next(); }}
+            disabled={activePageIndex === pages.length - 1}
+            className="p-3 bg-void-deep/80 backdrop-blur-2xl border border-white/10 rounded-lg hover:border-system-cyan/50 disabled:opacity-30 disabled:cursor-not-allowed transition-all shadow-2xl"
+          >
+            <ArrowRight className="w-6 h-6 text-white" />
+          </button>
         </div>
       </motion.section>
 
@@ -357,7 +373,7 @@ export default function LandingPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ delay: 0.4, duration: 0.8 }}
-        className="py-24 px-4 max-w-7xl mx-auto"
+        className="py-24 px-4 max-w-7xl mx-auto relative z-10"
       >
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
@@ -405,7 +421,7 @@ export default function LandingPage() {
                 transition={{ delay: 0.5 + index * 0.1, duration: 0.6 }}
               >
                 <Link href={guide.link}>
-                  <div className="bg-void-deep/50 border border-white/10 rounded-2xl p-6 hover:border-system-cyan/30 hover:bg-white/5 transition-all group h-full">
+                  <div className="bg-void-deep/80 backdrop-blur-2xl border border-white/10 rounded-2xl p-6 hover:border-system-cyan/30 hover:bg-void-deep/90 transition-all group h-full shadow-2xl">
                     <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-system-cyan/20 to-blue-600/20 border border-system-cyan/30 flex items-center justify-center mb-4">
                       <Icon className="w-7 h-7 text-system-cyan group-hover:scale-110 transition-transform" />
                     </div>
@@ -432,7 +448,7 @@ export default function LandingPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
         transition={{ delay: 0.5, duration: 0.8 }}
-        className="py-24 px-4 max-w-7xl mx-auto"
+        className="py-24 px-4 max-w-7xl mx-auto relative z-10"
       >
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
@@ -450,21 +466,21 @@ export default function LandingPage() {
               title: 'ASCEND Introduction',
               desc: 'Quick overview of ASCEND and what makes it unique',
               youtubeId: '',
-              duration: '2 min',
+              duration: '2:00',
             },
             {
               id: 'pitch',
               title: 'Why ASCEND Matters',
               desc: 'Energetic vlog explaining our vision and mission',
               youtubeId: '',
-              duration: '3 min',
+              duration: '3:00',
             },
             {
               id: 'demo',
               title: 'Full App Demo',
               desc: 'Complete walkthrough of all features',
               youtubeId: '',
-              duration: '5 min',
+              duration: '5:00',
             },
           ].map((video, index) => (
             <motion.div
@@ -473,7 +489,8 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.6 + index * 0.1, duration: 0.6 }}
-              className="bg-void-deep/50 border border-white/10 rounded-2xl overflow-hidden group"
+              whileHover={{ scale: 1.02 }}
+              className="bg-void-deep/80 backdrop-blur-2xl border border-white/10 overflow-hidden group shadow-2xl cursor-pointer"
             >
               <div className="relative w-full aspect-video bg-gradient-to-br from-system-cyan/20 to-blue-600/20">
                 {video.youtubeId ? (
@@ -485,41 +502,35 @@ export default function LandingPage() {
                     allowFullScreen
                   />
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-xl border-2 border-white/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform cursor-pointer">
-                        <Play className="w-8 h-8 text-white fill-white" />
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-20 h-20 bg-system-cyan/90 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,184,255,0.5)] group-hover:scale-110 group-hover:shadow-[0_0_50px_rgba(0,184,255,0.7)] transition-all duration-300">
+                        <Play className="w-10 h-10 text-white fill-white ml-1" />
                       </div>
-                      <p className="text-sm font-bold text-white/80">
-                        {video.title}
-                      </p>
-                      <p className="text-xs text-white/50 mt-1">
-                        Video Coming Soon
-                      </p>
                     </div>
-                  </div>
+                    <div className="absolute bottom-3 right-3 bg-black/80 backdrop-blur-sm px-3 py-1.5 rounded text-xs font-bold text-white">
+                      {video.duration}
+                    </div>
+                  </>
                 )}
               </div>
 
-              <div className="p-6">
+              <div className="p-5">
                 <h3 className="text-lg font-bold text-white mb-2 group-hover:text-system-cyan transition-colors">
                   {video.title}
                 </h3>
-                <p className="text-sm text-white/60 mb-4">
+                <p className="text-sm text-white/60">
                   {video.desc}
                 </p>
-                <div className="flex items-center gap-2 text-xs text-white/40">
-                  <Clock className="w-3 h-3" />
-                  <span>{video.duration}</span>
-                </div>
               </div>
             </motion.div>
           ))}
         </div>
       </motion.section>
 
-      <footer className="border-t border-white/10 bg-void-deep/50 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 py-12">
+      <footer className="border-t border-white/10 bg-void-deep/80 backdrop-blur-2xl relative z-20">
+        <div className="max-w-7xl mx-auto px-4 py-16">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div className="md:col-span-1">
               <h3 className="text-xl font-bold text-white mb-3">
@@ -532,8 +543,14 @@ export default function LandingPage() {
                 <a href="https://github.com/Nathasan1410/ASCEND-RPG-FITNESS-APP" target="_blank" className="text-white/60 hover:text-white transition-colors">
                   <Github className="w-5 h-5" />
                 </a>
-                <a href="https://twitter.com/ascend_fitness" target="_blank" className="text-white/60 hover:text-white transition-colors">
+                <a href="https://x.com/NthnaelSan" target="_blank" className="text-white/60 hover:text-white transition-colors">
                   <Twitter className="w-5 h-5" />
+                </a>
+                <a href="https://www.instagram.com/nthnael.san/" target="_blank" className="text-white/60 hover:text-white transition-colors">
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a href="https://www.linkedin.com/in/nathanaelsantoso/" target="_blank" className="text-white/60 hover:text-white transition-colors">
+                  <Linkedin className="w-5 h-5" />
                 </a>
               </div>
             </div>
@@ -555,7 +572,7 @@ export default function LandingPage() {
                 Documentation
               </h4>
               <ul className="space-y-2">
-                <li><a href="https://ascend-fitness-rpg.gitbook.io" target="_blank" className="text-sm text-white/60 hover:text-white transition-colors">GitBook Docs</a></li>
+                <li><a href="https://nathasan1410.gitbook.io/ascend-fitness-rpg" target="_blank" className="text-sm text-white/60 hover:text-white transition-colors">GitBook Docs</a></li>
                 <li><Link href="/help/features" className="text-sm text-white/60 hover:text-white transition-colors">Features</Link></li>
                 <li><Link href="/help/opik" className="text-sm text-white/60 hover:text-white transition-colors">Opik Integration</Link></li>
               </ul>
@@ -566,7 +583,7 @@ export default function LandingPage() {
                 Contact
               </h4>
               <ul className="space-y-2">
-                <li><a href="mailto:support@ascend.fitness" className="text-sm text-white/60 hover:text-white transition-colors">support@ascend.fitness</a></li>
+                <li><a href="mailto:nthnael.san1410@gmail.com" className="text-sm text-white/60 hover:text-white transition-colors">nthnael.san1410@gmail.com</a></li>
                 <li><Link href="/help/faq" className="text-sm text-white/60 hover:text-white transition-colors">FAQ</Link></li>
               </ul>
             </div>
@@ -586,7 +603,7 @@ export default function LandingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
