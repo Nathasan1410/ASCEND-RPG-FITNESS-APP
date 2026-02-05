@@ -1,5 +1,5 @@
 import { TrendingUp, CheckCircle2, Clock, Calendar, Cpu, Database, ExternalLink, PlayCircle, Image } from "lucide-react";
-import { type FeatureDetail } from "../feature-details-data";
+import { type FeatureDetail } from "./feature-details-data";
 import { cn } from "@/lib/utils/cn";
 
 interface FeatureImplementationTrackerProps {

@@ -1,5 +1,5 @@
 import { Calendar, TrendingUp, Zap, Users, Bot, DollarSign, Star } from "lucide-react";
-import { type FeatureDetail } from "../feature-details-data";
+import { type FeatureDetail } from "./feature-details-data";
 import { cn } from "@/lib/utils/cn";
 
 interface FeatureHeaderProps {

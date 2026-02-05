@@ -1,6 +1,6 @@
 import { Calendar, CheckCircle2, Circle, Loader2, Link as LinkIcon } from "lucide-react";
 import Link from "next/link";
-import { type FeatureDetail } from "../feature-details-data";
+import { type FeatureDetail } from "./feature-details-data";
 import { cn } from "@/lib/utils/cn";
 
 interface FeatureTimelineProps {

@@ -1,5 +1,5 @@
 import { CheckCircle2, Clock, Calendar } from "lucide-react";
-import { type FeatureDetail } from "../feature-details-data";
+import { type FeatureDetail } from "./feature-details-data";
 import { cn } from "@/lib/utils/cn";
 
 interface FeatureMilestonesProps {
