@@ -29,15 +29,19 @@ export function SystemNavbar() {
     <header className="hidden md:flex fixed top-0 left-0 right-0 z-50 h-16 bg-void-deep/80 backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between w-full">
         {/* Logo */}
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-system-cyan to-blue-600 rounded-lg flex items-center justify-center">
-            <span className="text-2xl">🧪</span>
+        <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity group">
+          <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(0,184,255,0.4)] group-hover:shadow-[0_0_30px_rgba(0,184,255,0.6)] transition-all">
+            <img
+              src="/img/logo.jpg"
+              alt="ASCEND Logo"
+              className="w-full h-full object-cover"
+            />
           </div>
           <div>
-            <h1 className="font-display font-bold text-white text-lg tracking-wider">ASCEND</h1>
-            <p className="text-xs text-gray-400">Fitness RPG</p>
+            <h1 className="text-xl md:text-2xl font-display font-bold text-white tracking-tight">ASCEND</h1>
+            <p className="text-xs md:text-sm text-white/60 font-mono">Fitness RPG</p>
           </div>
-        </div>
+        </Link>
 
         {/* Navigation */}
         <nav className="flex items-center gap-1">

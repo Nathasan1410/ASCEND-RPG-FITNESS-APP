@@ -10,27 +10,34 @@ import ParticlesBackground from "@/components/layout/ParticlesBackground";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-geist-mono" });
 
-export const metadata: Metadata = {
-  title: "ASCEND: FITNESS RPG",
-  description: "Your Daily Mandate to Become S-Rank",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-    viewportFit: "cover",
-  },
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-  ],
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "black-translucent",
-    title: "ASCEND",
-  },
-  manifest: "/manifest.json",
-};
+  export const metadata: Metadata = {
+    title: "ASCEND: FITNESS RPG",
+    description: "Your Daily Mandate to Become S-Rank",
+    viewport: {
+      width: "device-width",
+      initialScale: 1,
+      maximumScale: 1,
+      userScalable: false,
+      viewportFit: "cover",
+    },
+    themeColor: [
+      { media: "(prefers-color-scheme: dark)", color: "#000000" },
+      { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    ],
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "black-translucent",
+      title: "ASCEND",
+    },
+    icons: {
+      icon: [
+        { url: "/img/logo.jpg", sizes: "any", type: "image/jpeg" },
+      ],
+      apple: [
+        { url: "/img/logo.jpg", sizes: "any", type: "image/jpeg" },
+      ],
+    },
+  };
 
 export default function RootLayout({
   children,
@@ -40,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="theme-color" content="#000000" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
@@ -50,7 +57,7 @@ export default function RootLayout({
           <ParticlesBackground />
           <SystemNavbar />
           <ErrorBoundary>
-            <div className="flex-1 md:pt-20 pb-20 md:pb-0">
+            <div className="flex-1 md:pt-20 pb-0 md:pb-0">
               {children}
             </div>
           </ErrorBoundary>
