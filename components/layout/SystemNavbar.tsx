@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { User, Trophy, Settings, LogOut, Users, Bell, Radio, Home, Zap, Shield, HelpCircle } from "lucide-react";
+import { User, Trophy, Settings, LogOut, Users, Bell, Radio, Home, Zap, Shield, HelpCircle, MapPin, BarChart3 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter, usePathname } from "next/navigation";
@@ -132,6 +132,40 @@ export function SystemNavbar() {
             <span className="text-sm font-medium">Settings</span>
           </Link>
           <Link
+            href="/roadmap"
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
+              pathname === "/roadmap"
+                ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
+            )}
+          >
+            <MapPin className={cn(
+              "w-5 h-5 transition-all",
+              pathname === "/roadmap"
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]"
+                : "text-white/60"
+            )} />
+            <span className="text-sm font-medium">Roadmap</span>
+          </Link>
+          <Link
+            href="/tracker"
+            className={cn(
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
+              pathname === "/tracker"
+                ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
+                : "text-white/70 hover:text-white hover:bg-white/5"
+            )}
+          >
+            <BarChart3 className={cn(
+              "w-5 h-5 transition-all",
+              pathname === "/tracker"
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]"
+                : "text-white/60"
+            )} />
+            <span className="text-sm font-medium">Tracker</span>
+          </Link>
+          <Link
             href="/help"
             className={cn(
               "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
@@ -143,7 +177,7 @@ export function SystemNavbar() {
             <HelpCircle className={cn(
               "w-5 h-5 transition-all",
               pathname?.includes("/help")
-                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]"
                 : "text-white/60"
             )} />
             <span className="text-sm font-medium">Help</span>

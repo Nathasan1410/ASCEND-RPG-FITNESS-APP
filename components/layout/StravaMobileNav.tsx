@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { createClient } from "@/lib/supabase/client";
+import { MapPin, BarChart3, HelpCircle } from "lucide-react";
 
 export interface NavItem {
   id: string;

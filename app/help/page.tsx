@@ -219,6 +219,29 @@ export default function HelpPage() {
 
           <div className="bg-gradient-to-br from-purple-500/5 to-pink-500/5 border border-purple-500/20 rounded-2xl p-8">
             <h3 className="text-lg font-bold text-white mb-3">
+              Explore Development Progress
+            </h3>
+            <p className="text-sm text-white/60 mb-4">
+              See what features are available and what's coming next for ASCEND.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/roadmap"
+                className="inline-flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-white transition-colors"
+              >
+                View Roadmap
+              </Link>
+              <Link
+                href="/tracker"
+                className="inline-flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-white transition-colors"
+              >
+                View Tracker
+              </Link>
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-purple-500/5 to-pink-500/5 border border-purple-500/20 rounded-2xl p-8">
+            <h3 className="text-lg font-bold text-white mb-3">
               New to ASCEND?
             </h3>
             <p className="text-sm text-white/60 mb-4">
