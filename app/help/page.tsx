@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, HelpCircle, BookOpen, Layout, Zap, Users, MessageCircle } from "lucide-react";
+import { Search, HelpCircle, BookOpen, Layout, Zap, Users, MessageCircle, Play, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
 import { motion } from "framer-motion";
@@ -123,6 +123,132 @@ export default function HelpPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-void-panel/50 backdrop-blur-xl border border-white/10 rounded-2xl px-12 py-4 text-white placeholder:text-white/40 focus:border-system-cyan focus:outline-none transition-all"
             />
+          </div>
+        </motion.div>
+
+        {/* Video Section - Pitch & Demo */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mb-12"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Pitch Video */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-2xl overflow-hidden"
+            >
+              <div className="p-6">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-500/30 flex items-center justify-center flex-shrink-0">
+                    <Play className="w-6 h-6 text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-1">
+                      Why ASCEND Matters
+                    </h3>
+                    <p className="text-sm text-white/60">
+                      Our vision for transforming fitness into an epic adventure
+                    </p>
+                  </div>
+                </div>
+
+                {/* YouTube Embed Placeholder */}
+                <div className="relative w-full aspect-video bg-void-deep/80 rounded-xl overflow-hidden mb-4 group cursor-pointer">
+                  {/* Thumbnail placeholder */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-purple-900/50 to-pink-900/50 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-xl border-2 border-white/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                        <Play className="w-8 h-8 text-white fill-white" />
+                      </div>
+                      <p className="text-sm text-white/80 font-medium">
+                        Watch Pitch Video
+                      </p>
+                      <p className="text-xs text-white/50 mt-1">
+                        2 min • English
+                      </p>
+                    </div>
+                  </div>
+                  {/* YouTube embed will replace this */}
+                  {/* <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src="https://www.youtube.com/embed/[VIDEO_ID]"
+                    title="ASCEND Pitch Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  /> */}
+                </div>
+
+                <p className="text-sm text-white/70 leading-relaxed">
+                  Discover how ASCEND gamifies your fitness journey with AI-powered quests, social competition, and real-time feedback. Turn your workouts into epic adventures!
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Demo Video */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="bg-gradient-to-br from-system-cyan/10 to-blue-600/10 border border-system-cyan/30 rounded-2xl overflow-hidden"
+            >
+              <div className="p-6">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-system-cyan/20 to-blue-600/20 border border-system-cyan/30 flex items-center justify-center flex-shrink-0">
+                    <Play className="w-6 h-6 text-system-cyan" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white mb-1">
+                      See ASCEND in Action
+                    </h3>
+                    <p className="text-sm text-white/60">
+                      Quick walkthrough of all features and how to use them
+                    </p>
+                  </div>
+                </div>
+
+                {/* YouTube Embed Placeholder */}
+                <div className="relative w-full aspect-video bg-void-deep/80 rounded-xl overflow-hidden mb-4 group cursor-pointer">
+                  {/* Thumbnail placeholder */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-cyan-900/50 to-blue-900/50 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-xl border-2 border-white/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                        <Play className="w-8 h-8 text-white fill-white" />
+                      </div>
+                      <p className="text-sm text-white/80 font-medium">
+                        Watch Demo
+                      </p>
+                      <p className="text-xs text-white/50 mt-1">
+                        5 min • Complete walkthrough
+                      </p>
+                    </div>
+                  </div>
+                  {/* YouTube embed will replace this */}
+                  {/* <iframe
+                    className="absolute inset-0 w-full h-full"
+                    src="https://www.youtube.com/embed/[VIDEO_ID]"
+                    title="ASCEND Demo Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  /> */}
+                </div>
+
+                <p className="text-sm text-white/70 leading-relaxed mb-4">
+                  From generating AI quests to climbing the leaderboard, see everything ASCEND has to offer. Perfect for new users!
+                </p>
+
+                <Link
+                  href="/help/demo-accounts"
+                  className="inline-flex items-center gap-2 text-sm font-bold text-system-cyan hover:text-white transition-colors"
+                >
+                  Try Demo Accounts
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </motion.div>
           </div>
         </motion.div>
 
