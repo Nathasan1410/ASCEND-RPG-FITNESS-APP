@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle, Lock, Star, ArrowRight, Calendar } from "lucide-react";
+import { CheckCircle, Lock, Star, ArrowRight, Calendar, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
 import { type TrackedFeature } from "./tracker-data";
@@ -172,6 +172,17 @@ export function TrackerFeatureCard({ feature }: TrackerFeatureCardProps) {
           </Link>
         </div>
       )}
+
+      {/* View Details Link */}
+      <div className="mt-3 pt-3 border-t border-white/10">
+        <Link
+          href={`/roadmap/${feature.id}`}
+          className="inline-flex items-center gap-2 text-xs font-bold text-white/60 hover:text-white transition-colors"
+        >
+          View Details
+          <ExternalLink className="w-3 h-3" />
+        </Link>
+      </div>
     </motion.div>
   );
 }
