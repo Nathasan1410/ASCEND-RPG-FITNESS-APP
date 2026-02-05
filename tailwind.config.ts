@@ -24,6 +24,23 @@ const config: Config = {
   				cyan: '#00b8ff',
   				blue: '#0066ff'
   			},
+  			ios: {
+  				bg: {
+  					primary: '#000000',
+  					secondary: 'rgba(28, 28, 30, 0.8)',
+  					tertiary: 'rgba(44, 44, 46, 0.7)',
+  				},
+  				text: {
+  					primary: '#FFFFFF',
+  					secondary: 'rgba(235, 235, 245, 0.6)',
+  				},
+  				border: 'rgba(255, 255, 255, 0.12)',
+  				divider: 'rgba(255, 255, 255, 0.08)',
+  				accent: '#00B8FF',
+  				success: '#34C759',
+  				warning: '#FF9500',
+  				error: '#FF3B30',
+  			},
   			rank: {
   				e: {
   					DEFAULT: '#8a8a8a',
@@ -95,12 +112,22 @@ const config: Config = {
   			}
   		},
   		fontFamily: {
-  			sans: [
-  				'var(--font-inter)'
-  			],
-  			mono: [
-  				'var(--font-geist-mono)'
-  			]
+  			sans: ['var(--font-inter)', '-apple-system', 'BlinkMacSystemFont', 'SF Pro', 'Inter', 'sans-serif'],
+  			mono: ['var(--font-geist-mono)']
+  		},
+  		fontSize: {
+  			'mobile-hero': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.02em' }],
+  			'mobile-h1': ['1.5rem', { lineHeight: '1.3', letterSpacing: '-0.01em' }],
+  			'mobile-body': ['1rem', { lineHeight: '1.5', letterSpacing: '0' }],
+  			'mobile-small': ['0.875rem', { lineHeight: '1.4', letterSpacing: '0' }],
+  		},
+  		spacing: {
+  			'ios-xs': '0.5rem',
+  			'ios-sm': '0.75rem',
+  			'ios-md': '1rem',
+  			'ios-lg': '1.5rem',
+  			'ios-xl': '2rem',
+  			'ios-2xl': '2.5rem',
   		},
   		keyframes: {
   			'pulse-system': {
@@ -110,15 +137,23 @@ const config: Config = {
   				'50%': {
   					boxShadow: '0 0 20px #00b8ff'
   				}
+  			},
+  			'ios-pulse': {
+  				'0%, 100%': { opacity: '1' },
+  				'50%': { opacity: '0.7' },
   			}
   		},
   		animation: {
-  			'pulse-system': 'pulse-system 2s infinite'
+  			'pulse-system': 'pulse-system 2s infinite',
+  			'ios-pulse': 'ios-pulse 2s ease-in-out infinite',
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
+  			sm: 'calc(var(--radius) - 4px)',
+  			'ios-xl': '1.25rem',
+  			'ios-2xl': '1.5rem',
+  			'ios-3xl': '2rem',
   		}
   	}
   },

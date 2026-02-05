@@ -13,6 +13,23 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-gei
 export const metadata: Metadata = {
   title: "ASCEND: FITNESS RPG",
   description: "Your Daily Mandate to Become S-Rank",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: "cover",
+  },
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "ASCEND",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -22,8 +39,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="theme-color" content="#000000" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+      </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased text-foreground`}>
-        <div className="min-h-screen flex flex-col bg-background">
+        <div className="min-h-screen flex flex-col bg-background safe-area-padded">
           <ParticlesBackground />
           <SystemNavbar />
           <ErrorBoundary>
