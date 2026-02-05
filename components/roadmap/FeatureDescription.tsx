@@ -1,5 +1,5 @@
 import { AlertCircle, CheckCircle2 } from "lucide-react";
-import { type FeatureDetail } from "../feature-details-data";
+import { type FeatureDetail } from "./feature-details-data";
 
 interface FeatureDescriptionProps {
   feature: FeatureDetail;
