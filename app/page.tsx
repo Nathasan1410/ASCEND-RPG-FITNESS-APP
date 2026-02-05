@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, Github, Twitter, Instagram, Linkedin, BookOpen, Zap, Award, Shield, MessageCircle, User, Users, Clock, Play, Camera } from "lucide-react";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { motion, AnimatePresence } from "framer-motion";
-import LaserFlow from "@/components/laserFlow";
+import LaserFlow from "@/components/LaserFlow";
 import { useSnapCarousel } from 'react-snap-carousel';
 
 export default function LandingPage() {
