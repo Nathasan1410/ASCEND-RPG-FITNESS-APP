@@ -135,6 +135,7 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
         key_factors: ["Emergency Protocol", "Basic", "E-Rank", "Stability"]
       }
     };
+
   }
 
   // Save to database
