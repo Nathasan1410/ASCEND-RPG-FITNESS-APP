@@ -59,6 +59,17 @@ Generate a quest now.
 
     const parsed = JSON.parse(content);
 
+    // Coerce types to match schema (Groq sometimes returns strings for numbers/booleans)
+    if (typeof parsed.base_xp === 'string') {
+      parsed.base_xp = parseInt(parsed.base_xp, 10);
+    }
+    if (typeof parsed.estimated_duration_min === 'string') {
+      parsed.estimated_duration_min = parseInt(parsed.estimated_duration_min, 10);
+    }
+    if (typeof parsed.requires_proof === 'string') {
+      parsed.requires_proof = parsed.requires_proof.toLowerCase() === 'true';
+    }
+
     // Ensure all exercises have IDs (fallback if AI misses them)
     if (parsed.exercises && Array.isArray(parsed.exercises)) {
       parsed.exercises = parsed.exercises.map((ex: any, index: number) => ({
@@ -67,7 +78,11 @@ Generate a quest now.
       }));
     }
 
+    console.log("[Groq] Parsed data before validation:", JSON.stringify(parsed, null, 2));
+    
     const validated = WorkoutPlanSchema.parse(parsed);
+    
+    console.log("[Groq] Validation successful!");
 
     // Log success to Opik
     await trace.update({
@@ -78,7 +93,11 @@ Generate a quest now.
 
     return validated;
   } catch (error: any) {
-    console.error("Groq generation failed:", error);
+    console.error("[Groq] Generation failed:", error);
+    console.error("[Groq] Error message:", error?.message || "Unknown error");
+    if (error?.issues) {
+      console.error("[Groq] Zod validation issues:", JSON.stringify(error.issues, null, 2));
+    }
     
     // Log failure to Opik
     await trace.update({
