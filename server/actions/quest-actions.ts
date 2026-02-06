@@ -76,8 +76,12 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     ]) as any;
     
     console.log("[QuestAction] Plan generated successfully");
+    console.log("[QuestAction] Raw plan data:", JSON.stringify(plan, null, 2));
+    console.log("[QuestAction] Completion object:", JSON.stringify(completion, null, 2));
   } catch (err) {
     console.error("[QuestAction] AI Generation Failed:", err);
+    console.error("[QuestAction] Error details:", JSON.stringify(err, null, 2));
+    console.error("[QuestAction] Completion data:", JSON.stringify(completion, null, 2));
     // FALLBACK QUEST LOGIC
     console.log("[QuestAction] Falling back to default protocol.");
     plan = {
@@ -112,7 +116,26 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
           rpe_target: 5,
           target_muscle: "Legs",
           tips: "Knees over toes.",
-        }
+        },
+        {
+          id: "ex_fallback_3",
+          name: "Plank",
+          type: "Isolation",
+          sets: 3,
+          reps: "30s",
+          rest_sec: 30,
+          rpe_target: 5,
+          target_muscle: "Core",
+          tips: "Straight line from head to heels.",
+        },
+      ],
+      ai_review: {
+        reasoning: "Emergency fallback protocol activated. Basic compound movements selected for your E-Rank level to maintain training continuity during system instability.",
+        completion_probability: 90,
+        key_factors: ["Emergency Protocol", "Basic", "E-Rank", "Stability"]
+      }
+    };
+  }
       ],
       ai_review: {
         reasoning: "Emergency fallback protocol activated. Basic compound movements selected for your E-Rank level to maintain training continuity during system instability.",
