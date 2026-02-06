@@ -77,11 +77,14 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     
     console.log("[QuestAction] Plan generated successfully");
     console.log("[QuestAction] Raw plan data:", JSON.stringify(plan, null, 2));
-  } catch (err) {
+  } catch (err: any) {
     console.error("[QuestAction] AI Generation Failed:", err);
     console.error("[QuestAction] Error details:", JSON.stringify(err, null, 2));
+    console.error("[QuestAction] Error message:", err?.message || "Unknown error");
+    console.error("[QuestAction] Error stack:", err?.stack || "No stack trace");
+    console.error("[QuestAction] Profile data:", JSON.stringify(profile, null, 2));
     // FALLBACK QUEST LOGIC
-    console.log("[QuestAction] Falling back to default protocol.");
+    console.log("[QuestAction] Falling back to default protocol due to:", err?.message || "Unknown error");
     plan = {
       quest_name: "Basic Training Protocol (Offline)",
       quest_rank: "E-Rank",
