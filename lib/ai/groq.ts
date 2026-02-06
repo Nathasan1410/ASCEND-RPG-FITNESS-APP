@@ -86,7 +86,8 @@ Generate a quest now.
     });
     await trace.end();
 
-    return getFallbackQuest(input);
+    // Throw error so caller can handle it (don't silently fallback)
+    throw new Error(`Groq API failed: ${error.message}`);
   }
 }
 

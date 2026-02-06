@@ -83,60 +83,75 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     console.error("[QuestAction] Error message:", err?.message || "Unknown error");
     console.error("[QuestAction] Error stack:", err?.stack || "No stack trace");
     console.error("[QuestAction] Profile data:", JSON.stringify(profile, null, 2));
-    // FALLBACK QUEST LOGIC
-    console.log("[QuestAction] Falling back to default protocol due to:", err?.message || "Unknown error");
+    // FALLBACK QUEST LOGIC - Use user's actual rank and class
+    console.log("[QuestAction] Falling back to smart protocol due to:", err?.message || "Unknown error");
+    console.log("[QuestAction] User rank:", profile.rank_tier, "| Class:", profile.class, "| Level:", profile.level);
+    
+    // Calculate appropriate difficulty based on user rank
+    const rankMultiplier: Record<string, number> = {
+      "S-Rank": 2500,
+      "A-Rank": 2000,
+      "B-Rank": 1500,
+      "C-Rank": 1000,
+      "D-Rank": 600,
+      "E-Rank": 300,
+    };
+    
+    const baseXP = rankMultiplier[profile.rank_tier] || 300;
+    const sets = profile.level >= 70 ? 5 : profile.level >= 40 ? 4 : 3;
+    const reps = profile.level >= 70 ? "15" : profile.level >= 40 ? "12" : "10";
+    
     plan = {
-      quest_name: "Basic Training Protocol (Offline)",
-      quest_rank: "E-Rank",
+      quest_name: `${profile.rank_tier} Recovery Protocol (Offline)`,
+      quest_rank: profile.rank_tier,
       quest_type: "Daily",
-      narrative_intro: "The System connection is unstable. Execute emergency protocol.",
-      base_xp: 50,
-      stat_gain: { strength: 1, stamina: 1 },
-      estimated_duration_min: 15,
-      target_class: "Novice",
+      narrative_intro: `The System is experiencing interference. Execute this ${profile.rank_tier} recovery protocol for ${profile.class} class.`,
+      base_xp: baseXP,
+      stat_gain: { strength: 2, stamina: 2, agility: 2 },
+      estimated_duration_min: input.time_window_min || 30,
+      target_class: profile.class,
       requires_proof: false,
       exercises: [
         {
           id: "ex_fallback_1",
           name: "Push-ups",
           type: "Compound",
-          sets: 3,
-          reps: "10",
+          sets,
+          reps,
           rest_sec: 60,
-          rpe_target: 5,
+          rpe_target: profile.level >= 70 ? 7 : 6,
           target_muscle: "Chest",
-          tips: "System offline. maintain form.",
+          tips: `System offline. Maintain ${profile.rank_tier} form standards.`,
         },
         {
           id: "ex_fallback_2",
           name: "Squats",
           type: "Compound",
-          sets: 3,
-          reps: "15",
+          sets,
+          reps,
           rest_sec: 60,
-          rpe_target: 5,
+          rpe_target: profile.level >= 70 ? 7 : 6,
           target_muscle: "Legs",
-          tips: "Knees over toes.",
+          tips: "Knees over toes. Focus on depth.",
         },
         {
           id: "ex_fallback_3",
           name: "Plank",
           type: "Isolation",
-          sets: 3,
-          reps: "30s",
+          sets,
+          reps: profile.level >= 70 ? "45s" : profile.level >= 40 ? "35s" : "30s",
           rest_sec: 30,
-          rpe_target: 5,
+          rpe_target: profile.level >= 70 ? 6 : 5,
           target_muscle: "Core",
           tips: "Straight line from head to heels.",
         },
       ],
       ai_review: {
-        reasoning: "Emergency fallback protocol activated. Basic compound movements selected for your E-Rank level to maintain training continuity during system instability.",
-        completion_probability: 90,
-        key_factors: ["Emergency Protocol", "Basic", "E-Rank", "Stability"]
+        reasoning: `Emergency ${profile.rank_tier} protocol activated for ${profile.class} class. Adjusted intensity based on your level ${profile.level} capabilities to maintain training continuity during system instability.`,
+        completion_probability: profile.level >= 70 ? 75 : 85,
+        key_factors: ["Emergency Protocol", profile.rank_tier, profile.class, "Adjusted Difficulty"]
       }
     };
-
   }
 
   // Save to database
