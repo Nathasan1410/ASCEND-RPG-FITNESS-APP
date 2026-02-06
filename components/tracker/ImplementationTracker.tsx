@@ -7,6 +7,8 @@ import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
 import { trackedFeatures, calculateStats, type TrackedFeature } from "./tracker-data";
 import { TrackerFeatureCard } from "./TrackerFeatureCard";
+import { DevelopmentDisclaimer } from "@/components/shared/DevelopmentDisclaimer";
+import { ComingSoonHighlights } from "./ComingSoonHighlights";
 
 interface Filters {
   status: string;
@@ -123,6 +125,19 @@ export function ImplementationTracker() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-8"
+        >
+          <DevelopmentDisclaimer 
+            variant="tracker"
+            position="top"
+          />
+        </motion.div>
+
+        <ComingSoonHighlights />
         {/* Search and Filter Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

@@ -282,7 +282,7 @@ export default function DemoAccountsPage() {
 
               {/* Login Button */}
               <Link
-                href="/login"
+                href="/auth/login"
                 className="block w-full py-3 text-center bg-system-cyan hover:bg-system-cyan/90 text-void-deep rounded-lg font-bold transition-all min-h-[44px] flex items-center justify-center"
               >
                 Login as {account.username}

@@ -34,6 +34,12 @@ export const ExerciseSchema = z.object({
 });
 export type Exercise = z.infer<typeof ExerciseSchema>;
 
+const OpikReviewSchema = z.object({
+  reasoning: z.string().describe("2-3 sentences explaining why this specific workout was assigned to the user, considering their rank, class, and current capabilities"),
+  completion_probability: z.number().min(0).max(100).describe("Estimated probability (0-100%) that the user will complete this workout, based on difficulty calibration"),
+  key_factors: z.array(z.string()).describe("3-5 short tags or factors that influenced this workout choice (e.g., 'Form Focus', 'Low Impact', 'Upper Body Dominant')")
+});
+
 // Workout Plan Schema (Groq Output)
 export const WorkoutPlanSchema = z.object({
   quest_name: z.string(),
@@ -52,6 +58,7 @@ export const WorkoutPlanSchema = z.object({
   proof_type: z.enum(["None", "Photo", "Video", "Timelapse"]).optional(),
   hand_sign: z.string().optional(),
   exercises: z.array(ExerciseSchema),
+  ai_review: OpikReviewSchema,
 });
 export type WorkoutPlan = z.infer<typeof WorkoutPlanSchema>;
 

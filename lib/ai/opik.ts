@@ -13,16 +13,23 @@ let opikClient: any = mockClient;
 
 async function getOpikClient() {
   if (opikClient !== mockClient) return opikClient;
-  
+
   if (apiKey) {
     try {
       const { Opik } = await import("opik");
-      opikClient = new Opik({ apiKey });
+      if (Opik) {
+        opikClient = new Opik({ apiKey });
+        console.log("Opik client initialized successfully");
+      } else {
+        console.warn("Opik module loaded but Opik constructor not found");
+      }
     } catch (error) {
       console.warn("Failed to load Opik:", error);
     }
+  } else {
+    console.warn("OPIK_API_KEY not set, using mock client");
   }
-  
+
   return opikClient;
 }
 

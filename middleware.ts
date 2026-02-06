@@ -27,10 +27,17 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Protected routes
-  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
+  // Protected routes (allow leaderboard access without login)
+  if (!user && request.nextUrl.pathname.startsWith("/dashboard") && !request.nextUrl.pathname.startsWith("/dashboard/leaderboard")) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
+    return NextResponse.redirect(url);
+  }
+
+  // Protected settings page (requires login)
+  if (!user && request.nextUrl.pathname.startsWith("/settings")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/login";
     return NextResponse.redirect(url);
   }
 

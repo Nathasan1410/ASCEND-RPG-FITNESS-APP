@@ -98,9 +98,13 @@ export function MobileSystemNavbar() {
               {/* Header */}
               <div className="sticky top-0 bg-void-deep/95 backdrop-blur-xl border-b border-white/10 p-4 z-10">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                  <Link
+                    href="/profile/me"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 hover:opacity-90 transition-opacity"
+                  >
                     {/* User Avatar */}
-                    <div className="w-12 h-12 rounded-full bg-system-cyan/20 flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-system-cyan/20 to-system-cyan/30 flex items-center justify-center ring-2 ring-system-cyan/30 ring-offset-2 ring-offset-void-deep">
                       <span className="text-lg font-bold text-system-cyan">
                         {username[0]?.toUpperCase() || "H"}
                       </span>
@@ -109,7 +113,7 @@ export function MobileSystemNavbar() {
                       <div className="text-white font-bold">{username || "Hunter"}</div>
                       <div className="text-xs text-white/60">View Profile</div>
                     </div>
-                  </div>
+                  </Link>
                   <button
                     onClick={() => setMobileMenuOpen(false)}
                     className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-white/10 transition-colors"

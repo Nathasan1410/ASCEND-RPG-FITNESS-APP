@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Clock, Star, ChevronDown, ChevronUp, Zap, ArrowRight } from "lucide-react";
+import { MapPin, Clock, ChevronDown, ChevronUp, Zap, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
-import { roadmapFeatures, innovationFeatures, type Feature } from "./roadmap-data";
+import { roadmapFeatures, type Feature } from "./roadmap-data";
 import { RoadmapFeatureCard } from "./RoadmapFeatureCard";
+import { ComingSoonHighlights } from "./ComingSoonHighlights";
+import { DevelopmentDisclaimer } from "@/components/shared/DevelopmentDisclaimer";
 
 export function Roadmap() {
-  const [expandedSections, setExpandedSections] = useState<string[]>(['q2-2026', 'q3-2026', 'q4-2026', 'innovation']);
-
+  const [expandedSections, setExpandedSections] = useState<string[]>(['q2-2026', 'q3-2026', 'q4-2026']);
+  
   const toggleSection = (section: string) => {
     setExpandedSections(prev =>
       prev.includes(section)
@@ -18,11 +20,9 @@ export function Roadmap() {
         : [...prev, section]
     );
   };
-
+  
   const totalFeatures = roadmapFeatures.length;
-  const totalInnovationFeatures = innovationFeatures.length;
-  const averageInnovationRating = innovationFeatures.reduce((sum, f) => sum + (f.starRating || 0), 0) / totalInnovationFeatures;
-
+  
   const q2Features = roadmapFeatures.filter(f => f.timeline.includes('Q2'));
   const q3Features = roadmapFeatures.filter(f => f.timeline.includes('Q3'));
   const q4Features = roadmapFeatures.filter(f => f.timeline.includes('Q4'));
@@ -46,6 +46,7 @@ export function Roadmap() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
+        <ComingSoonHighlights />
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -74,18 +75,28 @@ export function Roadmap() {
                 <div className="text-2xl font-bold text-white">{totalFeatures}</div>
               </div>
               <div className="bg-void-deep/50 border border-white/10 rounded-xl p-4">
-                <div className="text-sm text-white/60 mb-1">Innovation Features</div>
-                <div className="text-2xl font-bold text-white">{totalInnovationFeatures}</div>
+                <div className="text-sm text-white/60 mb-1">Core Features</div>
+                <div className="text-2xl font-bold text-white">{roadmapFeatures.filter(f => f.category === 'Core').length}</div>
               </div>
               <div className="bg-void-deep/50 border border-white/10 rounded-xl p-4">
-                <div className="text-sm text-white/60 mb-1">Avg Innovation Rating</div>
-                <div className="text-2xl font-bold text-system-cyan flex items-center gap-2">
-                  <Star className="w-5 h-5 fill-current" />
-                  {averageInnovationRating.toFixed(2)}
+                <div className="text-sm text-white/60 mb-1">Innovation & Social</div>
+                <div className="text-2xl font-bold text-system-cyan">
+                  {roadmapFeatures.filter(f => f.category === 'Innovation' || f.category === 'Social').length}
                 </div>
               </div>
             </div>
           </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mb-12"
+        >
+          <DevelopmentDisclaimer 
+            variant="roadmap"
+          />
         </motion.div>
 
         {/* Q2 2026 Section */}
@@ -120,53 +131,7 @@ export function Roadmap() {
           onToggle={() => toggleSection('q4-2026')}
           delay={0.3}
         />
-
-        {/* Innovation Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mb-12"
-        >
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border border-yellow-500/30 flex items-center justify-center">
-                <Star className="w-6 h-6 text-yellow-400 fill-current" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-white">Innovation Features</h2>
-                <p className="text-sm text-white/60">High-impact features with exceptional innovation scores</p>
-              </div>
-            </div>
-            <button
-              onClick={() => toggleSection('innovation')}
-              className="w-12 h-12 min-w-[48px] min-h-[48px] rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors"
-            >
-              {expandedSections.includes('innovation') ? <ChevronUp className="w-6 h-6" /> : <ChevronDown className="w-6 h-6" />}
-            </button>
-          </div>
-
-          {expandedSections.includes('innovation') && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              {innovationFeatures.map((feature, index) => (
-                <motion.div
-                  key={feature.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 + index * 0.05 }}
-                >
-                  <RoadmapFeatureCard feature={feature} showInnovationRating />
-                </motion.div>
-              ))}
-            </motion.div>
-          )}
-        </motion.div>
-
+        
         {/* Try It Now */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -210,11 +175,10 @@ export function Roadmap() {
       <div className="max-w-7xl mx-auto px-4 py-8 border-t border-white/10 mt-12">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-white/40">
-            Last updated: February 5, 2026
+            Last updated: February 6, 2026
           </p>
           <div className="flex items-center gap-6 text-sm text-white/40">
             <span>{totalFeatures} features planned</span>
-            <span>{totalInnovationFeatures} innovation features</span>
             <span>Q2-Q4 2026 roadmap</span>
           </div>
         </div>

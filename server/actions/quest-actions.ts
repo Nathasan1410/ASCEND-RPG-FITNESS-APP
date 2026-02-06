@@ -114,6 +114,11 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
           tips: "Knees over toes.",
         }
       ],
+      ai_review: {
+        reasoning: "Emergency fallback protocol activated. Basic compound movements selected for your E-Rank level to maintain training continuity during system instability.",
+        completion_probability: 90,
+        key_factors: ["Emergency Protocol", "Basic", "E-Rank", "Stability"]
+      }
     };
   }
 

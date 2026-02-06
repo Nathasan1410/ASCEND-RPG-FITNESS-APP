@@ -1,12 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Play, Pause, Square } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Play, Pause } from "lucide-react";
 import { SystemButton } from "@/components/ui/SystemButton";
 
 export function QuestTimer({ onDurationChange }: { onDurationChange: (seconds: number) => void }) {
   const [seconds, setSeconds] = useState(0);
   const [isActive, setIsActive] = useState(false);
+
+  const onDurationChangeRef = useRef(onDurationChange);
+  onDurationChangeRef.current = onDurationChange;
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -14,13 +17,13 @@ export function QuestTimer({ onDurationChange }: { onDurationChange: (seconds: n
       interval = setInterval(() => {
         setSeconds((s) => {
           const newSeconds = s + 1;
-          onDurationChange(newSeconds);
+          onDurationChangeRef.current(newSeconds);
           return newSeconds;
         });
       }, 1000);
     }
     return () => clearInterval(interval);
-  }, [isActive, onDurationChange]);
+  }, [isActive]);
 
   const formatTime = (totalSeconds: number) => {
     const m = Math.floor(totalSeconds / 60);

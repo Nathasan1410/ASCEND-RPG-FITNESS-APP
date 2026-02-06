@@ -15,6 +15,7 @@ import { ShareProfileButton } from "@/components/profile/ShareProfileButton";
 import { AchievementBadges } from "@/components/profile/AchievementBadges";
 import { FriendsPreview } from "@/components/profile/FriendsPreview";
 import { MatchHistoryFilters } from "@/components/profile/MatchHistoryFilters";
+import { LogAnalysisModal } from "@/components/profile/LogAnalysisModal";
 import { Trophy, Users, Filter } from "lucide-react";
 import { HunterStatus } from "@/types/schemas";
 import { cn } from "@/lib/utils/cn";
@@ -40,6 +41,8 @@ export default function ProfileClient({
 }: ProfileClientProps) {
   const [isPending, startTransition] = useTransition();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isAnalysisModalOpen, setIsAnalysisModalOpen] = useState(false);
+  const [selectedLogId, setSelectedLogId] = useState<string | null>(null);
   const [matchHistory, setMatchHistory] = useState(initialData.match_history);
   const [filters, setFilters] = useState({
     type: "all",
@@ -62,6 +65,11 @@ export default function ProfileClient({
         setMatchHistory(data.match_history);
       }
     });
+  };
+
+  const handleLogClick = (logId: string) => {
+    setSelectedLogId(logId);
+    setIsAnalysisModalOpen(true);
   };
 
   return (
@@ -172,7 +180,7 @@ export default function ProfileClient({
             <p className="text-white/40 font-mono">Loading filtered results...</p>
           </div>
         ) : (
-          <MatchHistory logs={matchHistory} />
+          <MatchHistory logs={matchHistory} onLogClick={handleLogClick} />
         )}
       </div>
 
@@ -189,6 +197,12 @@ export default function ProfileClient({
           }} />
         </div>
       </div>
+
+      <LogAnalysisModal
+        isOpen={isAnalysisModalOpen}
+        onClose={() => setIsAnalysisModalOpen(false)}
+        logId={selectedLogId || ""}
+      />
     </div>
   );
 }

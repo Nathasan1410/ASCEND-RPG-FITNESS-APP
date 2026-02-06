@@ -11,10 +11,19 @@ export interface Feature {
 
 export const roadmapFeatures: Feature[] = [
   {
+    id: 'hunter-network',
+    name: 'Hunter Network',
+    description: 'Social feed with workout posts, kudos, respects, and following - Currently in demo mode',
+    status: 'In Progress',
+    priority: 'High',
+    timeline: 'Q1 2026 (January-March)',
+    category: 'Social',
+  },
+  {
     id: 'help-system-completion',
     name: 'Complete Help System',
     description: 'Finish UI/UX tutorial, features documentation, and FAQ pages',
-    status: 'Planned',
+    status: 'Implemented',
     priority: 'High',
     timeline: 'Q2 2026 (April-June)',
     category: 'Core',
@@ -23,7 +32,7 @@ export const roadmapFeatures: Feature[] = [
     id: 'gitbook-documentation',
     name: 'GitBook Documentation',
     description: 'Create comprehensive technical documentation with Opik integration evidence',
-    status: 'Planned',
+    status: 'Implemented',
     priority: 'High',
     timeline: 'Q2 2026 (April-June)',
     category: 'Core',
@@ -32,7 +41,7 @@ export const roadmapFeatures: Feature[] = [
     id: 'navigation-integration',
     name: 'Navigation Integration',
     description: 'Add Help, Roadmap, and Tracker links to all navigation components',
-    status: 'Planned',
+    status: 'Implemented',
     priority: 'High',
     timeline: 'Q2 2026 (April-June)',
     category: 'Core',
@@ -120,7 +129,7 @@ export const roadmapFeatures: Feature[] = [
   {
     id: 'monetization-system',
     name: 'Monetization System',
-    description: 'Free/Pre/Pro/Max tiers with different features and pricing',
+    description: 'Free/Pro tiers with different features, pricing plans, and exclusive Pro benefits',
     status: 'Planned',
     priority: 'Low',
     timeline: 'Q4 2026 (October-December)',

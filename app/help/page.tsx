@@ -5,9 +5,11 @@ import { Search, HelpCircle, BookOpen, Layout, Zap, Users, MessageCircle, Play, 
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
 import { motion } from "framer-motion";
+import { DevelopmentDisclaimer } from "@/components/shared/DevelopmentDisclaimer";
 
 export default function HelpPage() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [dismissedHelp, setDismissedHelp] = useState(false);
 
   const helpCategories = [
     {
@@ -125,6 +127,21 @@ export default function HelpPage() {
             />
           </div>
         </motion.div>
+
+        {!dismissedHelp && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="mb-8"
+          >
+            <DevelopmentDisclaimer 
+              variant="help"
+              position="inline"
+              onDismiss={() => setDismissedHelp(true)}
+            />
+          </motion.div>
+        )}
 
         {/* Video Section - Pitch & Demo */}
         <motion.div

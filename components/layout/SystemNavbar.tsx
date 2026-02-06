@@ -11,18 +11,28 @@ export function SystemNavbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
     createClient().auth.getUser().then(({ data }) => {
       setUsername(data.user?.user_metadata?.username || "");
+      setIsAuthenticated(!!data.user);
     });
   }, []);
 
   const handleLogout = async () => {
     await createClient().auth.signOut();
     router.push("/");
+  };
+
+  const handleDashboardClick = () => {
+    if (!isAuthenticated) {
+      router.push("/auth/login");
+    } else {
+      router.push("/dashboard");
+    }
   };
 
   return (
@@ -45,10 +55,10 @@ export function SystemNavbar() {
 
         {/* Navigation */}
         <nav className="flex items-center gap-1">
-          <Link
-            href="/dashboard"
+          <button
+            onClick={handleDashboardClick}
             className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative border-none bg-transparent cursor-pointer",
               pathname === "/dashboard"
                 ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
                 : "text-white/70 hover:text-white hover:bg-white/5"
@@ -56,12 +66,12 @@ export function SystemNavbar() {
           >
             <Home className={cn(
               "w-5 h-5 transition-all",
-              pathname === "/dashboard" 
-                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+              pathname === "/dashboard"
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]"
                 : "text-white/60"
             )} />
             <span className="text-sm font-medium">Dashboard</span>
-          </Link>
+          </button>
           {/* <Link
             href="/feed/mobile"
             className={cn(
@@ -83,19 +93,19 @@ export function SystemNavbar() {
             href="/feed/web"
             className={cn(
               "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
-              pathname === "/feed"
+              pathname?.includes("/feed")
                 ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
                 : "text-white/70 hover:text-white hover:bg-white/5"
             )}
           >
             <Radio className={cn(
               "w-5 h-5 transition-all",
-              pathname === "/feed" 
-                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+              pathname?.includes("/feed")
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]"
                 : "text-white/60"
             )} />
             <span className="text-sm font-medium">Hunter Network</span>
-            {pathname === "/feed" && (
+            {(pathname === "/feed/web" || pathname === "/feed/mobile") && (
               <span className="ml-auto bg-yellow-500/20 text-yellow-400 text-[10px] px-2 py-0.5 rounded-full font-bold">
                 PREVIEW
               </span>
@@ -118,10 +128,16 @@ export function SystemNavbar() {
             )} />
             <span className="text-sm font-medium">Leaderboard</span>
           </Link>
-          <Link
-            href="/settings"
+          <button
+            onClick={() => {
+              if (isAuthenticated) {
+                router.push("/settings");
+              } else {
+                router.push("/auth/login");
+              }
+            }}
             className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative",
+              "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative border-none bg-transparent cursor-pointer",
               pathname === "/settings"
                 ? "text-white bg-system-cyan/10 border-b-2 border-system-cyan -mb-[1px] pb-[1px]"
                 : "text-white/70 hover:text-white hover:bg-white/5"
@@ -129,12 +145,12 @@ export function SystemNavbar() {
           >
             <Settings className={cn(
               "w-5 h-5 transition-all",
-              pathname === "/settings" 
-                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]" 
+              pathname === "/settings"
+                ? "text-system-cyan drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]"
                 : "text-white/60"
             )} />
             <span className="text-sm font-medium">Settings</span>
-          </Link>
+          </button>
           <Link
             href="/roadmap"
             className={cn(
@@ -190,22 +206,40 @@ export function SystemNavbar() {
 
         {/* User Actions */}
         <div className="flex items-center gap-4">
-          <button className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
-            <Users className="w-5 h-5 text-gray-400" />
-          </button>
-          <button className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
-            <Zap className="w-5 h-5 text-gray-400" />
-          </button>
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center cursor-pointer" onClick={() => setUserMenuOpen(!userMenuOpen)}>
-            <span className="text-sm font-bold text-white">{username?.charAt(0)?.toUpperCase() || "H"}</span>
-          </div>
+          {isAuthenticated ? (
+            <>
+              <button className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
+                <Users className="w-5 h-5 text-gray-400" />
+              </button>
+              <button className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
+                <Zap className="w-5 h-5 text-gray-400" />
+              </button>
+              <div className="relative">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center cursor-pointer hover:ring-2 hover:ring-system-cyan hover:ring-offset-2 hover:ring-offset-void-deep transition-all" onClick={() => setUserMenuOpen(!userMenuOpen)}>
+                  <span className="text-sm font-bold text-white">{username?.charAt(0)?.toUpperCase() || "H"}</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <Link
+              href="/auth/login"
+              className="px-5 py-2.5 rounded-lg bg-gradient-to-r from-system-cyan to-blue-600 hover:from-system-cyan/90 hover:to-blue-600/90 text-white text-sm font-medium transition-all shadow-[0_0_20px_rgba(0,184,255,0.3)] hover:shadow-[0_0_30px_rgba(0,184,255,0.5)]"
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       </div>
 
       {/* User Dropdown Menu */}
       {userMenuOpen && (
-        <div className="fixed right-6 top-16 z-40 w-56 bg-[#0a0a0f] border border-white/10 rounded-xl shadow-2xl overflow-hidden backdrop-blur-md">
-          <div className="p-2 space-y-1">
+        <>
+          <div 
+            className="fixed inset-0 z-[55]" 
+            onClick={() => setUserMenuOpen(false)}
+          />
+          <div className="fixed right-6 top-16 z-[60] w-56 bg-[#0a0a0f]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden">
+            <div className="p-2 space-y-1">
             <Link
               href={`/profile/me`}
               className="block px-3 py-2 text-sm text-white/80 hover:bg-white/15 hover:text-white rounded transition-colors"
@@ -251,15 +285,20 @@ export function SystemNavbar() {
               </div>
             </Link>
 
+            <div className="border-t border-white/10 my-1"></div>
+
             <button
               onClick={handleLogout}
-              className="w-full px-3 py-2 text-sm text-red-400 hover:bg-red-500/20 hover:text-red-400 rounded transition-colors flex items-center gap-2"
+              className="block w-full px-3 py-2 text-sm text-status-danger hover:bg-status-danger/10 hover:text-status-danger rounded transition-colors"
             >
-              <LogOut className="w-4 h-4 text-white/60" />
-              <span>Sign Out</span>
+              <div className="flex items-center gap-2">
+                <LogOut className="w-4 h-4 text-status-danger/60" />
+                <span>Sign Out</span>
+              </div>
             </button>
           </div>
         </div>
+        </>
       )}
     </header>
   );

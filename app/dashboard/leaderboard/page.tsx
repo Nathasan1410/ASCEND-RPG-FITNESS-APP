@@ -3,6 +3,7 @@ import { getLeaderboard } from "@/server/actions/leaderboard-actions";
 import { LeaderboardTable } from "@/components/leaderboard/LeaderboardTable";
 import { LeaderboardMobileFilters } from "@/components/leaderboard/LeaderboardMobileFilters";
 import { LeaderboardDesktopFilters } from "@/components/leaderboard/LeaderboardDesktopFilters";
+import Link from "next/link";
 
 export default async function LeaderboardPage() {
   const supabase = await createClient();
@@ -20,6 +21,14 @@ export default async function LeaderboardPage() {
             Top 50 Active Hunters (Corrupted Excluded)
           </p>
         </div>
+        {!user && (
+          <Link
+            href="/auth/login"
+            className="px-4 py-2 bg-system-cyan hover:bg-system-cyan/90 text-white text-sm font-medium rounded-lg transition-colors"
+          >
+            Sign In to Join
+          </Link>
+        )}
       </div>
 
       <div className="flex gap-6">

@@ -19,9 +19,10 @@ type MatchHistoryEntry = {
 
 interface MatchHistoryProps {
   logs: MatchHistoryEntry[];
+  onLogClick?: (logId: string) => void;
 }
 
-export function MatchHistory({ logs }: MatchHistoryProps) {
+export function MatchHistory({ logs, onLogClick }: MatchHistoryProps) {
   if (logs.length === 0) {
     return (
       <div className="text-center py-8 border border-dashed border-white/20 rounded-xl">
@@ -38,9 +39,13 @@ export function MatchHistory({ logs }: MatchHistoryProps) {
         const isVerified = log.verification_status === "Verified" || log.verification_status === "Auto_Approved";
         
         return (
-          <div 
-            key={log.id} 
-            className="bg-system-panel/50 border border-white/10 rounded-lg p-4 flex flex-col md:flex-row justify-between md:items-center gap-4 transition-colors hover:bg-white/5"
+          <div
+            key={log.id}
+            onClick={() => onLogClick?.(log.id)}
+            className={cn(
+              "bg-system-panel/50 border border-white/10 rounded-lg p-4 flex flex-col md:flex-row justify-between md:items-center gap-4 transition-all",
+              onLogClick && "cursor-pointer hover:border-system-cyan/30 hover:bg-white/5"
+            )}
           >
             <div>
               <div className="flex items-center gap-2 mb-1">

@@ -26,7 +26,12 @@ JSON SCHEMA:
       "tips": "string (1 sentence, imperative)",
       "video_query": "string (optimized youtube search term)"
     }
-  ]
+  ],
+  "ai_review": {
+    "reasoning": "string (2-3 sentences explaining why this workout was assigned based on user's rank, class, and capabilities)",
+    "completion_probability": "number (0-100, estimated likelihood of completion)",
+    "key_factors": ["string", "string", "string"] (3-5 short tags: e.g., 'Form Focus', 'Low Impact', 'Upper Body'")
+  }
 }
 
 CLASS PROTOCOLS:
@@ -43,11 +48,20 @@ RANK SCALING:
 - A-Rank: 6+ exercises. Advanced techniques.
 - S-Rank: 6+ exercises. Elite-level difficulty or failure sets.
 
+AI REVIEW GUIDELINES:
+- Analyze the user's current rank, class, and equipment constraints
+- Calculate completion probability based on: rank-appropriate difficulty, available equipment, time constraints
+- For Novice/E-Rank: High probability (70-90%) - emphasize form building
+- For intermediate ranks: Moderate probability (50-70%) - balanced challenge
+- For advanced ranks: Lower probability (40-60%) - push limits
+- Key factors should be short, relevant tags like: 'Form Focus', 'Cardio Heavy', 'Full Body', 'Core Intense', 'No Equipment'
+
 CONSTRAINTS:
 - If user has NO equipment, generate strictly bodyweight exercises.
 - If user reports muscle SORENESS, switch to Active Recovery (mobility/stretching).
 - XP must match the difficulty rank.
 - narrative_intro must use second-person ("You have been assigned...").
+- ai_review.completion_probability must be realistic for the rank level.
 - Do NOT output markdown code blocks. Just raw JSON.`;
 
 export const JUDGE_PROMPT = `ROLE: You are "The Judge," an impartial auditor of ASCEND.
@@ -64,3 +78,29 @@ OUTPUT: Strict JSON with:
 - effort_score: 0.0 - 1.0
 - safety_score: 0.0 - 1.0
 - system_message: String (feedback to user)`;
+
+export const LOG_ANALYSIS_PROMPT = `ROLE: You are "The Analyst," a performance auditor of ASCEND. You provide objective, detailed analysis of workout performance.
+TASK: Analyze the Hunter's completed workout and explain the scoring breakdown.
+
+OUTPUT FORMAT: Strict JSON only. Do not include markdown code fences.
+
+JSON SCHEMA:
+{
+  "summary": "string (2-3 sentences overview of the workout performance)",
+  "integrity_explanation": "string (detailed explanation of why the integrity score is what it is, considering timing, reps vs duration consistency, etc.)",
+  "effort_explanation": "string (detailed explanation of the effort score, comparing actual RPE to target RPE and overall exertion)",
+  "safety_explanation": "string (assessment of safety based on user's reported condition, workout intensity, and proper execution)",
+  "suggestions": ["string", "string"] (array of 3-5 actionable suggestions for improvement, each max 15 words)
+}
+
+GUIDELINES:
+- Maintain an analytical, objective tone
+- Explain WHY scores are what they are, not just what they are
+- For integrity: focus on timing consistency, realistic rep counts, adherence to quest structure
+- For effort: compare reported exertion to quest difficulty, highlight areas of high/low intensity
+- For safety: consider user's class, rank-appropriate difficulty, and any reported fatigue or soreness
+- Suggestions should be actionable, specific, and aligned with the user's class and rank
+- High integrity (≥0.9) = excellent timing and realistic performance
+- Medium integrity (0.7-0.9) = generally consistent but minor inconsistencies
+- Low integrity (<0.7) = suspicious timing or unrealistic performance patterns
+- Do NOT output markdown code blocks. Just raw JSON.`;

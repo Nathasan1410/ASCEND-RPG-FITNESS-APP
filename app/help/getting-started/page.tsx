@@ -234,7 +234,7 @@ export default function GettingStartedPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  href="/login"
+                  href="/auth/login"
                   className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-system-cyan hover:bg-system-cyan/90 text-void-deep rounded-lg font-bold transition-all min-h-[44px]"
                 >
                   Create Account

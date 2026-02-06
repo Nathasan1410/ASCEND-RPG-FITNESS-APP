@@ -37,47 +37,58 @@ Rank: ${input.user_rank}
 Evaluate now.
 `;
 
-  // Start Opik Trace
-  const client = await getOpikClient();
-  const trace = client.trace({
-    name: "System_Judge_Evaluation",
-    input: { system: JUDGE_PROMPT, user: userMessage },
-  });
-
   try {
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        { role: "system", content: JUDGE_PROMPT },
-        { role: "user", content: userMessage },
-      ],
-      temperature: 0.3, // Low temp for consistent judging
-      max_tokens: 1000,
-      response_format: { type: "json_object" },
+    const client = await getOpikClient();
+    const trace = client.trace({
+      name: "System_Judge_Evaluation",
+      input: { system: JUDGE_PROMPT, user: userMessage },
     });
 
-    const content = completion.choices[0]?.message?.content;
-    if (!content) throw new Error("No response from Judge");
+    try {
+      const completion = await groq.chat.completions.create({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: JUDGE_PROMPT },
+          { role: "user", content: userMessage },
+        ],
+        temperature: 0.3, // Low temp for consistent judging
+        max_tokens: 1000,
+        response_format: { type: "json_object" },
+      });
 
-    const parsed = JSON.parse(content);
-    const validated = JudgeVerdictSchema.parse(parsed);
+      const content = completion.choices[0]?.message?.content;
+      if (!content) throw new Error("No response from Judge");
 
-    // Log success
-    await trace.update({
-      output: validated,
-      tags: ["judge", validated.status]
-    });
-    await trace.end();
+      const parsed = JSON.parse(content);
+      const validated = JudgeVerdictSchema.parse(parsed);
 
-    return validated;
-  } catch (error: any) {
-    console.error("Judge evaluation failed:", error);
-    
-    await trace.update({
-      tags: ["judge_failure"]
-    });
-    await trace.end();
+      try {
+        await trace.update({
+          output: validated,
+          tags: ["judge", validated.status]
+        });
+        await trace.end();
+      } catch (traceError) {
+        console.error("Failed to update trace:", traceError);
+      }
 
+      return validated;
+    } catch (error: any) {
+      console.error("Judge evaluation failed:", error);
+
+      try {
+        await trace.update({
+          tags: ["judge_failure"]
+        });
+        await trace.end();
+      } catch (traceError) {
+        console.error("Failed to update trace:", traceError);
+      }
+
+      return getLocalVerdict(input);
+    }
+  } catch (error) {
+    console.error("Failed to initialize Opik trace:", error);
     return getLocalVerdict(input);
   }
 }

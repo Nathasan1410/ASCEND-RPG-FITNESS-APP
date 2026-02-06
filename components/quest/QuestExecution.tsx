@@ -6,12 +6,13 @@ import { QuestTimer } from "./QuestTimer";
 import { ExerciseChecklist } from "./ExerciseChecklist";
 import { CompletionForm } from "./CompletionForm";
 import { WorkoutPlan, RankTier } from "@/types/schemas";
-import { submitQuestLog } from "@/server/actions/log-actions";
+import { submitQuestLog, abortQuest } from "@/server/actions/log-actions";
 import { toast } from "sonner";
 import { LevelUpEffect } from "@/components/effects/LevelUpEffect";
 import { RankUpEffect } from "@/components/effects/RankUpEffect";
 import { ProofUpload } from "@/components/quest/ProofUpload";
 import { createClient } from "@/lib/supabase/client";
+import { X } from "lucide-react";
 
 interface QuestExecutionProps {
   questId: string;
@@ -54,7 +55,7 @@ export function QuestExecution({ questId, plan }: QuestExecutionProps) {
     const exercisesCompleted = plan.exercises.map(ex => ({
       exercise_id: ex.id,
       sets_done: completedExercises.includes(ex.id) ? ex.sets : 0,
-      reps_done: ex.reps,
+      reps_done: String(ex.reps),
       skipped: !completedExercises.includes(ex.id),
     }));
 
@@ -84,6 +85,14 @@ export function QuestExecution({ questId, plan }: QuestExecutionProps) {
         toast.success(`Protocol Complete. Gained ${result.xp_awarded} XP.`);
       }
 
+      console.log("Quest submission successful:", {
+        quest_id: questId,
+        status: result.status,
+        xp: result.xp_awarded,
+        leveled_up: result.leveled_up,
+        ranked_up: result.ranked_up,
+      });
+
       if (result.leveled_up) {
         setResultState({
           level: result.new_level,
@@ -96,8 +105,9 @@ export function QuestExecution({ questId, plan }: QuestExecutionProps) {
       }
       
     } catch (error) {
-      toast.error("Submission Failed. System Error.");
-      console.error(error);
+      console.error("Quest submission failed:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      toast.error(`Submission Failed: ${errorMessage}`);
       setIsSubmitting(false);
     }
   };
@@ -114,6 +124,41 @@ export function QuestExecution({ questId, plan }: QuestExecutionProps) {
   const handleRankUpComplete = () => {
     setShowRankUp(false);
     router.push("/dashboard");
+  };
+
+  const handleAbort = async () => {
+    const confirm = window.confirm("Are you sure you want to abort this quest? You'll receive 20% of the base XP as partial reward.");
+    if (!confirm) return;
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await abortQuest(questId, plan.base_xp);
+
+      console.log("Quest aborted:", {
+        quest_id: questId,
+        xp_awarded: result.xp_awarded,
+        new_level: result.new_level,
+      });
+
+      toast.success(`Protocol Aborted. Partial reward: ${result.xp_awarded} XP.`);
+
+      if (result.leveled_up) {
+        setResultState({
+          level: result.new_level,
+          rank: result.new_rank as RankTier,
+          rankedUp: result.ranked_up
+        });
+        setShowLevelUp(true);
+      } else {
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error("Quest abort failed:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      toast.error(`Abort Failed: ${errorMessage}`);
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -156,16 +201,27 @@ export function QuestExecution({ questId, plan }: QuestExecutionProps) {
       </div>
 
       {userId && (
-        <ProofUpload 
-          userId={userId} 
-          questId={questId} 
-          type={plan.proof_type === "Video" ? "video" : "photo"} 
+        <ProofUpload
+          userId={userId}
+          questId={questId}
+          type={plan.proof_type === "Video" ? "video" : "photo"}
           onUploadComplete={setProofUrl}
           required={plan.requires_proof}
         />
       )}
 
       <CompletionForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+
+      <div className="flex justify-center pt-4">
+        <button
+          onClick={handleAbort}
+          disabled={isSubmitting}
+          className="flex items-center gap-2 text-sm font-mono text-white/40 hover:text-white/60 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <X className="w-4 h-4" />
+          Abort Protocol
+        </button>
+      </div>
     </div>
   );
 }

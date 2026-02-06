@@ -58,6 +58,15 @@ Generate a quest now.
     if (!content) throw new Error("No response from Groq");
 
     const parsed = JSON.parse(content);
+
+    // Ensure all exercises have IDs (fallback if AI misses them)
+    if (parsed.exercises && Array.isArray(parsed.exercises)) {
+      parsed.exercises = parsed.exercises.map((ex: any, index: number) => ({
+        ...ex,
+        id: ex.id || `ex_${index + 1}`,
+      }));
+    }
+
     const validated = WorkoutPlanSchema.parse(parsed);
 
     // Log success to Opik
@@ -127,5 +136,10 @@ function getFallbackQuest(input: QuestInput): WorkoutPlan {
         tips: "Straight line from head to heels.",
       },
     ],
+    ai_review: {
+      reasoning: "Given your E-Rank status and Novice class, this protocol focuses on foundational movement patterns with controlled intensity to build proper form and work capacity.",
+      completion_probability: 85,
+      key_factors: ["Form Focus", "E-Rank", "Bodyweight", "Full Body"]
+    }
   };
 }

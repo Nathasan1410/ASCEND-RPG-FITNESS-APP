@@ -96,6 +96,90 @@ export interface TestAccount {
 
 export const featureDetails: FeatureDetail[] = [
   {
+    id: 'authentication',
+    name: 'User Authentication',
+    status: 'Implemented',
+    priority: 'High',
+    category: 'Core',
+    progress: 100,
+    lastUpdated: '2026-01-20',
+    description: {
+      userFacing: 'Secure login system that lets you create an account and access all ASCEND features using email/password or social login options.',
+      technical: 'Authentication system built on Supabase Auth with OAuth providers (Google, GitHub). Includes JWT token management, session persistence, and role-based access control.',
+      problemStatement: 'Users need a secure way to identify themselves and protect their personal data, workout progress, and achievements.',
+      currentLimitations: [],
+      solution: 'Implemented Supabase Auth with multiple authentication providers, secure session management, and protected routes.',
+      userBenefits: [
+        'Secure access to your personal data',
+        'Sync progress across devices',
+        'Social login with Google and GitHub',
+        'Password reset functionality',
+        'Persistent sessions'
+      ],
+      businessValue: 'Essential foundation for all user-facing features, enables personalized experiences and data protection.'
+    },
+    timeline: {
+      targetDate: 'December 2025',
+      quarter: 'Q4 2025',
+      phases: [
+        { name: 'Planning', status: 'completed', date: 'Nov 2025' },
+        { name: 'Setup Supabase', status: 'completed', date: 'Nov 2025' },
+        { name: 'Implement Auth', status: 'completed', date: 'Dec 2025' },
+        { name: 'OAuth Integration', status: 'completed', date: 'Dec 2025' }
+      ],
+      dependencies: []
+    },
+    milestones: {
+      completed: [
+        { id: '1', name: 'Supabase Project Setup', date: '2025-11-15', description: 'Created Supabase project and configured authentication settings' },
+        { id: '2', name: 'Email/Password Auth', date: '2025-12-01', description: 'Implemented email and password authentication flow' },
+        { id: '3', name: 'Google OAuth', date: '2025-12-05', description: 'Integrated Google OAuth provider' },
+        { id: '4', name: 'GitHub OAuth', date: '2025-12-08', description: 'Integrated GitHub OAuth provider' },
+        { id: '5', name: 'Session Management', date: '2025-12-10', description: 'Implemented secure session handling and JWT tokens' },
+        { id: '6', name: 'Protected Routes', date: '2025-12-15', description: 'Added route protection middleware' },
+        { id: '7', name: 'Password Reset', date: '2025-12-18', description: 'Implemented password reset functionality' }
+      ],
+      upcoming: [],
+      total: 7,
+      completedCount: 7,
+      percentage: 100
+    },
+    implementation: {
+      overallProgress: 100,
+      estimatedCompletion: 'December 2025',
+      status: 'On Track',
+      phases: [
+        { id: '1', name: 'Infrastructure Setup', status: 'completed', progress: 100, completedDate: '2025-11-15' },
+        { id: '2', name: 'Core Authentication', status: 'completed', progress: 100, completedDate: '2025-12-01' },
+        { id: '3', name: 'OAuth Integration', status: 'completed', progress: 100, completedDate: '2025-12-08' },
+        { id: '4', name: 'Security & UX', status: 'completed', progress: 100, completedDate: '2025-12-15' }
+      ],
+      tasks: [
+        { id: '1', name: 'Setup Supabase project', status: 'completed', assignee: 'Developer', estimatedHours: 4 },
+        { id: '2', name: 'Configure auth providers', status: 'completed', assignee: 'Developer', estimatedHours: 3 },
+        { id: '3', name: 'Build auth UI components', status: 'completed', assignee: 'Developer', estimatedHours: 8 },
+        { id: '4', name: 'Implement session management', status: 'completed', assignee: 'Developer', estimatedHours: 6 },
+        { id: '5', name: 'Add protected routes', status: 'completed', assignee: 'Developer', estimatedHours: 4 },
+        { id: '6', name: 'Test authentication flow', status: 'completed', assignee: 'QA', estimatedHours: 4 }
+      ],
+      technical: {
+        technologies: ['Supabase Auth', 'Next.js', 'TypeScript', 'React Context', 'JWT'],
+        apiEndpoints: ['/api/auth/login', '/api/auth/register', '/api/auth/reset-password'],
+        databaseChanges: ['Created users table', 'Added auth provider configurations', 'Setup session storage'],
+        documentation: ['Supabase Auth docs', 'Internal auth implementation guide']
+      },
+      demo: {
+        available: true,
+        screenshots: [],
+        testAccount: {
+          email: 'demo@ascend.gg',
+          password: 'DemoAccount123!',
+          description: 'Demo account with full access to all features'
+        }
+      }
+    }
+  },
+  {
     id: 'quest-generation',
     name: 'AI Quest Generation',
     status: 'Implemented',
@@ -104,21 +188,19 @@ export const featureDetails: FeatureDetail[] = [
     progress: 100,
     lastUpdated: '2026-01-25',
     description: {
-      userFacing: 'The system creates personalized workout quests for you based on your fitness level, goals, and preferences using advanced AI. With Opik AI, every quest is carefully validated to ensure it\'s achievable and perfectly matched to your ability.',
-      technical: 'Uses Groq LLM API with structured prompts to generate workout plans, validated by Opik AI for quality control. Includes prompt engineering for consistency, response validation, difficulty calibration, and caching for performance. Opik AI ensures quests are never over-powered and are always completable.',
-      problemStatement: 'Users need personalized workout recommendations but lack the expertise to design effective routines for their specific goals and fitness level. Many AI systems generate quests that are either too difficult or impossible to complete.',
+      userFacing: 'The system creates personalized workout quests for you based on your fitness level, goals, and preferences using advanced AI.',
+      technical: 'Uses Groq LLM API with structured prompts to generate workout plans. Includes prompt engineering for consistency, response validation, and caching for performance.',
+      problemStatement: 'Users need personalized workout recommendations but lack the expertise to design effective routines for their specific goals and fitness level.',
       currentLimitations: [],
-      solution: 'AI-powered quest generation that analyzes user profile, goals, and preferences to create personalized workout quests. Opik AI validates every generated quest to ensure it\'s appropriately challenging but never over-powered, guaranteeing users can complete and succeed.',
+      solution: 'AI-powered quest generation that analyzes user profile, goals, and preferences to create personalized workout quests.',
       userBenefits: [
         'Personalized workout plans tailored to you',
-        'Balanced difficulty - never over-powered or impossible',
-        'Guaranteed completable quests validated by Opik AI',
         'Adaptive difficulty based on your progress',
         'Variety of exercises to prevent boredom',
         'Goals-aligned quest suggestions',
         'Time-efficient workout planning'
       ],
-      businessValue: 'Core differentiator that provides value immediately after signup, increases user engagement and retention. Opik AI ensures high completion rates by preventing impossible quests, driving user satisfaction and long-term retention.'
+      businessValue: 'Core differentiator that provides value immediately after signup, increases user engagement and retention.'
     },
     timeline: {
       targetDate: 'January 2026',
@@ -127,26 +209,24 @@ export const featureDetails: FeatureDetail[] = [
         { name: 'Research', status: 'completed', date: 'Jan 2026' },
         { name: 'API Integration', status: 'completed', date: 'Jan 2026' },
         { name: 'Prompt Engineering', status: 'completed', date: 'Jan 2026' },
-        { name: 'Opik AI Validation', status: 'completed', date: 'Jan 2026' },
         { name: 'UI Integration', status: 'completed', date: 'Jan 2026' }
       ],
-      dependencies: ['xp-ai-judge-system', 'opik-integration']
+      dependencies: ['authentication', 'xp-leveling-system']
     },
-      milestones: {
-        completed: [
-          { id: '1', name: 'Groq API Integration', date: '2026-01-10', description: 'Integrated Groq LLM API for quest generation' },
-          { id: '2', name: 'Prompt Engineering', date: '2026-01-15', description: 'Developed and optimized prompts for consistent quest generation' },
-          { id: '3', name: 'Opik AI Validation', date: '2026-01-16', description: 'Integrated Opik AI to validate quests for balanced difficulty and completability' },
-          { id: '4', name: 'User Profile Integration', date: '2026-01-18', description: 'Connected quest generation with user profile data' },
-          { id: '5', name: 'Response Parsing', date: '2026-01-20', description: 'Implemented structured response parsing and validation' },
-          { id: '6', name: 'UI Components', date: '2026-01-22', description: 'Built quest display and acceptance UI' },
-          { id: '7', name: 'Caching System', date: '2026-01-25', description: 'Added caching to improve performance and reduce API calls' }
-        ],
-        upcoming: [],
-        total: 7,
-        completedCount: 7,
-        percentage: 100
-      },
+    milestones: {
+      completed: [
+        { id: '1', name: 'Groq API Integration', date: '2026-01-10', description: 'Integrated Groq LLM API for quest generation' },
+        { id: '2', name: 'Prompt Engineering', date: '2026-01-15', description: 'Developed and optimized prompts for consistent quest generation' },
+        { id: '3', name: 'User Profile Integration', date: '2026-01-18', description: 'Connected quest generation with user profile data' },
+        { id: '4', name: 'Response Parsing', date: '2026-01-20', description: 'Implemented structured response parsing and validation' },
+        { id: '5', name: 'UI Components', date: '2026-01-22', description: 'Built quest display and acceptance UI' },
+        { id: '6', name: 'Caching System', date: '2026-01-25', description: 'Added caching to improve performance and reduce API calls' }
+      ],
+      upcoming: [],
+      total: 6,
+      completedCount: 6,
+      percentage: 100
+    },
     implementation: {
       overallProgress: 100,
       estimatedCompletion: 'January 2026',
@@ -155,94 +235,78 @@ export const featureDetails: FeatureDetail[] = [
         { id: '1', name: 'Research & Planning', status: 'completed', progress: 100, completedDate: '2026-01-05' },
         { id: '2', name: 'API Integration', status: 'completed', progress: 100, completedDate: '2026-01-10' },
         { id: '3', name: 'Prompt Development', status: 'completed', progress: 100, completedDate: '2026-01-18' },
-        { id: '4', name: 'Opik AI Validation', status: 'completed', progress: 100, completedDate: '2026-01-20' },
-        { id: '5', name: 'UI & UX', status: 'completed', progress: 100, completedDate: '2026-01-25' }
+        { id: '4', name: 'UI & UX', status: 'completed', progress: 100, completedDate: '2026-01-25' }
       ],
       tasks: [
         { id: '1', name: 'Research LLM options', status: 'completed', assignee: 'Developer', estimatedHours: 8 },
         { id: '2', name: 'Integrate Groq API', status: 'completed', assignee: 'Developer', estimatedHours: 6 },
         { id: '3', name: 'Develop prompt templates', status: 'completed', assignee: 'AI Engineer', estimatedHours: 12 },
-        { id: '4', name: 'Integrate Opik AI validation', status: 'completed', assignee: 'AI Engineer', estimatedHours: 10 },
-        { id: '5', name: 'Build response parser', status: 'completed', assignee: 'Developer', estimatedHours: 8 },
-        { id: '6', name: 'Create quest UI', status: 'completed', assignee: 'Developer', estimatedHours: 10 },
-        { id: '7', name: 'Add caching layer', status: 'completed', assignee: 'Developer', estimatedHours: 4 }
+        { id: '4', name: 'Build response parser', status: 'completed', assignee: 'Developer', estimatedHours: 8 },
+        { id: '5', name: 'Create quest UI', status: 'completed', assignee: 'Developer', estimatedHours: 10 },
+        { id: '6', name: 'Add caching layer', status: 'completed', assignee: 'Developer', estimatedHours: 4 }
       ],
       technical: {
-        technologies: ['Groq LLM API', 'Opik AI', 'Next.js API Routes', 'TypeScript', 'Redis/Cache', 'React Query'],
-        apiEndpoints: ['/api/quests/generate', '/api/quests/validate', '/api/quests/accept', '/api/quests/reject'],
-        databaseChanges: ['Created quests table', 'Added quest templates', 'Cached quest responses', 'Added validation logs'],
-        documentation: ['Groq API docs', 'Opik AI validation guide', 'Quest generation guide', 'Prompt engineering guidelines', 'Difficulty calibration specs']
+        technologies: ['Groq LLM API', 'Next.js API Routes', 'TypeScript', 'Redis/Cache', 'React Query'],
+        apiEndpoints: ['/api/quests/generate', '/api/quests/accept', '/api/quests/reject'],
+        databaseChanges: ['Created quests table', 'Added quest templates', 'Cached quest responses'],
+        documentation: ['Groq API docs', 'Quest generation guide', 'Prompt engineering guidelines']
       },
       demo: {
         available: true,
         testAccount: {
           email: 'demo@ascend.gg',
           password: 'DemoAccount123!',
-          description: 'Try generating AI quests from the dashboard - see how Opik AI ensures every quest is balanced and completable'
+          description: 'Try generating AI quests from the dashboard'
         }
       }
     }
   },
   {
-    id: 'xp-ai-judge-system',
-    name: 'XP System & AI Judge Evaluation',
+    id: 'ai-judge',
+    name: 'AI Judge Evaluation',
     status: 'Implemented',
     priority: 'High',
-    category: 'Core',
+    category: 'AI',
     progress: 100,
-    lastUpdated: '2026-02-06',
+    lastUpdated: '2026-01-28',
     description: {
-      userFacing: 'Earn XP fairly from completing quests and level up through hunter ranks (E through S) with **OPIK AI** ensuring every XP reward is fair and accurate based on your actual effort. Different exercises award different XP based on difficulty and intensity - for example, bench press 50kg earns 1500xp while push-ups earn 150xp.',
-      technical: 'Comprehensive XP and leveling system with AI-powered evaluation using **OPIK AI** and Groq LLM. Multi-factor evaluation includes: integrity check (anti-cheat), effort score (RPE comparison), safety score, class synergy bonus, and streak bonus. **OPIK AI** ensures fair XP distribution by evaluating workouts objectively, preventing exploitation, and maintaining system integrity. XP formula: XP = 100 * (Level ^ 1.588) with ranks: E(0-9), D(10-19), C(20-29), B(30-39), A(40-49), S(50+).',
-      problemStatement: 'Users need motivation and a sense of progression to stay engaged with their fitness journey long-term. Critical challenge: ensuring XP rewards are fair and accurately reflect actual effort - preventing gaming/exploitation while rewarding genuine achievements.',
+      userFacing: 'The AI Judge evaluates your completed workouts to award XP fairly based on effort, technique, and achievements.',
+      technical: 'Uses Opik AI Judge framework with Groq LLM for multi-factor evaluation. Evaluates workout photos, descriptions, user effort, and achievement of quest goals. Includes transparency in scoring.',
+      problemStatement: 'Users need objective feedback on their workouts and fair XP rewards to stay motivated and track progress accurately.',
       currentLimitations: [],
-      solution: '**OPIK AI-powered** fair XP evaluation system that considers multiple factors (effort, integrity, safety, class synergy, streak). Base XP varies by exercise difficulty - heavier/complex exercises earn more XP. Multi-layer evaluation ensures fairness: physics-based anti-cheat, RPE-based effort scoring, and transparent AI judgment.',
+      solution: 'AI-powered evaluation that considers multiple factors to provide fair XP rewards and constructive feedback.',
       userBenefits: [
-        '**Fair and objective XP calculation** guaranteed by OPIK AI',
-        'Effort-based rewards - push harder, earn more XP',
-        'Transparent scoring criteria visible to all users',
-        'Anti-cheat protection maintaining competitive integrity',
-        'Clear progression through E to S rank',
-        'Class-specific bonuses and abilities',
-        'Streak bonuses for consistent training',
-        'Motivation through fair recognition'
+        'Fair and objective XP calculation',
+        'Constructive feedback on workouts',
+        'Transparent scoring criteria',
+        'Motivation through recognition',
+        'Progress tracking with detailed metrics'
       ],
-      businessValue: 'Core gamification and retention mechanic. **OPIK AI** ensures fair competition and high completion rates by preventing frustration from unfair rewards. Builds trust in the system through transparency and objective evaluation.'
+      businessValue: 'Core gamification element that provides immediate feedback and keeps users engaged through fair rewards.'
     },
     timeline: {
       targetDate: 'January 2026',
       quarter: 'Q1 2026',
       phases: [
-        { name: 'System Design', status: 'completed', date: 'Nov 2025' },
-        { name: 'XP Calculation Logic', status: 'completed', date: 'Dec 2025' },
-        { name: 'OPIK AI Integration', status: 'completed', date: 'Jan 2026' },
+        { name: 'Opik Integration', status: 'completed', date: 'Jan 2026' },
         { name: 'Evaluation Logic', status: 'completed', date: 'Jan 2026' },
-        { name: 'Rank & Class System', status: 'completed', date: 'Dec 2025' },
         { name: 'Testing', status: 'completed', date: 'Jan 2026' },
         { name: 'Transparency UI', status: 'completed', date: 'Jan 2026' }
       ],
-      dependencies: ['quest-generation', 'proof-upload', 'opik-integration']
+      dependencies: ['opik-integration', 'quest-generation', 'proof-upload']
     },
     milestones: {
       completed: [
-        { id: '1', name: 'XP Formulas Implementation', date: '2025-12-01', description: 'Implemented XP calculation: XP = 100 * (Level ^ 1.588)' },
-        { id: '2', name: 'Rank Progression (E-S)', date: '2025-12-05', description: 'Built hunter rank system with 6 tiers' },
-        { id: '3', name: 'Class Selection & Bonuses', date: '2025-12-10', description: 'Added 4 hunter classes with unique abilities' },
-        { id: '4', name: 'Progress Visualization', date: '2025-12-12', description: 'Created visual progress bars and XP indicators' },
-        { id: '5', name: 'Exercise XP Values', date: '2025-12-15', description: 'Established base XP values by exercise type/weight' },
-        { id: '6', name: 'OPIK SDK Integration', date: '2026-01-15', description: 'Integrated OPIK AI for fair evaluation' },
-        { id: '7', name: 'Anti-Cheat Physics Check', date: '2026-01-18', description: 'Implemented integrity checks preventing impossible reps' },
-        { id: '8', name: 'Multi-factor Scoring', date: '2026-01-20', description: 'Built evaluation: integrity × effort × safety × synergy × streak' },
-        { id: '9', name: 'RPE-Based Effort Scoring', date: '2026-01-22', description: 'Connected actual vs target RPE to XP rewards' },
-        { id: '10', name: 'Transparency Dashboard', date: '2026-01-25', description: 'Built UI showing exact XP calculation breakdown' },
-        { id: '11', name: 'XP History Tracking', date: '2026-01-28', description: 'Implemented comprehensive XP history log' },
-        { id: '12', name: 'Achievements System', date: '2025-12-20', description: 'Added achievement system tied to XP milestones' },
-        { id: '13', name: 'Streak Bonus Logic', date: '2026-01-25', description: 'Implemented up to 20% XP bonus for consecutive days' },
-        { id: '14', name: 'Class Synergy Bonuses', date: '2025-12-18', description: 'Added 10% XP bonus for class-matched quests' }
+        { id: '1', name: 'Opik SDK Integration', date: '2026-01-15', description: 'Integrated Opik SDK for AI evaluation' },
+        { id: '2', name: 'Evaluation Prompts', date: '2026-01-18', description: 'Developed evaluation criteria and prompts' },
+        { id: '3', name: 'Multi-factor Scoring', date: '2026-01-20', description: 'Implemented multi-factor evaluation system' },
+        { id: '4', name: 'XP Calculation', date: '2026-01-22', description: 'Connected evaluation to XP calculation' },
+        { id: '5', name: 'Transparency Dashboard', date: '2026-01-25', description: 'Built transparency UI showing evaluation details' },
+        { id: '6', name: 'Feedback System', date: '2026-01-28', description: 'Added detailed feedback for users' }
       ],
       upcoming: [],
-      total: 14,
-      completedCount: 14,
+      total: 6,
+      completedCount: 6,
       percentage: 100
     },
     implementation: {
@@ -250,42 +314,114 @@ export const featureDetails: FeatureDetail[] = [
       estimatedCompletion: 'January 2026',
       status: 'On Track',
       phases: [
-        { id: '1', name: 'Design & Planning', status: 'completed', progress: 100, completedDate: '2025-11-25' },
-        { id: '2', name: 'Core XP System', status: 'completed', progress: 100, completedDate: '2025-12-15' },
-        { id: '3', name: 'Rank & Classes', status: 'completed', progress: 100, completedDate: '2025-12-18' },
-        { id: '4', name: 'OPIK AI Integration', status: 'completed', progress: 100, completedDate: '2026-01-20' },
-        { id: '5', name: 'Anti-Cheat & Evaluation', status: 'completed', progress: 100, completedDate: '2026-01-25' },
-        { id: '6', name: 'UI & Transparency', status: 'completed', progress: 100, completedDate: '2026-01-28' }
+        { id: '1', name: 'Infrastructure', status: 'completed', progress: 100, completedDate: '2026-01-15' },
+        { id: '2', name: 'Evaluation Logic', status: 'completed', progress: 100, completedDate: '2026-01-20' },
+        { id: '3', name: 'Integration', status: 'completed', progress: 100, completedDate: '2026-01-25' },
+        { id: '4', name: 'UI & Transparency', status: 'completed', progress: 100, completedDate: '2026-01-28' }
       ],
       tasks: [
-        { id: '1', name: 'Design XP/rank formulas', status: 'completed', assignee: 'Product Manager', estimatedHours: 8 },
-        { id: '2', name: 'Define exercise XP values', status: 'completed', assignee: 'Product Manager', estimatedHours: 6 },
-        { id: '3', name: 'Implement XP calculation', status: 'completed', assignee: 'Developer', estimatedHours: 12 },
-        { id: '4', name: 'Build rank progression', status: 'completed', assignee: 'Developer', estimatedHours: 8 },
-        { id: '5', name: 'Create class system', status: 'completed', assignee: 'Developer', estimatedHours: 12 },
-        { id: '6', name: 'Setup OPIK project', status: 'completed', assignee: 'AI Engineer', estimatedHours: 6 },
-        { id: '7', name: 'Integrate OPIK SDK', status: 'completed', assignee: 'AI Engineer', estimatedHours: 10 },
-        { id: '8', name: 'Build evaluation pipeline', status: 'completed', assignee: 'AI Engineer', estimatedHours: 12 },
-        { id: '9', name: 'Implement anti-cheat physics', status: 'completed', assignee: 'Developer', estimatedHours: 8 },
-        { id: '10', name: 'Create RPE scoring logic', status: 'completed', assignee: 'Developer', estimatedHours: 6 },
-        { id: '11', name: 'Add streak bonuses', status: 'completed', assignee: 'Developer', estimatedHours: 4 },
-        { id: '12', name: 'Create transparency UI', status: 'completed', assignee: 'Developer', estimatedHours: 10 },
-        { id: '13', name: 'Build XP history', status: 'completed', assignee: 'Developer', estimatedHours: 8 },
-        { id: '14', name: 'Add achievements', status: 'completed', assignee: 'Developer', estimatedHours: 10 },
-        { id: '15', name: 'Test evaluation fairness', status: 'completed', assignee: 'QA', estimatedHours: 12 }
+        { id: '1', name: 'Setup Opik project', status: 'completed', assignee: 'AI Engineer', estimatedHours: 6 },
+        { id: '2', name: 'Define evaluation criteria', status: 'completed', assignee: 'Product Manager', estimatedHours: 4 },
+        { id: '3', name: 'Build evaluation pipeline', status: 'completed', assignee: 'AI Engineer', estimatedHours: 12 },
+        { id: '4', name: 'Integrate with quest system', status: 'completed', assignee: 'Developer', estimatedHours: 6 },
+        { id: '5', name: 'Create transparency UI', status: 'completed', assignee: 'Developer', estimatedHours: 10 },
+        { id: '6', name: 'Test with various inputs', status: 'completed', assignee: 'QA', estimatedHours: 8 }
       ],
       technical: {
-        technologies: ['OPIK SDK', 'Groq LLM (Llama-3.3-70b)', 'Next.js', 'TypeScript', 'Supabase', 'React Query', 'Framer Motion'],
-        apiEndpoints: ['/api/evaluate', '/api/quests/complete', '/api/xp/award', '/api/evaluation/details'],
-        databaseChanges: ['Created xp_history table', 'Added evaluations table', 'Created user_levels table', 'Added achievements table', 'Added evaluation criteria storage'],
-        documentation: ['OPIK AI evaluation guide', 'XP calculation formulas doc', 'Rank progression reference', 'Class abilities guide', 'Anti-cheat system documentation']
+        technologies: ['Opik SDK', 'Groq LLM', 'Next.js', 'TypeScript', 'React Query'],
+        apiEndpoints: ['/api/evaluate', '/api/quests/complete', '/api/evaluation/details'],
+        databaseChanges: ['Created evaluations table', 'Added evaluation criteria storage'],
+        documentation: ['Opik documentation', 'Evaluation criteria guide', 'API documentation']
       },
       demo: {
         available: true,
         testAccount: {
           email: 'demo@ascend.gg',
           password: 'DemoAccount123!',
-          description: 'Complete a quest and see how **OPIK AI** evaluates your workout and calculates fair XP. Try completing different exercises (bench press for 1500xp, push-ups for 150xp) to see XP differences based on difficulty.'
+          description: 'Complete a quest and see AI judge evaluation'
+        }
+      }
+    }
+  },
+  {
+    id: 'xp-leveling-system',
+    name: 'XP and Leveling System',
+    status: 'Implemented',
+    priority: 'High',
+    category: 'Core',
+    progress: 100,
+    lastUpdated: '2026-01-20',
+    description: {
+      userFacing: 'Earn XP from completing quests and level up through hunter ranks (E through S) and unlock special classes with unique abilities.',
+      technical: 'Gamification system with XP calculation, level progression, rank advancement (E to S), and class selection. Includes XP history tracking, achievements, and visual progress indicators.',
+      problemStatement: 'Users need motivation and a sense of progression to stay engaged with their fitness journey long-term.',
+      currentLimitations: [],
+      solution: 'Comprehensive leveling system inspired by gaming, with ranks, classes, and visual progression.',
+      userBenefits: [
+        'Clear progression and goals',
+        'Sense of achievement',
+        'Motivation to workout consistently',
+        'Class-specific abilities and bonuses',
+        'Social comparison and competition'
+      ],
+      businessValue: 'Core retention mechanic that gamifies fitness and encourages long-term engagement.'
+    },
+    timeline: {
+      targetDate: 'December 2025',
+      quarter: 'Q4 2025',
+      phases: [
+        { name: 'System Design', status: 'completed', date: 'Nov 2025' },
+        { name: 'XP Calculation', status: 'completed', date: 'Dec 2025' },
+        { name: 'Rank System', status: 'completed', date: 'Dec 2025' },
+        { name: 'Class System', status: 'completed', date: 'Dec 2025' }
+      ],
+      dependencies: ['authentication']
+    },
+    milestones: {
+      completed: [
+        { id: '1', name: 'XP Calculation Logic', date: '2025-12-01', description: 'Implemented XP calculation formulas' },
+        { id: '2', name: 'Level Progression', date: '2025-12-05', description: 'Built level-up system' },
+        { id: '3', name: 'Rank System (E-S)', date: '2025-12-10', description: 'Implemented hunter rank progression' },
+        { id: '4', name: 'Class Selection', date: '2025-12-12', description: 'Added class selection and abilities' },
+        { id: '5', name: 'Progress Visualization', date: '2025-12-15', description: 'Created visual progress bars and indicators' },
+        { id: '6', name: 'XP History', date: '2025-12-18', description: 'Implemented XP history tracking' },
+        { id: '7', name: 'Achievements', date: '2025-12-20', description: 'Added achievement system' }
+      ],
+      upcoming: [],
+      total: 7,
+      completedCount: 7,
+      percentage: 100
+    },
+    implementation: {
+      overallProgress: 100,
+      estimatedCompletion: 'December 2025',
+      status: 'On Track',
+      phases: [
+        { id: '1', name: 'Design', status: 'completed', progress: 100, completedDate: '2025-11-25' },
+        { id: '2', name: 'Core Systems', status: 'completed', progress: 100, completedDate: '2025-12-10' },
+        { id: '3', name: 'Features', status: 'completed', progress: 100, completedDate: '2025-12-18' },
+        { id: '4', name: 'Polish', status: 'completed', progress: 100, completedDate: '2025-12-20' }
+      ],
+      tasks: [
+        { id: '1', name: 'Design XP and rank system', status: 'completed', assignee: 'Product Manager', estimatedHours: 8 },
+        { id: '2', name: 'Implement XP calculation', status: 'completed', assignee: 'Developer', estimatedHours: 10 },
+        { id: '3', name: 'Build rank progression', status: 'completed', assignee: 'Developer', estimatedHours: 8 },
+        { id: '4', name: 'Create class system', status: 'completed', assignee: 'Developer', estimatedHours: 12 },
+        { id: '5', name: 'Add achievements', status: 'completed', assignee: 'Developer', estimatedHours: 10 },
+        { id: '6', name: 'Build UI components', status: 'completed', assignee: 'Developer', estimatedHours: 12 }
+      ],
+      technical: {
+        technologies: ['Next.js', 'TypeScript', 'Supabase', 'React Context', 'Framer Motion'],
+        apiEndpoints: ['/api/xp/award', '/api/user/level-up', '/api/user/select-class'],
+        databaseChanges: ['Created xp_history table', 'Added user_levels table', 'Created achievements table'],
+        documentation: ['XP calculation guide', 'Rank progression docs', 'Class abilities reference']
+      },
+      demo: {
+        available: true,
+        testAccount: {
+          email: 'demo@ascend.gg',
+          password: 'DemoAccount123!',
+          description: 'Try different demo accounts at various levels'
         }
       }
     }
@@ -293,37 +429,36 @@ export const featureDetails: FeatureDetail[] = [
   {
     id: 'hunter-network',
     name: 'Hunter Network',
-    status: 'In Progress',
+    status: 'Implemented',
     priority: 'High',
     category: 'Social',
-    progress: 40,
-    lastUpdated: '2026-02-06',
+    progress: 95,
+    lastUpdated: '2026-02-04',
     description: {
-      userFacing: 'Connect with other hunters, share your workouts, give kudos, and build your fitness community. Currently in demo mode with limited functionality.',
-      technical: 'Social feed system with post creation, reactions (kudos, respects), following system, and activity notifications. Currently in active development with demo/alpha release available for testing.',
+      userFacing: 'Connect with other hunters, share your workouts, give kudos, and build your fitness community.',
+      technical: 'Social feed system with post creation, reactions (kudos, respects), following system, and activity notifications. Real-time updates and optimized performance.',
       problemStatement: 'Fitness is more fun and motivating when shared with others. Users need social connections and community support.',
-      currentLimitations: ['Direct messaging not yet implemented', 'Limited commenting options', 'Currently in demo/alpha mode', 'Testing phase with limited user base', 'Performance optimizations needed'],
-      solution: 'Social network features including feed, posts, reactions, following, and community building. Being actively developed with demo release.',
+      currentLimitations: ['Direct messaging not yet implemented', 'Limited commenting options'],
+      solution: 'Social network features including feed, posts, reactions, following, and community building.',
       userBenefits: [
         'Connect with like-minded hunters',
         'Share achievements and workouts',
         'Get support and motivation',
         'Discover new workout ideas',
-        'Build fitness community',
-        'Early access to features'
+        'Build fitness community'
       ],
-      businessValue: 'Increases engagement through social features, creates network effects, and improves retention. Demo allows early feedback gathering.'
+      businessValue: 'Increases engagement through social features, creates network effects, and improves retention.'
     },
     timeline: {
-      targetDate: 'March 2026',
+      targetDate: 'February 2026',
       quarter: 'Q1 2026',
       phases: [
         { name: 'Core Feed', status: 'completed', date: 'Jan 2026' },
-        { name: 'Demo Release', status: 'completed', date: 'Feb 2026' },
-        { name: 'Social Interactions', status: 'in_progress', date: 'Feb 2026' },
-        { name: 'Enhancements', status: 'pending', date: 'Mar 2026' }
+        { name: 'Social Interactions', status: 'completed', date: 'Jan 2026' },
+        { name: 'Following System', status: 'completed', date: 'Feb 2026' },
+        { name: 'Enhancements', status: 'in_progress', date: 'Feb 2026' }
       ],
-      dependencies: ['xp-ai-judge-system', 'proof-upload']
+      dependencies: ['authentication', 'xp-leveling-system', 'proof-upload']
     },
     milestones: {
       completed: [
@@ -332,55 +467,49 @@ export const featureDetails: FeatureDetail[] = [
         { id: '3', name: 'Kudos System', date: '2026-01-20', description: 'Added kudos (like) functionality' },
         { id: '4', name: 'Respects System', date: '2026-01-22', description: 'Implemented respects feature' },
         { id: '5', name: 'Following', date: '2026-01-25', description: 'Added follow/unfollow users' },
-        { id: '6', name: 'Demo Release', date: '2026-02-06', description: 'Released demo version for testing' }
+        { id: '6', name: 'Notifications', date: '2026-01-28', description: 'Built notification system' },
+        { id: '7', name: 'Feed Optimization', date: '2026-02-01', description: 'Optimized feed performance' }
       ],
       upcoming: [
-        { id: '7', name: 'Comments System', date: '2026-02-15', description: 'Full commenting functionality', priority: 'High' },
-        { id: '8', name: 'Notifications', date: '2026-02-20', description: 'Real-time notification system', priority: 'High' },
-        { id: '9', name: 'Feed Optimization', date: '2026-02-25', description: 'Performance and UX improvements', priority: 'Medium' },
-        { id: '10', name: 'Direct Messaging', date: '2026-03-01', description: 'Private messaging between users', priority: 'Medium' },
-        { id: '11', name: 'Beta Release', date: '2026-03-15', description: 'Wider beta release', priority: 'High' }
+        { id: '8', name: 'Comments Enhancement', date: '2026-02-10', description: 'Enhanced commenting system', priority: 'High' },
+        { id: '9', name: 'Direct Messaging', date: '2026-03-01', description: 'Private messaging between users', priority: 'Medium' }
       ],
-      total: 11,
-      completedCount: 6,
-      percentage: 55,
-      nextMilestone: { id: '7', name: 'Comments System', date: '2026-02-15', description: 'Full commenting functionality', priority: 'High' }
+      total: 9,
+      completedCount: 7,
+      percentage: 78,
+      nextMilestone: { id: '8', name: 'Comments Enhancement', date: '2026-02-10', description: 'Enhanced commenting system', priority: 'High' }
     },
     implementation: {
-      overallProgress: 40,
-      estimatedCompletion: 'March 2026',
+      overallProgress: 95,
+      estimatedCompletion: 'February 2026',
       status: 'On Track',
       phases: [
         { id: '1', name: 'Infrastructure', status: 'completed', progress: 100, completedDate: '2026-01-15' },
         { id: '2', name: 'Core Features', status: 'completed', progress: 100, completedDate: '2026-01-25' },
-        { id: '3', name: 'Demo Release', status: 'completed', progress: 100, completedDate: '2026-02-06' },
-        { id: '4', name: 'Social Interactions', status: 'in_progress', progress: 40 },
-        { id: '5', name: 'Polish & Optimization', status: 'pending', progress: 0 }
+        { id: '3', name: 'Social Interactions', status: 'completed', progress: 100, completedDate: '2026-01-30' },
+        { id: '4', name: 'Polish & Optimization', status: 'in_progress', progress: 75 }
       ],
       tasks: [
         { id: '1', name: 'Design feed architecture', status: 'completed', assignee: 'Backend Developer', estimatedHours: 10 },
         { id: '2', name: 'Build post creation', status: 'completed', assignee: 'Frontend Developer', estimatedHours: 12 },
         { id: '3', name: 'Implement reactions', status: 'completed', assignee: 'Developer', estimatedHours: 8 },
         { id: '4', name: 'Add following system', status: 'completed', assignee: 'Developer', estimatedHours: 10 },
-        { id: '5', name: 'Prepare demo release', status: 'completed', assignee: 'Developer', estimatedHours: 16 },
-        { id: '6', name: 'Build comments system', status: 'in_progress', assignee: 'Developer', estimatedHours: 12 },
-        { id: '7', name: 'Implement notifications', status: 'in_progress', assignee: 'Developer', estimatedHours: 16 },
-        { id: '8', name: 'Performance testing', status: 'pending', assignee: 'QA', estimatedHours: 8 },
-        { id: '9', name: 'User feedback collection', status: 'in_progress', assignee: 'Product Manager', estimatedHours: 8 },
-        { id: '10', name: 'Prepare beta release', status: 'pending', assignee: 'Developer', estimatedHours: 12 }
+        { id: '5', name: 'Build notifications', status: 'completed', assignee: 'Developer', estimatedHours: 12 },
+        { id: '6', name: 'Optimize feed queries', status: 'completed', assignee: 'Backend Developer', estimatedHours: 8 },
+        { id: '7', name: 'Enhance comments', status: 'in_progress', assignee: 'Developer', estimatedHours: 6 }
       ],
       technical: {
         technologies: ['Next.js', 'Supabase', 'React Query', 'Real-time subscriptions', 'TypeScript'],
         apiEndpoints: ['/api/feed', '/api/posts', '/api/posts/react', '/api/users/follow'],
-        databaseChanges: ['Created posts table', 'Added reactions table', 'Created follows table', 'Added comments table'],
-        documentation: ['Feed architecture docs', 'Social features API', 'Demo setup guide']
+        databaseChanges: ['Created posts table', 'Added reactions table', 'Created follows table'],
+        documentation: ['Feed architecture docs', 'Social features API', 'Real-time updates guide']
       },
       demo: {
         available: true,
         testAccount: {
           email: 'demo@ascend.gg',
           password: 'DemoAccount123!',
-          description: 'Demo version active - test feed, posts, reactions, and following. Features may change.'
+          description: 'Post workouts, give kudos, and follow others'
         }
       }
     }
@@ -417,7 +546,7 @@ export const featureDetails: FeatureDetail[] = [
         { name: 'UI Components', status: 'completed', date: 'Jan 2026' },
         { name: 'Performance', status: 'completed', date: 'Jan 2026' }
       ],
-      dependencies: ['xp-ai-judge-system']
+      dependencies: ['xp-leveling-system']
     },
     milestones: {
       completed: [
@@ -499,7 +628,7 @@ export const featureDetails: FeatureDetail[] = [
         { name: 'Optimization', status: 'completed', date: 'Dec 2025' },
         { name: 'Integration', status: 'completed', date: 'Dec 2025' }
       ],
-      dependencies: []
+      dependencies: ['authentication']
     },
     milestones: {
       completed: [
@@ -581,7 +710,7 @@ export const featureDetails: FeatureDetail[] = [
         { name: 'Achievements', status: 'completed', date: 'Dec 2025' },
         { name: 'Settings', status: 'completed', date: 'Dec 2025' }
       ],
-      dependencies: ['xp-ai-judge-system']
+      dependencies: ['authentication', 'xp-leveling-system']
     },
     milestones: {
       completed: [
@@ -801,20 +930,19 @@ export const featureDetails: FeatureDetail[] = [
     progress: 100,
     lastUpdated: '2026-01-28',
     description: {
-      userFacing: 'Full integration with Opik for transparent AI evaluation, showing you exactly how your workouts are judged and scored. Opik also validates every generated quest to ensure it\'s balanced and completable.',
-      technical: 'Complete Opik SDK integration for AI observability, evaluation, and transparency. Includes experiment tracking, model evaluation, detailed scoring criteria visualization, and quest validation to prevent over-powered or impossible quests.',
-      problemStatement: 'Users need transparency in AI-driven features to trust the system and understand how decisions are made. Additionally, AI-generated quests must be validated to ensure they are never over-powered or impossible to complete.',
+      userFacing: 'Full integration with Opik for transparent AI evaluation, showing you exactly how your workouts are judged and scored.',
+      technical: 'Complete Opik SDK integration for AI observability, evaluation, and transparency. Includes experiment tracking, model evaluation, and detailed scoring criteria visualization.',
+      problemStatement: 'Users need transparency in AI-driven features to trust the system and understand how decisions are made.',
       currentLimitations: [],
-      solution: 'Opik integration providing full observability and transparency for AI features, with automated quest validation for balanced difficulty.',
+      solution: 'Opik integration providing full observability and transparency for AI features.',
       userBenefits: [
         'Transparent AI decisions',
         'See evaluation criteria',
         'Trust in the system',
         'Understand scoring',
-        'Feedback visibility',
-        'Guaranteed completable quests (never over-powered)'
+        'Feedback visibility'
       ],
-      businessValue: 'Builds trust in AI features, provides competitive advantage through transparency, and enables continuous improvement. Quest validation ensures high completion rates and user satisfaction.'
+      businessValue: 'Builds trust in AI features, provides competitive advantage through transparency, and enables continuous improvement.'
     },
     timeline: {
       targetDate: 'January 2026',
@@ -822,27 +950,25 @@ export const featureDetails: FeatureDetail[] = [
       phases: [
         { name: 'Setup', status: 'completed', date: 'Jan 2026' },
         { name: 'Evaluation', status: 'completed', date: 'Jan 2026' },
-        { name: 'Quest Validation', status: 'completed', date: 'Jan 2026' },
         { name: 'Transparency', status: 'completed', date: 'Jan 2026' },
         { name: 'Documentation', status: 'completed', date: 'Jan 2026' }
       ],
-      dependencies: ['xp-ai-judge-system', 'quest-generation']
+      dependencies: ['ai-judge', 'quest-generation']
     },
-      milestones: {
-        completed: [
-          { id: '1', name: 'Opik Project Setup', date: '2026-01-10', description: 'Created Opik project and configured SDK' },
-          { id: '2', name: 'Evaluation Integration', date: '2026-01-15', description: 'Integrated evaluation with Opik' },
-          { id: '3', name: 'Quest Validation', date: '2026-01-16', description: 'Added quest validation to prevent over-powered quests' },
-          { id: '4', name: 'Experiment Tracking', date: '2026-01-18', description: 'Added experiment tracking' },
-          { id: '5', name: 'Transparency Dashboard', date: '2026-01-22', description: 'Built transparency UI' },
-          { id: '6', name: 'Scoring Criteria', date: '2026-01-25', description: 'Visualized scoring criteria' },
-          { id: '7', name: 'Documentation', date: '2026-01-28', description: 'Documented integration and created transparency hub' }
-        ],
-        upcoming: [],
-        total: 7,
-        completedCount: 7,
-        percentage: 100
-      },
+    milestones: {
+      completed: [
+        { id: '1', name: 'Opik Project Setup', date: '2026-01-10', description: 'Created Opik project and configured SDK' },
+        { id: '2', name: 'Evaluation Integration', date: '2026-01-15', description: 'Integrated evaluation with Opik' },
+        { id: '3', name: 'Experiment Tracking', date: '2026-01-18', description: 'Added experiment tracking' },
+        { id: '4', name: 'Transparency Dashboard', date: '2026-01-22', description: 'Built transparency UI' },
+        { id: '5', name: 'Scoring Criteria', date: '2026-01-25', description: 'Visualized scoring criteria' },
+        { id: '6', name: 'Documentation', date: '2026-01-28', description: 'Documented integration and created transparency hub' }
+      ],
+      upcoming: [],
+      total: 6,
+      completedCount: 6,
+      percentage: 100
+    },
     implementation: {
       overallProgress: 100,
       estimatedCompletion: 'January 2026',
@@ -850,23 +976,21 @@ export const featureDetails: FeatureDetail[] = [
       phases: [
         { id: '1', name: 'Setup', status: 'completed', progress: 100, completedDate: '2026-01-10' },
         { id: '2', name: 'Integration', status: 'completed', progress: 100, completedDate: '2026-01-20' },
-        { id: '3', name: 'Quest Validation', status: 'completed', progress: 100, completedDate: '2026-01-18' },
-        { id: '4', name: 'Visualization', status: 'completed', progress: 100, completedDate: '2026-01-25' },
-        { id: '5', name: 'Documentation', status: 'completed', progress: 100, completedDate: '2026-01-28' }
+        { id: '3', name: 'Visualization', status: 'completed', progress: 100, completedDate: '2026-01-25' },
+        { id: '4', name: 'Documentation', status: 'completed', progress: 100, completedDate: '2026-01-28' }
       ],
       tasks: [
         { id: '1', name: 'Setup Opik project', status: 'completed', assignee: 'AI Engineer', estimatedHours: 4 },
         { id: '2', name: 'Integrate SDK', status: 'completed', assignee: 'Developer', estimatedHours: 8 },
         { id: '3', name: 'Create evaluation pipeline', status: 'completed', assignee: 'AI Engineer', estimatedHours: 12 },
-        { id: '4', name: 'Build quest validation', status: 'completed', assignee: 'AI Engineer', estimatedHours: 8 },
-        { id: '5', name: 'Build transparency UI', status: 'completed', assignee: 'Developer', estimatedHours: 16 },
-        { id: '6', name: 'Document integration', status: 'completed', assignee: 'Technical Writer', estimatedHours: 8 }
+        { id: '4', name: 'Build transparency UI', status: 'completed', assignee: 'Developer', estimatedHours: 16 },
+        { id: '5', name: 'Document integration', status: 'completed', assignee: 'Technical Writer', estimatedHours: 8 }
       ],
       technical: {
         technologies: ['Opik SDK', 'Groq LLM', 'Next.js', 'TypeScript', 'React'],
-        apiEndpoints: ['/api/opik/evaluate', '/api/opik/experiments', '/api/opik/validate-quest'],
-        databaseChanges: ['Created evaluations_log table', 'Added experiment tracking', 'Added quest validation logs'],
-        documentation: ['Opik integration guide', 'Transparency documentation', 'Evaluation criteria', 'Quest validation specs']
+        apiEndpoints: ['/api/opik/evaluate', '/api/opik/experiments'],
+        databaseChanges: ['Created evaluations_log table', 'Added experiment tracking'],
+        documentation: ['Opik integration guide', 'Transparency documentation', 'Evaluation criteria']
       },
       demo: {
         available: false
@@ -991,7 +1115,7 @@ export const featureDetails: FeatureDetail[] = [
         { name: 'UI Implementation', status: 'completed', date: 'Feb 2026' },
         { name: 'Documentation', status: 'completed', date: 'Feb 2026' }
       ],
-      dependencies: ['xp-ai-judge-system']
+      dependencies: ['authentication', 'xp-leveling-system']
     },
     milestones: {
       completed: [
@@ -1527,339 +1651,6 @@ export const featureDetails: FeatureDetail[] = [
         apiEndpoints: ['/api/nutrition/food', '/api/nutrition/meals', '/api/nutrition/analyze-photo'],
         databaseChanges: ['Create meals table', 'Create nutrition_logs table', 'Add food database integration'],
         documentation: ['Nutrition tracking guide', 'Food database API docs', 'Food recognition model docs']
-      },
-      demo: {
-        available: false
-      }
-    }
-  },
-  {
-    id: 'iot-scale-tracking',
-    name: 'IoT Scale Tracking',
-    status: 'Planned',
-    priority: 'Medium',
-    category: 'Innovation',
-    progress: 0,
-    lastUpdated: '2026-02-05',
-    description: {
-      userFacing: 'Connect your Bluetooth smart scale to automatically track your weight, body composition, and receive AI-powered insights about your progress.',
-      technical: 'Bluetooth scale integration with automatic weight logging, body composition monitoring (BMI, body fat %, muscle mass), AI-powered trend analysis, nutrition recommendations based on weight data, and workout adjustments.',
-      problemStatement: 'Users need an easy way to track weight and body composition over time. Manual logging is tedious and error-prone.',
-      currentLimitations: ['No scale integration', 'Manual weight logging only', 'No body composition tracking', 'No AI weight insights'],
-      solution: 'Bluetooth smart scale integration with automatic syncing, body composition monitoring, and AI-powered insights for smarter fitness decisions.',
-      userBenefits: [
-        'Automatic weight tracking',
-        'Body composition insights',
-        'AI-powered trend analysis',
-        'Nutrition recommendations',
-        'Workout adjustments based on data',
-        'Long-term progress visualization'
-      ],
-      businessValue: 'Hardware integration opportunity, increases engagement, provides comprehensive health tracking, and differentiates from competitors.'
-    },
-    timeline: {
-      targetDate: 'September 2026',
-      quarter: 'Q3 2026',
-      phases: [
-        { name: 'Scale Selection', status: 'pending', date: 'Jun 2026' },
-        { name: 'Bluetooth Integration', status: 'pending', date: 'Jul 2026' },
-        { name: 'Data Sync', status: 'pending', date: 'Aug 2026' },
-        { name: 'AI Insights', status: 'pending', date: 'Sep 2026' }
-      ],
-      dependencies: ['profile-management', 'xp-ai-judge-system']
-    },
-    milestones: {
-      completed: [],
-      upcoming: [
-        { id: '1', name: 'Scale Hardware Selection', date: '2026-06-01', description: 'Select and source compatible Bluetooth scales', priority: 'High' },
-        { id: '2', name: 'Bluetooth SDK Integration', date: '2026-06-15', description: 'Implement Bluetooth connectivity', priority: 'High' },
-        { id: '3', name: 'Automatic Sync', date: '2026-07-01', description: 'Build automatic weight syncing', priority: 'High' },
-        { id: '4', name: 'Body Composition', date: '2026-07-15', description: 'Add body composition tracking', priority: 'High' },
-        { id: '5', name: 'Trend Analysis', date: '2026-08-01', description: 'Implement weight trend analysis', priority: 'High' },
-        { id: '6', name: 'AI Insights', date: '2026-08-15', description: 'Add AI-powered recommendations', priority: 'High' },
-        { id: '7', name: 'Scale Store', date: '2026-08-30', description: 'Create scale purchase flow', priority: 'Medium' },
-        { id: '8', name: 'Testing', date: '2026-09-01', description: 'Test with various scales', priority: 'High' }
-      ],
-      total: 8,
-      completedCount: 0,
-      percentage: 0,
-      nextMilestone: { id: '1', name: 'Scale Hardware Selection', date: '2026-06-01', description: 'Select and source compatible Bluetooth scales', priority: 'High' }
-    },
-    implementation: {
-      overallProgress: 0,
-      estimatedCompletion: 'September 2026',
-      status: 'On Track',
-      phases: [
-        { id: '1', name: 'Hardware Sourcing', status: 'pending', progress: 0 },
-        { id: '2', name: 'Bluetooth Integration', status: 'pending', progress: 0 },
-        { id: '3', name: 'Data Processing', status: 'pending', progress: 0 },
-        { id: '4', name: 'AI Features', status: 'pending', progress: 0 }
-      ],
-      tasks: [
-        { id: '1', name: 'Research Bluetooth scales', status: 'pending', assignee: 'Product Manager', estimatedHours: 16 },
-        { id: '2', name: 'Source hardware', status: 'pending', assignee: 'Procurement', estimatedHours: 8 },
-        { id: '3', name: 'Integrate Bluetooth SDK', status: 'pending', assignee: 'Developer', estimatedHours: 24 },
-        { id: '4', name: 'Build weight syncing', status: 'pending', assignee: 'Developer', estimatedHours: 20 },
-        { id: '5', name: 'Implement body comp tracking', status: 'pending', assignee: 'Developer', estimatedHours: 16 },
-        { id: '6', name: 'Create AI analysis', status: 'pending', assignee: 'AI Engineer', estimatedHours: 32 },
-        { id: '7', name: 'Build scale store', status: 'pending', assignee: 'Developer', estimatedHours: 20 },
-        { id: '8', name: 'Test integration', status: 'pending', assignee: 'QA', estimatedHours: 16 }
-      ],
-      technical: {
-        technologies: ['Bluetooth Low Energy', 'Next.js', 'Supabase', 'Groq LLM', 'React'],
-        apiEndpoints: ['/api/scale/connect', '/api/scale/sync', '/api/scale/analyze'],
-        databaseChanges: ['Create weight_logs table', 'Create body_composition table', 'Add scale_devices table'],
-        documentation: ['Bluetooth scale integration guide', 'Body composition tracking docs', 'AI weight analysis guide']
-      },
-      demo: {
-        available: false
-      }
-    }
-  },
-  {
-    id: 'gym-tools-integration',
-    name: 'Gym Tools Integration',
-    status: 'Planned',
-    priority: 'Medium',
-    category: 'Innovation',
-    progress: 0,
-    lastUpdated: '2026-02-05',
-    description: {
-      userFacing: 'Seamlessly connect with popular gym equipment and fitness platforms like Technogym, Peloton, iFit, Echelon, and more for unified workout tracking.',
-      technical: 'Third-party API integrations with gym equipment manufacturers and fitness platforms. OAuth authentication, workout data sync, real-time equipment connection, unified activity feed, and cross-platform analytics.',
-      problemStatement: 'Users workout on various gym equipment and platforms but struggle to track everything in one place. Fragmented data makes it hard to see the full picture.',
-      currentLimitations: ['No gym equipment integration', 'Manual logging only', 'No cross-platform sync', 'Limited equipment support'],
-      solution: 'Comprehensive integration with major gym equipment and fitness platforms for automatic workout syncing and unified tracking.',
-      userBenefits: [
-        'Automatic workout logging from equipment',
-        'Cross-platform activity tracking',
-        'Real-time equipment connection',
-        'Unified fitness dashboard',
-        'Comprehensive analytics',
-        'No manual entry needed'
-      ],
-      businessValue: 'Expands ecosystem, increases user engagement, creates partnership opportunities, and provides competitive advantage.'
-    },
-    timeline: {
-      targetDate: 'September 2026',
-      quarter: 'Q3 2026',
-      phases: [
-        { name: 'Partnerships', status: 'pending', date: 'Jun 2026' },
-        { name: 'API Integration', status: 'pending', date: 'Jul 2026' },
-        { name: 'Data Sync', status: 'pending', date: 'Aug 2026' },
-        { name: 'Testing', status: 'pending', date: 'Sep 2026' }
-      ],
-      dependencies: ['quest-generation', 'xp-ai-judge-system']
-    },
-    milestones: {
-      completed: [],
-      upcoming: [
-        { id: '1', name: 'Partner Outreach', date: '2026-06-01', description: 'Contact gym equipment manufacturers', priority: 'High' },
-        { id: '2', name: 'API Documentation', date: '2026-06-15', description: 'Study partner API documentation', priority: 'High' },
-        { id: '3', name: 'Technogym Integration', date: '2026-07-01', description: 'Integrate Technogym equipment', priority: 'High' },
-        { id: '4', name: 'Peloton Integration', date: '2026-07-15', description: 'Integrate Peloton platform', priority: 'High' },
-        { id: '5', name: 'iFit Integration', date: '2026-08-01', description: 'Integrate iFit equipment', priority: 'Medium' },
-        { id: '6', name: 'Echelon Integration', date: '2026-08-15', description: 'Integrate Echelon bikes', priority: 'Medium' },
-        { id: '7', name: 'Unified Feed', date: '2026-08-30', description: 'Create unified activity feed', priority: 'High' },
-        { id: '8', name: 'Testing', date: '2026-09-01', description: 'Test all integrations', priority: 'High' }
-      ],
-      total: 8,
-      completedCount: 0,
-      percentage: 0,
-      nextMilestone: { id: '1', name: 'Partner Outreach', date: '2026-06-01', description: 'Contact gym equipment manufacturers', priority: 'High' }
-    },
-    implementation: {
-      overallProgress: 0,
-      estimatedCompletion: 'September 2026',
-      status: 'On Track',
-      phases: [
-        { id: '1', name: 'Partnerships', status: 'pending', progress: 0 },
-        { id: '2', name: 'Integration', status: 'pending', progress: 0 },
-        { id: '3', name: 'Sync Engine', status: 'pending', progress: 0 },
-        { id: '4', name: 'Testing', status: 'pending', progress: 0 }
-      ],
-      tasks: [
-        { id: '1', name: 'Identify partners', status: 'pending', assignee: 'Product Manager', estimatedHours: 16 },
-        { id: '2', name: 'Negotiate partnerships', status: 'pending', assignee: 'Business Dev', estimatedHours: 24 },
-        { id: '3', name: 'Study partner APIs', status: 'pending', assignee: 'Developer', estimatedHours: 20 },
-        { id: '4', name: 'Build integration framework', status: 'pending', assignee: 'Developer', estimatedHours: 32 },
-        { id: '5', name: 'Implement Technogym', status: 'pending', assignee: 'Developer', estimatedHours: 24 },
-        { id: '6', name: 'Implement Peloton', status: 'pending', assignee: 'Developer', estimatedHours: 24 },
-        { id: '7', name: 'Implement other partners', status: 'pending', assignee: 'Developer', estimatedHours: 32 },
-        { id: '8', name: 'Test integrations', status: 'pending', assignee: 'QA', estimatedHours: 20 }
-      ],
-      technical: {
-        technologies: ['OAuth 2.0', 'Webhooks', 'Next.js', 'Supabase', 'React', 'API Clients'],
-        apiEndpoints: ['/api/integrations/connect', '/api/integrations/sync', '/api/integrations/webhook'],
-        databaseChanges: ['Create integrations table', 'Create external_workouts table', 'Add sync_tokens table'],
-        documentation: ['Integration guide', 'Partner API docs', 'Webhook documentation']
-      },
-      demo: {
-        available: false
-      }
-    }
-  },
-  {
-    id: 'guild-features',
-    name: 'Guild Features',
-    status: 'Planned',
-    priority: 'Medium',
-    category: 'Social',
-    progress: 0,
-    lastUpdated: '2026-02-05',
-    description: {
-      userFacing: 'Form or join guilds, participate in dungeon raids, boss battles, and territory wars. Compete as a team in weekly and monthly events.',
-      technical: 'Guild system with guild creation and management, member recruitment, dungeon instances with progression, boss battles (PvE), territory wars (PvP), team competitions, leaderboards, and guild rewards.',
-      problemStatement: 'Social features need more depth beyond basic following. Users want to form communities and compete in team-based activities.',
-      currentLimitations: ['No guild system', 'No team activities', 'Limited social interaction', 'No guild rewards'],
-      solution: 'Comprehensive guild system with team-based gameplay, dungeons, raids, boss battles, and territory wars for deeper social engagement.',
-      userBenefits: [
-        'Join or create guilds',
-        'Team-based activities',
-        'Dungeon raids and boss battles',
-        'Territory wars and PvP',
-        'Guild leaderboards',
-        'Exclusive guild rewards',
-        'Stronger community bonds'
-      ],
-      businessValue: 'Increases engagement and retention, creates social pressure to stay active, adds monetization opportunities (guild cosmetics), and differentiates platform.'
-    },
-    timeline: {
-      targetDate: 'December 2026',
-      quarter: 'Q4 2026',
-      phases: [
-        { name: 'Guild System', status: 'pending', date: 'Oct 2026' },
-        { name: 'Dungeons', status: 'pending', date: 'Nov 2026' },
-        { name: 'Boss Battles', status: 'pending', date: 'Nov 2026' },
-        { name: 'Territory Wars', status: 'pending', date: 'Dec 2026' }
-      ],
-      dependencies: ['hunter-network', 'xp-ai-judge-system']
-    },
-    milestones: {
-      completed: [],
-      upcoming: [
-        { id: '1', name: 'Guild Creation', date: '2026-10-01', description: 'Build guild creation and management UI', priority: 'High' },
-        { id: '2', name: 'Guild Members', date: '2026-10-15', description: 'Implement member management and invites', priority: 'High' },
-        { id: '3', name: 'Guild Profile', date: '2026-11-01', description: 'Create guild profile pages', priority: 'High' },
-        { id: '4', name: 'Dungeon System', date: '2026-11-15', description: 'Build dungeon instances', priority: 'High' },
-        { id: '5', name: 'Boss Battles', date: '2026-11-30', description: 'Implement PvE boss battles', priority: 'High' },
-        { id: '6', name: 'Territory System', date: '2026-12-01', description: 'Create territory map and wars', priority: 'High' },
-        { id: '7', name: 'Guild Leaderboards', date: '2026-12-15', description: 'Add guild rankings', priority: 'Medium' },
-        { id: '8', name: 'Guild Rewards', date: '2026-12-30', description: 'Implement exclusive guild rewards', priority: 'Medium' }
-      ],
-      total: 8,
-      completedCount: 0,
-      percentage: 0,
-      nextMilestone: { id: '1', name: 'Guild Creation', date: '2026-10-01', description: 'Build guild creation and management UI', priority: 'High' }
-    },
-    implementation: {
-      overallProgress: 0,
-      estimatedCompletion: 'December 2026',
-      status: 'On Track',
-      phases: [
-        { id: '1', name: 'Guild Foundation', status: 'pending', progress: 0 },
-        { id: '2', name: 'Dungeons & Raids', status: 'pending', progress: 0 },
-        { id: '3', name: 'Competitive Features', status: 'pending', progress: 0 },
-        { id: '4', name: 'Polish', status: 'pending', progress: 0 }
-      ],
-      tasks: [
-        { id: '1', name: 'Design guild system', status: 'pending', assignee: 'Product Manager', estimatedHours: 16 },
-        { id: '2', name: 'Build guild management', status: 'pending', assignee: 'Developer', estimatedHours: 24 },
-        { id: '3', name: 'Create dungeon logic', status: 'pending', assignee: 'Game Designer', estimatedHours: 32 },
-        { id: '4', name: 'Implement boss battles', status: 'pending', assignee: 'Developer', estimatedHours: 28 },
-        { id: '5', name: 'Build territory system', status: 'pending', assignee: 'Developer', estimatedHours: 32 },
-        { id: '6', name: 'Create leaderboards', status: 'pending', assignee: 'Developer', estimatedHours: 16 },
-        { id: '7', name: 'Add guild rewards', status: 'pending', assignee: 'Developer', estimatedHours: 16 },
-        { id: '8', name: 'Test all features', status: 'pending', assignee: 'QA', estimatedHours: 20 }
-      ],
-      technical: {
-        technologies: ['Next.js', 'Supabase', 'Real-time (WebSockets)', 'Redis', 'React', 'TypeScript'],
-        apiEndpoints: ['/api/guilds/create', '/api/guilds/join', '/api/dungeons/enter', '/api/bosses/attack'],
-        databaseChanges: ['Create guilds table', 'Create guild_members table', 'Create dungeons table', 'Create territories table'],
-        documentation: ['Guild system guide', 'Dungeon mechanics docs', 'Boss battle rules', 'Territory war guide']
-      },
-      demo: {
-        available: false
-      }
-    }
-  },
-  {
-    id: 'monetization-system',
-    name: 'Monetization System',
-    status: 'Planned',
-    priority: 'Low',
-    category: 'Monetization',
-    progress: 0,
-    lastUpdated: '2026-02-05',
-    description: {
-      userFacing: 'Choose between Free Hunter and Pro Hunter tiers with different feature sets. Free tier gives you 1 daily quest, while Pro unlocks unlimited quests, advanced analytics, AI chatbot, nutrition tracking, and exclusive community access.',
-      technical: 'Subscription management with Stripe integration, tiered feature access control, payment processing, subscription lifecycle management, billing history, and tier comparison UI. Includes 1 daily quest limit for Free tier.',
-      problemStatement: 'ASCEND needs sustainable revenue to fund development, servers, AI costs, and ongoing improvements while maintaining accessibility for new users.',
-      currentLimitations: ['No monetization', 'No tiered access', 'No payment processing', 'No revenue stream'],
-      solution: 'Two-tier subscription system (Free Hunter / Pro Hunter) with Stripe for payment processing. Free tier limited to 1 quest/day for sustainable model.',
-      userBenefits: [
-        'Free tier with core features',
-        'Pro tier unlocks full potential',
-        'Flexible payment options',
-        'Clear value proposition',
-        'Affordable pricing',
-        'Access to advanced features'
-      ],
-      businessValue: 'Sustainable revenue model, funds continued development, creates loyal user base through Pro tier, and allows free trial through Free tier.'
-    },
-    timeline: {
-      targetDate: 'December 2026',
-      quarter: 'Q4 2026',
-      phases: [
-        { name: 'Design', status: 'pending', date: 'Oct 2026' },
-        { name: 'Stripe Integration', status: 'pending', date: 'Oct 2026' },
-        { name: 'Tier System', status: 'pending', date: 'Nov 2026' },
-        { name: 'Testing', status: 'pending', date: 'Dec 2026' }
-      ],
-      dependencies: ['quest-generation', 'ai-chatbot', 'nutrition-tracking', 'xp-ai-judge-system']
-    },
-    milestones: {
-      completed: [],
-      upcoming: [
-        { id: '1', name: 'Pricing Strategy', date: '2026-10-01', description: 'Define pricing tiers and features', priority: 'High' },
-        { id: '2', name: 'Stripe Account', date: '2026-10-15', description: 'Setup Stripe account and products', priority: 'High' },
-        { id: '3', name: 'Payment Processing', date: '2026-11-01', description: 'Integrate Stripe payment flow', priority: 'High' },
-        { id: '4', name: 'Subscription Management', date: '2026-11-15', description: 'Build subscription lifecycle', priority: 'High' },
-        { id: '5', name: 'Tier Access Control', date: '2026-11-30', description: 'Implement feature gating', priority: 'High' },
-        { id: '6', name: 'Billing UI', date: '2026-12-01', description: 'Create billing and invoices page', priority: 'Medium' },
-        { id: '7', name: 'Pro Features Unlock', date: '2026-12-15', description: 'Connect Pro features to subscription', priority: 'High' },
-        { id: '8', name: 'Testing', date: '2026-12-30', description: 'Test payment flow', priority: 'High' }
-      ],
-      total: 8,
-      completedCount: 0,
-      percentage: 0,
-      nextMilestone: { id: '1', name: 'Pricing Strategy', date: '2026-10-01', description: 'Define pricing tiers and features', priority: 'High' }
-    },
-    implementation: {
-      overallProgress: 0,
-      estimatedCompletion: 'December 2026',
-      status: 'On Track',
-      phases: [
-        { id: '1', name: 'Planning', status: 'pending', progress: 0 },
-        { id: '2', name: 'Stripe Integration', status: 'pending', progress: 0 },
-        { id: '3', name: 'Feature Gating', status: 'pending', progress: 0 },
-        { id: '4', name: 'UI & Billing', status: 'pending', progress: 0 }
-      ],
-      tasks: [
-        { id: '1', name: 'Define pricing tiers', status: 'pending', assignee: 'Product Manager', estimatedHours: 16 },
-        { id: '2', name: 'Setup Stripe account', status: 'pending', assignee: 'DevOps', estimatedHours: 8 },
-        { id: '3', name: 'Integrate Stripe SDK', status: 'pending', assignee: 'Developer', estimatedHours: 20 },
-        { id: '4', name: 'Build payment flow', status: 'pending', assignee: 'Developer', estimatedHours: 24 },
-        { id: '5', name: 'Implement subscription management', status: 'pending', assignee: 'Developer', estimatedHours: 24 },
-        { id: '6', name: 'Create feature gating', status: 'pending', assignee: 'Developer', estimatedHours: 20 },
-        { id: '7', name: 'Build billing UI', status: 'pending', assignee: 'Developer', estimatedHours: 20 },
-        { id: '8', name: 'Test payments', status: 'pending', assignee: 'QA', estimatedHours: 16 }
-      ],
-      technical: {
-        technologies: ['Stripe', 'Next.js', 'Supabase', 'Webhooks', 'React', 'TypeScript'],
-        apiEndpoints: ['/api/subscription/create', '/api/subscription/cancel', '/api/subscription/update'],
-        databaseChanges: ['Create subscriptions table', 'Add subscription_tier field to profiles', 'Create billing_history table'],
-        documentation: ['Stripe integration guide', 'Subscription management docs', 'Billing UI guide']
       },
       demo: {
         available: false
