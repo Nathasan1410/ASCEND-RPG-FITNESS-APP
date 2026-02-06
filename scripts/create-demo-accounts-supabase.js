@@ -1,13 +1,18 @@
 #!/usr/bin/env node
 
-// Demo Accounts Creator Script - Simple and Working Version
+const { createClient } = require('@supabase/supabase-js');
+require('dotenv').config({ path: '.env.local' });
 
-const https = require('https');
-const SERVICE_ROLE_KEY = process.env.SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx3emRneHlob3JvY3l5c3V2Y2VoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2OTk0ODcxNSwiZXhwIjoyMDg1NTI0NzE1fQ.Ji1A0ZblIIM_uDm40iV19Jbj7oSgDkHsNZIDic1p3j0';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.SERVICE_ROLE_KEY;
 
-const PROJECT_URL = process.env.SUPABASE_URL || 'https://lwzdgxyhorocyysuvceh.supabase.co';
+if (!supabaseKey) {
+  console.error('❌ SERVICE_ROLE_KEY not found in .env.local');
+  process.exit(1);
+}
 
-// 24 existing demo accounts
+const supabase = createClient(supabaseUrl, supabaseKey);
+
 const existingAccounts = [
   {
     email: 'shadowhunter@test.com',
@@ -153,7 +158,7 @@ const existingAccounts = [
       username: 'SwiftWolf',
       class: 'Assassin',
       rank_tier: 'B-Rank',
-      level:  52,
+      level: 52,
       current_xp: 104000,
       total_xp: 104000,
       stats_strength: 70,
@@ -419,105 +424,37 @@ const existingAccounts = [
   }
 ];
 
-console.log('🚀 Starting demo accounts creation...');
-console.log(`📊 Project: ${PROJECT_URL}`);
-console.log('');
-
-// Helper functions
-function calculateXP(rank, level) {
-  const rankMultipliers = {
-    'S-Rank': 2500,
-    'A-Rank': 2000,
-    'B-Rank': 1500,
-    'C-Rank': 1000,
-    'D-Rank': 600,
-    'E-Rank': 300,
-  };
-  const multiplier = rankMultipliers[rank] || 300;
-  return level * multiplier;
-}
-
-function calculateStats(hunterClass, baseStats) {
-  const classModifiers = {
-    'Novice': { str: 10, agi: 10, sta: 10 },
-    'Striker': { str: 8, agi: 10, sta: 7 },
-    'Tank': { str: 10, agi: 7, sta: 10 },
-    'Assassin': { str: 7, agi: 10, sta: 8 },
-  };
-  const modifiers = classModifiers[hunterClass] || classModifiers['Novice'];
-  return {
-    stats_strength: baseStats + modifiers.str,
-    stats_agility: baseStats + modifiers.agi,
-    stats_stamina: baseStats + modifiers.sta,
-  };
-}
-
-function makeRequest(url, data, apiKey) {
-  return new Promise((resolve, reject) => {
-    const urlObj = new URL(url);
-    const postData = JSON.stringify(data);
-
-    const options = {
-      hostname: urlObj.hostname,
-      port: urlObj.port || 443,
-      path: urlObj.pathname + urlObj.search,
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(postData),
-      },
-    };
-
-    const req = https.request(options, (res) => {
-      let body = '';
-      res.on('data', (chunk) => {
-        body += chunk;
-      });
-      res.on('end', () => {
-        resolve({
-          statusCode: res.statusCode,
-          body: body,
-        });
-      });
-    });
-
-    req.on('error', (error) => {
-      reject(error);
-    });
-
-    req.write(postData);
-    req.end();
-  });
-}
-
-async function createUsers(accounts) {
+async function createUsers() {
   let successCount = 0;
   let failCount = 0;
-  const total = accounts.length;
+  const total = existingAccounts.length;
 
+  console.log('🚀 Starting demo accounts creation...');
+  console.log(`📊 Project: ${supabaseUrl}`);
   console.log(`📋 Creating ${total} accounts...`);
   console.log('');
 
   for (let i = 0; i < total; i++) {
-    const account = accounts[i];
+    const account = existingAccounts[i];
 
     try {
-      const response = await makeRequest(`${PROJECT_URL}/auth/v1/admin/users`, account, SERVICE_ROLE_KEY);
+      const { data, error } = await supabase.auth.admin.createUser({
+        email: account.email,
+        password: account.password,
+        email_confirm: account.email_confirm,
+        user_metadata: account.user_metadata,
+      });
 
-      if (response.statusCode === 200 || response.statusCode === 201) {
-        successCount++;
-        const type = account.email_confirm === true ? 'Existing' : 'New';
-        console.log(`✅ [${i + 1}/${total}] ${type}: ${account.username} (${account.user_metadata.rank_tier})`);
-      } else {
-        failCount++;
-        console.error(`❌ [${i + 1}/${total}] Failed: ${account.username}`);
-        console.error(`   Status: ${response.statusCode}`);
+      if (error) {
+        throw error;
       }
+
+      successCount++;
+      console.log(`✅ [${i + 1}/${total}] Created: ${account.username} (${account.user_metadata.rank_tier})`);
     } catch (error) {
       failCount++;
-      console.error(`❌ [${i + 1}/${total}] Error: ${account.username}`);
-      console.error(`   ${error.message}`);
+      console.error(`❌ [${i + 1}/${total}] Failed: ${account.username}`);
+      console.error(`   Error: ${error.message}`);
     }
 
     await new Promise(resolve => setTimeout(resolve, 200));
@@ -549,20 +486,16 @@ async function createUsers(accounts) {
     console.log('      Password: Test123!');
     console.log('   3. Verify profile data');
   } else {
+    console.log('');
     console.log('⚠️  No accounts were created!');
     console.log('   Please check:');
     console.log('   1. SERVICE_ROLE_KEY is correct');
-    console.log('   2. PROJECT_URL is correct');
+    console.log('   2. NEXT_PUBLIC_SUPABASE_URL is correct');
     console.log('   3. Network connection is working');
   }
 }
 
-// Main execution
-(async () => {
-  try {
-    await createUsers(existingAccounts);
-  } catch (error) {
-    console.error('💥 Fatal error:', error);
-    process.exit(1);
-  }
-})();
+createUsers().catch(error => {
+  console.error('💥 Fatal error:', error);
+  process.exit(1);
+});
