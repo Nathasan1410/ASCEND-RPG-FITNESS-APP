@@ -62,6 +62,7 @@ CONSTRAINTS:
 - XP must match the difficulty rank.
 - narrative_intro must use second-person ("You have been assigned...").
 - ai_review.completion_probability must be realistic for the rank level.
+- exercise.type MUST be EXACTLY one of: "Warmup", "Skill", "Compound", "Isolation", "Cooldown". Do NOT use other values like "HIIT", "Cardio", "Strength", etc.
 - Do NOT output markdown code blocks. Just raw JSON.`;
 
 export const JUDGE_PROMPT = `ROLE: You are "The Judge," an impartial auditor of ASCEND.

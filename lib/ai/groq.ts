@@ -70,12 +70,36 @@ Generate a quest now.
       parsed.requires_proof = parsed.requires_proof.toLowerCase() === 'true';
     }
 
-    // Ensure all exercises have IDs (fallback if AI misses them)
+    // Ensure all exercises have IDs and valid types (fallback if AI misses them)
+    const validExerciseTypes = ["Warmup", "Skill", "Compound", "Isolation", "Cooldown"];
     if (parsed.exercises && Array.isArray(parsed.exercises)) {
-      parsed.exercises = parsed.exercises.map((ex: any, index: number) => ({
-        ...ex,
-        id: ex.id || `ex_${index + 1}`,
-      }));
+      parsed.exercises = parsed.exercises.map((ex: any, index: number) => {
+        // Normalize exercise type to valid enum values
+        let normalizedType = ex.type;
+        if (!validExerciseTypes.includes(ex.type)) {
+          // Map common invalid types to valid ones
+          const typeMap: Record<string, string> = {
+            "hiit": "Compound",
+            "cardio": "Compound", 
+            "strength": "Compound",
+            "bodyweight": "Compound",
+            "plyometric": "Compound",
+            "isometric": "Isolation",
+            "static": "Isolation",
+            "stretch": "Cooldown",
+            "warm-up": "Warmup",
+            "cool-down": "Cooldown",
+          };
+          normalizedType = typeMap[ex.type?.toLowerCase()] || "Compound";
+          console.log(`[Groq] Normalized exercise type: ${ex.type} -> ${normalizedType}`);
+        }
+        
+        return {
+          ...ex,
+          id: ex.id || `ex_${index + 1}`,
+          type: normalizedType,
+        };
+      });
     }
 
     console.log("[Groq] Parsed data before validation:", JSON.stringify(parsed, null, 2));
