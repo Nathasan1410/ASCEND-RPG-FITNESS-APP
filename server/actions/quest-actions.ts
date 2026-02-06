@@ -61,7 +61,7 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
   try {
     // Add a timeout race to prevent infinite hanging
     const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error("Groq Timeout")), 15000)
+      setTimeout(() => reject(new Error("Groq Timeout")), 60000)
     );
     
     plan = await Promise.race([
