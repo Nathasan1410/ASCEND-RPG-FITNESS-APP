@@ -1865,5 +1865,88 @@ export const featureDetails: FeatureDetail[] = [
         available: false
       }
     }
+  },
+  {
+    id: 'cost-planning',
+    name: 'Cost Planning & Optimization',
+    status: 'Planned',
+    priority: 'Medium',
+    category: 'Monetization',
+    progress: 0,
+    lastUpdated: '2026-02-07',
+    description: {
+      userFacing: 'Comprehensive cost planning system to ensure ASCEND scales profitably from 100 to 50,000+ users while maintaining excellent margins (80%+). Includes real-time monitoring, automated optimization, ML-based predictions, and scenario planning.',
+      technical: 'Real-time cost monitoring dashboard tracking all infrastructure, API, and operational costs. Automated optimization engine with idle resource detection, right-sizing, and reserved instances. ML-based cost prediction models (1-12 month forecasts). Cost planning workspace for scenario modeling and budget allocation. Integration with billing APIs (AWS, DigitalOcean, Supabase, Redis Cloud, Cloudflare Stream).',
+      problemStatement: 'Scaling from 100 to 50,000+ users requires proactive cost management to maintain profitability. Without monitoring, costs can spiral unexpectedly. Need to predict costs before they happen and optimize resources automatically.',
+      currentLimitations: ['No centralized cost tracking', 'No real-time monitoring', 'No automated optimization', 'No cost predictions', 'No scenario modeling'],
+      solution: 'Five-feature cost planning system: 1) Real-time monitoring dashboard, 2) Automated optimization engine, 3) Budget alerting and anomaly detection, 4) ML-based cost prediction, 5) Cost planning workspace for scenario analysis.',
+      userBenefits: [
+        'Predictable cost management',
+        'Real-time visibility into spending',
+        'Automated cost savings (30-50%)',
+        'Proactive budget alerts',
+        'Scenario planning for growth',
+        'Maintain 80%+ profit margins'
+      ],
+      businessValue: 'Enables profitable scaling with 80%+ margins at all scales. Reduces break-even from 200 users (without ads) to 45 users (with ads). $100K+ annual savings at 10,000 users through optimization.'
+    },
+    timeline: {
+      targetDate: 'June 2026',
+      quarter: 'Q2 2026',
+      phases: [
+        { name: 'Data Collection', status: 'pending', date: 'Apr 2026' },
+        { name: 'Monitoring Dashboard', status: 'pending', date: 'Apr 2026' },
+        { name: 'Optimization Engine', status: 'pending', date: 'May 2026' },
+        { name: 'ML Prediction', status: 'pending', date: 'Jun 2026' }
+      ],
+      dependencies: ['monetization-system', 'quest-generation', 'ai-chatbot']
+    },
+    milestones: {
+      completed: [],
+      upcoming: [
+        { id: '1', name: 'Billing API Integration', date: '2026-04-01', description: 'Connect to AWS, DigitalOcean, Supabase, Redis Cloud APIs', priority: 'High' },
+        { id: '2', name: 'Cost Monitoring Dashboard', date: '2026-04-15', description: 'Build real-time cost tracking UI', priority: 'High' },
+        { id: '3', name: 'Alert System', date: '2026-05-01', description: 'Implement budget thresholds and anomaly detection', priority: 'High' },
+        { id: '4', name: 'Optimization Engine', date: '2026-05-15', description: 'Build automated cost optimization algorithms', priority: 'Medium' },
+        { id: '5', name: 'ML Prediction Model', date: '2026-06-01', description: 'Train cost prediction models (1-12 month)', priority: 'High' },
+        { id: '6', name: 'Planning Workspace', date: '2026-06-15', description: 'Build scenario modeling and budget allocation tools', priority: 'Medium' },
+        { id: '7', name: 'Testing & Deployment', date: '2026-06-30', description: 'Test all features and deploy to production', priority: 'High' }
+      ],
+      total: 7,
+      completedCount: 0,
+      percentage: 0,
+      nextMilestone: { id: '1', name: 'Billing API Integration', date: '2026-04-01', description: 'Connect to AWS, DigitalOcean, Supabase, Redis Cloud APIs', priority: 'High' }
+    },
+    implementation: {
+      overallProgress: 0,
+      estimatedCompletion: 'June 2026',
+      status: 'On Track',
+      phases: [
+        { id: '1', name: 'Data Collection', status: 'pending', progress: 0 },
+        { id: '2', name: 'Dashboard UI', status: 'pending', progress: 0 },
+        { id: '3', name: 'Optimization Logic', status: 'pending', progress: 0 },
+        { id: '4', name: 'ML Models', status: 'pending', progress: 0 },
+        { id: '5', name: 'Planning Tools', status: 'pending', progress: 0 }
+      ],
+      tasks: [
+        { id: '1', name: 'Design cost database schema', status: 'pending', assignee: 'Backend Developer', estimatedHours: 12 },
+        { id: '2', name: 'Integrate billing APIs', status: 'pending', assignee: 'Backend Developer', estimatedHours: 20 },
+        { id: '3', name: 'Build monitoring dashboard', status: 'pending', assignee: 'Frontend Developer', estimatedHours: 24 },
+        { id: '4', name: 'Implement alert system', status: 'pending', assignee: 'Developer', estimatedHours: 16 },
+        { id: '5', name: 'Build optimization engine', status: 'pending', assignee: 'Backend Developer', estimatedHours: 28 },
+        { id: '6', name: 'Train ML prediction models', status: 'pending', assignee: 'AI Engineer', estimatedHours: 32 },
+        { id: '7', name: 'Build planning workspace UI', status: 'pending', assignee: 'Frontend Developer', estimatedHours: 24 },
+        { id: '8', name: 'Testing & deployment', status: 'pending', assignee: 'QA', estimatedHours: 16 }
+      ],
+      technical: {
+        technologies: ['Next.js', 'TypeScript', 'Supabase', 'AWS SDK', 'Cloudflare API', 'Python/ML', 'TensorFlow/PyTorch', 'Redis', 'React Query'],
+        apiEndpoints: ['/api/costs/fetch', '/api/costs/aggregate', '/api/alerts/check', '/api/predict/forecast', '/api/scenario/analyze'],
+        databaseChanges: ['Create costs table', 'Create cost_predictions table', 'Create alerts table', 'Create scenarios table', 'Create budget_allocations table'],
+        documentation: ['Cost monitoring guide', 'Optimization strategies doc', 'ML model architecture', 'API documentation']
+      },
+      demo: {
+        available: false
+      }
+    }
   }
 ];

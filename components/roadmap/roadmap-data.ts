@@ -20,6 +20,16 @@ export const roadmapFeatures: Feature[] = [
     category: 'Social',
   },
   {
+    id: 'cost-planning',
+    name: 'Cost Planning',
+    description: 'Proactive cost management, monitoring, optimization, and ML-based predictions for profitable scaling',
+    status: 'Planned',
+    priority: 'Medium',
+    timeline: 'Q2 2026 (April-June)',
+    category: 'Monetization',
+    starRating: 4.5,
+  },
+  {
     id: 'help-system-completion',
     name: 'Complete Help System',
     description: 'Finish UI/UX tutorial, features documentation, and FAQ pages',
