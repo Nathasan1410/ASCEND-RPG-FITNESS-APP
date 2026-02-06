@@ -52,7 +52,7 @@ export function MobileSystemNavbar() {
       <nav className="sticky top-0 z-50 bg-void-deep/80 backdrop-blur-xs border-b border-white/10 md:hidden">
         <div className="flex items-center justify-between px-4 py-3">
           {/* Logo */}
-          <Link href="/dashboard" className="text-xl font-display font-bold tracking-tighter text-system-cyan">
+          <Link href="/" className="text-xl font-display font-bold tracking-tighter text-system-cyan">
             ASCEND
           </Link>
 
