@@ -34,19 +34,43 @@ export default function LoginPage() {
     setLoading(true);
     setError('');
 
+    if (!email || !password) {
+      setError('Please enter both email and password');
+      setLoading(false);
+      triggerHaptic();
+      return;
+    }
+
+    console.log('Attempting login with:', { email, passwordLength: password.length });
+
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
         password,
       });
 
+      console.log('Login response:', { data, error });
+
       if (error) {
-        setError(error.message);
+        console.error('Login error:', error);
+        
+        if (error.message.includes('Invalid login credentials')) {
+          setError('Invalid email or password');
+        } else if (error.message.includes('Email not confirmed')) {
+          setError('Please confirm your email address');
+        } else {
+          setError(error.message || 'Login failed');
+        }
         triggerHaptic();
-      } else {
+      } else if (data.user) {
+        console.log('Login successful, user:', data.user);
         router.push('/dashboard');
+      } else {
+        setError('Login failed: No user data received');
+        triggerHaptic();
       }
     } catch (err) {
+      console.error('Login catch error:', err);
       setError('An error occurred during login');
       triggerHaptic();
     } finally {

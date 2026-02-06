@@ -29,7 +29,7 @@ export default function ProfileLayout({
     },
     {
       id: "profile",
-      href: `/profile/${username}`,
+      href: "/profile/me",
       label: "You",
       icon: User,
       showAvatar: true,
