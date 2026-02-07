@@ -7,6 +7,9 @@ import { motion } from "framer-motion";
 
 export default function CostPlanningPage() {
   const [selectedScenario, setSelectedScenario] = useState<string>("1000");
+  const [selectedProjectionTime, setSelectedProjectionTime] = useState<string>("3months");
+  const [selectedProjectionUsers, setSelectedProjectionUsers] = useState<string>("1000");
+
 
   // === UNIT ECONOMICS ===
   const unitEconomics = {
@@ -226,37 +229,40 @@ export default function CostPlanningPage() {
     paybackPeriod: "1.2 months",
   };
 
+  // === PROJECTIONS ===
+  const projections = {
+    "3months": {
+      "100": { users: 100, months: 3, cost: 571.50, subscriptionRevenue: 599.40, adRevenue: 681.00, totalRevenue: 1280.40, profit: 708.90, margin: "55%" },
+      "500": { users: 500, months: 3, cost: 1795.50, subscriptionRevenue: 2997.00, adRevenue: 3408.00, totalRevenue: 6405.00, profit: 4609.50, margin: "72%" },
+      "1000": { users: 1000, months: 3, cost: 3705.00, subscriptionRevenue: 5994.00, adRevenue: 8520.00, totalRevenue: 14514.00, profit: 10809.00, margin: "74%" },
+      "5000": { users: 5000, months: 3, cost: 13755.00, subscriptionRevenue: 29970.00, adRevenue: 42600.00, totalRevenue: 72570.00, profit: 58815.00, margin: "81%" },
+      "10000": { users: 10000, months: 3, cost: 27450.00, subscriptionRevenue: 59940.00, adRevenue: 85200.00, totalRevenue: 145140.00, profit: 117690.00, margin: "81%" },
+    },
+    "6months": {
+      "100": { users: 100, months: 6, cost: 1143.00, subscriptionRevenue: 599.40, adRevenue: 681.00, totalRevenue: 1280.40, profit: 1417.80, margin: "55%" },
+      "500": { users: 500, months: 6, cost: 3591.00, subscriptionRevenue: 2997.00, adRevenue: 3408.00, totalRevenue: 6405.00, profit: 9219.00, margin: "72%" },
+      "1000": { users: 1000, months: 6, cost: 7410.00, subscriptionRevenue: 5994.00, adRevenue: 8520.00, totalRevenue: 14514.00, profit: 21618.00, margin: "74%" },
+      "5000": { users: 5000, months: 6, cost: 27510.00, subscriptionRevenue: 29970.00, adRevenue: 42600.00, totalRevenue: 72570.00, profit: 117630.00, margin: "81%" },
+      "10000": { users: 10000, months: 6, cost: 54900.00, subscriptionRevenue: 59940.00, adRevenue: 85200.00, totalRevenue: 145140.00, profit: 235380.00, margin: "81%" },
+    },
+    "1year": {
+      "100": { users: 100, months: 12, cost: 2286.00, subscriptionRevenue: 599.40, adRevenue: 681.00, totalRevenue: 1280.40, profit: 2835.60, margin: "55%" },
+      "500": { users: 500, months: 12, cost: 7182.00, subscriptionRevenue: 2997.00, adRevenue: 3408.00, totalRevenue: 6405.00, profit: 18438.00, margin: "72%" },
+      "1000": { users: 1000, months: 12, cost: 14820.00, subscriptionRevenue: 5994.00, adRevenue: 8520.00, totalRevenue: 14514.00, profit: 43236.00, margin: "74%" },
+      "5000": { users: 5000, months: 12, cost: 55020.00, subscriptionRevenue: 29970.00, adRevenue: 42600.00, totalRevenue: 72570.00, profit: 235260.00, margin: "81%" },
+      "10000": { users: 10000, months: 12, cost: 109800.00, subscriptionRevenue: 59940.00, adRevenue: 85200.00, totalRevenue: 145140.00, profit: 470760.00, margin: "81%" },
+    },
+  };
+
+  const getCurrentProjection = () => {
+    const timePeriod = projections[selectedProjectionTime as keyof typeof projections];
+    return timePeriod[selectedProjectionUsers as keyof typeof timePeriod];
+  };
+
+  const currentProjection = getCurrentProjection();
+
   return (
     <div className="min-h-screen bg-void-deep pb-20">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-void-deep/95 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-gradient-to-br from-system-cyan to-system-blue rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">A</span>
-                </div>
-                <span className="text-xl font-bold text-white">ASCEND</span>
-              </Link>
-              <span className="text-white/40">|</span>
-              <span className="text-white/60">Cost Planning</span>
-            </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/dashboard" className="text-white/60 hover:text-white transition-colors text-sm">
-                Dashboard
-              </Link>
-              <Link href="/feed" className="text-white/60 hover:text-white transition-colors text-sm">
-                Hunter Network
-              </Link>
-              <Link href="/roadmap" className="text-system-cyan hover:text-white transition-colors text-sm">
-                Roadmap
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Title */}
         <motion.div
@@ -647,7 +653,7 @@ export default function CostPlanningPage() {
                   Total Revenue = Total Cost
                 </code>
                 <p className="text-xs text-status-success font-mono mt-1">
-                  (Free×$3.55) + (Pro×$9.99) = $90 + (Users×$0.70)
+                  (FreeÃ—$3.55) + (ProÃ—$9.99) = $90 + (UsersÃ—$0.70)
                 </p>
               </div>
 
@@ -839,10 +845,10 @@ export default function CostPlanningPage() {
               <div className="bg-status-success/10 border border-status-success/30 rounded-lg p-4 mb-4">
                 <p className="text-sm text-status-success mb-1">Formula:</p>
                 <code className="text-xs text-status-success font-mono">
-                  LTV = (ARPU × Gross Margin) / Churn Rate
+                  LTV = (ARPU Ã— Gross Margin) / Churn Rate
                 </code>
                 <p className="text-xs text-status-success font-mono mt-1">
-                  LTV = (${cacLtv.ltv.averageRevenuePerUser.toFixed(2)} × {(cacLtv.ltv.grossMargin * 100).toFixed(0)}%) / {(cacLtv.ltv.monthlyChurnRate * 100).toFixed(0)}%
+                  LTV = (${cacLtv.ltv.averageRevenuePerUser.toFixed(2)} Ã— {(cacLtv.ltv.grossMargin * 100).toFixed(0)}%) / {(cacLtv.ltv.monthlyChurnRate * 100).toFixed(0)}%
                 </p>
               </div>
 
@@ -868,7 +874,7 @@ export default function CostPlanningPage() {
                     <p className="text-sm text-white/40">LTV</p>
                     <p className="text-2xl font-mono font-bold text-status-success">${cacLtv.ltv.ltvDollars.toFixed(2)}</p>
                   </div>
-                  <span className="text-3xl text-white/30">÷</span>
+                  <span className="text-3xl text-white/30">Ã·</span>
                   <div>
                     <p className="text-sm text-white/40">CAC</p>
                     <p className="text-2xl font-mono font-bold text-white/60">${cacLtv.cac.cacPerUser.toFixed(2)}</p>
@@ -964,6 +970,164 @@ export default function CostPlanningPage() {
           </div>
         </motion.section>
 
+        {/* PROJECTIONS */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="mb-16"
+        >
+          <h2 className="text-2xl font-bold text-white mb-8 flex items-center">
+            <BarChart3 className="w-6 h-6 mr-2 text-system-cyan" />
+            Projections
+          </h2>
+
+          {/* Time Period Selector */}
+          <div className="flex items-center justify-center gap-4 mb-8">
+            {Object.keys(projections).map((key) => (
+              <button
+                key={key}
+                onClick={() => setSelectedProjectionTime(key)}
+                className={`px-6 py-3 rounded-xl font-medium transition-all text-sm ${
+                  selectedProjectionTime === key
+                    ? "bg-system-cyan text-void-deep"
+                    : "bg-void-panel/50 text-white/60 hover:bg-white/5 border border-white/10"
+                }`}
+              >
+                {key === "3months" ? "3 Months" : key === "6months" ? "6 Months" : "1 Year"}
+              </button>
+            ))}
+          </div>
+
+          {/* Projection Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-void-panel/50 border border-white/10 rounded-2xl p-6"
+            >
+              <div className="text-center mb-4">
+                <p className="text-xs text-white/40 uppercase tracking-wide mb-1">Duration</p>
+                <p className="text-3xl font-bold text-white">{currentProjection.months}</p>
+                <p className="text-sm text-white/60">Months</p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-gradient-to-br from-status-error/10 to-red-500/10 rounded-2xl p-6 border border-status-error/20"
+            >
+              <div className="text-center mb-4">
+                <p className="text-xs text-white/40 uppercase tracking-wide mb-1">Total Cost</p>
+                <p className="text-3xl font-bold text-status-error">${currentProjection.cost.toLocaleString()}</p>
+                <p className="text-sm text-white/60">${(currentProjection.cost / currentProjection.months).toFixed(2)}/month</p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-gradient-to-br from-status-success/10 to-green-500/10 rounded-2xl p-6 border border-status-success/20"
+            >
+              <div className="text-center mb-4">
+                <p className="text-xs text-white/40 uppercase tracking-wide mb-1">Total Revenue</p>
+                <p className="text-3xl font-bold text-status-success">${currentProjection.totalRevenue.toLocaleString()}</p>
+                <p className="text-sm text-white/60">${(currentProjection.totalRevenue / currentProjection.months).toFixed(2)}/month</p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="bg-gradient-to-br from-system-cyan/10 to-blue-500/10 rounded-2xl p-6 border border-system-cyan/30"
+            >
+              <div className="text-center mb-4">
+                <p className="text-xs text-white/40 uppercase tracking-wide mb-1">Net Profit</p>
+                <p className="text-3xl font-bold text-system-cyan">${currentProjection.profit.toLocaleString()}</p>
+                <p className="text-sm text-white/60">{currentProjection.margin} margin</p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Detailed Breakdown */}
+          <div className="mt-8 bg-void-panel/50 border border-white/10 rounded-2xl p-8">
+            <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+              <TrendingUp className="w-5 h-5 mr-2 text-system-cyan" />
+              Detailed Breakdown ({currentProjection.months} Months)
+            </h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Cost Breakdown */}
+              <div>
+                <h4 className="text-lg font-semibold text-white mb-4 pb-2 border-b border-white/10">Cost Breakdown</h4>
+                <div className="space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">Infrastructure</span>
+                    <span className="text-white/60 font-mono">${(currentProjection.cost * 0.74).toFixed(0)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">AI API</span>
+                    <span className="text-white/60 font-mono">${(currentProjection.cost * 0.09).toFixed(0)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">Storage & Streaming</span>
+                    <span className="text-white/60 font-mono">${(currentProjection.cost * 0.18).toFixed(0)}</span>
+                  </div>
+                  <div className="flex justify-between text-sm border-t border-white/10 pt-3">
+                    <span className="text-white font-semibold">Total Cost</span>
+                    <span className="text-status-error font-bold font-mono">${currentProjection.cost.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Revenue Breakdown */}
+              <div>
+                <h4 className="text-lg font-semibold text-white mb-4 pb-2 border-b border-white/10">Revenue Breakdown</h4>
+                <div className="space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">Subscription (200 Pro @ $9.99)</span>
+                    <span className="text-system-cyan font-mono">${currentProjection.subscriptionRevenue.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between text-sm">
+                    <span className="text-white/40">Ad Revenue (800 Free @ $3.55/mo)</span>
+                    <span className="text-status-success font-mono">${currentProjection.adRevenue.toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between text-sm border-t border-white/10 pt-3">
+                    <span className="text-white font-semibold">Total Revenue</span>
+                    <span className="text-status-success font-bold font-mono">${currentProjection.totalRevenue.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Net Profit Summary */}
+            <div className="mt-6 pt-6 border-t border-white/10">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-void-panel/30 rounded-lg p-4 text-center">
+                  <p className="text-xs text-white/40 uppercase mb-1">Net Profit</p>
+                  <p className="text-2xl font-bold text-system-cyan">${currentProjection.profit.toLocaleString()}</p>
+                  <p className="text-xs text-white/40">over {currentProjection.months} months</p>
+                </div>
+                <div className="bg-void-panel/30 rounded-lg p-4 text-center">
+                  <p className="text-xs text-white/40 uppercase mb-1">Average Monthly Profit</p>
+                  <p className="text-2xl font-bold text-white">${(currentProjection.profit / currentProjection.months).toFixed(2)}</p>
+                  <p className="text-xs text-white/40">per user/month</p>
+                </div>
+                <div className="bg-void-panel/30 rounded-lg p-4 text-center">
+                  <p className="text-xs text-white/40 uppercase mb-1">Profit Margin</p>
+                  <p className="text-2xl font-bold text-status-success">{currentProjection.margin}</p>
+                  <p className="text-xs text-white/40">consistent</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.section>
+
         {/* FOOTER */}
         <footer className="border-t border-white/10 pt-8 text-center text-white/40 text-sm pb-20">
           <p>Financial projections based on current infrastructure costs and market rates. Actual results may vary.</p>
@@ -973,3 +1137,4 @@ export default function CostPlanningPage() {
     </div>
   );
 }
+

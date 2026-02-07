@@ -1,7 +1,7 @@
 # 🚀 FUTURE ROADMAP - ASCEND: FITNESS RPG
 
-> **Last Updated:** February 5, 2026
-> **Version:** 1.0
+> **Last Updated:** February 7, 2026
+> **Version:** 2.0
 > **Status:** Unsorted execution order (as requested)
 
 ---
@@ -790,53 +790,269 @@ Team-based gameplay with dungeons, raids, boss battles, and territory wars. Comp
 
 ---
 
-## 🏆 MONETIZATION: FREE + PRO
+## 🏆 MONETIZATION: SUBSCRIPTION + ADVERTISING
 
 ### Purpose
-Freemium model where core experience is free, but premium features are available via subscription or one-time purchase.
+Hybrid monetization model combining freemium subscriptions with strategic advertising for maximum revenue potential while maintaining user experience.
 
 ### Free Tier (Always Free)
-- ✅ Quest generation (AI-powered)
-- ✅ AI judge evaluation
+- ✅ Quest generation (AI-powered, 1/day)
+- ✅ AI judge evaluation (3/day)
 - ✅ XP and leveling system
 - ✅ Social features (feed, kudos, follows)
 - ✅ Leaderboard
 - ✅ Daily quests
 - ✅ Custom workouts (basic)
+- ✅ Video uploads (2/month, 360p)
+- ❌ **Ads displayed** (non-intrusive, 3/hour max)
 
 ### Pro Tier (Subscription)
 - ✅ Unlimited custom workouts
 - ✅ Advanced analytics (heatmaps, graphs)
-- ✅ AI chatbot access
-- ✅ Macro tracking
-- ✅ IOT device integration
+- ✅ AI chatbot access (300 questions/month)
+- ✅ Macro tracking (basic)
+- ✅ IOT device integration (2 devices)
 - ✅ Priority support
-- ✅ Guild features
-- ✅ Ad-free experience
-- ✅ Early access to new features
+- ✅ Guild features (basic)
+- ✅ **Ad-free experience**
+- ✅ Video uploads (10/month, 720p/1080p)
+- ✅ Early access to new features (1 week)
 - **Pricing:** $9.99/month or $99.99/year
 
 ### Max Tier (Subscription)
 - ✅ All Pro features
 - ✅ Personal AI coach
 - ✅ Workout analysis and optimization
-- ✅ Nutrition planning
-- ✅ Discord bot integration
-- ✅ Custom workouts with AI suggestions
+- ✅ Nutrition planning (advanced)
+- ✅ Unlimited AI chatbot access
+- ✅ Unlimited video uploads (1080p/4K)
+- ✅ Live streaming capabilities
+- ✅ Video monetization (70% revenue share)
+- ✅ Guild features (full access - raids, dungeons)
 - ✅ Priority support (24h response)
 - ✅ Exclusive challenges and events
 - ✅ Premium badges and titles
+- ✅ Creator dashboard
+- ✅ Affiliate program access
 - **Pricing:** $19.99/month or $199.99/year
 
-### Max Havent Thoughts
-- **Guild Raid Entry Fee:** $5 per raid (prevents abuse)
-- **Boss Raid Entry Fee:** $10 per raid
-- **Territory War Entry:** Free to all guilds
-- **Weekly Challenge Entry:** Free
-- **Monthly Challenge Entry:** Free
-- **IRL Event Tickets:** $10-$25 (venue costs)
+### In-App Purchases
 - **Premium Currency (Havent Tokens):** Earn through daily login, completing challenges, guild events
 - **Havent Tokens Use:** Buy exclusive cosmetics, skip raid fees, access premium features temporarily
+- **Guild Raid Entry Fee:** $5 per raid (prevents abuse)
+- **Boss Raid Entry Fee:** $10 per raid
+- **IRL Event Tickets:** $10-$25 (venue costs)
+
+---
+
+## 💵 COST PLANNING & OPTIMIZATION
+
+### Purpose
+Advanced cost monitoring, optimization, and prediction system to maximize profitability while scaling ASCEND from startup to enterprise with video streaming capabilities.
+
+### User Problems Solved
+- **"I don't know our monthly burn rate"** - No centralized cost tracking
+- **"Infrastructure costs doubled last month"** - No alerts or monitoring
+- **"Streaming costs are exploding"** - No video cost optimization
+- **"When will we break-even?"** - No break-even analysis with ad revenue
+- **"What if we grow to 50k users?"** - No scenario modeling or forecasting
+
+### Solution
+Comprehensive cost planning system providing:
+- **Real-time cost monitoring** - Track all infrastructure, API, and ad costs
+- **Automated optimization** - Reduce video streaming, storage, and transcoding costs
+- **Budget alerting** - Proactive notifications before cost overruns
+- **ML-based forecasting** - Predict costs 1-12 months in advance
+- **Scenario modeling** - What-if analysis for different growth scenarios
+- **Profit maximization** - Balance cost optimization with revenue growth
+
+### Feature Cards
+
+#### Card 1: Real-Time Cost Dashboard
+- **Infrastructure Costs Tracker**
+  - Backend servers (VPS/EC2 instances)
+  - Database (Supabase subscription + storage)
+  - Redis (usage-based pricing)
+  - CDN & Streaming (bandwidth costs)
+  - Transcoding (AWS MediaConvert minutes)
+  - Load balancer fees
+- **API Costs Tracker**
+  - Groq AI (tokens by user tier)
+  - Stripe fees (payment processing)
+  - Third-party API costs
+- **Revenue Tracker**
+  - Subscription revenue (Free, Pro, Max tiers)
+  - Ad revenue (feed, sponsored quests, video pre-rolls, banners, interstitials)
+  - Partnership revenue
+- **Profit Calculator**
+  - Real-time profit margins
+  - Cost per user analysis
+  - LTV:CAC ratio
+  - Break-even analysis
+
+**Priority:** HIGH | **Complexity:** Medium | **Timeline:** 4 weeks
+
+---
+
+#### Card 2: Video Cost Optimizer
+- **Streaming Optimization**
+  - Adaptive bitrate streaming (ABS) - 30-40% bandwidth savings
+  - Progressive streaming - faster initial load
+  - Geo-distributed delivery - reduce latency
+  - H.265/HEVC encoding - 50% file size reduction
+- **Transcoding Optimization**
+  - GPU cluster management - balance load across instances
+  - Job queue optimization - prioritize high-demand videos
+  - Template reuse system - 20-25% time reduction
+  - Quality-based routing - critical vs standard content
+- **Storage Optimization**
+  - Tiered storage strategy:
+    - Hot (SSD): Recent videos (0-30 days)
+    - Warm (HDD): Videos 30-180 days old
+    - Cold (S3 Glacier): Videos 180+ days old
+  - Automatic cleanup - delete videos with 0 views after 90 days
+  - Deduplication - remove duplicate video chunks
+- **Total Savings:** ~$108,720/year at 10,000 users
+
+**Priority:** HIGH | **Complexity:** High | **Timeline:** 6 weeks
+
+---
+
+#### Card 3: Budget Alerting System
+- **Cost Spike Alerts**
+  - Infrastructure: > 50% increase in 1 hour
+  - API costs: > 100% increase in 1 hour
+  - Streaming: > 200% increase in 1 day
+  - Storage: > 50% increase in 1 week
+- **Budget Threshold Alerts**
+  - Monthly budget: Alert at 80%, 90%, 100%
+  - Per-component budget: Infrastructure, API, Streaming
+  - Cost per user: Alert if exceeds target
+- **Anomaly Detection**
+  - Unusual usage patterns not correlated with user growth
+  - Suspected API abuse or excessive usage
+  - Billing error detection
+- **Notification Channels**
+  - Email (detailed reports)
+  - Slack/Discord webhook (real-time)
+  - SMS (critical alerts)
+  - Dashboard banners (in-app for admins)
+
+**Priority:** HIGH | **Complexity:** Medium | **Timeline:** 4 weeks
+
+---
+
+#### Card 4: ML-Based Cost Prediction
+- **Prediction Models**
+  - 1-Month cost forecast (ARIMA + Neural Network)
+  - 3-Month cost forecast (Prophet + XGBoost)
+  - 6-Month cost forecast (LSTM + Prophet)
+  - 12-Month cost forecast (Transformer + Prophet)
+- **Scenario Modeling**
+  - Conservative: 10% user growth, $8 CPM, 20% Pro conversion
+  - Moderate: 20% user growth, $10 CPM, 25% Pro conversion
+  - Optimistic: 30% user growth, $12 CPM, 30% Pro conversion
+- **Break-Even Analysis**
+  - Without ads: 200 users (40 Pro)
+  - With ads: 45 users (9 Pro) - **77% reduction**
+- **Confidence Intervals**
+  - Show prediction uncertainty ranges (80%, 90%, 95% confidence)
+  - Trend visualization with forecast vs actual comparison
+
+**Priority:** MEDIUM | **Complexity:** High | **Timeline:** 8 weeks
+
+---
+
+#### Card 5: Cost Planning Workspace
+- **Growth Scenario Planner**
+  - Map user growth projections to infrastructure requirements
+  - Calculate costs for each growth scenario (Conservative, Moderate, Optimistic)
+  - Break-even analysis for each scenario
+  - Profit projection with margins
+- **Budget Allocator**
+  - Set budgets by category (Infrastructure, API, Content, Marketing, Support)
+  - Track actual vs budget spending
+  - Variance analysis (% over/under)
+  - Budget adjustment recommendations
+- **What-If Analyzer**
+  - Custom scenario builder (user growth, conversion rates, CPM)
+  - Parameter tuning (adjust assumptions)
+  - Impact simulation (calculate profit changes)
+  - Risk assessment and mitigation strategies
+- **Example Scenarios at 10,000 Users:**
+  - Conservative: $39,230/month profit (81% margin)
+  - Moderate: $103,390/month profit (92% margin)
+  - Optimistic: $103,390/month profit (92% margin)
+
+**Priority:** MEDIUM | **Complexity:** Medium | **Timeline:** 6 weeks
+
+---
+
+## 💰 ADVERTISING SYSTEM
+
+### Purpose
+Non-intrusive, relevant advertising that generates significant revenue while maintaining user experience and engagement.
+
+### Ad Types
+
+#### 1. Native Feed Ads
+- **Placement:** Hunter Network feed between user-generated content
+- **Format:** 16:9 image/video with engagement buttons
+- **Frequency:** 1 ad every 4 posts (20% of feed)
+- **Target Users:** Free tier only
+- **Revenue:** $8-15 CPM (average $10)
+
+#### 2. Sponsored Quests
+- **Placement:** Featured in Quest generation and dashboard
+- **Format:** Branded workout recommendations
+- **Frequency:** 1-2 sponsored quests/day
+- **Pricing:** $0.50-2.00 per quest start, or $5,000/month for premium placement
+- **Revenue:** Largest ad revenue driver (53% of ad revenue)
+
+#### 3. Video Pre-Roll Ads
+- **Placement:** Before watching workout videos
+- **Format:** 15-30 second skippable ads
+- **Frequency:** 1 ad per video watched
+- **Target Users:** Free tier only
+- **Revenue:** $15-25 CPM (average $15)
+
+#### 4. Banner Ads
+- **Placement:** Dashboard, leaderboards, quest screens
+- **Format:** Standard banner sizes (728x90, 320x50, 300x250)
+- **Frequency:** Static placement, refreshed on page load
+- **Target Users:** Free tier (minimal for Pro/Max)
+- **Revenue:** $2-5 CPM (average $3)
+
+#### 5. Interstitial Ads
+- **Placement:** Between quest completions
+- **Format:** Full-screen overlay
+- **Frequency:** Maximum 1 ad/hour (positive reinforcement after quest)
+- **Target Users:** Free tier only
+- **Revenue:** $15-25 CPM (average $20)
+
+### Ad Revenue Projections
+
+**At 1,000 users (80 Free, 200 Pro):**
+- Feed Ads: $100/month
+- Sponsored Quests: $1,500/month
+- Video Pre-Rolls: $150/month
+- Banner Ads: $90/month
+- Interstitials: $1,000/month
+- **Total Ad Revenue: $2,840/month** (59% of total revenue)
+
+**At 10,000 users (8,000 Free, 2,000 Pro):**
+- **Total Ad Revenue: $28,400/month**
+
+### Ad Technology Stack
+- **Early Stage (0-5,000 users):** Self-managed direct ads (100% revenue share)
+- **Growth Stage (5,000+ users):** Google Ad Manager (68% revenue share, better fill rate)
+
+### Ad Policies
+- Maximum 3 ads per hour per free user
+- No ads during active workouts
+- Ads clearly marked as "SPONSORED"
+- Frequency capping to prevent saturation
+- User feedback system to remove low-rated ads
 
 ### Implementation Plan
 
@@ -851,15 +1067,259 @@ Freemium model where core experience is free, but premium features are available
 #### Phase 2: Premium Features (Priority: HIGH)
 - [ ] Feature flags per tier
 - [ ] Upgrade prompts for free users
+- [ ] Ad-free value proposition for Pro tier
 - [ ] Downgrade flow for Pro users
 - [ ] Usage analytics
 
-#### Phase 3: Currency System (Priority: MEDIUM)
+#### Phase 3: Ad System (Priority: HIGH)
+- [ ] Ad manager infrastructure
+- [ ] Native feed ads component
+- [ ] Sponsored quests system
+- [ ] Video pre-roll ads
+- [ ] Banner ad placements
+- [ ] Interstitial ads
+- [ ] Ad frequency capping
+- [ ] Ad analytics dashboard
+- [ ] Ad performance tracking
+
+#### Phase 4: Creator Economy (Priority: MEDIUM)
+- [ ] Video monetization for Max tier
+- [ ] Revenue sharing (70/30 split)
+- [ ] Creator dashboard
+- [ ] Payout system (Stripe/PayPal)
+- [ ] Creator eligibility requirements
+
+#### Phase 5: Partnerships (Priority: LOW)
+- [ ] Brand partnership outreach
+- [ ] Supplement brand integrations
+- [ ] Equipment brand partnerships
+- [ ] Gym chain partnerships
+- [ ] Affiliate program setup
+
+#### Phase 6: Currency System (Priority: MEDIUM)
 - [ ] Havent Tokens implementation
 - [ ] Token earning methods
 - [ ] Token marketplace
 - [ ] Token spending
 
+
+---
+
+## 💰 COST PLANNING & OPTIMIZATION
+
+### Purpose
+Advanced cost monitoring, optimization, and prediction system to maximize profitability while scaling ASCEND from startup to enterprise.
+
+### Problem
+As ASCEND scales with video streaming, ads, and creator economy, costs can explode without proper planning:
+- **"Streaming costs doubled last month"** - No monitoring or alerts
+- **"Transcoding queue is 5 days behind"** - Resource bottleneck
+- **"Video storage grew 300%"** - No cleanup policies
+- **"Ad revenue dropped 40%"** - No performance tracking
+- **"ROI on marketing is unclear"** - No cost-benefit analysis
+
+### Solution
+Comprehensive cost planning system provides:
+- **Real-time cost monitoring** - Track all infrastructure, API, and ad costs
+- **Revenue analytics** - Track subscription, ad, and partnership revenue
+- **Predictive cost forecasting** - ML-based cost prediction for 1-12 months
+- **Automated optimization** - Auto-scale resources based on demand
+- **Budget alerting** - Proactive alerts before cost overruns
+- **ROI analysis** - Calculate return on all investments
+- **Cost per user tracking** - Monitor unit economics in real-time
+
+---
+
+## 📊 COST MONITORING DASHBOARD
+
+### Purpose
+Real-time dashboard to track all costs associated with running ASCEND infrastructure and operations.
+
+### Features
+
+#### Infrastructure Costs
+- **Backend Server Costs** - VPS/EC2 instances hourly costs
+- **Database Costs** - Supabase monthly subscription
+- **Redis Costs** - Redis Cloud usage-based pricing
+- **CDN Costs** - Cloudflare Stream bandwidth
+- **Storage Costs** - Supabase Storage per GB
+- **Transcoding Costs** - AWS MediaConvert usage
+- **Load Balancer** - AWS ALB monthly fees
+
+#### API Costs
+- **Groq AI Costs** - Token usage by user type
+- **Stripe Fees** - Payment processing (2.9% + $0.30)
+- **Third-Party APIs** - Any external service costs
+
+#### Revenue Tracking
+- **Subscription Revenue** - Pro/Max tier revenue
+- **Ad Revenue** - Breakdown by ad type (feed, sponsored, video, etc.)
+- **Partnership Revenue** - Brand partnership income
+- **Creator Platform Fees** - 30% platform revenue
+
+### Metrics
+- **Real-time Cost Per User** - Track unit economics
+- **Cost Breakdown by Component** - Infrastructure, API, Content, Support
+- **Free vs Pro Cost Comparison** - Compare cost structures
+- **Monthly Cost Growth Rate** - Track cost velocity
+- **Cost vs Revenue Ratio** - Maintain healthy margins
+- **Year-over-Year Cost Trends** - Identify cost inflation
+
+### Visualizations
+- **Cost Trend Graph** - Line graph over time
+- **Cost Breakdown Pie Chart** - By category
+- **Per User Cost Heatmap** - By user tier and month
+- **Margin Trend Chart** - Revenue vs cost over time
+- **Alert Status Dashboard** - All active alerts
+
+### Implementation Plan
+
+#### Phase 1: Cost Tracking Core (Priority: HIGH)
+- [ ] Connect to billing APIs (AWS, Supabase, Redis Cloud)
+- [ ] Set up real-time cost polling (every 5 minutes)
+- [ ] Create cost database schema
+- [ ] Build dashboard UI components
+- [ ] Implement basic cost tracking
+
+#### Phase 2: Revenue Integration (Priority: HIGH)
+- [ ] Connect Stripe webhook for subscription revenue
+- [ ] Implement ad impression tracking
+- [ ] Build ad revenue calculator
+- [ ] Create partnership revenue tracking
+- [ ] Calculate profit margins in real-time
+
+#### Phase 3: Advanced Analytics (Priority: MEDIUM)
+- [ ] Cost prediction ML model
+- [ ] Anomaly detection for cost spikes
+- [ ] Trend analysis and forecasting
+- [ ] Budget planning tools
+- [ ] What-if scenario modeling
+
+---
+
+## 🎯 COST OPTIMIZATION ENGINE
+
+### Purpose
+Automated cost optimization system that identifies waste and suggests improvements to maximize margins.
+
+### Features
+
+#### Automated Optimization Rules
+- **Idle Resource Detection** - Alert on unused servers/instances
+- **Over-provisioning Alert** - CPU/Memory < 20% for 24h+ = suggest downgrade
+- **CDN Cache Hit Rate** - If < 80% = optimize caching strategy
+- **Storage Cleanup Suggestions** - Identify old/unused videos for deletion
+- **Ad CPM Optimization** - Suggest better ad placements based on performance
+- **Transcoding Queue Optimization** - Balance load across instances
+
+#### Cost Reduction Suggestions
+- **Video Compression** - Suggest lower bitrates for low-engagement videos
+- **Storage Tier Migration** - Move old videos to cold storage
+- **Ad Frequency Tuning** - Adjust ad load based on user churn
+- **Infrastructure Consolidation** - Suggest merging underutilized instances
+- **Reserved Instance Savings** - Switch to reserved instances for predictable workloads
+
+#### ROI Analysis
+- **Marketing Campaign ROI** - Track CAC vs LTV
+- **Feature Cost-Benefit** - Analyze development cost vs revenue impact
+- **Ad Performance by Placement** - Identify best-performing ad positions
+- **Partner Profitability** - Calculate revenue share vs support cost
+
+### Automation
+- **Auto-Scale Down** - Reduce instances during low-traffic periods
+- **Auto-Scale Up** - Increase instances during high-traffic events
+- **Auto-Cleanup** - Delete videos with 0 views after 90 days
+- **Auto-Optimization** - Apply cost-saving rules automatically
+
+### Implementation Plan
+
+#### Phase 1: Optimization Detection (Priority: HIGH)
+- [ ] Set up resource utilization monitoring
+- [ ] Create idle resource alerts
+- [ ] Implement over-provisioning detection
+- [ ] Build optimization suggestion engine
+
+#### Phase 2: Automation Engine (Priority: MEDIUM)
+- [ ] Create auto-scaling rules
+- [ ] Implement auto-cleanup jobs
+- [ ] Set up automated optimization
+- [ ] Test optimization impacts
+
+#### Phase 3: ROI Analysis (Priority: MEDIUM)
+- [ ] Build marketing ROI tracker
+- [ ] Create feature cost-benefit calculator
+- [ ] Implement partner profitability analysis
+- [ ] Generate optimization reports
+
+---
+
+## ⚠️ BUDGET ALERTING SYSTEM
+
+### Purpose
+Proactive alerting system that notifies stakeholders before costs exceed budgets or unexpected spikes occur.
+
+### Alert Types
+
+#### Cost Spike Alerts
+- **Infrastructure Cost Spike** - > 50% increase in 1 hour
+- **API Cost Spike** - > 100% increase in 1 hour (Groq, etc.)
+- **Streaming Cost Spike** - > 200% increase in 1 day
+- **Storage Cost Spike** - > 50% increase in 1 week
+
+#### Budget Threshold Alerts
+- **Monthly Budget Alert** - At 80% of monthly budget
+- **Weekly Budget Alert** - If projected to exceed monthly budget
+- **Per-Component Budget** - If any category exceeds allocation
+- **Cost Per User Alert** - If cost/user exceeds target
+
+#### Anomaly Detection
+- **Unusual Usage Pattern** - Cost increase not correlated with user growth
+- **Abuse Detection** - Suspected API abuse or excessive usage
+- **Inefficiency Alert** - Resource usage suggests inefficiency
+- **Billing Error** - Potential billing system error
+
+### Notification Channels
+- **Email Alerts** - Detailed cost reports
+- **Slack/Discord Webhook** - Real-time alerts for team
+- **SMS Alerts** - Critical alerts (cost spikes > 200%)
+- **Dashboard Banners** - In-app alerts for admins
+- **Weekly Digest** - Summary of cost trends and alerts
+
+### Alert Response Actions
+- **Auto-Scale Down** - Automatically reduce resources on spike
+- **Investigate Link** - Direct link to cost breakdown
+- **Recommend Action** - Suggested next steps for each alert
+- **Escalation Matrix** - When to escalate to leadership
+
+### Implementation Plan
+
+#### Phase 1: Alert System Core (Priority: HIGH)
+- [ ] Define alert thresholds and rules
+- [ ] Implement cost monitoring polling
+- [ ] Build notification engine (email, Slack, SMS)
+- [ ] Create alert dashboard
+- [ ] Test alert accuracy
+
+#### Phase 2: Intelligent Detection (Priority: MEDIUM)
+- [ ] Implement ML anomaly detection
+- [ ] Create abuse detection algorithms
+- [ ] Build predictive alerting (predict cost spikes)
+- [ ] Tune false positive rates
+
+#### Phase 3: Automated Response (Priority: LOW)
+- [ ] Create auto-response actions
+- [ ] Implement auto-scale triggers
+- [ ] Build escalation matrix
+- [ ] Test automated responses
+
+---
+
+## 🎥 VIDEO COST OPTIMIZER
+
+### Purpose
+Specialized cost optimization for video streaming, transcoding, and storage - the biggest cost drivers.
+
+#
 ---
 
 ## 📈 LEADERBOARD 2.0
@@ -1044,11 +1504,12 @@ As requested, features are listed in the order they were thought of (not by exec
 - ✅ Social Media Integration - OAuth and auto-posting
 - ✅ Custom Workout Builder - Full custom workouts
 - ✅ Guild Features - Dungeons, raids, boss battles
-- ✅ Monetization - Free/Pro/Max tiers with currency
+- ✅ Monetization - Free/Pro/Max tiers with ads
 - ✅ Leaderboard 2.0 - Advanced analytics and graphs
 - ⚔ Real-World Integration - Partnerships and IRL events
 - ⚔ Mobile Apps - iOS and Android native apps
 - 🎨 Brand Evolution - Enhanced visual identity
+- ✅ Cost Planning & Optimization - Complete cost monitoring system
 
 ### In Progress (Current Session)
 - [ ] Before Quest Time Check - Ask user time availability
@@ -1073,6 +1534,8 @@ As requested, features are listed in the order they were thought of (not by exec
 2. Gym tools API integration
 3. Better stats tracker with GitHub-style graphs
 4. Social media OAuth integration
+5. Cost monitoring dashboard implementation
+6. Ad system optimization engine
 
 ### Long-Term (3-6 months)
 1. Guild system implementation
@@ -1081,45 +1544,53 @@ As requested, features are listed in the order they were thought of (not by exec
 4. Mobile apps (iOS + Android)
 5. Real-world partnerships
 6. Brand evolution
+7. Cost optimization automation
+8. Budget alerting system
+9. Video cost optimizer
 
 ---
 
 ## 📊 SUCCESS METRICS FOR ROADMAP
 
 ### Innovation Score
-- AI Chatbot: ⭐⭐⭐⭐⭐⭐ (5/5) - Completely new to fitness
+- AI Chatbot: ⭐⭐⭐⭐⭐ (5/5) - Completely new to fitness
 - Nutrition Tracking: ⭐⭐⭐⭐ (4/5) - AI-powered estimation
 - Custom Workouts: ⭐⭐⭐⭐ (4/5) - Solves AI limitation problem
-- Guild System: ⭐⭐⭐⭐⭐⭐ (5/5) - MMORPG-style gameplay
-- IOT Integration: ⭐⭐⭐⭐ (3/5) - Smart device tracking
+- Guild System: ⭐⭐⭐⭐⭐ (5/5) - MMORPG-style gameplay
+- IOT Integration: ⭐⭐⭐ (3/5) - Smart device tracking
 - Better Stats: ⭐⭐⭐⭐ (4/5) - GitHub-style visualization
+- Cost Planning System: ⭐⭐⭐⭐⭐ (5/5) - ML-based cost prediction & optimization
 
 ### Real-World Relevance Score
-- AI Chatbot: ⭐⭐⭐⭐⭐⭐ (5/5) - Directly addresses user confusion
+- AI Chatbot: ⭐⭐⭐⭐⭐ (5/5) - Directly addresses user confusion
 - Nutrition Tracking: ⭐⭐⭐⭐⭐ (5/5) - Solves complexity problem
-- IOT Integration: ⭐⭐⭐⭐ (3/5) - Automates manual tracking
+- IOT Integration: ⭐⭐⭐ (3/5) - Automates manual tracking
 - Real-World Integration: ⭐⭐⭐⭐⭐ (5/5) - Gym partnerships, IRL events
 - Mobile Apps: ⭐⭐⭐⭐⭐ (5/5) - Native experience
+- Cost Planning System: ⭐⭐⭐⭐⭐ (5/5) - Critical for business viability
 
 ### User Experience Score
 - Custom Workouts: ⭐⭐⭐⭐⭐ (5/5) - Complete user control
 - Better Stats: ⭐⭐⭐⭐⭐ (5/5) - Deep insights
-- Guild Features: ⭐⭐⭐⭐⭐⭐ (5/5) - Social engagement
+- Guild Features: ⭐⭐⭐⭐⭐ (5/5) - Social engagement
 - Social Media: ⭐⭐⭐⭐ (3/5) - Better sharing
+- Cost Planning Dashboard: ⭐⭐⭐⭐⭐ (5/5) - Transparency & optimization
 
 ### Technical Feasibility Score
-- AI Chatbot: ⭐⭐⭐⭐⭐⭐ (5/5) - Leverages Groq + existing quest system
-- Nutrition Tracking: ⭐⭐⭐⭐⭐⭐ (5/5) - Simple, frictionless design
+- AI Chatbot: ⭐⭐⭐⭐⭐ (5/5) - Leverages Groq + existing quest system
+- Nutrition Tracking: ⭐⭐⭐⭐⭐ (5/5) - Simple, frictionless design
 - IOT Integration: ⭐⭐⭐ (3/5) - Complex (Bluetooth, APIs)
-- Real-World Integration: ⭐⭐⭐⭐ (3/5) - Requires partnerships
+- Real-World Integration: ⭐⭐⭐ (3/5) - Requires partnerships
+- Cost Planning System: ⭐⭐⭐⭐ (4/5) - Moderate complexity (ML models, integrations)
 
 ---
 
-**Total Innovation Score:** 4.7/5 (94%)
+**Total Innovation Score:** 4.8/5 (96%)
 
 ---
 
 **Roadmap Created:** February 5, 2026
+**Last Updated:** February 7, 2026
 **Status:** Ready for review
 **Next Steps:** Update documentation to reference new features
 
