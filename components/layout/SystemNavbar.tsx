@@ -28,6 +28,7 @@ export function SystemNavbar() {
   };
 
   const handleDashboardClick = () => {
+    // Navigate to dashboard if logged in, otherwise show login
     if (!isAuthenticated) {
       router.push("/auth/login");
     } else {
@@ -35,25 +36,50 @@ export function SystemNavbar() {
     }
   };
 
+  const handleHomeClick = () => {
+    // Always navigate to home regardless of auth status
+    router.push("/");
+  };
+
   return (
     <header className="hidden md:flex fixed top-0 left-0 right-0 z-50 h-16 bg-void-deep/80 backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between w-full">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity group">
-          <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(0,184,255,0.4)] group-hover:shadow-[0_0_30px_rgba(0,184,255,0.6)] transition-all">
-            <img
-              src="/img/logo.jpg"
-              alt="ASCEND Logo"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div>
-            <h1 className="text-xl md:text-2xl font-display font-bold text-white tracking-tight">ASCEND</h1>
-            <p className="text-xs md:text-sm text-white/60 font-mono">Fitness RPG</p>
-          </div>
-        </Link>
-
-        {/* Navigation */}
+         {/* Logo */}
+         <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity group">
+           <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-[0_0_20px_rgba(0,184,255,0.4)] group-hover:shadow-[0_0_30px_rgba(0,184,255,0.6)] transition-all">
+             <img
+               src="/img/logo.jpg"
+               alt="ASCEND Logo"
+               className="w-full h-full object-cover"
+             />
+             <div className="absolute inset-0 bg-gradient-to-br from-system-cyan/20 to-transparent" />
+           </div>
+           <div>
+             <h1 className="text-xl md:text-2xl font-display font-bold text-white tracking-tight">ASCEND</h1>
+             <p className="text-xs md:text-sm text-white/60 font-mono">Fitness RPG</p>
+           </div>
+         </Link>
+ 
+         {/* Home Button */}
+         <button
+           onClick={handleHomeClick}
+           className={cn(
+             "flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 relative border-none bg-transparent cursor-pointer",
+             pathname === "/"
+               ? "text-white bg-white/5 -mb-[1px] pb-[1px]"
+               : "text-white/70 hover:text-white hover:bg-white/5"
+           )}
+         >
+           <Home className={cn(
+             "w-5 h-5 transition-all",
+             pathname === "/"
+               ? "text-system-cyan"
+               : "text-white/60"
+           )} />
+           <span className="text-sm font-medium">Home</span>
+         </button>
+ 
+         {/* Navigation */}
         <nav className="flex items-center gap-1">
           <button
             onClick={handleDashboardClick}

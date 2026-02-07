@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Search, HelpCircle, BookOpen, Layout, Zap, Users, MessageCircle, Play, ArrowRight } from "lucide-react";
+import { Search, HelpCircle, BookOpen, Layout, Zap, Users, MessageCircle, Play, ArrowRight, Sparkles, Brain, Shield, CheckCircle, ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils/cn";
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { DevelopmentDisclaimer } from "@/components/shared/DevelopmentDisclaimer";
 
@@ -268,7 +268,93 @@ export default function HelpPage() {
             </motion.div>
           </div>
         </motion.div>
-
+ 
+        {/* Best of OPIK - Featured Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-12"
+        >
+          <Link
+            href="/domain/best-of-OPIK"
+            className="block relative bg-gradient-to-br from-system-cyan/20 via-blue-600/10 to-purple-600/10 border-2 border-system-cyan/40 rounded-3xl overflow-hidden hover:border-system-cyan hover:scale-[1.02] transition-all duration-300 group"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-system-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            
+            <div className="relative p-8">
+              <div className="flex items-start justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-system-cyan to-blue-600 border-2 border-system-cyan/40 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    <Sparkles className="w-8 h-8 text-white" />
+                  </div>
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-system-cyan/20 border border-system-cyan/40 rounded-full text-xs font-bold text-system-cyan mb-2">
+                      <span className="w-2 h-2 bg-system-cyan rounded-full animate-pulse" />
+                      EXCLUSIVE TECHNOLOGY
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-display font-bold text-white mb-1">
+                      Why OPIK?
+                    </h2>
+                    <p className="text-white/60">
+                      Discover the AI powering ASCEND
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-void-deep/50 border border-white/20 rounded-lg">
+                  <BookOpen className="w-4 h-4 text-system-cyan" />
+                  <span className="text-sm text-white/60">Learn More</span>
+                  <ArrowRight className="w-4 h-4 text-white/40 group-hover:text-system-cyan group-hover:translate-x-1 transition-all" />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="bg-void-deep/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Brain className="w-5 h-5 text-system-cyan" />
+                    <span className="text-sm font-semibold text-white">LLM-as-a-Judge</span>
+                  </div>
+                  <p className="text-xs text-white/40">Revolutionary AI evaluation system</p>
+                </div>
+                
+                <div className="bg-void-deep/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Shield className="w-5 h-5 text-status-success" />
+                    <span className="text-sm font-semibold text-white">Fair Evaluation</span>
+                  </div>
+                  <p className="text-xs text-white/40">Bias-free workout assessment</p>
+                </div>
+                
+                <div className="bg-void-deep/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Zap className="w-5 h-5 text-status-warning" />
+                    <span className="text-sm font-semibold text-white">Real-Time</span>
+                  </div>
+                  <p className="text-xs text-white/40">Sub-2-second processing</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5 text-sm text-white/40">
+                  <CheckCircle className="w-4 h-4 text-status-success" />
+                  <span>99.7% accuracy rate</span>
+                </div>
+                <div className="w-1 h-1 bg-white/20 rounded-full" />
+                <div className="flex items-center gap-1.5 text-sm text-white/40">
+                  <CheckCircle className="w-4 h-4 text-status-success" />
+                  <span>3-layer anti-cheat</span>
+                </div>
+                <div className="w-1 h-1 bg-white/20 rounded-full" />
+                <div className="flex items-center gap-1.5 text-sm text-white/40">
+                  <CheckCircle className="w-4 h-4 text-status-success" />
+                  <span>HIPAA compliant</span>
+                </div>
+              </div>
+            </div>
+          </Link>
+        </motion.div>
+ 
         {/* Help Categories */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -337,68 +423,88 @@ export default function HelpPage() {
           </div>
         </motion.div>
 
-        {/* Quick Links */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6"
-        >
-          <div className="bg-gradient-to-br from-system-cyan/5 to-blue-600/5 border border-system-cyan/20 rounded-2xl p-8">
-            <h3 className="text-lg font-bold text-white mb-3">
-              Need Help with Your Account?
-            </h3>
-            <p className="text-sm text-white/60 mb-4">
-              Having trouble logging in or managing your profile? Check our account guides for help.
-            </p>
-            <Link
-              href="/help/features#account"
-              className="inline-flex items-center gap-2 text-sm font-bold text-system-cyan hover:text-white transition-colors"
-            >
-              View Account Guides
-              <HelpCircle className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-500/5 to-pink-500/5 border border-purple-500/20 rounded-2xl p-8">
-            <h3 className="text-lg font-bold text-white mb-3">
-              Explore Development Progress
-            </h3>
-            <p className="text-sm text-white/60 mb-4">
-              See what features are available and what's coming next for ASCEND.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/roadmap"
-                className="inline-flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-white transition-colors"
-              >
-                View Roadmap
-              </Link>
-              <Link
-                href="/tracker"
-                className="inline-flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-white transition-colors"
-              >
-                View Tracker
-              </Link>
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-500/5 to-pink-500/5 border border-purple-500/20 rounded-2xl p-8">
-            <h3 className="text-lg font-bold text-white mb-3">
-              New to ASCEND?
-            </h3>
-            <p className="text-sm text-white/60 mb-4">
-              Start your fitness RPG journey with our getting started guide.
-            </p>
-            <Link
-              href="/help/getting-started"
-              className="inline-flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-white transition-colors"
-            >
-              Start Learning
-              <BookOpen className="w-4 h-4" />
-            </Link>
-          </div>
-        </motion.div>
+         {/* Quick Links */}
+         <motion.div
+           initial={{ opacity: 0, y: 20 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ delay: 0.5 }}
+           className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+         >
+           <div className="bg-gradient-to-br from-system-cyan/5 to-blue-600/5 border border-system-cyan/20 rounded-2xl p-8">
+             <h3 className="text-lg font-bold text-white mb-3">
+               Need Help with Your Account?
+             </h3>
+             <p className="text-sm text-white/60 mb-4">
+               Having trouble logging in or managing your profile? Check our account guides for help.
+             </p>
+             <Link
+               href="/help/features#account"
+               className="inline-flex items-center gap-2 text-sm font-bold text-system-cyan hover:text-white transition-colors"
+             >
+               View Account Guides
+               <HelpCircle className="w-4 h-4" />
+             </Link>
+           </div>
+ 
+           <div className="bg-gradient-to-br from-purple-500/5 to-pink-500/5 border border-purple-500/20 rounded-2xl p-8">
+             <h3 className="text-lg font-bold text-white mb-3">
+               Explore Development
+             </h3>
+             <p className="text-sm text-white/60 mb-4">
+               See what features are available and what's coming next for ASCEND.
+             </p>
+             <div className="flex flex-wrap gap-3">
+               <Link
+                 href="/roadmap"
+                 className="inline-flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-white transition-colors"
+               >
+                 Roadmap
+               </Link>
+               <Link
+                 href="/tracker"
+                 className="inline-flex items-center gap-2 text-sm font-bold text-purple-400 hover:text-white transition-colors"
+               >
+                 Tracker
+               </Link>
+             </div>
+           </div>
+ 
+           <div className="bg-gradient-to-br from-purple-500/5 to-pink-500/5 border border-purple-500/20 rounded-2xl p-8">
+             <h3 className="text-lg font-bold text-white mb-3">
+               Read the Documentation
+             </h3>
+             <p className="text-sm text-white/60 mb-4">
+               Comprehensive guides, tutorials, and API references on GitBook.
+             </p>
+             <Link
+               href="https://nathasan1410.gitbook.io/ascend-fitness-rpg/"
+               target="_blank"
+               rel="noopener noreferrer"
+               className="inline-flex items-center gap-2 text-sm font-bold text-system-cyan hover:text-white transition-colors"
+             >
+               Read GitBook
+               <ExternalLink className="w-4 h-4" />
+             </Link>
+           </div>
+ 
+           <div className="bg-gradient-to-br from-purple-500/5 to-pink-500/5 border border-purple-500/20 rounded-2xl p-8">
+             <h3 className="text-lg font-bold text-white mb-3">
+               View Source Code
+             </h3>
+             <p className="text-sm text-white/60 mb-4">
+               Explore our codebase, contribute, or star the project on GitHub.
+             </p>
+             <Link
+               href="https://github.com/Nathasan1410/ASCEND-RPG-FITNESS-APP"
+               target="_blank"
+               rel="noopener noreferrer"
+               className="inline-flex items-center gap-2 text-sm font-bold text-white hover:text-white/80 transition-colors"
+             >
+               View GitHub
+               <Github className="w-4 h-4" />
+             </Link>
+           </div>
+         </motion.div>
 
         {/* Contact Support */}
         <motion.div
