@@ -18,7 +18,7 @@ export async function getLeaderboard(limit: number = 50, rankFilter: string = "a
       .select("id, username, total_xp, level, rank_tier, class, hunter_status, streak_current")
       .eq("onboarding_done", true)
       .neq("hunter_status", "Corrupted")
-      .order("total_xp", { ascending: false })
+      .order("total_xp", { ascending: false, nullsFirst: false })
       .limit(limit);
 
     return profiles?.map((p, i) => ({ ...(p as any), global_rank: i + 1 })) || [];
