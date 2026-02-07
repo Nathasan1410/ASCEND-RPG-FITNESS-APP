@@ -5,7 +5,7 @@ import { Sparkles, Shield, Zap, Award, Lock, Star, CheckCircle, Cpu, MessageSqua
 import Link from "next/link";
 import { motion } from "framer-motion";
 
-export default function SomethingAboutOpikPage() {
+export default function BestOfOpikPage() {
   const [activeSection, setActiveSection] = useState<string>("overview");
 
   const opikFeatures = [
@@ -152,7 +152,7 @@ export default function SomethingAboutOpikPage() {
               <Link href="/dashboard" className="text-white/60 hover:text-white transition-colors text-sm">
                 Dashboard
               </Link>
-              <Link href="/help" className="text-system-cyan hover:text-white transition-colors text-sm">
+              <Link href="/help" className="text-white/60 hover:text-white transition-colors text-sm">
                 Help
               </Link>
               <Link href="/roadmap" className="text-white/60 hover:text-white transition-colors text-sm">

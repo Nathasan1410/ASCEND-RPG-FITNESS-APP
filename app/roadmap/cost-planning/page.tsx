@@ -227,31 +227,29 @@ export default function CostPlanningPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-900 text-white">
+    <div className="min-h-screen bg-void-deep pb-20">
       {/* Header */}
-      <header className="border-b border-gray-700 bg-gray-900/50 backdrop-blur-lg sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      <header className="sticky top-0 z-40 bg-void-deep/95 backdrop-blur-xl border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link href="/" className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center">
+                <div className="w-10 h-10 bg-gradient-to-br from-system-cyan to-system-blue rounded-lg flex items-center justify-center">
                   <span className="text-white font-bold text-lg">A</span>
                 </div>
-                <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600">
-                  ASCEND
-                </span>
+                <span className="text-xl font-bold text-white">ASCEND</span>
               </Link>
-              <span className="text-gray-400">|</span>
-              <span className="text-gray-300">Cost Planning</span>
+              <span className="text-white/40">|</span>
+              <span className="text-white/60">Cost Planning</span>
             </div>
             <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/dashboard" className="text-gray-300 hover:text-white transition-colors">
+              <Link href="/dashboard" className="text-white/60 hover:text-white transition-colors text-sm">
                 Dashboard
               </Link>
-              <Link href="/feed" className="text-gray-300 hover:text-white transition-colors">
+              <Link href="/feed" className="text-white/60 hover:text-white transition-colors text-sm">
                 Hunter Network
               </Link>
-              <Link href="/roadmap" className="text-cyan-400 hover:text-cyan-300 transition-colors">
+              <Link href="/roadmap" className="text-system-cyan hover:text-white transition-colors text-sm">
                 Roadmap
               </Link>
             </nav>
@@ -261,146 +259,178 @@ export default function CostPlanningPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Title */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">ASCEND Financial Planning</h1>
-          <p className="text-xl text-gray-400">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
+            ASCEND Financial Planning
+          </h1>
+          <p className="text-lg text-white/60 max-w-2xl mx-auto">
             Detailed unit economics, cost breakdowns, and revenue projections
           </p>
-        </div>
+        </motion.div>
 
         {/* UNIT ECONOMICS */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-8 flex items-center">
-            <DollarSign className="w-6 h-6 mr-2 text-cyan-400" />
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mb-16"
+        >
+          <h2 className="text-2xl font-bold text-white mb-8 flex items-center">
+            <DollarSign className="w-6 h-6 mr-2 text-system-cyan" />
             Unit Economics (Per User/Month)
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Free User */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-              <h3 className="text-xl font-bold text-gray-300 mb-4">Free User</h3>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-void-panel/50 border border-white/10 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-white/60 mb-4">Free User</h3>
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Monthly Cost:</span>
-                  <span className="text-red-400 font-mono">${unitEconomics.freeUser.monthlyCost.toFixed(2)}</span>
+                  <span className="text-white/40">Monthly Cost:</span>
+                  <span className="text-status-error font-mono">${unitEconomics.freeUser.monthlyCost.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Monthly Revenue:</span>
-                  <span className="text-green-400 font-mono">${unitEconomics.freeUser.monthlyRevenue.toFixed(2)}</span>
+                  <span className="text-white/40">Monthly Revenue:</span>
+                  <span className="text-status-success font-mono">${unitEconomics.freeUser.monthlyRevenue.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm border-t border-gray-700 pt-2">
-                  <span className="text-gray-400">Net Profit:</span>
-                  <span className="text-cyan-400 font-bold font-mono">${unitEconomics.freeUser.profit.toFixed(2)}</span>
+                <div className="flex justify-between text-sm border-t border-white/10 pt-2">
+                  <span className="text-white/40">Net Profit:</span>
+                  <span className="text-system-cyan font-bold font-mono">${unitEconomics.freeUser.profit.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">ROI:</span>
-                  <span className="text-cyan-400 font-bold">{unitEconomics.freeUser.roi}</span>
+                  <span className="text-white/40">ROI:</span>
+                  <span className="text-system-cyan font-bold">{unitEconomics.freeUser.roi}</span>
                 </div>
               </div>
 
               <div className="space-y-2 mb-6">
-                <p className="text-xs text-gray-500 uppercase font-semibold">Cost Breakdown</p>
+                <p className="text-xs text-white/30 uppercase font-semibold">Cost Breakdown</p>
                 {Object.entries(unitEconomics.freeUser.costBreakdown).map(([key, value]) => (
                   <div key={key} className="flex justify-between text-sm">
-                    <span className="text-gray-400 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
-                    <span className="font-mono">${value.toFixed(2)}</span>
+                    <span className="text-white/40 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                    <span className="font-mono text-white/60">${value.toFixed(2)}</span>
                   </div>
                 ))}
               </div>
 
               <div className="space-y-2">
-                <p className="text-xs text-gray-500 uppercase font-semibold">Revenue Sources</p>
+                <p className="text-xs text-white/30 uppercase font-semibold">Revenue Sources</p>
                 {Object.entries(unitEconomics.freeUser.revenueBreakdown).map(([key, value]) => (
                   <div key={key} className="flex justify-between text-sm">
-                    <span className="text-gray-400 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
-                    <span className="font-mono text-green-400">${value.toFixed(2)}</span>
+                    <span className="text-white/40 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                    <span className="font-mono text-status-success">${value.toFixed(2)}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Pro User */}
-            <div className="bg-gray-800 rounded-xl p-6 border-2 border-cyan-500/50">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-void-panel/50 border-2 border-system-cyan/30 rounded-2xl p-6"
+            >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-cyan-400">Pro User</h3>
-                <span className="px-2 py-1 bg-cyan-500/20 text-cyan-300 text-xs rounded-full">Most Profitable</span>
+                <h3 className="text-xl font-bold text-system-cyan">Pro User</h3>
+                <span className="px-2 py-1 bg-system-cyan/10 text-system-cyan text-xs rounded-full">Most Profitable</span>
               </div>
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Monthly Cost:</span>
-                  <span className="text-red-400 font-mono">${unitEconomics.proUser.monthlyCost.toFixed(2)}</span>
+                  <span className="text-white/40">Monthly Cost:</span>
+                  <span className="text-status-error font-mono">${unitEconomics.proUser.monthlyCost.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Subscription:</span>
-                  <span className="text-green-400 font-mono">${unitEconomics.proUser.monthlyRevenue.toFixed(2)}</span>
+                  <span className="text-white/40">Subscription:</span>
+                  <span className="text-status-success font-mono">${unitEconomics.proUser.monthlyRevenue.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm border-t border-gray-700 pt-2">
-                  <span className="text-gray-400">Net Profit:</span>
-                  <span className="text-cyan-400 font-bold font-mono">${unitEconomics.proUser.profit.toFixed(2)}</span>
+                <div className="flex justify-between text-sm border-t border-white/10 pt-2">
+                  <span className="text-white/40">Net Profit:</span>
+                  <span className="text-system-cyan font-bold font-mono">${unitEconomics.proUser.profit.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">ROI:</span>
-                  <span className="text-cyan-400 font-bold">{unitEconomics.proUser.roi}</span>
+                  <span className="text-white/40">ROI:</span>
+                  <span className="text-system-cyan font-bold">{unitEconomics.proUser.roi}</span>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <p className="text-xs text-gray-500 uppercase font-semibold">Cost Breakdown</p>
+                <p className="text-xs text-white/30 uppercase font-semibold">Cost Breakdown</p>
                 {Object.entries(unitEconomics.proUser.costBreakdown).map(([key, value]) => (
                   <div key={key} className="flex justify-between text-sm">
-                    <span className="text-gray-400 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
-                    <span className="font-mono">${value.toFixed(2)}</span>
+                    <span className="text-white/40 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                    <span className="font-mono text-white/60">${value.toFixed(2)}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Max User */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-purple-500/50">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="bg-void-panel/50 border border-white/10 rounded-2xl p-6"
+            >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-purple-400">Max User</h3>
-                <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-xs rounded-full">Highest ROI</span>
+                <h3 className="text-xl font-bold text-white/60">Max User</h3>
+                <span className="px-2 py-1 bg-white/5 text-white/60 text-xs rounded-full">Highest ROI</span>
               </div>
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Monthly Cost:</span>
-                  <span className="text-red-400 font-mono">${unitEconomics.maxUser.monthlyCost.toFixed(2)}</span>
+                  <span className="text-white/40">Monthly Cost:</span>
+                  <span className="text-status-error font-mono">${unitEconomics.maxUser.monthlyCost.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Subscription:</span>
-                  <span className="text-green-400 font-mono">${unitEconomics.maxUser.monthlyRevenue.toFixed(2)}</span>
+                  <span className="text-white/40">Subscription:</span>
+                  <span className="text-status-success font-mono">${unitEconomics.maxUser.monthlyRevenue.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm border-t border-gray-700 pt-2">
-                  <span className="text-gray-400">Net Profit:</span>
-                  <span className="text-purple-400 font-bold font-mono">${unitEconomics.maxUser.profit.toFixed(2)}</span>
+                <div className="flex justify-between text-sm border-t border-white/10 pt-2">
+                  <span className="text-white/40">Net Profit:</span>
+                  <span className="text-system-cyan font-bold font-mono">${unitEconomics.maxUser.profit.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">ROI:</span>
-                  <span className="text-purple-400 font-bold">{unitEconomics.maxUser.roi}</span>
+                  <span className="text-white/40">ROI:</span>
+                  <span className="text-system-cyan font-bold">{unitEconomics.maxUser.roi}</span>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <p className="text-xs text-gray-500 uppercase font-semibold">Cost Breakdown</p>
+                <p className="text-xs text-white/30 uppercase font-semibold">Cost Breakdown</p>
                 {Object.entries(unitEconomics.maxUser.costBreakdown).map(([key, value]) => (
                   <div key={key} className="flex justify-between text-sm">
-                    <span className="text-gray-400 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
-                    <span className="font-mono">${value.toFixed(2)}</span>
+                    <span className="text-white/40 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                    <span className="font-mono text-white/60">${value.toFixed(2)}</span>
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* SCALING SCENARIOS */}
-        <section className="mb-16">
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mb-16"
+        >
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold flex items-center">
-              <TrendingUp className="w-6 h-6 mr-2 text-green-400" />
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <TrendingUp className="w-6 h-6 mr-2 text-status-success" />
               Scaling Scenarios
             </h2>
             <div className="flex space-x-2">
@@ -408,10 +438,10 @@ export default function CostPlanningPage() {
                 <button
                   key={key}
                   onClick={() => setSelectedScenario(key)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                  className={`px-4 py-2 rounded-lg font-medium transition-all text-sm ${
                     selectedScenario === key
-                      ? "bg-cyan-500 text-white"
-                      : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+                      ? "bg-system-cyan text-void-deep"
+                      : "bg-void-panel/50 text-white/60 hover:bg-white/5"
                   }`}
                 >
                   {key} Users
@@ -422,58 +452,68 @@ export default function CostPlanningPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Financial Summary */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-              <h3 className="text-xl font-bold mb-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-void-panel/50 border border-white/10 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-white mb-6">
                 Financial Summary: {currentScenario.users.toLocaleString()} Users
               </h3>
               
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-700/50 rounded-lg p-4">
-                    <p className="text-sm text-gray-400 mb-1">Free Users</p>
-                    <p className="text-2xl font-bold text-gray-300">{currentScenario.freeUsers}</p>
-                    <p className="text-xs text-gray-500">80%</p>
+                  <div className="bg-void-panel/30 rounded-lg p-4">
+                    <p className="text-sm text-white/40 mb-1">Free Users</p>
+                    <p className="text-2xl font-bold text-white/60">{currentScenario.freeUsers}</p>
+                    <p className="text-xs text-white/30">80%</p>
                   </div>
-                  <div className="bg-gray-700/50 rounded-lg p-4">
-                    <p className="text-sm text-gray-400 mb-1">Pro Users</p>
-                    <p className="text-2xl font-bold text-cyan-400">{currentScenario.proUsers}</p>
-                    <p className="text-xs text-gray-500">20%</p>
+                  <div className="bg-void-panel/30 rounded-lg p-4">
+                    <p className="text-sm text-white/40 mb-1">Pro Users</p>
+                    <p className="text-2xl font-bold text-system-cyan">{currentScenario.proUsers}</p>
+                    <p className="text-xs text-white/30">20%</p>
                   </div>
                 </div>
 
-                <div className="border-t border-gray-700 pt-4 space-y-3">
+                <div className="border-t border-white/10 pt-4 space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Total Cost:</span>
-                    <span className="text-red-400 font-mono font-bold">${currentScenario.totalCost.toLocaleString()}</span>
+                    <span className="text-white/40">Total Cost:</span>
+                    <span className="text-status-error font-mono font-bold">${currentScenario.totalCost.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Subscription Revenue:</span>
-                    <span className="text-cyan-400 font-mono">${currentScenario.subscriptionRevenue.toLocaleString()}</span>
+                    <span className="text-white/40">Subscription Revenue:</span>
+                    <span className="text-system-cyan font-mono">${currentScenario.subscriptionRevenue.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Ad Revenue:</span>
-                    <span className="text-green-400 font-mono">${currentScenario.adRevenue.toLocaleString()}</span>
+                    <span className="text-white/40">Ad Revenue:</span>
+                    <span className="text-status-success font-mono">${currentScenario.adRevenue.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between items-center border-t border-gray-700 pt-3">
-                    <span className="text-gray-400">Total Revenue:</span>
+                  <div className="flex justify-between items-center border-t border-white/10 pt-3">
+                    <span className="text-white/40">Total Revenue:</span>
                     <span className="text-white font-mono font-bold">${currentScenario.totalRevenue.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Net Profit:</span>
-                    <span className="text-green-400 font-mono font-bold text-lg">${currentScenario.netProfit.toLocaleString()}</span>
+                    <span className="text-white/40">Net Profit:</span>
+                    <span className="text-status-success font-mono font-bold text-lg">${currentScenario.netProfit.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Profit Margin:</span>
-                    <span className="text-cyan-400 font-bold">{currentScenario.margin}</span>
+                    <span className="text-white/40">Profit Margin:</span>
+                    <span className="text-system-cyan font-bold">{currentScenario.margin}</span>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Infrastructure Costs */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-              <h3 className="text-xl font-bold mb-6 flex items-center">
-                <Server className="w-5 h-5 mr-2 text-purple-400" />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="bg-void-panel/50 border border-white/10 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-white mb-6 flex items-center">
+                <Server className="w-5 h-5 mr-2 text-system-cyan" />
                 Infrastructure Breakdown
               </h3>
 
@@ -481,371 +521,451 @@ export default function CostPlanningPage() {
                 {Object.entries(currentScenario.infrastructure).map(([key, value]) => (
                   <div key={key} className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      {key === 'backend' && <Cpu className="w-5 h-5 text-cyan-400" />}
-                      {key === 'transcoding' && <Wifi className="w-5 h-5 text-yellow-400" />}
-                      {key === 'database' && <Database className="w-5 h-5 text-green-400" />}
-                      {key === 'redis' && <Server className="w-5 h-5 text-orange-400" />}
-                      {key === 'cdn' && <Wifi className="w-5 h-5 text-purple-400" />}
-                      <span className="text-gray-300 capitalize">{key}:</span>
+                      {key === 'backend' && <Cpu className="w-5 h-5 text-system-cyan" />}
+                      {key === 'transcoding' && <Wifi className="w-5 h-5 text-status-warning" />}
+                      {key === 'database' && <Database className="w-5 h-5 text-status-success" />}
+                      {key === 'redis' && <Server className="w-5 h-5 text-white/60" />}
+                      {key === 'cdn' && <Wifi className="w-5 h-5 text-system-cyan" />}
+                      <span className="text-white/60 capitalize">{key}:</span>
                     </div>
-                    <span className="font-mono">${value}/month</span>
+                    <span className="font-mono text-white/60">${value}/month</span>
                   </div>
                 ))}
 
-                <div className="border-t border-gray-700 pt-4 mt-4">
+                <div className="border-t border-white/10 pt-4 mt-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-400">Total Infrastructure:</span>
-                    <span className="font-mono font-bold">
+                    <span className="text-white/40">Total Infrastructure:</span>
+                    <span className="font-mono font-bold text-white">
                       ${Object.values(currentScenario.infrastructure).reduce((a, b) => a + b, 0)}/month
                     </span>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* BREAK-EVEN ANALYSIS */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-8 flex items-center">
-            <Calculator className="w-6 h-6 mr-2 text-yellow-400" />
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mb-16"
+        >
+          <h2 className="text-2xl font-bold text-white mb-8 flex items-center">
+            <Calculator className="w-6 h-6 mr-2 text-status-warning" />
             Break-Even Analysis
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Without Ads */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-red-500/30">
-              <h3 className="text-xl font-bold text-red-400 mb-4">Without Advertising</h3>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="bg-void-panel/50 border border-white/10 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-status-error mb-4">Without Advertising</h3>
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Fixed Costs:</span>
-                  <span className="font-mono">${breakEvenAnalysis.withoutAds.fixedCosts}/month</span>
+                  <span className="text-white/40">Fixed Costs:</span>
+                  <span className="font-mono text-white/60">${breakEvenAnalysis.withoutAds.fixedCosts}/month</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Variable Cost/User:</span>
-                  <span className="font-mono">${breakEvenAnalysis.withoutAds.variableCostPerUser}</span>
+                  <span className="text-white/40">Variable Cost/User:</span>
+                  <span className="font-mono text-white/60">${breakEvenAnalysis.withoutAds.variableCostPerUser}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Revenue/Pro User:</span>
-                  <span className="font-mono">${breakEvenAnalysis.withoutAds.revenuePerProUser}</span>
+                  <span className="text-white/40">Revenue/Pro User:</span>
+                  <span className="font-mono text-white/60">${breakEvenAnalysis.withoutAds.revenuePerProUser}</span>
                 </div>
               </div>
 
-              <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4 mb-4">
-                <p className="text-sm text-red-300 mb-2">Break-Even Formula:</p>
-                <code className="text-xs text-red-200 font-mono">
+              <div className="bg-status-error/10 border border-status-error/30 rounded-lg p-4 mb-4">
+                <p className="text-sm text-status-error mb-2">Break-Even Formula:</p>
+                <code className="text-xs text-status-error font-mono">
                   Users = Fixed / (Revenue - Variable)
                 </code>
-                <p className="text-xs text-red-200 font-mono mt-1">
+                <p className="text-xs text-status-error font-mono mt-1">
                   Users = {breakEvenAnalysis.withoutAds.fixedCosts} / ({breakEvenAnalysis.withoutAds.revenuePerProUser} - {breakEvenAnalysis.withoutAds.variableCostPerUser})
                 </p>
               </div>
 
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Required Users:</span>
-                  <span className="text-red-400 font-bold font-mono text-lg">{breakEvenAnalysis.withoutAds.requiredUsers}</span>
+                  <span className="text-white/40">Required Users:</span>
+                  <span className="text-status-error font-bold font-mono text-lg">{breakEvenAnalysis.withoutAds.requiredUsers}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Required Pro Users:</span>
-                  <span className="text-red-400 font-mono">{breakEvenAnalysis.withoutAds.requiredProUsers}</span>
+                  <span className="text-white/40">Required Pro Users:</span>
+                  <span className="text-status-error font-mono">{breakEvenAnalysis.withoutAds.requiredProUsers}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Conversion Rate Needed:</span>
-                  <span className="text-red-400 font-mono">{breakEvenAnalysis.withoutAds.conversionRate}</span>
+                  <span className="text-white/40">Conversion Rate Needed:</span>
+                  <span className="text-status-error font-mono">{breakEvenAnalysis.withoutAds.conversionRate}</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* With Ads */}
-            <div className="bg-gray-800 rounded-xl p-6 border-2 border-green-500/50">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              className="bg-void-panel/50 border-2 border-status-success/30 rounded-2xl p-6"
+            >
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-green-400">With Advertising</h3>
-                <span className="px-2 py-1 bg-green-500/20 text-green-300 text-xs rounded-full">
+                <h3 className="text-xl font-bold text-status-success">With Advertising</h3>
+                <span className="px-2 py-1 bg-status-success/10 text-status-success text-xs rounded-full">
                   -{breakEvenAnalysis.withAds.reduction} break-even
                 </span>
               </div>
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Fixed Costs:</span>
-                  <span className="font-mono">${breakEvenAnalysis.withAds.fixedCosts}/month</span>
+                  <span className="text-white/40">Fixed Costs:</span>
+                  <span className="font-mono text-white/60">${breakEvenAnalysis.withAds.fixedCosts}/month</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Variable Cost/User:</span>
-                  <span className="font-mono">${breakEvenAnalysis.withAds.variableCostPerUser}</span>
+                  <span className="text-white/40">Variable Cost/User:</span>
+                  <span className="font-mono text-white/60">${breakEvenAnalysis.withAds.variableCostPerUser}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Revenue/Free User:</span>
-                  <span className="font-mono text-green-400">${breakEvenAnalysis.withAds.revenuePerFreeUser}</span>
+                  <span className="text-white/40">Revenue/Free User:</span>
+                  <span className="font-mono text-status-success">${breakEvenAnalysis.withAds.revenuePerFreeUser}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Revenue/Pro User:</span>
-                  <span className="font-mono text-cyan-400">${breakEvenAnalysis.withAds.revenuePerProUser}</span>
+                  <span className="text-white/40">Revenue/Pro User:</span>
+                  <span className="font-mono text-system-cyan">${breakEvenAnalysis.withAds.revenuePerProUser}</span>
                 </div>
               </div>
 
-              <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 mb-4">
-                <p className="text-sm text-green-300 mb-2">Break-Even Formula:</p>
-                <code className="text-xs text-green-200 font-mono">
+              <div className="bg-status-success/10 border border-status-success/30 rounded-lg p-4 mb-4">
+                <p className="text-sm text-status-success mb-2">Break-Even Formula:</p>
+                <code className="text-xs text-status-success font-mono">
                   Total Revenue = Total Cost
                 </code>
-                <p className="text-xs text-green-200 font-mono mt-1">
+                <p className="text-xs text-status-success font-mono mt-1">
                   (Free×$3.55) + (Pro×$9.99) = $90 + (Users×$0.70)
                 </p>
               </div>
 
               <div className="space-y-2">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Required Users:</span>
-                  <span className="text-green-400 font-bold font-mono text-lg">{breakEvenAnalysis.withAds.requiredUsers}</span>
+                  <span className="text-white/40">Required Users:</span>
+                  <span className="text-status-success font-bold font-mono text-lg">{breakEvenAnalysis.withAds.requiredUsers}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Required Pro Users:</span>
-                  <span className="text-green-400 font-mono">{breakEvenAnalysis.withAds.requiredProUsers}</span>
+                  <span className="text-white/40">Required Pro Users:</span>
+                  <span className="text-status-success font-mono">{breakEvenAnalysis.withAds.requiredProUsers}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Conversion Rate:</span>
-                  <span className="text-green-400 font-mono">{breakEvenAnalysis.withAds.conversionRate}</span>
+                  <span className="text-white/40">Conversion Rate:</span>
+                  <span className="text-status-success font-mono">{breakEvenAnalysis.withAds.conversionRate}</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* REVENUE ALLOCATION */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-8 flex items-center">
-            <PiggyBank className="w-6 h-6 mr-2 text-pink-400" />
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mb-16"
+        >
+          <h2 className="text-2xl font-bold text-white mb-8 flex items-center">
+            <PiggyBank className="w-6 h-6 mr-2 text-system-cyan" />
             Revenue Allocation @ 1,000 Users
           </h2>
 
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+            className="bg-void-panel/50 border border-white/10 rounded-2xl p-6"
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Object.entries(revenueAllocation.at1000Users).map(([key, data]) => (
-                <div key={key} className="bg-gray-700/50 rounded-lg p-4">
+                <div key={key} className="bg-void-panel/30 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-gray-300 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                    <span className="text-cyan-400 font-bold">{data.percentage}%</span>
+                    <span className="text-white/60 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                    <span className="text-system-cyan font-bold">{data.percentage}%</span>
                   </div>
                   <p className="text-2xl font-mono font-bold text-white mb-1">
                     ${data.amount.toLocaleString()}
                   </p>
-                  <p className="text-xs text-gray-500">{data.destination}</p>
+                  <p className="text-xs text-white/30">{data.destination}</p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-6 pt-6 border-t border-gray-700">
+            <div className="mt-6 pt-6 border-t border-white/10">
               <div className="flex justify-between items-center">
-                <span className="text-gray-400 text-lg">Total Monthly Revenue:</span>
-                <span className="text-2xl font-mono font-bold text-cyan-400">
+                <span className="text-white/40 text-lg">Total Monthly Revenue:</span>
+                <span className="text-2xl font-mono font-bold text-system-cyan">
                   ${Object.values(revenueAllocation.at1000Users).reduce((a, b) => a + b.amount, 0).toLocaleString()}
                 </span>
               </div>
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         {/* COST ALLOCATION */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-8 flex items-center">
-            <CreditCard className="w-6 h-6 mr-2 text-red-400" />
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="mb-16"
+        >
+          <h2 className="text-2xl font-bold text-white mb-8 flex items-center">
+            <CreditCard className="w-6 h-6 mr-2 text-status-error" />
             Cost Allocation @ 1,000 Users
           </h2>
 
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="bg-void-panel/50 border border-white/10 rounded-2xl p-6"
+          >
             <div className="space-y-6">
               {Object.entries(costAllocation.at1000Users).map(([key, data]) => (
-                <div key={key} className="bg-gray-700/50 rounded-lg p-4">
+                <div key={key} className="bg-void-panel/30 rounded-lg p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-gray-300 capitalize text-lg">{key}</span>
-                    <span className="text-red-400 font-bold">{data.percentage}%</span>
+                    <span className="text-white/60 capitalize text-lg">{key}</span>
+                    <span className="text-status-error font-bold">{data.percentage}%</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <p className="text-2xl font-mono font-bold text-white">
                       ${data.amount.toLocaleString()}
                     </p>
-                    <p className="text-sm text-gray-400">{data.breakdown}</p>
+                    <p className="text-sm text-white/40">{data.breakdown}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            <div className="mt-6 pt-6 border-t border-gray-700">
+            <div className="mt-6 pt-6 border-t border-white/10">
               <div className="flex justify-between items-center">
-                <span className="text-gray-400 text-lg">Total Monthly Cost:</span>
-                <span className="text-2xl font-mono font-bold text-red-400">
+                <span className="text-white/40 text-lg">Total Monthly Cost:</span>
+                <span className="text-2xl font-mono font-bold text-status-error">
                   ${Object.values(costAllocation.at1000Users).reduce((a, b) => a + b.amount, 0).toLocaleString()}
                 </span>
               </div>
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         {/* CAC & LTV */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-8 flex items-center">
-            <Users className="w-6 h-6 mr-2 text-blue-400" />
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mb-16"
+        >
+          <h2 className="text-2xl font-bold text-white mb-8 flex items-center">
+            <Users className="w-6 h-6 mr-2 text-system-cyan" />
             Customer Acquisition & Lifetime Value
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* CAC */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-              <h3 className="text-xl font-bold text-blue-400 mb-4">Customer Acquisition Cost (CAC)</h3>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              className="bg-void-panel/50 border border-white/10 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-white/60 mb-4">Customer Acquisition Cost (CAC)</h3>
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Marketing Spend:</span>
-                  <span className="font-mono">${cacLtv.cac.marketingSpend.toLocaleString()}</span>
+                  <span className="text-white/40">Marketing Spend:</span>
+                  <span className="font-mono text-white/60">${cacLtv.cac.marketingSpend.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">New Users Acquired:</span>
-                  <span className="font-mono">{cacLtv.cac.newUsersAcquired.toLocaleString()}</span>
+                  <span className="text-white/40">New Users Acquired:</span>
+                  <span className="font-mono text-white/60">{cacLtv.cac.newUsersAcquired.toLocaleString()}</span>
                 </div>
               </div>
 
-              <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 mb-4">
-                <p className="text-sm text-blue-300 mb-1">Formula:</p>
-                <code className="text-xs text-blue-200 font-mono">
+              <div className="bg-system-cyan/10 border border-system-cyan/30 rounded-lg p-4 mb-4">
+                <p className="text-sm text-system-cyan mb-1">Formula:</p>
+                <code className="text-xs text-system-cyan font-mono">
                   CAC = Marketing Spend / New Users
                 </code>
-                <p className="text-xs text-blue-200 font-mono mt-1">
+                <p className="text-xs text-system-cyan font-mono mt-1">
                   CAC = ${cacLtv.cac.marketingSpend.toLocaleString()} / {cacLtv.cac.newUsersAcquired.toLocaleString()}
                 </p>
               </div>
 
-              <div className="flex justify-between items-center border-t border-gray-700 pt-4">
-                <span className="text-gray-400">CAC per User:</span>
-                <span className="text-blue-400 font-bold font-mono text-2xl">${cacLtv.cac.cacPerUser.toFixed(2)}</span>
+              <div className="flex justify-between items-center border-t border-white/10 pt-4">
+                <span className="text-white/40">CAC per User:</span>
+                <span className="text-system-cyan font-bold font-mono text-2xl">${cacLtv.cac.cacPerUser.toFixed(2)}</span>
               </div>
-            </div>
+            </motion.div>
 
             {/* LTV */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
-              <h3 className="text-xl font-bold text-green-400 mb-4">Lifetime Value (LTV)</h3>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              className="bg-void-panel/50 border border-white/10 rounded-2xl p-6"
+            >
+              <h3 className="text-xl font-bold text-white/60 mb-4">Lifetime Value (LTV)</h3>
               
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Avg Revenue/User:</span>
-                  <span className="font-mono">${cacLtv.ltv.averageRevenuePerUser.toFixed(2)}/month</span>
+                  <span className="text-white/40">Avg Revenue/User:</span>
+                  <span className="font-mono text-white/60">${cacLtv.ltv.averageRevenuePerUser.toFixed(2)}/month</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Gross Margin:</span>
-                  <span className="font-mono">{(cacLtv.ltv.grossMargin * 100).toFixed(0)}%</span>
+                  <span className="text-white/40">Gross Margin:</span>
+                  <span className="font-mono text-white/60">{(cacLtv.ltv.grossMargin * 100).toFixed(0)}%</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Monthly Churn:</span>
-                  <span className="font-mono">{(cacLtv.ltv.monthlyChurnRate * 100).toFixed(0)}%</span>
+                  <span className="text-white/40">Monthly Churn:</span>
+                  <span className="font-mono text-white/60">{(cacLtv.ltv.monthlyChurnRate * 100).toFixed(0)}%</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-400">Average Lifetime:</span>
-                  <span className="font-mono">{cacLtv.ltv.ltvMonths} months</span>
+                  <span className="text-white/40">Average Lifetime:</span>
+                  <span className="font-mono text-white/60">{cacLtv.ltv.ltvMonths} months</span>
                 </div>
               </div>
 
-              <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 mb-4">
-                <p className="text-sm text-green-300 mb-1">Formula:</p>
-                <code className="text-xs text-green-200 font-mono">
+              <div className="bg-status-success/10 border border-status-success/30 rounded-lg p-4 mb-4">
+                <p className="text-sm text-status-success mb-1">Formula:</p>
+                <code className="text-xs text-status-success font-mono">
                   LTV = (ARPU × Gross Margin) / Churn Rate
                 </code>
-                <p className="text-xs text-green-200 font-mono mt-1">
+                <p className="text-xs text-status-success font-mono mt-1">
                   LTV = (${cacLtv.ltv.averageRevenuePerUser.toFixed(2)} × {(cacLtv.ltv.grossMargin * 100).toFixed(0)}%) / {(cacLtv.ltv.monthlyChurnRate * 100).toFixed(0)}%
                 </p>
               </div>
 
-              <div className="flex justify-between items-center border-t border-gray-700 pt-4">
-                <span className="text-gray-400">LTV per User:</span>
-                <span className="text-green-400 font-bold font-mono text-2xl">${cacLtv.ltv.ltvDollars.toFixed(2)}</span>
+              <div className="flex justify-between items-center border-t border-white/10 pt-4">
+                <span className="text-white/40">LTV per User:</span>
+                <span className="text-status-success font-bold font-mono text-2xl">${cacLtv.ltv.ltvDollars.toFixed(2)}</span>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* LTV:CAC Ratio */}
-          <div className="mt-8 bg-gradient-to-r from-green-500/20 to-cyan-500/20 rounded-xl p-6 border border-green-500/30">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.9 }}
+            className="mt-8 bg-gradient-to-r from-status-success/10 to-system-cyan/10 rounded-2xl p-6 border border-white/10"
+          >
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="text-xl font-bold text-white mb-2">LTV:CAC Ratio</h3>
                 <div className="flex items-center space-x-4">
                   <div>
-                    <p className="text-sm text-gray-400">LTV</p>
-                    <p className="text-2xl font-mono font-bold text-green-400">${cacLtv.ltv.ltvDollars.toFixed(2)}</p>
+                    <p className="text-sm text-white/40">LTV</p>
+                    <p className="text-2xl font-mono font-bold text-status-success">${cacLtv.ltv.ltvDollars.toFixed(2)}</p>
                   </div>
-                  <span className="text-3xl text-gray-500">÷</span>
+                  <span className="text-3xl text-white/30">÷</span>
                   <div>
-                    <p className="text-sm text-gray-400">CAC</p>
-                    <p className="text-2xl font-mono font-bold text-blue-400">${cacLtv.cac.cacPerUser.toFixed(2)}</p>
+                    <p className="text-sm text-white/40">CAC</p>
+                    <p className="text-2xl font-mono font-bold text-white/60">${cacLtv.cac.cacPerUser.toFixed(2)}</p>
                   </div>
-                  <span className="text-3xl text-gray-500">=</span>
+                  <span className="text-3xl text-white/30">=</span>
                   <div>
-                    <p className="text-sm text-gray-400">Ratio</p>
-                    <p className="text-4xl font-mono font-bold text-cyan-400">{cacLtv.ratio}</p>
+                    <p className="text-sm text-white/40">Ratio</p>
+                    <p className="text-4xl font-mono font-bold text-system-cyan">{cacLtv.ratio}</p>
                   </div>
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-sm text-gray-400 mb-1">Payback Period</p>
-                <p className="text-3xl font-mono font-bold text-purple-400">{cacLtv.paybackPeriod}</p>
-                <p className="text-xs text-gray-500">Time to recover CAC</p>
+                <p className="text-sm text-white/40 mb-1">Payback Period</p>
+                <p className="text-3xl font-mono font-bold text-white">{cacLtv.paybackPeriod}</p>
+                <p className="text-xs text-white/30">Time to recover CAC</p>
               </div>
             </div>
-          </div>
-        </section>
+          </motion.div>
+        </motion.section>
 
         {/* KEY INSIGHTS */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-8 flex items-center">
-            <BarChart3 className="w-6 h-6 mr-2 text-purple-400" />
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+          className="mb-16"
+        >
+          <h2 className="text-2xl font-bold text-white mb-8 flex items-center">
+            <BarChart3 className="w-6 h-6 mr-2 text-system-cyan" />
             Key Financial Insights
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl p-6 border border-green-500/30">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              className="bg-gradient-to-br from-status-success/10 to-emerald-500/10 rounded-2xl p-6 border border-white/10"
+            >
               <div className="flex items-center space-x-2 mb-3">
-                <CheckCircle className="w-5 h-5 text-green-400" />
-                <span className="text-green-400 font-semibold">Profitable from Day 1</span>
+                <CheckCircle className="w-5 h-5 text-status-success" />
+                <span className="text-status-success font-semibold">Profitable from Day 1</span>
               </div>
-              <p className="text-sm text-gray-300">
-                With ads, break-even at just <strong>45 users</strong> (9 Pro). No ads requires 200 users (40 Pro).
+              <p className="text-sm text-white/60">
+                With ads, break-even at just <strong className="text-white">45 users</strong> (9 Pro). No ads requires 200 users (40 Pro).
               </p>
-            </div>
+            </motion.div>
 
-            <div className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-xl p-6 border border-cyan-500/30">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.9 }}
+              className="bg-gradient-to-br from-system-cyan/10 to-system-blue/10 rounded-2xl p-6 border border-white/10"
+            >
               <div className="flex items-center space-x-2 mb-3">
-                <TrendingUp className="w-5 h-5 text-cyan-400" />
-                <span className="text-cyan-400 font-semibold">81% Margins at Scale</span>
+                <TrendingUp className="w-5 h-5 text-system-cyan" />
+                <span className="text-system-cyan font-semibold">81% Margins at Scale</span>
               </div>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-white/60">
                 At 10,000 users: $48,380 revenue, $9,150 cost = 81% margin. Ad revenue drives profitability.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl p-6 border border-purple-500/30">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
+              className="bg-gradient-to-br from-white/5 to-white/5 rounded-2xl p-6 border border-white/10"
+            >
               <div className="flex items-center space-x-2 mb-3">
-                <Users className="w-5 h-5 text-purple-400" />
-                <span className="text-purple-400 font-semibold">Pro Users = 410% ROI</span>
+                <Users className="w-5 h-5 text-white/60" />
+                <span className="text-white/60 font-semibold">Pro Users = 410% ROI</span>
               </div>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-white/60">
                 Pro users cost $1.96/month but generate $9.99 = $8.03 profit per user per month.
               </p>
-            </div>
+            </motion.div>
 
-            <div className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 rounded-xl p-6 border border-yellow-500/30">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.1 }}
+              className="bg-gradient-to-br from-status-warning/10 to-orange-500/10 rounded-2xl p-6 border border-white/10"
+            >
               <div className="flex items-center space-x-2 mb-3">
-                <AlertTriangle className="w-5 h-5 text-yellow-400" />
-                <span className="text-yellow-400 font-semibold">Ad Dependency</span>
+                <AlertTriangle className="w-5 h-5 text-status-warning" />
+                <span className="text-status-warning font-semibold">Ad Dependency</span>
               </div>
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-white/60">
                 Ads provide 59% of revenue. If ad revenue drops 50%, margins fall from 81% to 62%.
               </p>
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
         {/* FOOTER */}
-        <footer className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+        <footer className="border-t border-white/10 pt-8 text-center text-white/40 text-sm pb-20">
           <p>Financial projections based on current infrastructure costs and market rates. Actual results may vary.</p>
           <p className="mt-2">Last updated: February 7, 2026</p>
         </footer>

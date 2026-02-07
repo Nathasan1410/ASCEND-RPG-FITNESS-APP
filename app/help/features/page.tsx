@@ -452,7 +452,7 @@ export default function FeaturesPage() {
               </Link>
 
               <Link
-                href="/help/opik"
+                href="/domain/best-of-OPIK"
                 className="bg-void-deep/50 border border-white/10 rounded-xl p-6 hover:border-system-cyan/30 hover:bg-white/5 transition-all group"
               >
                 <Shield className="w-6 h-6 text-green-400 mb-3" />

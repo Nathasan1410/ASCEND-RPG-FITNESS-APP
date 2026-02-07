@@ -64,7 +64,7 @@ export default function GettingStartedPage() {
     },
     {
       title: "Read the Opik Guide",
-      description: "Learn how we monitor and improve your experience at /help/opik",
+      description: "Learn about our exclusive AI evaluation system at /domain/best-of-OPIK",
     },
   ];
 

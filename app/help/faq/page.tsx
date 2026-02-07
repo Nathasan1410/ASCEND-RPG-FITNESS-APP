@@ -94,7 +94,7 @@ export default function FAQPage() {
         },
         {
           q: "What doesn't Opik track?",
-          a: "Opik does NOT track your personal workout data, user conversations, biometric data, or private information. We prioritize your privacy. You can view your Opik traces in /help/opik.",
+          a: "Opik does NOT track your personal workout data, user conversations, biometric data, or private information. We prioritize your privacy. Learn more at /domain/best-of-OPIK.",
         },
         {
           q: "Can I opt out of Opik tracking?",

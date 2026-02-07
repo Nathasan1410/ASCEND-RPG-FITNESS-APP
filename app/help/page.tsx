@@ -41,12 +41,12 @@ export default function HelpPage() {
     },
     {
       id: "opik",
-      title: "Opik Monitoring",
-      description: "Learn how we use Opik to improve your experience.",
+      title: "Opik AI Platform",
+      description: "Learn about our exclusive LLM-as-a-Judge evaluation system.",
       icon: MessageCircle,
       color: "text-green-400",
       bgColor: "bg-green-400/10",
-      link: "/help/opik",
+      link: "/domain/best-of-OPIK",
     },
     {
       id: "demo-accounts",
