@@ -171,10 +171,11 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
       console.log(`[QuestAction] Trace creation and sending completed`);
       
     } catch (traceError) {
+      const error = traceError as Error;
       console.error("[QuestAction] Failed to send trace to Opik:", traceError);
-      console.error("[QuestAction] Error name:", traceError?.name || "Unknown error");
-      console.error("[QuestAction] Error message:", traceError?.message || "Unknown error");
-      console.error("[QuestAction] Error stack:", traceError?.stack || "No stack trace");
+      console.error("[QuestAction] Error name:", error?.name || "Unknown error");
+      console.error("[QuestAction] Error message:", error?.message || "Unknown error");
+      console.error("[QuestAction] Error stack:", error?.stack || "No stack trace");
       
       // Attempt to log the trace failure to Opik
       try {
@@ -184,9 +185,9 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
             user_id: user.id,
             user_rank: profile.rank_tier,
             user_class: profile.class,
-            original_error_name: (traceError as any)?.name || "UnknownError",
-            original_error_message: (traceError as any)?.message || "Unknown error",
-            original_error_stack: (traceError as any)?.stack ? traceError.stack.substring(0, 1000) : "No stack trace",
+            original_error_name: error?.name || "UnknownError",
+            original_error_message: error?.message || "Unknown error",
+            original_error_stack: error?.stack ? error.stack.substring(0, 1000) : "No stack trace",
             trace_attempt_id: traceId || "unknown",
           },
           output: {
