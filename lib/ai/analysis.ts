@@ -1,7 +1,6 @@
 import Groq from "groq-sdk";
 import { type WorkoutPlan, type QuestLogInput, type UserClass } from "@/types/schemas";
 import { LOG_ANALYSIS_PROMPT } from "./prompts";
-import { getOpikClient } from "./opik";
 
 const apiKey = process.env.GROQ_API_KEY;
 
@@ -53,12 +52,6 @@ USER PROFILE:
   Provide a detailed analysis of this workout performance.
 `;
 
-  const client = getOpikClient();
-  const trace = client?.trace({
-    name: "Log_Analysis_Generation",
-    input: { logId: input.log.quest_id, user_rank: input.user_rank },
-  });
-
   try {
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
@@ -76,14 +69,6 @@ USER PROFILE:
 
     const parsed = JSON.parse(content);
 
-    if (trace) {
-      trace.update({
-        output: parsed,
-        tags: ["analysis_success"],
-      });
-      trace.end();
-    }
-
     return {
       summary: parsed.summary || "",
       integrity_explanation: parsed.integrity_explanation || "",
@@ -93,13 +78,6 @@ USER PROFILE:
     };
   } catch (error: any) {
     console.error("Log analysis failed:", error);
-
-    if (trace) {
-      trace.update({
-        tags: ["analysis_failure"],
-      });
-      trace.end();
-    }
 
     return getFallbackAnalysis(input);
   }

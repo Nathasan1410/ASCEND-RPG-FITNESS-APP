@@ -1,7 +1,6 @@
 import Groq from "groq-sdk";
 import { JudgeVerdictSchema, type JudgeVerdict, type WorkoutPlan, type QuestLogInput, type UserClass } from "@/types/schemas";
 import { JUDGE_PROMPT } from "./prompts";
-import { getOpikClient } from "./opik";
 import { analyzeProof, calculateFormScoreFromCV, detectSafetyIssues, getCVConfidenceMessage } from "./computer-vision";
 import { sendTraceToOpik } from "./opik-helper";
 

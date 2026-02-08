@@ -1,7 +1,6 @@
 import Groq from "groq-sdk";
 import { WorkoutPlanSchema, type WorkoutPlan } from "@/types/schemas";
 import { ARCHITECT_PROMPT } from "./prompts";
-import { getOpikClient } from "./opik";
 import { sendTraceToOpik } from "./opik-helper";
 
 const apiKey = process.env.GROQ_API_KEY;

@@ -1,5 +1,3 @@
-// import { getOpikClient } from "./opik";
-
 /**
  * Computer Vision Integration
  * Analyzes workout photos/videos for AI Judge
