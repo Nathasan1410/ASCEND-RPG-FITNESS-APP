@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from "recharts";
-import { Activity, TrendingUp, AlertCircle, Target, Zap, Shield, Clock, Award } from "lucide-react";
+import { Activity, TrendingUp, AlertCircle, Target, Zap, Shield, Clock, Award, FlaskConical, GitCommit, Database, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 interface AnalyticsDashboardProps {
@@ -71,7 +71,7 @@ export function AnalyticsDashboard({ profile, quests, logs }: AnalyticsDashboard
   // Recent evaluations
   const recentEvaluations = logs.slice(0, 5);
 
-  const [activeTab, setActiveTab] = useState<"overview" | "evaluations" | "trends">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "evaluations" | "trends" | "experiments">("overview");
 
   return (
     <div className="space-y-6">
@@ -109,6 +109,17 @@ export function AnalyticsDashboard({ profile, quests, logs }: AnalyticsDashboard
           )}
         >
           Performance Trends
+        </button>
+        <button
+          onClick={() => setActiveTab("experiments")}
+          className={cn(
+            "px-4 py-2 rounded-lg font-medium transition-all",
+            activeTab === "experiments"
+              ? "bg-system-cyan/20 text-system-cyan"
+              : "text-white/60 hover:text-white hover:bg-white/5"
+          )}
+        >
+          Experiments
         </button>
       </div>
 
@@ -313,6 +324,66 @@ export function AnalyticsDashboard({ profile, quests, logs }: AnalyticsDashboard
         </div>
       )}
 
+      {activeTab === "experiments" && (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-2xl p-8 text-center">
+            <FlaskConical className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-white mb-2">AI Experiments Dashboard</h3>
+            <p className="text-white/60 mb-6">
+              Manage A/B tests, prompt versions, and model comparisons
+            </p>
+            <a
+              href="/dashboard/analytics/experiments"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-purple-500 hover:bg-purple-500/90 text-white rounded-lg font-bold transition-all"
+            >
+              <FlaskConical className="w-5 h-5" />
+              Open Experiments Dashboard
+            </a>
+          </div>
+
+          <div className="bg-void-surface border border-white/10 rounded-2xl p-6">
+            <h4 className="text-lg font-bold text-white mb-4">Recent Experiments</h4>
+            <div className="space-y-3">
+              {[
+                { name: "Judge Prompt v2 vs v3", status: "completed", winner: "B", improvement: "+5.4%" },
+                { name: "Architect Prompt v1 vs v2", status: "running", winner: "-", improvement: "+2.1%" },
+                { name: "Factor Weight Optimization", status: "completed", winner: "B", improvement: "+3.0%" },
+              ].map((exp, i) => (
+                <div key={i} className="bg-void-deep border border-white/10 rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="font-bold text-white mb-1">{exp.name}</div>
+                      <div className="text-sm text-white/60">
+                        {exp.status === "completed" ? "Completed" : "Running"} • Variant {exp.winner} wins
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-lg font-bold text-purple-400">{exp.improvement}</div>
+                      <div className="text-xs text-white/60">Improvement</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <QuickLinkCard
+              href="/dashboard/analytics/prompts"
+              icon={GitCommit}
+              title="Prompt Version History"
+              description="Track all AI prompt changes and improvements"
+            />
+            <QuickLinkCard
+              href="/dashboard/analytics/traces"
+              icon={Database}
+              title="Export Trace Data"
+              description="Export and share Opik trace data for analysis"
+            />
+          </div>
+        </div>
+      )}
+
       {activeTab === "trends" && (
         <div className="space-y-6">
           <div className="bg-void-surface border border-void-border rounded-2xl p-6">
@@ -349,7 +420,79 @@ export function AnalyticsDashboard({ profile, quests, logs }: AnalyticsDashboard
           </div>
         </div>
       )}
+
+      {activeTab === "experiments" && (
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/20 rounded-2xl p-8 text-center">
+            <FlaskConical className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+            <h3 className="text-xl font-bold text-white mb-2">AI Experiments Dashboard</h3>
+            <p className="text-white/60 mb-6">
+              Manage A/B tests, prompt versions, and model comparisons
+            </p>
+            <a
+              href="/dashboard/analytics/experiments"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-purple-500 hover:bg-purple-500/90 text-white rounded-lg font-bold transition-all"
+            >
+              <FlaskConical className="w-5 h-5" />
+              Open Experiments Dashboard
+            </a>
+          </div>
+
+          <div className="bg-void-surface border border-void-border rounded-2xl p-6">
+            <h4 className="text-lg font-bold text-white mb-4">Recent Experiments</h4>
+            <div className="space-y-3">
+              {[
+                { name: "Judge Prompt v2 vs v3", status: "completed", winner: "B", improvement: "+5.4%" },
+                { name: "Architect Prompt v1 vs v2", status: "running", winner: "-", improvement: "+2.1%" },
+                { name: "Factor Weight Optimization", status: "completed", winner: "B", improvement: "+3.0%" },
+              ].map((exp, i) => (
+                <div key={i} className="bg-void-deep border border-white/10 rounded-lg p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="font-bold text-white mb-1">{exp.name}</div>
+                      <div className="text-sm text-white/60">
+                        {exp.status === "completed" ? "Completed" : "Running"} • Variant {exp.winner} wins
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-lg font-bold text-purple-400">{exp.improvement}</div>
+                      <div className="text-xs text-white/60">Improvement</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+  );
+}
+
+interface QuickLinkCardProps {
+  href: string;
+  icon: any;
+  title: string;
+  description: string;
+}
+
+function QuickLinkCard({ href, icon: Icon, title, description }: QuickLinkCardProps) {
+  return (
+    <a
+      href={href}
+      className="bg-void-deep border border-white/10 rounded-xl p-6 hover:border-system-cyan/30 transition-all group"
+    >
+      <div className="flex items-start gap-4">
+        <div className="p-3 rounded-lg bg-system-cyan/10 border border-system-cyan/20 group-hover:bg-system-cyan/20 transition-all">
+          <Icon className="w-6 h-6 text-system-cyan" />
+        </div>
+        <div className="flex-1">
+          <h4 className="text-lg font-bold text-white mb-1">{title}</h4>
+          <p className="text-sm text-white/60">{description}</p>
+        </div>
+        <ArrowRight className="w-5 h-5 text-white/40 group-hover:text-system-cyan transition-all" />
+      </div>
+    </a>
   );
 }
 

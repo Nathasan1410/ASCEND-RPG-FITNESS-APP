@@ -83,6 +83,9 @@ export const mockQuickActions: QuickAction[] = [
   { href: "/dashboard/leaderboard", icon: "Trophy", label: "Leaderboard" },
   { href: "/dashboard/quests", icon: "Target", label: "Active Quests" },
   { href: "/dashboard/analytics", icon: "TrendingUp", label: "AI Analytics" },
+  { href: "/dashboard/analytics/experiments", icon: "FlaskConical", label: "Experiments" },
+  { href: "/dashboard/analytics/prompts", icon: "GitCommit", label: "Prompt History" },
+  { href: "/dashboard/analytics/traces", icon: "Database", label: "Trace Export" },
   { href: "/achievements", icon: "Star", label: "Achievements" },
 ];
 

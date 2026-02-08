@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Home, ScrollText, Trophy, User, Settings, Menu, X, Radio, Bell, Users, HelpCircle, MapPin, BarChart3 } from "lucide-react";
+import { Home, ScrollText, Trophy, User, Settings, Menu, X, Radio, Bell, Users, HelpCircle, MapPin } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 import { createClient } from "@/lib/supabase/client";
@@ -17,7 +17,6 @@ const navItems = [
   { href: "/notifications", icon: Bell, label: "Notifications", hasBadge: true },
   { href: "/settings", icon: Settings, label: "Settings" },
   { href: "/roadmap", icon: MapPin, label: "Roadmap" },
-  { href: "/tracker", icon: BarChart3, label: "Tracker" },
   { href: "/help", icon: HelpCircle, label: "Help" },
 ];
 

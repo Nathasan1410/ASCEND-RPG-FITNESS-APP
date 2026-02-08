@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   User, Settings, Trophy, Target, Star,
-  Flame, Zap, Crown, ChevronDown, ChevronUp, TrendingUp, CheckCircle, BarChart3
+  Flame, Zap, Crown, ChevronDown, ChevronUp, TrendingUp, CheckCircle, BarChart3, FlaskConical, GitCommit, Database
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { motion, AnimatePresence } from "framer-motion";
@@ -157,6 +157,9 @@ function QuickActions({
     Star,
     TrendingUp,
     BarChart3,
+    FlaskConical,
+    GitCommit,
+    Database,
   };
 
   return (
