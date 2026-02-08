@@ -12,6 +12,11 @@ interface QuestCardProps {
     plan_json: WorkoutPlan;
     xp_potential: number;
     status: string;
+    xp_awarded?: number;
+    integrity_score?: number;
+    effort_score?: number;
+    safety_score?: number;
+    ai_feedback?: string;
   };
 }
 
@@ -75,41 +80,115 @@ export function QuestCard({ quest }: QuestCardProps) {
           )}
         </div>
 
-        {plan.ai_review && (
-          <div className="mt-4 bg-void-panel/50 border border-system-cyan/20 rounded-xl p-4 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-1 h-full bg-system-cyan/50" />
-            <div className="flex items-center gap-2 mb-3">
-              <BrainCircuit className="w-4 h-4 text-system-cyan" />
-              <span className="text-xs font-mono text-system-cyan uppercase tracking-widest">
-                OPIK AI ANALYSIS
-              </span>
+         {plan.ai_review && (
+           <div className="mt-4 bg-void-panel/50 border border-system-cyan/20 rounded-xl p-4 relative overflow-hidden">
+             <div className="flex items-center gap-2 mb-3">
+               <BrainCircuit className="w-4 h-4 text-system-cyan" />
+               <span className="text-xs font-mono text-system-cyan uppercase tracking-widest border border-system-cyan/20 px-2 py-0.5 rounded">
+                 OPIK AI RECOMMENDATION
+               </span>
+             </div>
+              <p className="text-sm text-white/70 font-sans leading-relaxed mb-3">
+                {plan.ai_review.reasoning}
+              </p>
             </div>
-            <p className="text-sm text-white/70 font-sans leading-relaxed mb-3">
-              {plan.ai_review.reasoning}
-            </p>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
-                <div
-                  className={`h-full ${getProbabilityBg(plan.ai_review.completion_probability)} transition-all duration-500`}
-                  style={{ width: `${plan.ai_review.completion_probability}%` }}
-                />
-              </div>
-              <span className={`text-xs font-bold font-mono ${getProbabilityColor(plan.ai_review.completion_probability)}`}>
-                {plan.ai_review.completion_probability}%
-              </span>
+            
+            <div className="space-y-3">
+              {quest.xp_awarded !== undefined && (
+                <div className="bg-system-cyan/10 border border-system-cyan/20 rounded-lg p-3">
+                  <div className="text-xs font-mono text-system-cyan uppercase tracking-widest mb-1">
+                    AI JUDGE EVALUATION
+                  </div>
+                  
+                  <div className="grid grid-cols-3 gap-4 mb-3">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-white mb-1">
+                        {Math.round(quest.integrity_score * 100)}
+                      </div>
+                      <div className="text-xs font-mono text-system-cyan uppercase tracking-widest">
+                        INTEGRITY
+                      </div>
+                    </div>
+                    
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-white mb-1">
+                        {Math.round(quest.effort_score * 100)}
+                      </div>
+                      <div className="text-xs font-mono text-system-cyan uppercase tracking-widest">
+                        EFFORT
+                      </div>
+                    </div>
+                    
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-white mb-1">
+                        {Math.round(quest.safety_score * 100)}
+                      </div>
+                      <div className="text-xs font-mono text-system-cyan uppercase tracking-widest">
+                        SAFETY
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {quest.ai_feedback && (
+                    <div className="mt-3 bg-system-cyan/5 border border-system-cyan/20 rounded-lg p-3">
+                      <div className="text-xs font-mono text-system-cyan uppercase tracking-widest mb-1">
+                        AI FEEDBACK
+                      </div>
+                      <p className="text-sm text-white/70 font-sans leading-relaxed">
+                        {quest.ai_feedback}
+                      </p>
+                    </div>
+                  )}
             </div>
-            <div className="flex flex-wrap gap-2">
-              {plan.ai_review.key_factors.map((factor, idx) => (
-                <span
-                  key={idx}
-                  className="text-xs font-mono text-system-cyan bg-system-cyan/10 border border-system-cyan/20 px-2 py-1 rounded"
-                >
-                  {factor}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
+            
+            <div className="space-y-3">
+           {quest.xp_awarded !== undefined && (
+             <div className="bg-system-cyan/10 border border-system-cyan/20 rounded-lg p-3">
+               <div className="text-xs font-mono text-system-cyan uppercase tracking-widest mb-1">
+                 AI JUDGE EVALUATION
+               </div>
+               
+               <div className="grid grid-cols-3 gap-4 mb-3">
+                 <div className="text-center">
+                   <div className="text-3xl font-bold text-white mb-1">
+                     {Math.round(quest.integrity_score * 100)}
+                   </div>
+                   <div className="text-xs font-mono text-system-cyan uppercase tracking-widest">
+                     INTEGRITY
+                   </div>
+                 </div>
+                 
+                 <div className="text-center">
+                   <div className="text-3xl font-bold text-white mb-1">
+                     {Math.round(quest.effort_score * 100)}
+                   </div>
+                   <div className="text-xs font-mono text-system-cyan uppercase tracking-widest">
+                     EFFORT
+                   </div>
+                 </div>
+                 
+                 <div className="text-center">
+                   <div className="text-3xl font-bold text-white mb-1">
+                     {Math.round(quest.safety_score * 100)}
+                   </div>
+                   <div className="text-xs font-mono text-system-cyan uppercase tracking-widest">
+                     SAFETY
+                   </div>
+                 </div>
+               </div>
+               
+               {quest.ai_feedback && (
+                 <div className="mt-3 bg-system-cyan/5 border border-system-cyan/20 rounded-lg p-3">
+                   <div className="text-xs font-mono text-system-cyan uppercase tracking-widest mb-1">
+                     AI FEEDBACK
+                   </div>
+                   <p className="text-sm text-white/70 font-sans leading-relaxed">
+                     {quest.ai_feedback}
+                   </p>
+                 </div>
+               )}
+         </div>
+         {plan.ai_review && (
 
         <Link href={`/dashboard/quest/${quest.id}`} className="block mt-4">
           <SystemButton className="w-full" glow>
