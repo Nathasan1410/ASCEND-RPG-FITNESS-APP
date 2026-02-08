@@ -8,6 +8,8 @@ export async function sendTraceToOpik(traceName: string, data: {
 }): Promise<string | null> {
   const client = getOpikClient();
   
+  const filteredTags = (data.tags || []).filter((tag): tag is string => tag !== undefined && tag !== null);
+  
   console.log(`[Opik] Trace: ${traceName}`, {
     input: data.input,
     output: data.output,
@@ -25,7 +27,7 @@ export async function sendTraceToOpik(traceName: string, data: {
       name: traceName,
       input: data.input,
       output: data.output,
-      tags: data.tags,
+      tags: filteredTags,
     });
     
     console.log(`[Opik] ✓ Trace sent: ${traceName}`);
