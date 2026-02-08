@@ -73,18 +73,7 @@ export function QuestCard({ quest }: QuestCardProps) {
             </span>
           </div>
         </div>
-        
-        <div className="space-y-2">
-          {plan.exercises.slice(0, 3).map((ex) => (
-            <ExerciseItem key={ex.id} exercise={ex} />
-          ))}
-          {plan.exercises.length > 3 && (
-            <p className="text-xs text-center text-white/40 pt-1 font-mono">
-              + {plan.exercises.length - 3} more exercises
-            </p>
-          )}
-        </div>
-        
+
         {plan.ai_review && (
           <div className="mt-4 bg-void-panel/50 border border-system-cyan/20 rounded-xl p-4 relative overflow-hidden">
             <div className="flex items-center gap-2 mb-3">
