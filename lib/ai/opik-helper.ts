@@ -5,7 +5,7 @@ export async function sendTraceToOpik(traceName: string, data: {
   output?: any;
   tags?: string[];
   startTime?: number;
-}) {
+}): Promise<string | null> {
   const client = getOpikClient();
   
   console.log(`[Opik] Trace: ${traceName}`, {
@@ -29,7 +29,7 @@ export async function sendTraceToOpik(traceName: string, data: {
     });
     
     console.log(`[Opik] ✓ Trace sent: ${traceName}`);
-    return trace;
+    return (trace as any).id || null;
   } catch (error: any) {
     console.error(`[Opik] ✗ Failed to send trace ${traceName}:`, error.message);
     return null;
