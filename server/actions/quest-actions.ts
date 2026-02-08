@@ -108,68 +108,97 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     console.log("[QuestAction] Plan generated successfully");
     console.log("[QuestAction] Raw plan data:", JSON.stringify(plan, null, 2));
     console.log("[QuestAction] Variant ID:", variantId);
-
-    // Add variant info to plan for tracking
-    if (variantId) {
-      (plan as any)._variantId = variantId;
-      (plan as any)._experimentId = runningExperimentId;
-      (plan as any)._generationTime = generationTime;
+    
+    // Send trace to Opik with comprehensive error tracking
+    let traceId: string | null = null;
+    
+    try {
+      traceId = await sendTraceToOpik("quest_generation_success", {
+        startTime: generationStartTime,
+        input: {
+          user_id: user.id,
+          username: profile.username || "unknown",
+          user_rank: profile.rank_tier,
+          user_level: profile.level,
+          time_window_min: input.time_window_min,
+          equipment_count: (profile.equipment || []).length,
+          equipment: profile.equipment || [],
+          muscle_soreness_count: input.muscle_soreness.length,
+          muscle_soreness: input.muscle_soreness,
+          variant_id: variantId,
+          experiment_id: runningExperimentId,
+          quest_type: "Daily",
+          environment: process.env.NODE_ENV || "development",
+        },
+        output: {
+          quest_id: "to_be_inserted",
+          quest_name: plan.quest_name,
+          quest_rank: plan.quest_rank,
+          quest_type: plan.quest_type,
+          quest_narrative: plan.narrative_intro?.substring(0, 200) + "...",
+          exercise_count: plan.exercises.length,
+          exercise_names: plan.exercises.map((e: any) => e.name),
+          xp_reward: plan.base_xp,
+          xp_potential: plan.base_xp,
+          estimated_duration_min: plan.estimated_duration_min,
+          target_class: plan.target_class,
+          requires_proof: plan.requires_proof || false,
+          proof_type: plan.proof_type || "None",
+          completion_probability: plan.ai_review?.completion_probability,
+          ai_review_reasoning: plan.ai_review?.reasoning?.substring(0, 200),
+          ai_review_key_factors: plan.ai_review?.key_factors || [],
+          stat_gain: plan.stat_gain,
+          generation_time_ms: generationTime,
+          generation_status: "success",
+          fallback_used: false,
+        },
+        tags: [
+          "quest_generation",
+          "success",
+          profile.rank_tier,
+          profile.class,
+          plan.quest_rank,
+          plan.quest_type,
+          "daily_quest",
+          variantId ? `variant_${variantId}` : undefined,
+          runningExperimentId ? `ab_test` : undefined,
+          runningExperimentId ? `experiment_${runningExperimentId}` : undefined,
+        ],
+      });
+      
+      console.log("[QuestAction] Trace sent successfully");
+      console.log(`[QuestAction] ✓ Trace ID: ${traceId || 'N/A'}`);
+      console.log(`[QuestAction] Trace creation and sending completed`);
+      
+    } catch (traceError) {
+      console.error("[QuestAction] Failed to send trace to Opik:", traceError);
+      console.error("[QuestAction] Error name:", traceError?.name || "Unknown error");
+      console.error("[QuestAction] Error message:", traceError?.message || "Unknown error");
+      console.error("[QuestAction] Error stack:", traceError?.stack || "No stack trace");
+      
+      // Attempt to log the trace failure to Opik
+      try {
+        await sendTraceToOpik("quest_generation_trace_error", {
+          startTime: generationStartTime,
+          input: {
+            user_id: user.id,
+            user_rank: profile.rank_tier,
+            user_class: profile.class,
+            original_error_name: (traceError as any)?.name || "UnknownError",
+            original_error_message: (traceError as any)?.message || "Unknown error",
+            original_error_stack: (traceError as any)?.stack ? traceError.stack.substring(0, 1000) : "No stack trace",
+            trace_attempt_id: traceId || "unknown",
+          },
+          output: {
+            failure_reason: "Trace send failed",
+            operation: "quest_generation",
+          },
+          tags: ["error", "trace_send_failed", profile.rank_tier, profile.class],
+        });
+      } catch (logError: any) {
+        console.error("[QuestAction] Failed to log trace error to Opik:", logError);
+      }
     }
-
-    // Send trace to Opik
-    await sendTraceToOpik("quest_generation_success", {
-      startTime: generationStartTime,
-      input: {
-        user_id: user.id,
-        username: profile.username || "unknown",
-        user_rank: profile.rank_tier,
-        user_class: profile.class,
-        user_level: profile.level,
-        time_window_min: input.time_window_min,
-        equipment_count: (profile.equipment || []).length,
-        equipment: profile.equipment || [],
-        muscle_soreness_count: input.muscle_soreness.length,
-        muscle_soreness: input.muscle_soreness,
-        variant_id: variantId,
-        experiment_id: runningExperimentId,
-        quest_type: "Daily",
-        environment: process.env.NODE_ENV || "development",
-      },
-      output: {
-        quest_id: "to_be_inserted",
-        quest_name: plan.quest_name,
-        quest_rank: plan.quest_rank,
-        quest_type: plan.quest_type,
-        quest_narrative: plan.narrative_intro?.substring(0, 200) + "...",
-        exercise_count: plan.exercises.length,
-        exercise_names: plan.exercises.map((e: any) => e.name),
-        xp_reward: plan.base_xp,
-        xp_potential: plan.base_xp,
-        estimated_duration_min: plan.estimated_duration_min,
-        target_class: plan.target_class,
-        requires_proof: plan.requires_proof || false,
-        proof_type: plan.proof_type || "None",
-        completion_probability: plan.ai_review?.completion_probability,
-        ai_review_reasoning: plan.ai_review?.reasoning?.substring(0, 200),
-        ai_review_key_factors: plan.ai_review?.key_factors || [],
-        stat_gain: plan.stat_gain,
-        generation_time_ms: generationTime,
-        generation_status: "success",
-        fallback_used: false,
-      },
-      tags: [
-        "quest_generation",
-        "success",
-        profile.rank_tier,
-        profile.class,
-        plan.quest_rank,
-        plan.quest_type,
-        "daily_quest",
-        variantId ? `variant_${variantId}` : undefined,
-        runningExperimentId ? `ab_test` : undefined,
-        runningExperimentId ? `experiment_${runningExperimentId}` : undefined,
-      ].filter(Boolean),
-    });
   } catch (err: any) {
     console.error("[QuestAction] AI Generation Failed:", err);
     console.error("[QuestAction] Error details:", JSON.stringify(err, null, 2));

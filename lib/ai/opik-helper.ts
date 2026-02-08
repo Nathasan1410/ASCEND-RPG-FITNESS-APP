@@ -222,7 +222,7 @@ export async function sendMetricToOpik(metricName: string, value: number, metada
 /**
  * Log error to Opik with better error handling and context
  */
-export async function logErrorToOpik(errorName: string, inputError: Error, inputContext?: any) {
+export async function logErrorToOpik(errorName: string, inputError: any, inputContext?: any) {
   try {
     const client = await getOpikClient();
     
@@ -235,9 +235,9 @@ export async function logErrorToOpik(errorName: string, inputError: Error, input
     
     // Build error context
     const errorContext = {
-      error_message: inputError.message,
-      error_name: inputError.name,
-      error_stack: inputError.stack ? inputError.stack.substring(0, 2000) : 'No stack trace available',
+      error_message: (inputError as any)?.message || "Unknown error",
+      error_name: (inputError as any)?.name || "UnknownError",
+      error_stack: (inputError as any)?.stack ? (inputError as any).stack.substring(0, 2000) : "No stack trace available",
       timestamp: new Date().toISOString(),
       environment: process.env.NODE_ENV || "development",
       ...inputContext,
@@ -254,13 +254,13 @@ export async function logErrorToOpik(errorName: string, inputError: Error, input
     console.log(`[Opik] ✓ Error trace ID will be available in dashboard`);
   } catch (traceError: any) {
     console.error(`[Opik] ✗ Failed to log error: ${errorName}`, traceError);
-    console.error("[Opik] Original error:", inputError.message);
+    console.error("[Opik] Original error:", (inputError as any)?.message);
     
     // Fallback: Log to console
     console.error(`[ERROR] ${errorName}:`, {
-      message: inputError.message,
-      name: inputError.name,
-      stack: inputError.stack,
+      message: (inputError as any)?.message || "Unknown error",
+      name: (inputError as any)?.name || "UnknownError",
+      stack: (inputError as any)?.stack || "No stack trace available",
       context: inputContext,
       timestamp: new Date().toISOString(),
     });
