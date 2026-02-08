@@ -168,12 +168,16 @@ Generate a quest now.
     return validated;
   } catch (error: any) {
     console.error("[Groq] Generation failed:", error);
+    console.error("[Groq] Error name:", error?.name);
     console.error("[Groq] Error message:", error?.message || "Unknown error");
+    console.error("[Groq] Error stack:", error?.stack || "No stack available");
+    console.error("[Groq] Error code:", (error as any)?.code || "No code");
+    
     if (error?.issues) {
       console.error("[Groq] Zod validation issues:", JSON.stringify(error.issues, null, 2));
     }
     
-    // Log failure to Opik using helper function
+    // Log failure to Opik using helper function with detailed context
     await sendTraceToOpik("architect_quest_generation_failure", {
       startTime: generationStartTime,
       input: {
@@ -182,17 +186,21 @@ Generate a quest now.
         time_window_min: input.time_window_min,
         equipment_count: input.equipment.length,
         muscle_soreness_count: input.muscle_soreness.length,
-        error: error?.message || "Unknown error",
+        error_name: error?.name || "UnknownError",
+        error_message: error?.message || "Unknown error",
+        error_code: (error as any)?.code || "No code",
+        error_stack: error?.stack ? error.stack.substring(0, 1000) : "No stack",
       },
       output: {
-        error_type: error?.name || "UnknownError",
-        error_message: error?.message || "Unknown error",
+        fallback_used: true,
+        fallback_reason: "Groq API failure",
+        fallback_plan_type: "emergency_protocol",
       },
-      tags: ["failure", input.user_rank, input.user_class],
+      tags: ["failure", "groq_api", input.user_rank, input.user_class, "error_trace"],
     });
-
+    
     // Throw error so caller can handle it (don't silently fallback)
-    throw new Error(`Groq API failed: ${error.message}`);
+    throw new Error(`Groq API failed: ${error?.message || "Unknown error"}`);
   }
 }
 
