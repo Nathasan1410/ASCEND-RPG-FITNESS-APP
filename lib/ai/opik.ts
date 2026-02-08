@@ -4,25 +4,92 @@ const apiKey = process.env.OPIK_API_KEY;
 const httpClient = {
   trace: async (args: any) => {
     const traceId = `http_trace_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    let traceData: any = {
+      id: traceId,
+      name: args.name,
+      startTime: args.startTime,
+      metadata: args.metadata || {},
+      input: {},
+      output: {},
+      tags: [],
+    };
+    
     console.log(`[Opik HTTP] Using HTTP API fallback (SDK failed to load)`);
     console.log(`[Opik HTTP] Trace ID: ${traceId}`);
+    
+    // Store trace data locally
+    let hasEnded = false;
+    
     return {
       data: { id: traceId },
-      end: async () => {},
+      end: async () => {
+        if (hasEnded) return;
+        hasEnded = true;
+        
+        console.log(`[Opik HTTP] Ending trace: ${traceId}`);
+        
+        // Send to Opik HTTP API
+        await sendTraceToOpikAPI(traceData);
+      },
       update: async (updateData: any) => {
-        // In a real implementation, this would send the trace data to Opik API
-        // For now, we just log it
-        if (updateData.input || updateData.output) {
-          console.log(`[Opik HTTP] Trace data for ${traceId}:`, {
-            input: updateData.input,
-            output: updateData.output,
-            tags: updateData.tags,
-          });
-        }
+        if (hasEnded) return;
+        
+        if (updateData.input) traceData.input = updateData.input;
+        if (updateData.output) traceData.output = updateData.output;
+        if (updateData.tags) traceData.tags = updateData.tags;
+        
+        console.log(`[Opik HTTP] Updated trace data for ${traceId}`, {
+          hasInput: !!updateData.input,
+          hasOutput: !!updateData.output,
+          hasTags: !!updateData.tags,
+        });
       },
     };
   },
 } as any;
+
+// Send trace to Opik HTTP API
+async function sendTraceToOpikAPI(traceData: any) {
+  if (!apiKey) {
+    console.log("[Opik HTTP] No API key, skipping trace upload");
+    return;
+  }
+  
+  try {
+    // Opik HTTP API endpoint
+    const apiUrl = 'https://www.comet.com/api/v1/traces';
+    
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        name: traceData.name,
+        startTime: traceData.startTime?.toISOString() || new Date().toISOString(),
+        endTime: new Date().toISOString(),
+        metadata: {
+          ...traceData.metadata,
+          project: 'Level Up Workout',
+        },
+        input: traceData.input,
+        output: traceData.output,
+        tags: traceData.tags,
+      }),
+    });
+    
+    if (response.ok) {
+      console.log(`[Opik HTTP] ✓ Trace sent to Opik successfully`);
+    } else {
+      const errorText = await response.text();
+      console.error(`[Opik HTTP] Failed to send trace to Opik:`, response.status);
+      console.error(`[Opik HTTP] Error:`, errorText);
+    }
+  } catch (error: any) {
+    console.error(`[Opik HTTP] Error sending trace to Opik:`, error.message);
+  }
+}
 
 // Mock client for build time or missing key
 const mockClient = {
