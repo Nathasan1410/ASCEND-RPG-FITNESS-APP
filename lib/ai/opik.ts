@@ -56,8 +56,12 @@ async function sendTraceToOpikAPI(traceData: any) {
   }
   
   try {
-    // Opik HTTP API endpoint
-    const apiUrl = 'https://www.comet.com/api/v1/traces';
+    // Use the correct Opik API endpoint format
+    // Based on documentation: https://www.comet.com/opik/api/v1/traces
+    const baseUrl = process.env.OPIK_URL_OVERRIDE || 'https://www.comet.com/opik/api';
+    const apiUrl = `${baseUrl}/public/traces`;
+    
+    console.log(`[Opik HTTP] Sending trace to: ${apiUrl}`);
     
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -71,7 +75,7 @@ async function sendTraceToOpikAPI(traceData: any) {
         endTime: new Date().toISOString(),
         metadata: {
           ...traceData.metadata,
-          project: 'Level Up Workout',
+          project_name: 'Level Up Workout',
         },
         input: traceData.input,
         output: traceData.output,
@@ -83,11 +87,43 @@ async function sendTraceToOpikAPI(traceData: any) {
       console.log(`[Opik HTTP] ✓ Trace sent to Opik successfully`);
     } else {
       const errorText = await response.text();
-      console.error(`[Opik HTTP] Failed to send trace to Opik:`, response.status);
+      console.error(`[Opik HTTP] Failed to send trace to Opik:`, response.status, response.statusText);
       console.error(`[Opik HTTP] Error:`, errorText);
+      
+      // Try alternative endpoint format
+      if (response.status === 404) {
+        console.log(`[Opik HTTP] Trying alternative endpoint format...`);
+        const altUrl = `${baseUrl}/v1/traces`;
+        const altResponse = await fetch(altUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            name: traceData.name,
+            startTime: traceData.startTime?.toISOString() || new Date().toISOString(),
+            endTime: new Date().toISOString(),
+            metadata: {
+              ...traceData.metadata,
+              project_name: 'Level Up Workout',
+            },
+            input: traceData.input,
+            output: traceData.output,
+            tags: traceData.tags,
+          }),
+        });
+        
+        if (altResponse.ok) {
+          console.log(`[Opik HTTP] ✓ Trace sent via alternative endpoint`);
+        } else {
+          console.error(`[Opik HTTP] Alternative endpoint also failed:`, altResponse.status);
+        }
+      }
     }
   } catch (error: any) {
     console.error(`[Opik HTTP] Error sending trace to Opik:`, error.message);
+    console.error(`[Opik HTTP] Stack:`, error.stack);
   }
 }
 
