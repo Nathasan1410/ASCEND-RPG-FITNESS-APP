@@ -3,7 +3,7 @@ import {
   trackExperimentMetric,
 } from "@/server/actions/ab-testing-actions";
 import { generateWorkoutPlan } from "@/lib/ai/groq";
-import { evaluateQuestLog } from "@/lib/ai/judge";
+import { evaluateWorkoutAsAI } from "@/lib/ai/ai-judge";
 import type { WorkoutPlan, JudgeVerdict, QuestLogInput, UserClass } from "@/types/schemas";
 
 interface QuestInput {
