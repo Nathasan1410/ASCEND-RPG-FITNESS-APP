@@ -9,6 +9,9 @@ import { getActiveQuest, getTodayQuest } from "@/server/actions/quest-actions";
 import { checkRankUpEligibility } from "@/server/actions/rank-up-actions";
 import { RankUpBanner } from "@/components/rankup/RankUpBanner";
 import { WorkoutPlan } from "@/types/schemas";
+import { AnalyticsQuickAccess } from "@/components/dashboard/AnalyticsQuickAccess";
+import { RecentActivitySummary } from "@/components/dashboard/RecentActivitySummary";
+import { getAnalyticsSummary } from "@/server/actions/analytics-actions";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -37,6 +40,7 @@ export default async function DashboardPage() {
   const activeQuest = await getActiveQuest();
   const todayQuest = await getTodayQuest();
   const { eligible, nextRank } = await checkRankUpEligibility(user.id);
+  const analyticsSummary = await getAnalyticsSummary();
 
   return (
     <div className="space-y-6 animate-in fade-in duration-700">
@@ -97,6 +101,16 @@ export default async function DashboardPage() {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="mt-8 space-y-6">
+        <AnalyticsQuickAccess />
+        <RecentActivitySummary
+          recentTraces={analyticsSummary.recentTraces}
+          activeExperiments={analyticsSummary.activeExperiments}
+          latestPromptVersion={analyticsSummary.latestPromptVersion}
+          avgEvaluationScore={analyticsSummary.avgEvaluationScore}
+        />
       </div>
     </div>
   );

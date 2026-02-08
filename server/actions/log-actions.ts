@@ -1,8 +1,8 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { ExperimentRunner } from "@/lib/ab-testing/experiment-runner";
 import { QuestLogInputSchema, type WorkoutPlan } from "@/types/schemas";
-import { evaluateQuestLog } from "@/lib/ai/judge";
 import { levelFromXp, rankFromLevel } from "@/lib/gamification/leveling";
 import { revalidatePath } from "next/cache";
 import { sendTraceToOpik } from "@/lib/ai/opik-helper";
@@ -124,21 +124,34 @@ export async function submitQuestLog(input: unknown) {
 
   if (!profile) throw new Error("Profile not found");
 
-  // Evaluate workout (AI Judge)
+  // Evaluate workout (AI Judge with A/B Testing)
+  const plan = quest.plan_json as WorkoutPlan;
+  const variantId = (plan as any)._variantId;
+  const experimentId = (plan as any)._experimentId;
+  const planGenerationTime = (plan as any)._generationTime;
+
   console.log("Evaluating quest log:", {
     quest_id: validated.quest_id,
     user_id: user.id,
     duration_actual: validated.duration_actual,
     has_proof: !!validated.proof_media_url,
+    variant_id: variantId,
+    experiment_id: experimentId,
   });
 
   const evaluationStartTime = Date.now();
-  const evaluation = await evaluateQuestLog({
-    quest: quest.plan_json as WorkoutPlan,
-    log: validated,
-    user_class: profile.class || "Novice",
-    user_rank: profile.rank_tier || "E-Rank",
-  });
+  const evaluation = await ExperimentRunner.runQuestEvaluation(
+    user.id,
+    {
+      quest: plan,
+      log: validated,
+      user_class: profile.class || "Novice",
+      user_rank: profile.rank_tier || "E-Rank",
+    },
+    experimentId,
+    variantId,
+    planGenerationTime
+  );
 
   const evaluationTime = Date.now() - evaluationStartTime;
 
@@ -159,6 +172,8 @@ export async function submitQuestLog(input: unknown) {
       has_proof: !!validated.proof_media_url,
       duration_actual: validated.duration_actual,
       rpe_actual: validated.rpe_actual,
+      variant_id: variantId,
+      experiment_id: experimentId,
     },
     output: {
       status: evaluation.status,
@@ -167,7 +182,7 @@ export async function submitQuestLog(input: unknown) {
       safety_score: evaluation.safety_score,
       overall_score: (evaluation.integrity_score + evaluation.effort_score + evaluation.safety_score) / 3,
       xp_awarded: evaluation.final_xp,
-      xp_multiplier: evaluation.final_xp / (quest.plan_json as any).base_xp,
+      xp_multiplier: evaluation.final_xp / plan.base_xp,
       verification_status: evaluation.verification_status,
       evaluation_time_ms: evaluationTime,
     },
@@ -175,8 +190,10 @@ export async function submitQuestLog(input: unknown) {
       evaluation.status,
       profile.rank_tier,
       profile.class,
-      (quest.plan_json as any).quest_type,
-    ],
+      plan.quest_type,
+      variantId ? `variant_${variantId}` : undefined,
+      experimentId ? `ab_test` : undefined,
+    ].filter(Boolean),
   });
 
   // Insert log

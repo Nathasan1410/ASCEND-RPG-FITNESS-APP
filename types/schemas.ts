@@ -133,3 +133,67 @@ export const ReportSchema = z.object({
   description: z.string().max(500).optional(),
 });
 export type ReportInput = z.infer<typeof ReportSchema>;
+
+// A/B Testing Schemas
+export const ExperimentStatusSchema = z.enum(["draft", "running", "completed", "failed"]);
+export type ExperimentStatus = z.infer<typeof ExperimentStatusSchema>;
+
+export const ExperimentTypeSchema = z.enum(["prompt_ab_test", "weight_optimization", "model_comparison"]);
+export type ExperimentType = z.infer<typeof ExperimentTypeSchema>;
+
+export const VariantConfigSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  config: z.record(z.string(), z.any()),
+});
+
+export type VariantConfig = z.infer<typeof VariantConfigSchema>;
+
+export const VariantMetricsSchema = z.object({
+  id: z.string(),
+  sample_size: z.number(),
+  success_rate: z.number().min(0).max(1),
+  avg_score: z.number(),
+  avg_time_ms: z.number(),
+});
+
+export type VariantMetrics = z.infer<typeof VariantMetricsSchema>;
+
+export const ExperimentConfigSchema = z.object({
+  name: z.string().min(1),
+  type: ExperimentTypeSchema,
+  description: z.string(),
+  variants: z.array(VariantConfigSchema).min(2).max(4),
+  min_sample_size: z.number().default(50),
+  target_metric: z.enum(["success_rate", "avg_score"]).default("avg_score"),
+});
+
+export type ExperimentConfig = z.infer<typeof ExperimentConfigSchema>;
+
+export const ExperimentStatsSchema = z.object({
+  total_runs: z.number(),
+  z_score: z.number(),
+  p_value: z.number(),
+  is_significant: z.boolean(),
+  confidence_interval: z.string(),
+  improvement_delta: z.number(),
+  winner_id: z.string().nullable(),
+});
+
+export type ExperimentStats = z.infer<typeof ExperimentStatsSchema>;
+
+export const ExperimentSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  type: ExperimentTypeSchema,
+  status: ExperimentStatusSchema,
+  description: z.string(),
+  config: ExperimentConfigSchema,
+  variants: z.array(VariantMetricsSchema),
+  metrics: ExperimentStatsSchema,
+  created_at: z.string(),
+  completed_at: z.string().nullable(),
+  created_by: z.string(),
+});
+
+export type Experiment = z.infer<typeof ExperimentSchema>;

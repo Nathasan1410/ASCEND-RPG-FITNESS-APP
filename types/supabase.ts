@@ -32,6 +32,8 @@ export interface Database {
           equipment: string[] | null
           last_activity_at: string | null
           created_at: string | null
+          ab_testing_data: { experiments: any[] } | null
+          variant_assignments: { [key: string]: string } | null
         }
         Insert: {
           id: string
@@ -55,6 +57,8 @@ export interface Database {
           equipment?: string[] | null
           last_activity_at?: string | null
           created_at?: string | null
+          ab_testing_data?: { experiments: any[] } | null
+          variant_assignments?: { [key: string]: string } | null
         }
         Update: {
           id?: string
@@ -78,6 +82,8 @@ export interface Database {
           equipment?: string[] | null
           last_activity_at?: string | null
           created_at?: string | null
+          ab_testing_data?: { experiments: any[] } | null
+          variant_assignments?: { [key: string]: string } | null
         }
         Relationships: []
       }

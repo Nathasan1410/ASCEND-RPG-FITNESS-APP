@@ -1,7 +1,8 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { generateWorkoutPlan } from "@/lib/ai/groq";
+import { ExperimentRunner } from "@/lib/ab-testing/experiment-runner";
+import { getExperiments } from "@/server/actions/ab-testing-actions";
 import { revalidatePath } from "next/cache";
 import { sendTraceToOpik, getOpikTags } from "@/lib/ai/opik-helper";
 
@@ -65,32 +66,55 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
   
   console.log("[QuestAction] No existing valid quest found, will generate new one");
 
-  // Generate workout plan
-  console.log("[QuestAction] Calling Groq Architect...");
+  // Check for running A/B experiments
+  let runningExperimentId: string | undefined;
+  try {
+    const experiments = await getExperiments();
+    const runningQuestGenExp = experiments.find(
+      (e: any) => e.status === "running" && e.type === "prompt_ab_test"
+    );
+    if (runningQuestGenExp) {
+      runningExperimentId = runningQuestGenExp.id;
+      console.log("[QuestAction] Running A/B test experiment:", runningExperimentId);
+    }
+  } catch (error) {
+    console.error("[QuestAction] Error checking A/B experiments:", error);
+  }
+
+  // Generate workout plan with A/B testing
+  console.log("[QuestAction] Calling ExperimentRunner...");
   const generationStartTime = Date.now();
   let plan;
+  let variantId: string | undefined;
+  let generationTime: number;
   
   try {
-    // Add a timeout race to prevent infinite hanging
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error("Groq Timeout")), 60000)
-    );
-    
-    plan = await Promise.race([
-      generateWorkoutPlan({
+    const result = await ExperimentRunner.runQuestGeneration(
+      user.id,
+      {
         user_class: profile.class || "Novice",
         user_rank: profile.rank_tier || "E-Rank",
         time_window_min: input.time_window_min,
         equipment: profile.equipment || [],
         muscle_soreness: input.muscle_soreness,
-      }),
-      timeoutPromise
-    ]) as any;
+      },
+      runningExperimentId
+    );
     
-    const generationTime = Date.now() - generationStartTime;
+    plan = result.plan;
+    variantId = result.variantId;
+    generationTime = Date.now() - generationStartTime;
     
     console.log("[QuestAction] Plan generated successfully");
     console.log("[QuestAction] Raw plan data:", JSON.stringify(plan, null, 2));
+    console.log("[QuestAction] Variant ID:", variantId);
+
+    // Add variant info to plan for tracking
+    if (variantId) {
+      (plan as any)._variantId = variantId;
+      (plan as any)._experimentId = runningExperimentId;
+      (plan as any)._generationTime = generationTime;
+    }
 
     // Send trace to Opik
     await sendTraceToOpik("quest_generation_success", {
@@ -102,6 +126,8 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
         time_window_min: input.time_window_min,
         equipment_count: (profile.equipment || []).length,
         muscle_soreness_count: input.muscle_soreness.length,
+        variant_id: variantId,
+        experiment_id: runningExperimentId,
       },
       output: {
         quest_name: plan.quest_name,
@@ -119,7 +145,9 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
         profile.class,
         plan.quest_rank,
         plan.quest_type,
-      ],
+        variantId ? `variant_${variantId}` : undefined,
+        runningExperimentId ? `ab_test` : undefined,
+      ].filter(Boolean),
     });
   } catch (err: any) {
     console.error("[QuestAction] AI Generation Failed:", err);

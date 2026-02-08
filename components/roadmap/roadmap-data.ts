@@ -117,6 +117,15 @@ export const roadmapFeatures: Feature[] = [
     starRating: 5,
   },
   {
+    id: 'computer-vision',
+    name: 'Computer Vision Integration',
+    description: 'Real-time workout form evaluation using Clarifai (photos) and Replicate (video) with pose estimation and rep counting',
+    status: 'Planned',
+    priority: 'High',
+    timeline: 'Q3 2026 (July-September)',
+    category: 'AI',
+  },
+  {
     id: 'custom-workout-builder',
     name: 'Custom Workout Builder',
     description: 'Full control over workouts, exercise database, drag-and-drop builder',

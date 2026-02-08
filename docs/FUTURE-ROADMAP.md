@@ -366,6 +366,216 @@ export async function estimateMacrosFromDescription(
 
 ---
 
+## 🎥 COMPUTER VISION INTEGRATION
+
+### Purpose
+Real-time workout form evaluation using AI-powered image and video analysis for automated quality assessment.
+
+### User Problem
+Current judge system relies on:
+- **Self-reported RPE** - Users may overestimate effort
+- **No visual verification** - Can't confirm proper form
+- **Manual review burden** - Requires human verification for rank-ups
+- **Limited cheat detection** - Hard to spot fake photos/videos
+
+### Solution
+Computer Vision integration provides:
+- **Photo analysis** - Clarifai API for exercise detection and form scoring
+- **Video analysis** - Replicate API for pose estimation and rep counting
+- **Safety monitoring** - Detect dangerous positions automatically
+- **Form feedback** - Provide specific technique improvements
+- **Rep verification** - Count reps automatically from video
+- **Consistency tracking** - Analyze form quality across entire workout
+
+### Implementation Plan
+
+#### Phase 1: Photo Analysis (Priority: HIGH)
+- [ ] Integrate Clarifai API for image classification
+- [ ] Exercise type detection from photo
+- [ ] Form quality scoring (0.0 - 1.0)
+- [ ] Technique assessment
+- [ ] Safety issue detection
+- [ ] User feedback generation
+- [ ] Opik tracing for all CV operations
+
+#### Phase 2: Video Analysis (Priority: HIGH)
+- [ ] Integrate Replicate API for pose detection
+- [ ] Extract pose keypoints from video
+- [ ] Automatic rep counting algorithm
+- [ ] Form score calculation from pose alignment
+- [ ] Consistency scoring across reps
+- [ ] Range of motion measurement
+- [ ] Exercise type detection from movement patterns
+- [ ] Key frame timestamp extraction
+
+#### Phase 3: Judge Integration (Priority: HIGH)
+- [ ] Replace mock CV functions with real API calls
+- [ ] Add CV data to AI Judge context
+- [ ] Update Opik traces with CV metrics
+- [ ] Fallback to mock on API failure
+- [ ] Rate limiting for API calls
+- [ ] Error handling and logging
+
+#### Phase 4: Testing & Validation (Priority: MEDIUM)
+- [ ] Unit tests for CV functions
+- [ ] Integration tests for Judge + CV
+- [ ] Manual testing with real workout media
+- [ ] Performance benchmarks (response time targets)
+- [ ] Cost monitoring and optimization
+
+### Technical Implementation
+
+#### Photo Analysis (Clarifai)
+```typescript
+// lib/ai/computer-vision-photo.ts
+import { Clarifai } from '@clarifai/nodejs';
+
+const clarifaiClient = new Clarifai({
+  apiKey: process.env.CLARIFAI_API_KEY,
+});
+
+export async function analyzeWorkoutPhotoReal(imageUrl: string): Promise<FormAnalysis> {
+  try {
+    const response = await clarifaiClient.models.predict({
+      model: 'general-v1.3',
+      inputs: [{ data: { url: imageUrl } }],
+    });
+
+    // Extract exercise type from concepts
+    const concepts = response[0]?.data?.concepts || [];
+    const exerciseConcepts = concepts.filter((c: any) =>
+      ['pushup', 'squat', 'plank', 'deadlift', 'lunge'].some(e =>
+        c.name.toLowerCase().includes(e)
+      )
+    );
+
+    const exerciseType = exerciseConcepts[0]?.name || 'unknown';
+    const confidence = exerciseConcepts[0]?.value || 0.5;
+
+    // Calculate form scores
+    const formScore = Math.min(0.95, confidence + 0.2);
+    const techniqueScore = Math.min(0.9, confidence + 0.3);
+    const rangeOfMotion = Math.min(0.85, confidence + 0.25);
+
+    // Detect safety issues
+    const safetyIssues = detectSafetyIssuesFromConcepts(concepts);
+
+    // Generate feedback
+    const feedback = generateFeedback(formScore, techniqueScore, safetyIssues);
+
+    const analysis: FormAnalysis = {
+      exerciseType,
+      formScore,
+      techniqueScore,
+      rangeOfMotion,
+      safetyIssues,
+      repCount: null,
+      confidence,
+      feedback,
+    };
+
+    // Send Opik trace
+    await sendCVTraceToOpik('cv_photo_analysis_real', {
+      input: { image_url: imageUrl, provider: 'clarifai' },
+      output: analysis,
+    });
+
+    return analysis;
+  } catch (error) {
+    console.error('[CV] Photo analysis failed:', error);
+    return analyzeWorkoutPhotoMock(imageUrl); // Fallback
+  }
+}
+```
+
+#### Video Analysis (Replicate)
+```typescript
+// lib/ai/computer-vision-video.ts
+import Replicate from 'replicate';
+
+const replicateClient = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN,
+});
+
+export async function analyzeWorkoutVideoReal(videoUrl: string): Promise<VideoAnalysis> {
+  try {
+    // Use pose estimation model
+    const output: any = await replicateClient.run(
+      'microsoft/pose-detection',
+      { input: { video: videoUrl } }
+    );
+
+    // Analyze pose data
+    const poses = output.poses || [];
+    const repCount = countReps(poses);
+    const formScore = calculateFormFromPoses(poses);
+    const techniqueScore = calculateTechniqueFromPoses(poses);
+    const rangeOfMotion = calculateROMFromPoses(poses);
+    const consistencyScore = calculateConsistency(poses);
+
+    const analysis: VideoAnalysis = {
+      exerciseType: detectExerciseFromPose(poses),
+      formScore,
+      techniqueScore,
+      rangeOfMotion,
+      consistencyScore,
+      repCount,
+      confidence: 0.85,
+      feedback: generateVideoFeedback(formScore, consistencyScore),
+      timestamps: {
+        start: Date.now(),
+        end: Date.now() + (poses.length > 0 ? 30000 : 0),
+        keyFrames: extractKeyFrames(poses),
+      },
+    };
+
+    // Send Opik trace
+    await sendCVTraceToOpik('cv_video_analysis_real', {
+      input: { video_url: videoUrl, provider: 'replicate' },
+      output: analysis,
+    });
+
+    return analysis;
+  } catch (error) {
+    console.error('[CV] Video analysis failed:', error);
+    return analyzeWorkoutVideoMock(videoUrl); // Fallback
+  }
+}
+```
+
+### Environment Variables Required
+```env
+# Computer Vision API Keys
+CLARIFAI_API_KEY=your_clarifai_key_here
+REPLICATE_API_TOKEN=your_replicate_token_here
+```
+
+### Dependencies
+```json
+{
+  "dependencies": {
+    "@clarifai/nodejs": "^9.0.0",
+    "replicate": "^0.29.0",
+    "limiter": "^3.0.0"
+  }
+}
+```
+
+### Cost Estimates
+- **Clarifai:** Free tier 5,000 calls/month, then $1.50 per 1,000 calls
+- **Replicate:** Pay-per-second $0.0001/second
+- **Estimated monthly cost:** $10-50 for 1,000 active users
+
+### Success Metrics
+- Photo analysis accuracy: 70%+ (exercise detection)
+- Video rep counting accuracy: 80%+
+- Safety issue detection: 85%+ precision
+- Response time: <5s (photos), <10s (videos)
+- Fallback rate: <5% (mock usage)
+- Opik trace success: 100% (all CV operations traced)
+
+---
+
 ## 📱 IOT SCALE TRACKING
 
 ### Purpose
@@ -1547,19 +1757,21 @@ As requested, features are listed in the order they were thought of (not by exec
 7. Cost optimization automation
 8. Budget alerting system
 9. Video cost optimizer
+10. Computer Vision Integration - Real API integration (Clarifai + Replicate)
 
 ---
 
 ## 📊 SUCCESS METRICS FOR ROADMAP
 
 ### Innovation Score
-- AI Chatbot: ⭐⭐⭐⭐⭐ (5/5) - Completely new to fitness
+- AI Chatbot: ⭐⭐⭐⭐ (5/5) - Completely new to fitness
 - Nutrition Tracking: ⭐⭐⭐⭐ (4/5) - AI-powered estimation
 - Custom Workouts: ⭐⭐⭐⭐ (4/5) - Solves AI limitation problem
 - Guild System: ⭐⭐⭐⭐⭐ (5/5) - MMORPG-style gameplay
 - IOT Integration: ⭐⭐⭐ (3/5) - Smart device tracking
 - Better Stats: ⭐⭐⭐⭐ (4/5) - GitHub-style visualization
 - Cost Planning System: ⭐⭐⭐⭐⭐ (5/5) - ML-based cost prediction & optimization
+- Computer Vision Integration: ⭐⭐⭐⭐⭐ (5/5) - Real-time form evaluation
 
 ### Real-World Relevance Score
 - AI Chatbot: ⭐⭐⭐⭐⭐ (5/5) - Directly addresses user confusion
@@ -1568,6 +1780,7 @@ As requested, features are listed in the order they were thought of (not by exec
 - Real-World Integration: ⭐⭐⭐⭐⭐ (5/5) - Gym partnerships, IRL events
 - Mobile Apps: ⭐⭐⭐⭐⭐ (5/5) - Native experience
 - Cost Planning System: ⭐⭐⭐⭐⭐ (5/5) - Critical for business viability
+- Computer Vision Integration: ⭐⭐⭐⭐⭐ (5/5) - Solves verification problem
 
 ### User Experience Score
 - Custom Workouts: ⭐⭐⭐⭐⭐ (5/5) - Complete user control
@@ -1582,6 +1795,7 @@ As requested, features are listed in the order they were thought of (not by exec
 - IOT Integration: ⭐⭐⭐ (3/5) - Complex (Bluetooth, APIs)
 - Real-World Integration: ⭐⭐⭐ (3/5) - Requires partnerships
 - Cost Planning System: ⭐⭐⭐⭐ (4/5) - Moderate complexity (ML models, integrations)
+- Computer Vision Integration: ⭐⭐⭐ (3/5) - Complex (pose estimation, APIs)
 
 ---
 
@@ -1590,7 +1804,7 @@ As requested, features are listed in the order they were thought of (not by exec
 ---
 
 **Roadmap Created:** February 5, 2026
-**Last Updated:** February 7, 2026
+**Last Updated:** February 8, 2026
 **Status:** Ready for review
 **Next Steps:** Update documentation to reference new features
 
