@@ -10,6 +10,8 @@ export default function ABTestingPage() {
   const [loading, setLoading] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null);
+  const [seeding, setSeeding] = useState(false);
+  const [clearing, setClearing] = useState(false);
 
   useEffect(() => {
     fetchExperiments();
@@ -25,6 +27,46 @@ export default function ABTestingPage() {
       console.error("Failed to fetch experiments:", error);
     }
     setLoading(false);
+  };
+
+  const handleSeedExperiments = async () => {
+    if (!confirm("Seed 3 demo experiments? This will add them to your A/B testing dashboard.")) return;
+    
+    setSeeding(true);
+    try {
+      const res = await fetch("/api/ab-testing/seed", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "seed" }),
+      });
+      const data = await res.json();
+      alert(`Seeded ${data.succeeded} of ${data.total} experiments`);
+      fetchExperiments();
+    } catch (error) {
+      console.error("Failed to seed experiments:", error);
+      alert("Failed to seed experiments");
+    }
+    setSeeding(false);
+  };
+
+  const handleClearExperiments = async () => {
+    if (!confirm("Clear ALL experiments? This cannot be undone.")) return;
+    
+    setClearing(true);
+    try {
+      const res = await fetch("/api/ab-testing/seed", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "clear" }),
+      });
+      await res.json();
+      alert("All experiments cleared");
+      fetchExperiments();
+    } catch (error) {
+      console.error("Failed to clear experiments:", error);
+      alert("Failed to clear experiments");
+    }
+    setClearing(false);
   };
 
   return (
@@ -43,6 +85,20 @@ export default function ABTestingPage() {
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
             Refresh
+          </button>
+          <button
+            onClick={handleSeedExperiments}
+            disabled={seeding}
+            className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-600/90 disabled:opacity-50"
+          >
+            {seeding ? "Seeding..." : "Seed Demo"}
+          </button>
+          <button
+            onClick={handleClearExperiments}
+            disabled={clearing}
+            className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-600/90 disabled:opacity-50"
+          >
+            {clearing ? "Clearing..." : "Clear All"}
           </button>
           <button
             onClick={() => setShowCreateForm(true)}
@@ -109,6 +165,31 @@ function CreateExperimentForm({
   const [variantBConfig, setVariantBConfig] = useState("{}");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [loadingExample, setLoadingExample] = useState(false);
+
+  const loadExample = async (index: number) => {
+    setLoadingExample(true);
+    try {
+      const res = await fetch("/data/realistic-ab-test-examples.json");
+      const data = await res.json();
+      const example = data.experiments[index];
+      
+      if (example) {
+        setName(example.name);
+        setType(example.type);
+        setDescription(example.description);
+        setVariantAName(example.variants[0].name);
+        setVariantAConfig(JSON.stringify(example.variants[0].config, null, 2));
+        setVariantBName(example.variants[1].name);
+        setVariantBConfig(JSON.stringify(example.variants[1].config, null, 2));
+      }
+    } catch (err) {
+      console.error("Failed to load example:", err);
+      alert("Failed to load example. Make sure the data file exists.");
+    } finally {
+      setLoadingExample(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -147,7 +228,43 @@ function CreateExperimentForm({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-void-deep border border-white/10 rounded-xl p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <h3 className="text-xl font-bold text-white mb-4">Create A/B Experiment</h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-bold text-white">Create A/B Experiment</h3>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => loadExample(0)}
+              disabled={loadingExample}
+              className="text-xs px-3 py-1 bg-purple-600/20 border border-purple-600/30 text-purple-400 rounded hover:bg-purple-600/30 disabled:opacity-50"
+            >
+              Load Ex 1
+            </button>
+            <button
+              type="button"
+              onClick={() => loadExample(1)}
+              disabled={loadingExample}
+              className="text-xs px-3 py-1 bg-purple-600/20 border border-purple-600/30 text-purple-400 rounded hover:bg-purple-600/30 disabled:opacity-50"
+            >
+              Load Ex 2
+            </button>
+            <button
+              type="button"
+              onClick={() => loadExample(2)}
+              disabled={loadingExample}
+              className="text-xs px-3 py-1 bg-purple-600/20 border border-purple-600/30 text-purple-400 rounded hover:bg-purple-600/30 disabled:opacity-50"
+            >
+              Load Ex 3
+            </button>
+            <button
+              type="button"
+              onClick={() => loadExample(3)}
+              disabled={loadingExample}
+              className="text-xs px-3 py-1 bg-purple-600/20 border border-purple-600/30 text-purple-400 rounded hover:bg-purple-600/30 disabled:opacity-50"
+            >
+              Load Ex 4
+            </button>
+          </div>
+        </div>
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
