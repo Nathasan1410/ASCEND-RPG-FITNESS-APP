@@ -1,6 +1,7 @@
 import Groq from "groq-sdk";
 import { type WorkoutPlan, type QuestLogInput, type UserClass } from "@/types/schemas";
 import { LOG_ANALYSIS_PROMPT } from "./prompts";
+import { getOpikClient } from "./opik";
 
 const apiKey = process.env.GROQ_API_KEY;
 
@@ -52,6 +53,12 @@ USER PROFILE:
   Provide a detailed analysis of this workout performance.
 `;
 
+  const client = await getOpikClient();
+  const trace = client?.trace({
+    name: "Log_Analysis_Generation",
+    input: { logId: input.log.quest_id, user_rank: input.user_rank },
+  });
+
   try {
     const completion = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
@@ -69,6 +76,14 @@ USER PROFILE:
 
     const parsed = JSON.parse(content);
 
+    if (trace) {
+      trace.update({
+        output: parsed,
+        tags: ["analysis_success"],
+      });
+      trace.end();
+    }
+
     return {
       summary: parsed.summary || "",
       integrity_explanation: parsed.integrity_explanation || "",
@@ -78,6 +93,13 @@ USER PROFILE:
     };
   } catch (error: any) {
     console.error("Log analysis failed:", error);
+
+    if (trace) {
+      trace.update({
+        tags: ["analysis_failure"],
+      });
+      trace.end();
+    }
 
     return getFallbackAnalysis(input);
   }
@@ -98,9 +120,9 @@ function getFallbackAnalysis(input: LogAnalysisInput): LogAnalysisOutput {
     summary += " Your performance needs improvement.";
   }
 
-  const integrityExplanation = `Your integrity score of ${integrity}% reflects the consistency between your reported workout and the expected duration. ${input.integrity_score >= 0.9 ? "Your workout timing aligned perfectly with the quest requirements." : "Consider adjusting your pace to better match the target duration."}`;
+  const integrityExplanation = `Your integrity score of ${integrity}% reflects consistency between your reported workout and expected duration. ${input.integrity_score >= 0.9 ? "Your workout timing aligned perfectly with quest requirements." : "Consider adjusting your pace to better match the target duration."}`;
 
-  const effortExplanation = `Your effort score of ${effort}% indicates how hard you pushed relative to the quest difficulty. ${input.effort_score >= 0.8 ? "Great effort shown throughout the workout." : "Try to push closer to the target RPE for maximum effectiveness."}`;
+  const effortExplanation = `Your effort score of ${effort}% indicates how hard you pushed relative to quest difficulty. ${input.effort_score >= 0.8 ? "Great effort shown throughout the workout." : "Try to push closer to your target RPE for maximum effectiveness."}`;
 
   const safetyExplanation = `Your safety score of ${safety}% assesses whether you trained appropriately given your condition. ${input.safety_score >= 0.8 ? "You trained safely within reasonable limits." : "Be more mindful of your physical state and adjust intensity accordingly."}`;
 
