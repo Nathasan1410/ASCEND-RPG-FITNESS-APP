@@ -1,6 +1,6 @@
 "use client";
 
-import { Crown, Target, Sparkles, DollarSign, TrendingUp, LineChart, BarChart3, ArrowUpRight, Check, Calendar, Clock } from "lucide-react";
+import { Crown, Target, Sparkles, DollarSign, TrendingUp, LineChart, BarChart3, ArrowUpRight, ArrowRight, Check, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
 import { motion } from "framer-motion";
@@ -462,6 +462,16 @@ export default function MonetizationSystemPage() {
                     </p>
                   </div>
                 </div>
+              </div>
+
+              <div className="mt-8 pt-6 border-t border-white/10">
+                <Link
+                  href="/roadmap/cost-planning"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-500/90 hover:to-red-500/90 text-white rounded-lg font-bold transition-all"
+                >
+                  View Detailed Cost Planning
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
           </section>
