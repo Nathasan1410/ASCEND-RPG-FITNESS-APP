@@ -197,3 +197,186 @@ export const ExperimentSchema = z.object({
 });
 
 export type Experiment = z.infer<typeof ExperimentSchema>;
+
+// Subscription Tiers
+export const SubscriptionTierSchema = z.enum(["free", "pro", "max"]);
+export type SubscriptionTier = z.infer<typeof SubscriptionTierSchema>;
+
+// Subscription Status
+export const SubscriptionStatusSchema = z.enum([
+  "active",
+  "past_due",
+  "canceled",
+  "unpaid",
+  "incomplete",
+  "incomplete_expired",
+  "trialing",
+]);
+export type SubscriptionStatus = z.infer<typeof SubscriptionStatusSchema>;
+
+// Billing History Status
+export const BillingStatusSchema = z.enum(["paid", "open", "void", "uncollectible"]);
+export type BillingStatus = z.infer<typeof BillingStatusSchema>;
+
+// Feature Types for Usage Tracking
+export const FeatureTypeSchema = z.enum([
+  "daily_quests",
+  "ai_judge_evaluations",
+  "ai_chatbot_questions",
+  "video_uploads",
+  "posts_created",
+]);
+export type FeatureType = z.infer<typeof FeatureTypeSchema>;
+
+// Subscription Schema
+export const SubscriptionSchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  stripe_subscription_id: z.string(),
+  stripe_customer_id: z.string(),
+  stripe_price_id: z.string(),
+  status: SubscriptionStatusSchema,
+  cancel_at_period_end: z.boolean().default(false),
+  current_period_start: z.string().datetime().nullable(),
+  current_period_end: z.string().datetime().nullable(),
+  cancel_at: z.string().datetime().nullable(),
+  canceled_at: z.string().datetime().nullable(),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+});
+export type Subscription = z.infer<typeof SubscriptionSchema>;
+
+// Billing History Schema
+export const BillingHistorySchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  stripe_invoice_id: z.string().nullable(),
+  stripe_payment_intent_id: z.string().nullable(),
+  amount_cents: z.number(),
+  currency: z.string().length(3),
+  status: BillingStatusSchema,
+  description: z.string().nullable(),
+  invoice_url: z.string().url().nullable(),
+  receipt_url: z.string().url().nullable(),
+  created_at: z.string().datetime(),
+});
+export type BillingHistory = z.infer<typeof BillingHistorySchema>;
+
+// Usage Tracking Schema
+export const UsageTrackingSchema = z.object({
+  id: z.string().uuid(),
+  user_id: z.string().uuid(),
+  feature_type: FeatureTypeSchema,
+  period_start: z.string().datetime(),
+  period_end: z.string().datetime(),
+  usage_count: z.number().default(0),
+  created_at: z.string().datetime(),
+  updated_at: z.string().datetime(),
+});
+export type UsageTracking = z.infer<typeof UsageTrackingSchema>;
+
+// Tier Limits Schema
+export const TierLimitsSchema = z.object({
+  daily_quests: z.number(),
+  ai_judge_evaluations: z.number(),
+  ai_chatbot_questions: z.number(),
+  video_uploads: z.number(),
+  posts_created: z.number(),
+  video_quality: z.string(),
+});
+export type TierLimits = z.infer<typeof TierLimitsSchema>;
+
+// Feature Check Result Schema
+export const FeatureCheckResultSchema = z.object({
+  allowed: z.boolean(),
+  limit: z.number(),
+  current_usage: z.number(),
+  remaining: z.number(),
+  tier: SubscriptionTierSchema,
+});
+export type FeatureCheckResult = z.infer<typeof FeatureCheckResultSchema>;
+
+// Create Checkout Session Input
+export const CreateCheckoutSessionSchema = z.object({
+  priceId: z.string(),
+  tier: SubscriptionTierSchema,
+});
+export type CreateCheckoutSessionInput = z.infer<typeof CreateCheckoutSessionSchema>;
+
+// Create Customer Portal Session Input
+export const CreateCustomerPortalSessionSchema = z.object({
+  returnUrl: z.string().url(),
+});
+export type CreateCustomerPortalSessionInput = z.infer<typeof CreateCustomerPortalSessionSchema>;
+
+// Subscription Plans Configuration
+export const SUBSCRIPTION_PLANS = {
+  free: {
+    id: "free",
+    name: "Free Hunter",
+    price: 0,
+    period: "forever",
+    features: {
+      daily_quests: 1,
+      ai_judge_evaluations: 3,
+      ai_chatbot_questions: 10,
+      video_uploads: 2,
+      posts_created: 3,
+      video_quality: "360p",
+      ads: true,
+      bluetooth_devices: 0,
+      smart_scale_sync: false,
+      nutrition_tracking: false,
+      advanced_analytics: false,
+      guild_access: false,
+      live_streaming: false,
+      video_monetization: false,
+    },
+  },
+  pro: {
+    id: "pro",
+    name: "Pro Hunter",
+    price: 9.99,
+    period: "month",
+    stripePriceId: process.env.STRIPE_PRICE_ID_PRO,
+    features: {
+      daily_quests: -1,
+      ai_judge_evaluations: -1,
+      ai_chatbot_questions: 300,
+      video_uploads: 10,
+      posts_created: 20,
+      video_quality: "1080p",
+      ads: false,
+      bluetooth_devices: 2,
+      smart_scale_sync: true,
+      nutrition_tracking: true,
+      advanced_analytics: true,
+      guild_access: "basic",
+      live_streaming: false,
+      video_monetization: false,
+    },
+  },
+  max: {
+    id: "max",
+    name: "Max Hunter",
+    price: 19.99,
+    period: "month",
+    stripePriceId: process.env.STRIPE_PRICE_ID_MAX,
+    features: {
+      daily_quests: -1,
+      ai_judge_evaluations: -1,
+      ai_chatbot_questions: -1,
+      video_uploads: -1,
+      posts_created: -1,
+      video_quality: "4k",
+      ads: false,
+      bluetooth_devices: -1,
+      smart_scale_sync: true,
+      nutrition_tracking: true,
+      advanced_analytics: true,
+      guild_access: "full",
+      live_streaming: true,
+      video_monetization: true,
+    },
+  },
+} as const;

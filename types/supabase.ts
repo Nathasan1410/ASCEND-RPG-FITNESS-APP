@@ -34,6 +34,8 @@ export interface Database {
           created_at: string | null
           ab_testing_data: { experiments: any[] } | null
           variant_assignments: { [key: string]: string } | null
+          subscription_tier: 'free' | 'pro' | 'max' | null
+          stripe_customer_id: string | null
         }
         Insert: {
           id: string
@@ -59,6 +61,8 @@ export interface Database {
           created_at?: string | null
           ab_testing_data?: { experiments: any[] } | null
           variant_assignments?: { [key: string]: string } | null
+          subscription_tier?: 'free' | 'pro' | 'max' | null
+          stripe_customer_id?: string | null
         }
         Update: {
           id?: string
