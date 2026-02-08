@@ -27,51 +27,24 @@ export async function sendTraceToOpik(traceName: string, data: {
   console.log(`[Opik] Attempt ${attempt}/${MAX_RETRY_ATTEMPTS} to send trace: ${traceName}`);
   
   try {
-    const client = await getOpikClient();
+    const client = getOpikClient();
     
-    // Check if client is initialized properly
     if (!client || typeof client.trace !== 'function') {
       console.error("[Opik] Client not properly initialized");
-      console.error("[Opik] Client type:", typeof client);
-      console.error("[Opik] Has trace function:", typeof client?.trace);
       throw new Error("Opik client not initialized properly");
     }
     
-    // Create trace with start time if provided
-    // IMPORTANT: startTime must be a Date object, not a timestamp number
-    const traceStart = data.startTime ? new Date(data.startTime) : undefined;
-    console.log("[Opik] Creating trace with start time:", traceStart);
-    
-    const trace = await client.trace({
+    // Create trace with input/output directly
+    const trace = client.trace({
       name: traceName,
-      startTime: traceStart,
-      metadata: {
-        project: "LevelUp Workout",
-        environment: process.env.NODE_ENV || "development",
-        build_version: process.env.npm_package_version || "unknown",
-        attempt: attempt.toString(),
-      }
+      input: data.input,
+      output: data.output,
     });
     
-    console.log("[Opik] Trace created with ID:", trace.data?.id || 'N/A');
-    
-    // Update with input/output if provided
-    if (data.input || data.output) {
-      console.log("[Opik] Updating trace with input/output");
-      await trace.update({
-        input: data.input,
-        output: data.output,
-        tags: data.tags || [],
-      });
-      console.log("[Opik] Trace updated successfully");
-    }
+    console.log(`[Opik] ✓ Successfully sent trace: ${traceName}`);
     
     // End trace to send it to Opik
-    console.log("[Opik] Ending trace to send to Opik dashboard");
-    await trace.end();
-    
-    console.log(`[Opik] ✓ Successfully sent trace: ${traceName}`);
-    console.log(`[Opik] ✓ Trace ID: ${trace.data?.id || 'N/A'}`);
+    trace.end();
     
     // Clear attempt tracking on success
     traceAttempts.delete(attemptKey);
@@ -79,8 +52,6 @@ export async function sendTraceToOpik(traceName: string, data: {
     return trace;
   } catch (error: any) {
     console.error(`[Opik] ✗ Failed to send trace: ${traceName}`, error);
-    console.error("[Opik] Error name:", error.name);
-    console.error("[Opik] Error message:", error.message);
     
     // Retry if we haven't hit max attempts and it's a retryable error
     if (attempt < MAX_RETRY_ATTEMPTS && isRetryableError(error)) {
@@ -131,7 +102,7 @@ function isRetryableError(error: any): boolean {
 
 export async function sendSpanToOpik(spanName: string, parentTrace: any, data: {
   output?: any;
-  metadata?: any;
+  input?: any;
 }) {
   try {
     if (!parentTrace) {
@@ -139,23 +110,16 @@ export async function sendSpanToOpik(spanName: string, parentTrace: any, data: {
       return null;
     }
     
-    // IMPORTANT: startTime must be a Date object
-    const span = await parentTrace.span({
+    const span = parentTrace.span({
       name: spanName,
-      startTime: new Date(),
+      type: "general",
+      input: data.input,
+      output: data.output,
     });
     
-    if (data.output || data.metadata) {
-      await span.update({
-        output: data.output,
-        metadata: data.metadata,
-      });
-    }
-    
-    await span.end();
+    span.end();
     
     console.log(`[Opik] ✓ Successfully sent span: ${spanName}`);
-    console.log(`[Opik] ✓ Span parent trace ID: ${parentTrace.data?.id || 'N/A'}`);
     
     return span;
   } catch (error: any) {
@@ -195,27 +159,27 @@ export function getOpikTags(data: any): string[] {
  */
 export async function sendMetricToOpik(metricName: string, value: number, metadata?: any) {
   try {
-    const client = await getOpikClient();
+    const client = getOpikClient();
     
-    // Check if client is initialized properly
-    if (!client || typeof client.metric !== 'function') {
+    if (!client) {
       console.error("[Opik] Client not properly initialized for metric");
-      throw new Error("Opik client not initialized properly");
+      return;
     }
     
-    await client.metric(metricName, value, {
-      metadata: {
+    const trace = client.trace({
+      name: `metric_${metricName}`,
+      input: {
+        metric_name: metricName,
+        value,
         ...metadata,
-        project: "LevelUp Workout",
-        environment: process.env.NODE_ENV || "development",
-        timestamp: new Date().toISOString(),
-      }
+      },
     });
+    
+    trace.end();
     
     console.log(`[Opik] ✓ Successfully sent metric: ${metricName} = ${value}`);
   } catch (error: any) {
     console.error(`[Opik] ✗ Failed to send metric: ${metricName}`, error);
-    console.error("[Opik] Error details:", error.message);
   }
 }
 
@@ -224,10 +188,9 @@ export async function sendMetricToOpik(metricName: string, value: number, metada
  */
 export async function logErrorToOpik(errorName: string, inputError: any, inputContext?: any) {
   try {
-    const client = await getOpikClient();
+    const client = getOpikClient();
     
-    // Check if client is initialized properly
-    if (!client || typeof client.trace !== 'function') {
+    if (!client) {
       console.error("[Opik] Client not properly initialized for error logging");
       console.error(`[Error] ${errorName}:`, inputError.message);
       return;
@@ -243,15 +206,14 @@ export async function logErrorToOpik(errorName: string, inputError: any, inputCo
       ...inputContext,
     };
     
-    await client.trace({
+    const trace = client.trace({
       name: `error_${errorName}`,
-      startTime: new Date(),
       input: errorContext,
-      tags: ["error", errorName, "production_error"],
     });
     
+    trace.end();
+    
     console.log(`[Opik] ✓ Successfully logged error: ${errorName}`);
-    console.log(`[Opik] ✓ Error trace ID will be available in dashboard`);
   } catch (traceError: any) {
     console.error(`[Opik] ✗ Failed to log error: ${errorName}`, traceError);
     console.error("[Opik] Original error:", (inputError as any)?.message);
@@ -270,9 +232,9 @@ export async function logErrorToOpik(errorName: string, inputError: any, inputCo
 /**
  * Utility function to check if Opik is available
  */
-export async function isOpikAvailable(): Promise<boolean> {
+export function isOpikAvailable(): boolean {
   try {
-    const client = await getOpikClient();
+    const client = getOpikClient();
     return client !== null && typeof client.trace === 'function';
   } catch (error: any) {
     console.error("[Opik] Failed to check availability:", error);
@@ -283,18 +245,18 @@ export async function isOpikAvailable(): Promise<boolean> {
 /**
  * Utility function to get Opik client status
  */
-export async function getOpikStatus(): Promise<{
+export function getOpikStatus(): {
   available: boolean;
   projectName: string | null;
   apiKeyPresent: boolean;
-}> {
+} {
   try {
     const apiKey = process.env.OPIK_API_KEY;
-    const available = await isOpikAvailable();
+    const available = isOpikAvailable();
     
     return {
       available,
-      projectName: available ? "LevelUp Workout" : null,
+      projectName: available ? "Level Up Workout" : null,
       apiKeyPresent: !!apiKey,
     };
   } catch (error: any) {
