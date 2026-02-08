@@ -87,6 +87,17 @@ Generate a quest now.
     const validExerciseTypes = ["Warmup", "Skill", "Compound", "Isolation", "Cooldown"];
     if (parsed.exercises && Array.isArray(parsed.exercises)) {
       parsed.exercises = parsed.exercises.map((ex: any, index: number) => {
+        // Coerce numeric types for exercise fields
+        if (typeof ex.sets === 'string') {
+          ex.sets = parseInt(ex.sets, 10);
+        }
+        if (typeof ex.rest_sec === 'string') {
+          ex.rest_sec = parseInt(ex.rest_sec, 10);
+        }
+        if (typeof ex.rpe_target === 'string') {
+          ex.rpe_target = parseInt(ex.rpe_target, 10);
+        }
+        
         // Normalize exercise type to valid enum values
         let normalizedType = ex.type;
         if (!validExerciseTypes.includes(ex.type)) {
@@ -113,6 +124,11 @@ Generate a quest now.
           type: normalizedType,
         };
       });
+    }
+    
+    // Coerce ai_review.completion_probability to number
+    if (parsed.ai_review && typeof parsed.ai_review.completion_probability === 'string') {
+      parsed.ai_review.completion_probability = parseInt(parsed.ai_review.completion_probability, 10);
     }
 
     console.log("[Groq] Parsed data before validation:", JSON.stringify(parsed, null, 2));
