@@ -53,11 +53,14 @@ USER PROFILE:
   Provide a detailed analysis of this workout performance.
 `;
 
-  const client = await getOpikClient();
-  const trace = client?.trace({
-    name: "Log_Analysis_Generation",
-    input: { logId: input.log.quest_id, user_rank: input.user_rank },
-  });
+  const client: any = await getOpikClient();
+  let trace: any = null;
+  if (client && typeof client.trace === 'function') {
+    trace = client.trace({
+      name: "Log_Analysis_Generation",
+      input: { logId: input.log.quest_id, user_rank: input.user_rank },
+    });
+  }
 
   try {
     const completion = await groq.chat.completions.create({
