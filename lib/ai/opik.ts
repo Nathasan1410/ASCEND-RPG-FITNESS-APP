@@ -15,12 +15,10 @@ async function getOpikClient() {
     console.log("[Opik] Initializing Opik client...");
     
     // Dynamic import of Opik SDK
-    const opikModule = await import("opik");
+    const opikModule: any = await import("opik");
     
     // Try to get the Opik constructor from various possible exports
-    const Opik = (opikModule as any).Opik || 
-                   (opikModule as any).default?.Opik ||
-                   opikModule.default;
+    const Opik = opikModule.Opik || opikModule.default?.Opik || opikModule.default;
     
     if (!Opik) {
       console.error("[Opik] Could not find Opik constructor in module");
