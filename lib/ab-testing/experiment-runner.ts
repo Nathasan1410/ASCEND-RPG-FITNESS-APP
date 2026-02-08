@@ -69,7 +69,7 @@ export class ExperimentRunner {
     }
     
     const startTime = Date.now();
-    const verdict = await evaluateWorkoutAsAI({
+    const aiVerdict = await evaluateWorkoutAsAI({
       plan: input.quest,
       log: input.log,
       user_class: input.user_class,
@@ -78,8 +78,8 @@ export class ExperimentRunner {
     const evaluationTime = Date.now() - startTime;
     
     if (experimentId && actualVariantId) {
-      const success = verdict.status === "APPROVED";
-      const score = (verdict.integrity_score + verdict.effort_score + verdict.safety_score) / 3;
+      const success = aiVerdict.status === "APPROVED";
+      const score = (aiVerdict.integrity_score + aiVerdict.effort_score + aiVerdict.safety_score) / 3;
       const totalTime = (planGenerationTime || 0) + evaluationTime;
       
       try {
@@ -95,6 +95,23 @@ export class ExperimentRunner {
         console.error("[A/B Test] Failed to track metric:", error);
       }
     }
+    
+    const verdict: JudgeVerdict = {
+      status: aiVerdict.status === "FLAGGED" ? "FLAGGED" as const : aiVerdict.status,
+      integrity_score: aiVerdict.integrity_score,
+      effort_score: aiVerdict.effort_score,
+      safety_score: aiVerdict.safety_score,
+      final_xp: aiVerdict.final_xp,
+      system_message: aiVerdict.message,
+      proof_required: false,
+      proof_provided: false,
+      verification_status: "Auto_Approved",
+      stat_updates: {
+        strength_add: 0,
+        agility_add: 0,
+        stamina_add: 0,
+      },
+    };
     
     return verdict;
   }
