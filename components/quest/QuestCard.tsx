@@ -47,12 +47,12 @@ export function QuestCard({ quest }: QuestCardProps) {
               {plan.quest_type}
             </span>
           </div>
+          <h3 className="text-xl font-display font-bold text-white tracking-wide mt-2">
+            {plan.quest_name}
+          </h3>
         </div>
-        
-        <h3 className="text-xl font-display font-bold text-white tracking-wide mt-2">
-          {plan.quest_name}
-        </h3>
-      
+      </div>
+
       <div className="space-y-4 relative z-10">
         <p className="text-sm text-white/60 font-sans leading-relaxed border-l-2 border-system-cyan/50 pl-3">
           {plan.narrative_intro}
@@ -93,23 +93,22 @@ export function QuestCard({ quest }: QuestCardProps) {
                 OPIK AI ANALYSIS
               </span>
             </div>
+            <p className="text-sm text-white/70 font-sans leading-relaxed mb-3">
+              {plan.ai_review.reasoning}
+            </p>
+            
+            <div className="flex flex-wrap gap-2">
+              {plan.ai_review.key_factors.map((factor, idx) => (
+                <span
+                  key={idx}
+                  className="text-xs font-mono text-system-cyan bg-system-cyan/10 border border-system-cyan/20 px-2 py-0.5 rounded"
+                >
+                  {factor}
+                </span>
+              ))}
+            </div>
           </div>
-          <p className="text-sm text-white/70 font-sans leading-relaxed mb-3">
-            {plan.ai_review.reasoning}
-          </p>
-          
-          <div className="flex flex-wrap gap-2">
-            {plan.ai_review.key_factors.map((factor, idx) => (
-              <span
-                key={idx}
-                className="text-xs font-mono text-system-cyan bg-system-cyan/10 border border-system-cyan/20 px-2 py-0.5 rounded"
-              >
-                {factor}
-              </span>
-            ))}
-          </div>
-        </div>
-          )}
+        )}
 
         {quest.status === "COMPLETED" && quest.xp_awarded !== undefined && (
           <div className="mt-4 bg-green-500/10 border-green-500/20 rounded-lg p-3 text-center">
@@ -156,20 +155,20 @@ export function QuestCard({ quest }: QuestCardProps) {
                 </div>
               </div>
             </div>
-          </div>
-          
-          {quest.ai_feedback && (
-            <div className="mt-4 bg-system-cyan/5 border border-system-cyan/20 rounded-lg p-3">
-              <div className="flex items-center gap-2 mb-3">
-                <BrainCircuit className="w-4 h-4 text-system-cyan" />
-                <span className="text-xs font-mono text-system-cyan uppercase tracking-widest border border-system-cyan/20 px-2 py-0.5 rounded">
-                  AI FEEDBACK
-                </span>
+            
+            {quest.ai_feedback && (
+              <div className="mt-4 bg-system-cyan/5 border border-system-cyan/20 rounded-lg p-3">
+                <div className="flex items-center gap-2 mb-3">
+                  <BrainCircuit className="w-4 h-4 text-system-cyan" />
+                  <span className="text-xs font-mono text-system-cyan uppercase tracking-widest border border-system-cyan/20 px-2 py-0.5 rounded">
+                    AI FEEDBACK
+                  </span>
+                </div>
+                <p className="text-sm text-white/70 font-sans leading-relaxed">
+                  {quest.ai_feedback}
+                </p>
               </div>
-            </div>
-            <p className="text-sm text-white/70 font-sans leading-relaxed">
-              {quest.ai_feedback}
-            </p>
+            )}
           </div>
         )}
 
