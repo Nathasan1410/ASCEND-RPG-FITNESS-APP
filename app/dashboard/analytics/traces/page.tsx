@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { TraceExport } from "../TraceExport";
+import { RealExperimentDashboard } from "../RealExperimentDashboard";
 import { Database } from "lucide-react";
 
 export default async function TraceExportPage() {
@@ -23,13 +23,13 @@ export default async function TraceExportPage() {
                 Opik Trace Export
               </h1>
               <p className="text-white/60">
-                Export, analyze, and share AI trace data
+                Export and share AI trace data from Opik dashboard
               </p>
             </div>
           </div>
         </div>
 
-        <TraceExport />
+        <RealExperimentDashboard />
       </div>
     </div>
   );

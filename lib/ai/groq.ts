@@ -2,6 +2,7 @@ import Groq from "groq-sdk";
 import { WorkoutPlanSchema, type WorkoutPlan } from "@/types/schemas";
 import { ARCHITECT_PROMPT } from "./prompts";
 import { getOpikClient } from "./opik";
+import { sendTraceToOpik } from "./opik-helper";
 
 const apiKey = process.env.GROQ_API_KEY;
 
@@ -18,9 +19,28 @@ interface QuestInput {
 }
 
 export async function generateWorkoutPlan(input: QuestInput): Promise<WorkoutPlan> {
+  const generationStartTime = Date.now();
+
   // If no API key, return fallback immediately (dev mode)
   if (!groq) {
     console.warn("GROQ_API_KEY not found. Returning fallback quest.");
+    
+    // Send fallback trace to Opik
+    await sendTraceToOpik("quest_generation_no_api_key", {
+      startTime: generationStartTime,
+      input: {
+        user_class: input.user_class,
+        user_rank: input.user_rank,
+        time_window_min: input.time_window_min,
+        equipment_count: input.equipment.length,
+        muscle_soreness_count: input.muscle_soreness.length,
+      },
+      output: {
+        fallback_reason: "GROQ_API_KEY not configured",
+      },
+      tags: ["fallback", "no_api_key"],
+    });
+
     return getFallbackQuest(input);
   }
 
@@ -34,13 +54,6 @@ USER PROFILE:
 
 Generate a quest now.
 `;
-
-  // Start Opik Trace
-  const client = await getOpikClient();
-  const trace = client.trace({
-    name: "Architect_Quest_Generation",
-    input: { system: ARCHITECT_PROMPT, user: userMessage },
-  });
 
   try {
     const completion = await groq.chat.completions.create({
@@ -105,15 +118,32 @@ Generate a quest now.
     console.log("[Groq] Parsed data before validation:", JSON.stringify(parsed, null, 2));
     
     const validated = WorkoutPlanSchema.parse(parsed);
+    const generationTime = Date.now() - generationStartTime;
     
     console.log("[Groq] Validation successful!");
 
-    // Log success to Opik
-    await trace.update({
-      output: validated,
-      tags: ["success", input.user_rank, input.user_class]
+    // Log success to Opik using helper function
+    await sendTraceToOpik("architect_quest_generation_success", {
+      startTime: generationStartTime,
+      input: {
+        user_class: input.user_class,
+        user_rank: input.user_rank,
+        time_window_min: input.time_window_min,
+        equipment_count: input.equipment.length,
+        muscle_soreness_count: input.muscle_soreness.length,
+      },
+      output: {
+        quest_name: validated.quest_name,
+        quest_rank: validated.quest_rank,
+        quest_type: validated.quest_type,
+        exercise_count: validated.exercises.length,
+        xp_reward: validated.base_xp,
+        estimated_duration_min: validated.estimated_duration_min,
+        completion_probability: validated.ai_review?.completion_probability,
+        generation_time_ms: generationTime,
+      },
+      tags: ["success", input.user_rank, input.user_class, validated.quest_type],
     });
-    await trace.end();
 
     return validated;
   } catch (error: any) {
@@ -123,11 +153,23 @@ Generate a quest now.
       console.error("[Groq] Zod validation issues:", JSON.stringify(error.issues, null, 2));
     }
     
-    // Log failure to Opik
-    await trace.update({
-      tags: ["failure"]
+    // Log failure to Opik using helper function
+    await sendTraceToOpik("architect_quest_generation_failure", {
+      startTime: generationStartTime,
+      input: {
+        user_class: input.user_class,
+        user_rank: input.user_rank,
+        time_window_min: input.time_window_min,
+        equipment_count: input.equipment.length,
+        muscle_soreness_count: input.muscle_soreness.length,
+        error: error?.message || "Unknown error",
+      },
+      output: {
+        error_type: error?.name || "UnknownError",
+        error_message: error?.message || "Unknown error",
+      },
+      tags: ["failure", input.user_rank, input.user_class],
     });
-    await trace.end();
 
     // Throw error so caller can handle it (don't silently fallback)
     throw new Error(`Groq API failed: ${error.message}`);

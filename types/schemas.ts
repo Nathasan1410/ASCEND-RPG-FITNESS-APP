@@ -102,6 +102,14 @@ export const JudgeVerdictSchema = z.object({
     agility_add: z.number(),
     stamina_add: z.number(),
   }),
+  cv_analysis: z.object({
+    form_score: z.number().min(0).max(1),
+    technique_score: z.number().min(0).max(1),
+    range_of_motion: z.number().min(0).max(1),
+    safety_issues: z.array(z.string()),
+    confidence: z.number().min(0).max(1),
+    confidence_message: z.string(),
+  }).optional(),
 });
 export type JudgeVerdict = z.infer<typeof JudgeVerdictSchema>;
 
