@@ -65,7 +65,7 @@ export function QuestCard({ quest }: QuestCardProps) {
           </div>
           <div className="flex items-center gap-2 text-xs font-mono text-white/60">
             <Trophy className="w-4 h-4 text-system-cyan" />
-            <span>{plan.xp_potential} XP</span>
+            <span>{plan.base_xp} XP</span>
           </div>
           <div className="flex items-center gap-2 text-xs font-mono text-white/60">
             <span className={`text-xs font-bold ${getProbabilityBg(plan.ai_review.completion_probability)}`}>
