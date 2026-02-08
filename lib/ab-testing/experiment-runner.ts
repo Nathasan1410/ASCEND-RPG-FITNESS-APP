@@ -69,7 +69,12 @@ export class ExperimentRunner {
     }
     
     const startTime = Date.now();
-    const verdict = await evaluateQuestLog(input);
+    const verdict = await evaluateWorkoutAsAI({
+      plan: input.quest,
+      log: input.log,
+      user_class: input.user_class,
+      user_rank: input.user_rank,
+    });
     const evaluationTime = Date.now() - startTime;
     
     if (experimentId && actualVariantId) {
