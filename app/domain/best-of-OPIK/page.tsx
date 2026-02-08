@@ -96,15 +96,15 @@ export default function BestOfOpikPage() {
 
   const technicalIntegration = [
     {
-      phase: "Phase 1",
+      phase: "Phase 1 (Planned)",
       title: "Image Upload & Validation",
       description: "User uploads workout proof image → Opik AI validates image authenticity and checks for tampering",
       time: "< 500ms",
     },
     {
-      phase: "Phase 2",
+      phase: "Phase 2 (Planned)",
       title: "Pose Analysis",
-      description: "Opik AI analyzes body positioning, form correctness, and exercise completion using computer vision",
+      description: "Opik AI analyzes body positioning, form correctness, and exercise completion using computer vision (Clarifai & Replicate)",
       time: "< 1s",
     },
     {
@@ -134,34 +134,6 @@ export default function BestOfOpikPage() {
 
   return (
     <div className="min-h-screen bg-void-deep pb-20">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-void-deep/95 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-gradient-to-br from-system-cyan to-system-blue rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">A</span>
-                </div>
-                <span className="text-xl font-bold text-white">ASCEND</span>
-              </Link>
-              <span className="text-white/40">|</span>
-              <span className="text-white/60">Why Opik AI</span>
-            </div>
-            <nav className="hidden md:flex items-center space-x-6">
-              <Link href="/dashboard" className="text-white/60 hover:text-white transition-colors text-sm">
-                Dashboard
-              </Link>
-              <Link href="/help" className="text-white/60 hover:text-white transition-colors text-sm">
-                Help
-              </Link>
-              <Link href="/roadmap" className="text-white/60 hover:text-white transition-colors text-sm">
-                Roadmap
-              </Link>
-            </nav>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <motion.section
