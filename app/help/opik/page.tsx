@@ -1,6 +1,6 @@
 "use client";
 
-import { Eye, EyeOff, Shield, Zap, AlertTriangle, CheckCircle, XCircle, Lock, Database, Globe, Smartphone, Settings, FileText } from "lucide-react";
+import { Eye, EyeOff, Shield, Zap, AlertTriangle, CheckCircle, XCircle, Lock, Database, Globe, Smartphone, Settings, FileText, BarChart3, TrendingUp, Activity } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
 import { motion } from "framer-motion";
@@ -273,6 +273,13 @@ export default function OpikHelpPage() {
 
             <div className="space-y-4 text-sm text-white/70">
               <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <h3 className="font-bold text-white mb-2">Project Name</h3>
+                <p>
+                  All traces are sent to the <strong>"LevelUp Workout"</strong> project in Opik. This ensures proper separation from other projects and easy tracking.
+                </p>
+              </div>
+
+              <div className="bg-white/5 border border-white/10 rounded-xl p-4">
                 <h3 className="font-bold text-white mb-2">Data Encryption</h3>
                 <p>
                   All data sent to Opik is encrypted in transit using TLS 1.3. Stored data is encrypted at rest.
@@ -298,6 +305,55 @@ export default function OpikHelpPage() {
                 <p>
                   User IDs are anonymized before being sent to Opik. No personally identifiable information is included.
                 </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Analytics Dashboard */}
+          <section className="bg-gradient-to-br from-system-cyan/5 to-blue-600/5 border border-system-cyan/20 rounded-2xl p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <BarChart3 className="w-8 h-8 text-system-cyan" />
+              <h2 className="text-2xl font-bold text-white">
+                View Your AI Analytics
+              </h2>
+            </div>
+
+            <div className="space-y-4">
+              <p className="text-white/80">
+                Want to see how the AI Judge is evaluating your workouts? Check out the new AI Analytics Dashboard!
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FeatureCard
+                  icon={BarChart3}
+                  title="Score Distribution"
+                  description="See your grade breakdown across all completed quests"
+                />
+                <FeatureCard
+                  icon={TrendingUp}
+                  title="Performance Trends"
+                  description="Track your XP and scores over time"
+                />
+                <FeatureCard
+                  icon={Zap}
+                  title="Factor Analysis"
+                  description="Deep dive into Integrity, Effort, and Safety scores"
+                />
+                <FeatureCard
+                  icon={Activity}
+                  title="Recent Evaluations"
+                  description="View detailed breakdown of your latest quest evaluations"
+                />
+              </div>
+
+              <div className="pt-6">
+                <a
+                  href="/dashboard/analytics"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-system-cyan hover:bg-system-cyan/90 text-void-deep rounded-lg font-bold transition-all"
+                >
+                  Open AI Analytics Dashboard
+                  <BarChart3 className="w-4 h-4" />
+                </a>
               </div>
             </div>
           </section>
@@ -410,6 +466,16 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
     <div className="border-b border-white/10 pb-4 last:border-0 last:pb-0">
       <h4 className="font-bold text-white mb-2">{question}</h4>
       <p className="text-sm text-white/60">{answer}</p>
+    </div>
+  );
+}
+
+function FeatureCard({ icon: Icon, title, description }: { icon: any; title: string; description: string }) {
+  return (
+    <div className="bg-white/5 border border-white/10 rounded-xl p-4 hover:border-system-cyan/20 transition-all">
+      <Icon className="w-6 h-6 text-system-cyan mb-3" />
+      <h4 className="font-bold text-white mb-2">{title}</h4>
+      <p className="text-sm text-white/60">{description}</p>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { QuestLogInputSchema, type WorkoutPlan } from "@/types/schemas";
 import { evaluateQuestLog } from "@/lib/ai/judge";
 import { levelFromXp, rankFromLevel } from "@/lib/gamification/leveling";
 import { revalidatePath } from "next/cache";
+import { getOpikClient } from "@/lib/ai/opik";
 
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
@@ -131,12 +132,55 @@ export async function submitQuestLog(input: unknown) {
     has_proof: !!validated.proof_media_url,
   });
 
+  const evaluationStartTime = Date.now();
   const evaluation = await evaluateQuestLog({
     quest: quest.plan_json as WorkoutPlan,
     log: validated,
     user_class: profile.class || "Novice",
     user_rank: profile.rank_tier || "E-Rank",
   });
+  const evaluationTime = Date.now() - evaluationStartTime;
+
+  // Opik: Track evaluation metrics
+  try {
+    const opikClient = await getOpikClient();
+    const trace = opikClient.trace({
+      name: "quest_evaluation_complete",
+      input: {
+        quest_id: validated.quest_id,
+        user_rank: profile.rank_tier,
+        user_class: profile.class,
+        has_proof: !!validated.proof_media_url,
+        duration_actual: validated.duration_actual,
+        rpe_actual: validated.rpe_actual,
+      },
+    });
+
+    await trace.update({
+      output: {
+        status: evaluation.status,
+        integrity_score: evaluation.integrity_score,
+        effort_score: evaluation.effort_score,
+        safety_score: evaluation.safety_score,
+        overall_score: (evaluation.integrity_score + evaluation.effort_score + evaluation.safety_score) / 3,
+        xp_awarded: evaluation.final_xp,
+        xp_multiplier: evaluation.final_xp / (quest.plan_json as any).base_xp,
+        verification_status: evaluation.verification_status,
+        evaluation_time_ms: evaluationTime,
+        graded_at: new Date().toISOString(),
+      },
+      tags: [
+        evaluation.status,
+        profile.rank_tier,
+        profile.class,
+        (quest.plan_json as any).quest_type,
+      ],
+    });
+
+    await trace.end();
+  } catch (traceError) {
+    console.warn("Failed to trace evaluation:", traceError);
+  }
 
   console.log("Evaluation result:", {
     status: evaluation.status,

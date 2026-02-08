@@ -18,8 +18,11 @@ async function getOpikClient() {
     try {
       const { Opik } = await import("opik");
       if (Opik) {
-        opikClient = new Opik({ apiKey });
-        console.log("Opik client initialized successfully");
+        opikClient = new Opik({ 
+          apiKey,
+          projectName: "LevelUp Workout",
+        });
+        console.log("Opik client initialized successfully - Project: LevelUp Workout");
       } else {
         console.warn("Opik module loaded but Opik constructor not found");
       }

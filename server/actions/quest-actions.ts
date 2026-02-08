@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { generateWorkoutPlan } from "@/lib/ai/groq";
 import { revalidatePath } from "next/cache";
+import { getOpikClient } from "@/lib/ai/opik";
 
 interface GenerateQuestInput {
   time_window_min: number;
@@ -59,6 +60,8 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
   console.log("[QuestAction] Calling Groq Architect...");
   let plan;
   try {
+    const generationStartTime = Date.now();
+
     // Add a timeout race to prevent infinite hanging
     const timeoutPromise = new Promise((_, reject) => 
       setTimeout(() => reject(new Error("Groq Timeout")), 60000)
@@ -75,6 +78,48 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
       timeoutPromise
     ]) as any;
     
+    const generationTime = Date.now() - generationStartTime;
+
+    // Opik: Track quest generation
+    try {
+      const opikClient = await getOpikClient();
+      const trace = opikClient.trace({
+        name: "quest_generation_success",
+        input: {
+          user_id: user.id,
+          user_rank: profile.rank_tier,
+          user_class: profile.class,
+          time_window_min: input.time_window_min,
+          equipment_count: (profile.equipment || []).length,
+          muscle_soreness_count: input.muscle_soreness.length,
+        },
+      });
+
+      await trace.update({
+        output: {
+          quest_name: plan.quest_name,
+          quest_rank: plan.quest_rank,
+          quest_type: plan.quest_type,
+          exercise_count: plan.exercises.length,
+          xp_reward: plan.base_xp,
+          estimated_duration_min: plan.estimated_duration_min,
+          completion_probability: plan.ai_review?.completion_probability,
+          generation_time_ms: generationTime,
+        },
+        tags: [
+          "success",
+          profile.rank_tier,
+          profile.class,
+          plan.quest_rank,
+          plan.quest_type,
+        ],
+      });
+
+      await trace.end();
+    } catch (traceError) {
+      console.warn("[QuestAction] Failed to trace generation:", traceError);
+    }
+    
     console.log("[QuestAction] Plan generated successfully");
     console.log("[QuestAction] Raw plan data:", JSON.stringify(plan, null, 2));
   } catch (err: any) {
@@ -86,6 +131,36 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     // FALLBACK QUEST LOGIC - Use user's actual rank and class
     console.log("[QuestAction] Falling back to smart protocol due to:", err?.message || "Unknown error");
     console.log("[QuestAction] User rank:", profile.rank_tier, "| Class:", profile.class, "| Level:", profile.level);
+
+    // Opik: Track fallback
+    try {
+      const opikClient = await getOpikClient();
+      const trace = opikClient.trace({
+        name: "quest_generation_fallback",
+        input: {
+          user_id: user.id,
+          user_rank: profile.rank_tier,
+          user_class: profile.class,
+          error: err?.message || "Unknown error",
+        },
+      });
+
+      await trace.update({
+        output: {
+          quest_name: plan.quest_name,
+          quest_rank: plan.quest_rank,
+          quest_type: plan.quest_type,
+          exercise_count: plan.exercises.length,
+          xp_reward: plan.base_xp,
+          fallback_reason: err?.message || "Unknown error",
+        },
+        tags: ["fallback", profile.rank_tier, profile.class],
+      });
+
+      await trace.end();
+    } catch (traceError) {
+      console.warn("[QuestAction] Failed to trace fallback:", traceError);
+    }
     
     // Calculate appropriate difficulty based on user rank
     const rankMultiplier: Record<string, number> = {

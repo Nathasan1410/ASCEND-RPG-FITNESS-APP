@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   User, Settings, Trophy, Target, Star,
-  Flame, Zap, Crown, ChevronDown, ChevronUp, TrendingUp, CheckCircle
+  Flame, Zap, Crown, ChevronDown, ChevronUp, TrendingUp, CheckCircle, BarChart3
 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { motion, AnimatePresence } from "framer-motion";
@@ -155,6 +155,8 @@ function QuickActions({
     Trophy,
     Target,
     Star,
+    TrendingUp,
+    BarChart3,
   };
 
   return (
