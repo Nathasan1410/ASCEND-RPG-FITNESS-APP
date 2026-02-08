@@ -464,7 +464,7 @@ export default function MonetizationSystemPage() {
                 </div>
               </div>
 
-              <div className="mt-8 pt-6 border-t border-white/10">
+              <div className="mt-8 pt-6 border-t border-white/10 flex justify-end">
                 <Link
                   href="/roadmap/cost-planning"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-500/90 hover:to-red-500/90 text-white rounded-lg font-bold transition-all"
@@ -556,35 +556,6 @@ export default function MonetizationSystemPage() {
                   <p className="text-sm font-semibold text-white mt-1">{kpi.metric}</p>
                 </div>
               ))}
-            </div>
-          </section>
-
-          {/* Investment Ask */}
-          <section>
-            <div className="bg-gradient-to-r from-system-cyan/10 to-purple-500/10 border border-system-cyan/30 rounded-2xl p-8 text-center">
-              <h2 className="text-2xl font-bold text-white mb-4">
-                Investment Ask
-              </h2>
-              <p className="text-white/70 mb-6 max-w-2xl mx-auto">
-                Seed funding required to accelerate development and scale to 10K users within 12 months of launch. Allocation focused on AI infrastructure, video processing, and initial user acquisition campaigns.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-3xl mx-auto">
-                <div className="bg-white/5 rounded-xl p-4">
-                  <Clock className="w-8 h-8 text-system-cyan mx-auto mb-2" />
-                  <h4 className="font-bold text-white text-sm mb-1">Development</h4>
-                  <p className="text-xs text-white/60">4-month sprint to production</p>
-                </div>
-                <div className="bg-white/5 rounded-xl p-4">
-                  <TrendingUp className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-                  <h4 className="font-bold text-white text-sm mb-1">Scale</h4>
-                  <p className="text-xs text-white/60">10K users in 12 months</p>
-                </div>
-                <div className="bg-white/5 rounded-xl p-4">
-                  <LineChart className="w-8 h-8 text-green-400 mx-auto mb-2" />
-                  <h4 className="font-bold text-white text-sm mb-1">Revenue Target</h4>
-                  <p className="text-xs text-white/60">$1.35M ARR by Year 2</p>
-                </div>
-              </div>
             </div>
           </section>
 

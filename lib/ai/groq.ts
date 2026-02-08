@@ -117,11 +117,20 @@ Generate a quest now.
 
     console.log("[Groq] Parsed data before validation:", JSON.stringify(parsed, null, 2));
     
-    const validated = WorkoutPlanSchema.parse(parsed);
+     const validated = WorkoutPlanSchema.parse(parsed);
+    
+    // IMPORTANT: Disable proof requirements for Daily quests (Phase 2 fix)
+    // We're implementing without images/videos for now
+    if (validated.quest_type === "Daily") {
+      validated.requires_proof = false;
+      validated.proof_type = "None";
+      console.log("[Groq] Disabled proof requirement for Daily quest");
+    }
+    
     const generationTime = Date.now() - generationStartTime;
     
     console.log("[Groq] Validation successful!");
-
+    
     // Log success to Opik using helper function
     await sendTraceToOpik("architect_quest_generation_success", {
       startTime: generationStartTime,
@@ -131,6 +140,7 @@ Generate a quest now.
         time_window_min: input.time_window_min,
         equipment_count: input.equipment.length,
         muscle_soreness_count: input.muscle_soreness.length,
+        proof_disabled: validated.quest_type === "Daily",
       },
       output: {
         quest_name: validated.quest_name,
@@ -141,8 +151,18 @@ Generate a quest now.
         estimated_duration_min: validated.estimated_duration_min,
         completion_probability: validated.ai_review?.completion_probability,
         generation_time_ms: generationTime,
+        requires_proof: validated.requires_proof,
+        proof_type: validated.proof_type,
       },
-      tags: ["success", input.user_rank, input.user_class, validated.quest_type],
+      tags: [
+        "success",
+        "quest_generation",
+        "daily_quest",
+        "proof_disabled",
+        input.user_rank,
+        input.user_class,
+        validated.quest_type,
+      ],
     });
 
     return validated;

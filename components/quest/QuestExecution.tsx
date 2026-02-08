@@ -45,11 +45,12 @@ export function QuestExecution({ questId, plan }: QuestExecutionProps) {
   }, []);
 
   const handleSubmit = async (data: { rpe: number; feedback: string }) => {
+    // Phase 2 fix: Check if proof is required before validation
     if (plan.requires_proof && !proofUrl) {
       toast.error("Proof is required for this quest.");
       return;
     }
-
+    
     setIsSubmitting(true);
     
     const exercisesCompleted = plan.exercises.map(ex => ({
@@ -58,10 +59,11 @@ export function QuestExecution({ questId, plan }: QuestExecutionProps) {
       reps_done: String(ex.reps),
       skipped: !completedExercises.includes(ex.id),
     }));
-
+    
+    // Phase 2 fix: Handle proof_type properly when proof is not required
     const payload = {
       quest_id: questId,
-      duration_actual: Math.ceil(duration / 60) || 1,
+      duration_actual: Math.ceil(duration / 60) ||1,
       rpe_actual: data.rpe,
       user_feedback: data.feedback,
       exercises_completed: exercisesCompleted,
@@ -191,16 +193,16 @@ export function QuestExecution({ questId, plan }: QuestExecutionProps) {
         </div>
       </div>
 
-      <QuestTimer onDurationChange={setDuration} />
-
+      <QuestTimer onDurationChange={setDuration} /> 
       <div className="bg-system-panel/50 border border-white/10 rounded-xl p-4">
         <ExerciseChecklist 
           exercises={plan.exercises} 
           onUpdate={setCompletedExercises} 
         />
       </div>
-
-      {userId && (
+      
+      {/* Phase 2 fix: Only show ProofUpload if proof is required */}
+      {userId && plan.requires_proof && (
         <ProofUpload
           userId={userId}
           questId={questId}
@@ -209,7 +211,7 @@ export function QuestExecution({ questId, plan }: QuestExecutionProps) {
           required={plan.requires_proof}
         />
       )}
-
+      
       <CompletionForm onSubmit={handleSubmit} isSubmitting={isSubmitting} />
 
       <div className="flex justify-center pt-4">

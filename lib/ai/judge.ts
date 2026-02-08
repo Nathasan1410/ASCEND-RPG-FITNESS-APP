@@ -53,9 +53,9 @@ export async function evaluateQuestLog(input: JudgeInput): Promise<JudgeVerdict>
   }
 
   let cvAnalysis = null;
-
-  // Perform CV analysis if proof media is provided
-  if (input.log.proof_media_url && input.log.proof_type) {
+  
+  // Perform CV analysis if proof media is provided (Phase 2 fix: Skip CV when no proof)
+  if (input.log.proof_media_url && input.log.proof_type && typeof input.log.proof_media_url === 'string' && input.log.proof_media_url.length > 0) {
     console.log(`[Judge] Analyzing ${input.log.proof_type} proof:`, input.log.proof_media_url);
     
     try {
@@ -72,10 +72,13 @@ export async function evaluateQuestLog(input: JudgeInput): Promise<JudgeVerdict>
       const confidenceMsg = getCVConfidenceMessage(cvAnalysis.confidence);
 
       console.log("[Judge] Form Score:", formScore, "Safety Issues:", safetyIssues);
-    } catch (cvError) {
+    } catch (cvError: any) {
       console.error("[Judge] CV analysis failed:", cvError);
+      console.log("[Judge] Proceeding without CV analysis due to:", cvError.message);
       cvAnalysis = null;
     }
+  } else {
+    console.log("[Judge] No proof provided, skipping CV analysis (Phase 2 fix)");
   }
 
   const userMessage = `
