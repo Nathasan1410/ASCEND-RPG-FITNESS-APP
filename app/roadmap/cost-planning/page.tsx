@@ -1,3 +1,5 @@
+"use client";
+
 import { TrendingUp, Target, Shield, CheckCircle, AlertTriangle, BarChart3, DollarSign, ArrowRight, Users, Calendar, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
