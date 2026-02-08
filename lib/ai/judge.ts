@@ -199,7 +199,7 @@ Evaluate now.
 import { evaluateWorkout as localEvaluate } from "@/lib/gamification/xp-calculator";
 
 function getLocalVerdict(input: JudgeInput, cvAnalysis: any): JudgeVerdict {
-  // Reuse the local logic we wrote in Milestone 3
+  // Reuse local logic we wrote in Milestone 3
   const localResult = localEvaluate({
     plan: input.quest,
     log: input.log,
@@ -207,15 +207,17 @@ function getLocalVerdict(input: JudgeInput, cvAnalysis: any): JudgeVerdict {
     streakCurrent: 0, // We don't have streak here easily, defaulting
   });
 
-  // Build verdict
+  console.log("[Judge] Local evaluation result:", JSON.stringify(localResult, null, 2));
+
+  // Build verdict with all required fields
   const verdict: any = {
     status: localResult.status === "APPROVED" ? "APPROVED" : 
             localResult.status === "REJECTED" ? "REJECTED" : "FLAGGED",
     integrity_score: localResult.integrityScore,
     effort_score: localResult.effortScore,
     safety_score: localResult.safetyScore,
-    final_xp: localResult.finalXp,
-    system_message: localResult.message,
+    final_xp: localResult.finalXp || 0, // Default to 0 if undefined
+    system_message: localResult.message || "Evaluation completed",
     proof_required: false,
     proof_provided: false,
     verification_status: "Auto_Approved",
@@ -238,5 +240,14 @@ function getLocalVerdict(input: JudgeInput, cvAnalysis: any): JudgeVerdict {
     };
   }
 
-  return verdict;
+  // Validate verdict against schema before returning
+  try {
+    const validated = JudgeVerdictSchema.parse(verdict);
+    console.log("[Judge] Local verdict validated successfully");
+    return validated;
+  } catch (error) {
+    console.error("[Judge] Local verdict validation failed:", error);
+    console.error("[Judge] Verdict data:", JSON.stringify(verdict, null, 2));
+    throw error;
+  }
 }
