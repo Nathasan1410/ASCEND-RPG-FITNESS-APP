@@ -1,16 +1,22 @@
 import { WorkoutPlan } from "@/types/schemas";
 import { formatQuestDate } from "@/lib/utils/date-helpers";
 import { cn } from "@/lib/utils/cn";
-import { Camera, Clock, Trophy, AlertCircle } from "lucide-react";
+import { Camera, Clock, Trophy, AlertCircle, AlertTriangle } from "lucide-react";
+import { ReportButton } from "./ReportButton";
 
 type MatchHistoryEntry = {
   id: string;
+  user_id: string;
+  profiles?: {
+    username: string;
+  } | null;
   xp_awarded: number | null;
   duration_actual: number;
   integrity_score: number | null;
   proof_media_url: string | null;
   verification_status: string | null;
   completed_at: string | null;
+  report_count?: number;
   quests: {
     plan_json: unknown;
     rank_difficulty: string;
@@ -20,9 +26,11 @@ type MatchHistoryEntry = {
 interface MatchHistoryProps {
   logs: MatchHistoryEntry[];
   onLogClick?: (logId: string) => void;
+  isOwnProfile?: boolean;
+  currentUserId?: string;
 }
 
-export function MatchHistory({ logs, onLogClick }: MatchHistoryProps) {
+export function MatchHistory({ logs, onLogClick, isOwnProfile = false, currentUserId }: MatchHistoryProps) {
   if (logs.length === 0) {
     return (
       <div className="text-center py-8 border border-dashed border-white/20 rounded-xl">
@@ -37,17 +45,17 @@ export function MatchHistory({ logs, onLogClick }: MatchHistoryProps) {
         const plan = log.quests?.plan_json as WorkoutPlan;
         const integrity = (log.integrity_score || 0) * 100;
         const isVerified = log.verification_status === "Verified" || log.verification_status === "Auto_Approved";
-        
+
         return (
           <div
             key={log.id}
             onClick={() => onLogClick?.(log.id)}
             className={cn(
-              "bg-system-panel/50 border border-white/10 rounded-lg p-4 flex flex-col md:flex-row justify-between md:items-center gap-4 transition-all",
+              "bg-system-panel/50 border border-white/10 rounded-lg p-4 flex flex-col md:flex-row justify-between md:items-start gap-4 transition-all",
               onLogClick && "cursor-pointer hover:border-system-cyan/30 hover:bg-white/5"
             )}
           >
-            <div>
+            <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <span className={cn(
                   "text-[10px] font-mono uppercase px-1.5 py-0.5 rounded border",
@@ -56,6 +64,12 @@ export function MatchHistory({ logs, onLogClick }: MatchHistoryProps) {
                   {log.quests?.rank_difficulty}
                 </span>
                 <h4 className="font-bold text-white text-sm">{plan?.quest_name || "Unknown Protocol"}</h4>
+                {(log.report_count || 0) > 0 && (
+                  <div className="flex items-center gap-1 text-xs font-mono text-status-warning bg-status-warning/10 px-2 py-0.5 rounded border border-status-warning/20">
+                    <AlertTriangle className="w-3 h-3" />
+                    <span>{log.report_count} report{(log.report_count || 0) > 1 ? 's' : ''}</span>
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-4 text-xs text-white/40 font-mono">
                 <span>{formatQuestDate(log.completed_at || "")}</span>
@@ -75,7 +89,7 @@ export function MatchHistory({ logs, onLogClick }: MatchHistoryProps) {
               </div>
             </div>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6 md:ml-4">
               <div className="text-right">
                 <p className="text-[10px] text-white/40 font-mono uppercase">Integrity</p>
                 <p className={cn(
@@ -85,7 +99,7 @@ export function MatchHistory({ logs, onLogClick }: MatchHistoryProps) {
                   {integrity.toFixed(0)}%
                 </p>
               </div>
-              
+
               <div className="text-right min-w-[60px]">
                 <p className="text-[10px] text-white/40 font-mono uppercase">Reward</p>
                 <div className="flex items-center justify-end gap-1 text-system-cyan font-bold">
@@ -93,6 +107,14 @@ export function MatchHistory({ logs, onLogClick }: MatchHistoryProps) {
                   +{log.xp_awarded}
                 </div>
               </div>
+
+              {!isOwnProfile && currentUserId && (
+                <ReportButton
+                  targetUserId={log.user_id}
+                  targetLogId={log.id}
+                  targetUsername={log.profiles?.username || "Unknown"}
+                />
+              )}
             </div>
           </div>
         );

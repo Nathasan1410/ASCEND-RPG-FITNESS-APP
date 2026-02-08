@@ -72,6 +72,8 @@ export const QuestLogInputSchema = z.object({
   duration_actual: z.number().min(1),
   rpe_actual: z.number().min(1).max(10),
   user_feedback: z.string().optional(),
+  perceived_exertion: z.number().min(0).max(10).optional(),
+  anomalies_injuries: z.string().optional(),
   exercises_completed: z.array(
     z.object({
       exercise_id: z.string(),
@@ -85,6 +87,25 @@ export const QuestLogInputSchema = z.object({
   is_public: z.boolean().default(true),
 });
 export type QuestLogInput = z.infer<typeof QuestLogInputSchema>;
+
+// Human Feedback Schema
+export const HumanFeedbackSchema = z.object({
+  perceived_exertion: z.number().min(0).max(10),
+  anomalies_injuries: z.string(),
+  rpe_actual: z.number().min(1).max(10),
+});
+
+// Feedback Adjustment Schema
+export const FeedbackAdjustmentSchema = z.object({
+  integrity_adjustment: z.number().min(-0.5).max(0.5),
+  effort_adjustment: z.number().min(-0.5).max(0.5),
+  safety_adjustment: z.number().min(-0.5).max(0.5),
+  final_integrity: z.number().min(0).max(1),
+  final_effort: z.number().min(0).max(1),
+  final_safety: z.number().min(0).max(1),
+  adjustment_reasoning: z.string(),
+});
+export type FeedbackAdjustment = z.infer<typeof FeedbackAdjustmentSchema>;
 
 // Judge Verdict (Opik Output)
 export const JudgeVerdictSchema = z.object({
@@ -133,6 +154,21 @@ export const ReportSchema = z.object({
   description: z.string().max(500).optional(),
 });
 export type ReportInput = z.infer<typeof ReportSchema>;
+
+// Report Moderation Schema
+export const ReportModerationSchema = z.object({
+  credibility_score: z.number().min(0).max(1),
+  severity_score: z.number().min(0).max(1),
+  action: z.enum(["DISMISS", "WARNING", "PENALTY", "ESCALATE"]),
+  confidence: z.number().min(0).max(1),
+  reasoning: z.string(),
+  recommended_penalty: z.object({
+    xp_reduction: z.number().nullable(),
+    quest_status_change: z.string().nullable(),
+    hunter_status_change: z.string().nullable(),
+  }),
+});
+export type ReportModeration = z.infer<typeof ReportModerationSchema>;
 
 // A/B Testing Schemas
 export const ExperimentStatusSchema = z.enum(["draft", "running", "completed", "failed"]);

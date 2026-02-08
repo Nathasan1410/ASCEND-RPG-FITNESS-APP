@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import { getPublicProfile } from "@/server/actions/match-history-actions";
 import { getUserAchievements, getFriendPreviews } from "@/server/actions/profile-actions";
 import { StatusWindow } from "@/components/gamification/StatusWindow";
@@ -16,11 +16,13 @@ import { AchievementBadges } from "@/components/profile/AchievementBadges";
 import { FriendsPreview } from "@/components/profile/FriendsPreview";
 import { MatchHistoryFilters } from "@/components/profile/MatchHistoryFilters";
 import { LogAnalysisModal } from "@/components/profile/LogAnalysisModal";
+import { PublicReports } from "@/components/profile/PublicReports";
 import { Trophy, Users, Filter } from "lucide-react";
 import { HunterStatus } from "@/types/schemas";
 import { cn } from "@/lib/utils/cn";
 import { Edit3 } from "lucide-react";
 import { EditProfileModal } from "@/components/profile/EditProfileModal";
+import { createClient } from "@/lib/supabase/client";
 
 interface ProfileClientProps {
   initialData: {
@@ -49,6 +51,16 @@ export default function ProfileClient({
     startDate: "",
     endDate: "",
   });
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function getCurrentUser() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      setCurrentUserId(user?.id || null);
+    }
+    getCurrentUser();
+  }, []);
 
   const handleFilterChange = async (newFilters: typeof filters) => {
     setFilters(newFilters);
@@ -180,9 +192,21 @@ export default function ProfileClient({
             <p className="text-white/40 font-mono">Loading filtered results...</p>
           </div>
         ) : (
-          <MatchHistory logs={matchHistory} onLogClick={handleLogClick} />
+          <MatchHistory
+            logs={matchHistory}
+            onLogClick={handleLogClick}
+            isOwnProfile={isOwnProfile}
+            currentUserId={currentUserId || undefined}
+          />
         )}
       </div>
+
+      {/* Public Reports Section */}
+      {!isOwnProfile && (
+        <div className="bg-system-panel/50 border border-white/10 rounded-xl p-6">
+          <PublicReports targetUserId={initialData.profile.id} />
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* Left: Radar Chart */}

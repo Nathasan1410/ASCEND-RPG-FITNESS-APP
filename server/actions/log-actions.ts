@@ -6,6 +6,7 @@ import { QuestLogInputSchema, type WorkoutPlan } from "@/types/schemas";
 import { levelFromXp, rankFromLevel } from "@/lib/gamification/leveling";
 import { revalidatePath } from "next/cache";
 import { sendTraceToOpik, logErrorToOpik } from "@/lib/ai/opik-helper";
+import { analyzeHumanFeedback, calculateAdjustedXP } from "@/lib/ai/feedback-analyzer";
 
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
@@ -223,6 +224,49 @@ export async function submitQuestLog(input: unknown) {
       integrity: evaluation.integrity_score,
       time_ms: evaluationTime,
     });
+
+    // STEP 5.5: Analyze Human Feedback (if provided)
+    if (validated.perceived_exertion !== undefined || validated.anomalies_injuries) {
+      console.log("[QuestLog] Human feedback detected, analyzing...");
+      try {
+        const humanFeedbackAnalysis = await analyzeHumanFeedback({
+          aiScores: {
+            integrity: evaluation.integrity_score,
+            effort: evaluation.effort_score,
+            safety: evaluation.safety_score,
+          },
+          humanFeedback: {
+            perceived_exertion: validated.perceived_exertion || 5,
+            anomalies_injuries: validated.anomalies_injuries || "",
+            rpe_actual: validated.rpe_actual,
+          },
+        });
+
+        evaluation.integrity_score = humanFeedbackAnalysis.final_integrity;
+        evaluation.effort_score = humanFeedbackAnalysis.final_effort;
+        evaluation.safety_score = humanFeedbackAnalysis.final_safety;
+        evaluation.final_xp = calculateAdjustedXP(
+          plan.base_xp,
+          evaluation.integrity_score,
+          evaluation.effort_score,
+          evaluation.safety_score
+        );
+
+        console.log("[QuestLog] Human feedback adjustments applied:", {
+          integrity_adjustment: humanFeedbackAnalysis.integrity_adjustment,
+          effort_adjustment: humanFeedbackAnalysis.effort_adjustment,
+          safety_adjustment: humanFeedbackAnalysis.safety_adjustment,
+          final_xp: evaluation.final_xp,
+        });
+      } catch (feedbackError: any) {
+        console.error("[QuestLog] Human feedback analysis failed:", feedbackError);
+        await logErrorToOpik("human_feedback_analysis_failed", feedbackError, {
+          quest_id: validated.quest_id,
+          user_id: user.id,
+          perceived_exertion: validated.perceived_exertion,
+        });
+      }
+    }
     
     // Send trace to Opik
     await sendTraceToOpik("quest_evaluation_complete", {
@@ -297,7 +341,21 @@ export async function submitQuestLog(input: unknown) {
       verification_status: evaluation.verification_status,
       is_public: validated.is_public,
     };
-    
+
+    // Add human feedback fields if provided
+    if (validated.perceived_exertion !== undefined) {
+      logPayload.perceived_exertion = validated.perceived_exertion;
+    }
+    if (validated.anomalies_injuries !== undefined) {
+      logPayload.anomalies_injuries = validated.anomalies_injuries;
+    }
+    if (validated.perceived_exertion !== undefined || validated.anomalies_injuries !== undefined) {
+      logPayload.feedback_impact_calculated = true;
+      logPayload.human_integrity_score = evaluation.integrity_score;
+      logPayload.human_effort_score = evaluation.effort_score;
+      logPayload.human_safety_score = evaluation.safety_score;
+    }
+
     // Only add proof fields if they're valid
     if (validated.proof_media_url && typeof validated.proof_media_url === 'string') {
       logPayload.proof_media_url = validated.proof_media_url;
