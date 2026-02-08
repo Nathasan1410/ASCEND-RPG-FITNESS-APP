@@ -53,8 +53,8 @@ USER PROFILE:
   Provide a detailed analysis of this workout performance.
 `;
 
-  const client = await getOpikClient();
-  const trace = client.trace({
+  const client = getOpikClient();
+  const trace = client?.trace({
     name: "Log_Analysis_Generation",
     input: { logId: input.log.quest_id, user_rank: input.user_rank },
   });
@@ -76,11 +76,13 @@ USER PROFILE:
 
     const parsed = JSON.parse(content);
 
-    await trace.update({
-      output: parsed,
-      tags: ["analysis_success"],
-    });
-    await trace.end();
+    if (trace) {
+      trace.update({
+        output: parsed,
+        tags: ["analysis_success"],
+      });
+      trace.end();
+    }
 
     return {
       summary: parsed.summary || "",
@@ -92,10 +94,12 @@ USER PROFILE:
   } catch (error: any) {
     console.error("Log analysis failed:", error);
 
-    await trace.update({
-      tags: ["analysis_failure"],
-    });
-    await trace.end();
+    if (trace) {
+      trace.update({
+        tags: ["analysis_failure"],
+      });
+      trace.end();
+    }
 
     return getFallbackAnalysis(input);
   }

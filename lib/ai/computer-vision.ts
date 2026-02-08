@@ -1,4 +1,4 @@
-import { getOpikClient } from "./opik";
+// import { getOpikClient } from "./opik";
 
 /**
  * Computer Vision Integration
@@ -58,36 +58,37 @@ export async function analyzeWorkoutPhoto(imageUrl: string): Promise<FormAnalysi
       feedback: "Great form! Your technique looks solid. Keep focusing on controlled movements.",
     };
 
+    // TODO: Enable Opik tracing when CV is implemented
     // Send trace to Opik
-    await getOpikClient().then(async (client) => {
-      await client.trace({
-        name: "cv_photo_analysis",
-        input: {
-          image_url: imageUrl,
-        analysis_type: "form_evaluation",
-        cv_provider: "mock", // Change to actual provider
-        timestamp: new Date().toISOString(),
-        confidence_threshold: 0.7,
-        safety_checks: [
-          "posture",
-          "range_of_motion",
-          "weight_selection",
-        ],
-        metrics_to_track: [
-          "form_quality",
-          "technique_score",
-          "safety_issues",
-          "rep_count_estimate",
-        ],
-        },
-        output: mockAnalysis,
-        tags: ["cv", "photo_analysis", "form_evaluation"],
-        metadata: {
-          project: "LevelUp Workout",
-          environment: process.env.NODE_ENV || "development",
-        },
-      });
-    });
+    // await getOpikClient().then(async (client) => {
+    //   await client.trace({
+    //     name: "cv_photo_analysis",
+    //     input: {
+    //       image_url: imageUrl,
+    //     analysis_type: "form_evaluation",
+    //     cv_provider: "mock", // Change to actual provider
+    //     timestamp: new Date().toISOString(),
+    //     confidence_threshold: 0.7,
+    //     safety_checks: [
+    //       "posture",
+    //       "range_of_motion",
+    //       "weight_selection",
+    //     ],
+    //     metrics_to_track: [
+    //       "form_quality",
+    //       "technique_score",
+    //       "safety_issues",
+    //       "rep_count_estimate",
+    //     ],
+    //     },
+    //     output: mockAnalysis,
+    //     tags: ["cv", "photo_analysis", "form_evaluation"],
+    //     metadata: {
+    //       project: "LevelUp Workout",
+    //       environment: process.env.NODE_ENV || "development",
+    //     },
+    //   });
+    // });
 
     console.log("[CV] ✓ Photo analysis complete:", mockAnalysis);
     
@@ -144,31 +145,32 @@ export async function analyzeWorkoutVideo(videoUrl: string): Promise<VideoAnalys
       },
     };
 
+    // TODO: Enable Opik tracing when CV is implemented
     // Send trace to Opik
-    await getOpikClient().then(async (client) => {
-      await client.trace({
-        name: "cv_video_analysis",
-        input: {
-          video_url: videoUrl,
-          analysis_type: "form_evaluation",
-          cv_provider: "mock", // Change to actual provider
-          timestamp: new Date().toISOString(),
-          expected_duration: 30,
-          fps: 30, // Frames per second
-          pose_detection: true, // Enable pose estimation
-          rep_counting: true, // Enable rep counting
-          technique_analysis: true, // Enable technique analysis
-          safety_monitoring: true, // Enable safety checks
-        },
-        output: mockAnalysis,
-        tags: ["cv", "video_analysis", "form_evaluation", "pose_estimation"],
-        metadata: {
-          project: "LevelUp Workout",
-          environment: process.env.NODE_ENV || "development",
-          key_frames_count: mockAnalysis.timestamps.keyFrames.length,
-        },
-      });
-    });
+    // await getOpikClient().then(async (client) => {
+    //   await client.trace({
+    //     name: "cv_video_analysis",
+    //     input: {
+    //       video_url: videoUrl,
+    //       analysis_type: "form_evaluation",
+    //       cv_provider: "mock", // Change to actual provider
+    //       timestamp: new Date().toISOString(),
+    //       expected_duration: 30,
+    //       fps: 30, // Frames per second
+    //       pose_detection: true, // Enable pose estimation
+    //       rep_counting: true, // Enable rep counting
+    //       technique_analysis: true, // Enable technique analysis
+    //       safety_monitoring: true, // Enable safety checks
+    //     },
+    //     output: mockAnalysis,
+    //     tags: ["cv", "video_analysis", "form_evaluation", "pose_estimation"],
+    //     metadata: {
+    //       project: "LevelUp Workout",
+    //       environment: process.env.NODE_ENV || "development",
+    //       key_frames_count: mockAnalysis.timestamps.keyFrames.length,
+    //     },
+    //   });
+    // });
 
     console.log("[CV] ✓ Video analysis complete:", mockAnalysis);
     
