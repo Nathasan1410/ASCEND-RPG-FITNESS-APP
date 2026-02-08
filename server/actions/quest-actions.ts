@@ -39,7 +39,9 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   
-  const { data: existingQuest } = await supabase
+  console.log("[QuestAction] Checking for existing quest for user:", user.id);
+  
+  const { data: existingQuest, error: existingError } = await (supabase
     .from("quests")
     .select("*")
     .eq("user_id", user.id)
@@ -48,13 +50,20 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     .neq("status", "Failed") // Allow regenerating if previous failed
     .neq("status", "Skipped")
     .limit(1)
-    .single();
+    .maybeSingle() as any); // Use maybeSingle() instead of single() to avoid throwing when no data
 
-  if (existingQuest) {
+  if (existingError) {
+    console.error("[QuestAction] Error checking existing quest:", existingError);
+    // Continue to generate new quest if there's an error checking for existing one
+  }
+
+  if (existingQuest && (existingQuest as any).id) {
     const existing = existingQuest as any;
-    console.log("[QuestAction] Existing valid quest found:", existing.id);
+    console.log("[QuestAction] Existing valid quest found:", existing.id, existing.status);
     return existingQuest;
   }
+  
+  console.log("[QuestAction] No existing valid quest found, will generate new one");
 
   // Generate workout plan
   console.log("[QuestAction] Calling Groq Architect...");
@@ -118,34 +127,10 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     console.error("[QuestAction] Error message:", err?.message || "Unknown error");
     console.error("[QuestAction] Error stack:", err?.stack || "No stack trace");
     console.error("[QuestAction] Profile data:", JSON.stringify(profile, null, 2));
+    
     // FALLBACK QUEST LOGIC - Use user's actual rank and class
     console.log("[QuestAction] Falling back to smart protocol due to:", err?.message || "Unknown error");
     console.log("[QuestAction] User rank:", profile.rank_tier, "| Class:", profile.class, "| Level:", profile.level);
-
-    // Send fallback trace to Opik
-    await sendTraceToOpik("quest_generation_fallback", {
-      startTime: generationStartTime,
-      input: {
-        user_id: user.id,
-        user_rank: profile.rank_tier,
-        user_class: profile.class,
-        time_window_min: input.time_window_min,
-        error: err?.message || "Unknown error",
-      },
-      output: {
-        quest_name: plan.quest_name,
-        quest_rank: plan.quest_rank,
-        quest_type: plan.quest_type,
-        exercise_count: plan.exercises.length,
-        xp_reward: plan.base_xp,
-        fallback_reason: err?.message || "Unknown error",
-      },
-      tags: [
-        "fallback",
-        profile.rank_tier,
-        profile.class,
-      ],
-    });
     
     // Calculate appropriate difficulty based on user rank
     const rankMultiplier: Record<string, number> = {
@@ -158,10 +143,10 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     };
     
     const baseXP = rankMultiplier[profile.rank_tier] || 300;
-    const sets = profile.level >= 70 ? 5 : profile.level >= 40 ? 4 : 3;
+    const sets = profile.level >= 70 ?5 : profile.level >= 40 ?4 :3;
     const reps = profile.level >= 70 ? "15" : profile.level >= 40 ? "12" : "10";
     
-    plan = {
+    const fallbackPlan = {
       quest_name: `${profile.rank_tier} Recovery Protocol (Offline)`,
       quest_rank: profile.rank_tier,
       quest_type: "Daily",
@@ -179,7 +164,7 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
           sets,
           reps,
           rest_sec: 60,
-          rpe_target: profile.level >= 70 ? 7 : 6,
+          rpe_target: profile.level >= 70 ?7 : 6,
           target_muscle: "Chest",
           tips: `System offline. Maintain ${profile.rank_tier} form standards.`,
         },
@@ -190,7 +175,7 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
           sets,
           reps,
           rest_sec: 60,
-          rpe_target: profile.level >= 70 ? 7 : 6,
+          rpe_target: profile.level >= 70 ?7 : 6,
           target_muscle: "Legs",
           tips: "Knees over toes. Focus on depth.",
         },
@@ -201,17 +186,47 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
           sets,
           reps: profile.level >= 70 ? "45s" : profile.level >= 40 ? "35s" : "30s",
           rest_sec: 30,
-          rpe_target: profile.level >= 70 ? 6 : 5,
+          rpe_target: profile.level >= 70 ?6 :5,
           target_muscle: "Core",
           tips: "Straight line from head to heels.",
         },
       ],
       ai_review: {
         reasoning: `Emergency ${profile.rank_tier} protocol activated for ${profile.class} class. Adjusted intensity based on your level ${profile.level} capabilities to maintain training continuity during system instability.`,
-        completion_probability: profile.level >= 70 ? 75 : 85,
+        completion_probability: profile.level >= 70 ?75 : 85,
         key_factors: ["Emergency Protocol", profile.rank_tier, profile.class, "Adjusted Difficulty"]
       }
     };
+    
+    console.log("[QuestAction] Fallback plan created:", JSON.stringify(fallbackPlan, null, 2));
+    
+    // Send fallback trace to Opik
+    await sendTraceToOpik("quest_generation_fallback", {
+      startTime: generationStartTime,
+      input: {
+        user_id: user.id,
+        user_rank: profile.rank_tier,
+        user_class: profile.class,
+        time_window_min: input.time_window_min,
+        error: err?.message || "Unknown error",
+      },
+      output: {
+        quest_name: fallbackPlan.quest_name,
+        quest_rank: fallbackPlan.quest_rank,
+        quest_type: fallbackPlan.quest_type,
+        exercise_count: fallbackPlan.exercises.length,
+        xp_reward: fallbackPlan.base_xp,
+        fallback_reason: err?.message || "Unknown error",
+      },
+      tags: [
+        "fallback",
+        profile.rank_tier,
+        profile.class,
+      ],
+    });
+    
+    // Assign fallbackPlan to plan variable
+    plan = fallbackPlan;
   }
 
   // Save to database
@@ -219,28 +234,52 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
   expiresAt.setHours(23, 59, 59, 999); // Expires at midnight
 
   console.log("[QuestAction] Saving to DB...");
-  const { data: quest, error } = await (supabase.from("quests") as any)
-    .insert({
-      user_id: user.id,
-      quest_type: plan.quest_type,
-      rank_difficulty: plan.quest_rank,
-      plan_json: plan,
-      xp_potential: plan.base_xp,
-      status: "Active",
-      requires_proof: plan.requires_proof,
-      expires_at: expiresAt.toISOString(),
-    })
-    .select()
-    .single();
+  console.log("[QuestAction] Plan to save:", JSON.stringify({
+    quest_name: plan.quest_name,
+    quest_rank: plan.quest_rank,
+    quest_type: plan.quest_type,
+    base_xp: plan.base_xp,
+    exercises_count: plan.exercises?.length || 0,
+  }));
 
-  if (error) {
-    console.error("[QuestAction] DB Insert Failed:", error);
-    throw error;
+  try {
+    const { data: quest, error }: any = await (supabase.from("quests") as any)
+      .insert({
+        user_id: user.id,
+        quest_type: plan.quest_type,
+        rank_difficulty: plan.quest_rank,
+        plan_json: plan,
+        xp_potential: plan.base_xp,
+        status: "Active",
+        requires_proof: plan.requires_proof || false,
+        expires_at: expiresAt.toISOString(),
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error("[QuestAction] DB Insert Failed:", error);
+      console.error("[QuestAction] DB Error Details:", JSON.stringify(error, null, 2));
+      throw new Error(`Database error: ${error.message}`);
+    }
+
+    if (!quest) {
+      console.error("[QuestAction] DB Insert succeeded but returned no data");
+      throw new Error("Failed to create quest - no data returned from database");
+    }
+
+    console.log("[QuestAction] Success. Quest ID:", quest.id, "Quest Name:", quest.plan_json?.quest_name);
+    revalidatePath("/dashboard");
+    return quest;
+  } catch (dbError: any) {
+    console.error("[QuestAction] DB Insert Exception:", dbError);
+    console.error("[QuestAction] Exception details:", {
+      message: dbError?.message,
+      stack: dbError?.stack,
+      name: dbError?.name,
+    });
+    throw new Error(`Failed to create quest: ${dbError?.message || "Unknown error"}`);
   }
-
-  console.log("[QuestAction] Success. Quest ID:", quest.id);
-  revalidatePath("/dashboard");
-  return quest;
 }
 
 export async function getActiveQuest() {

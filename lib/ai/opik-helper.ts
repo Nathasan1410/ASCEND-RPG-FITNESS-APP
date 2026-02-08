@@ -15,9 +15,10 @@ export async function sendTraceToOpik(traceName: string, data: {
     const client = await getOpikClient();
     
     // Create trace with start time if provided
+    // IMPORTANT: startTime must be a Date object, not a timestamp number
     const trace = await client.trace({
       name: traceName,
-      startTime: data.startTime,
+      startTime: data.startTime ? new Date(data.startTime) : undefined,
       metadata: {
         project: "LevelUp Workout",
         environment: process.env.NODE_ENV || "development",
@@ -37,6 +38,7 @@ export async function sendTraceToOpik(traceName: string, data: {
     await trace.end();
 
     console.log(`[Opik] ✓ Successfully sent trace: ${traceName}`);
+    console.log(`[Opik] Trace ID: ${trace.data?.id || 'N/A'}`);
     
     return trace;
   } catch (error) {
@@ -66,9 +68,10 @@ export async function sendSpanToOpik(spanName: string, parentTrace: any, data: {
       return null;
     }
 
+    // IMPORTANT: startTime must be a Date object
     const span = await parentTrace.span({
       name: spanName,
-      startTime: Date.now(),
+      startTime: new Date(),
     });
 
     if (data.output || data.metadata) {
