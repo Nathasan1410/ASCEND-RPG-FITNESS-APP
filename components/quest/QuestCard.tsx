@@ -41,10 +41,12 @@ export function QuestCard({ quest }: QuestCardProps) {
       
       <div className="flex justify-between items-start mb-4 relative z-10">
         <div>
-          <RankBadge rank={quest.rank_difficulty} size="sm" />
-          <span className="text-xs font-mono text-system-cyan uppercase tracking-widest border border-system-cyan/30 px-2 py-0.5 rounded">
-            {plan.quest_type}
-          </span>
+          <div className="flex items-center gap-2 mb-1">
+            <RankBadge rank={quest.rank_difficulty} size="sm" />
+            <span className="text-xs font-mono text-system-cyan uppercase tracking-widest border border-system-cyan/30 px-2 py-0.5 rounded">
+              {plan.quest_type}
+            </span>
+          </div>
         </div>
         
         <h3 className="text-xl font-display font-bold text-white tracking-wide mt-2">
@@ -72,33 +74,42 @@ export function QuestCard({ quest }: QuestCardProps) {
           </div>
         </div>
         
-        <div className="mt-4 bg-void-panel/50 border border-system-cyan/20 rounded-xl p-4 relative overflow-hidden">
-          <div className="flex items-center gap-2 mb-3">
-            <BrainCircuit className="w-4 h-4 text-system-cyan" />
-            <span className="text-xs font-mono text-system-cyan uppercase tracking-widest border border-system-cyan/20 px-2 py-0.5 rounded">
-              OPIK AI ANALYSIS
-            </span>
-          </div>
-          
-          {plan.ai_review && (
-            <div className="space-y-3">
-              <p className="text-sm text-white/70 font-sans leading-relaxed mb-3">
-                {plan.ai_review.reasoning}
-              </p>
-              
-              <div className="flex flex-wrap gap-2">
-                {plan.ai_review.key_factors.map((factor, idx) => (
-                  <span
-                    key={idx}
-                    className="text-xs font-mono text-system-cyan bg-system-cyan/10 border border-system-cyan/20 px-2 py-0.5 rounded"
-                  >
-                    {factor}
-                  </span>
-                ))}
-              </div>
-            </div>
+        <div className="space-y-2">
+          {plan.exercises.slice(0, 3).map((ex) => (
+            <ExerciseItem key={ex.id} exercise={ex} />
+          ))}
+          {plan.exercises.length > 3 && (
+            <p className="text-xs text-center text-white/40 pt-1 font-mono">
+              + {plan.exercises.length - 3} more exercises
+            </p>
           )}
         </div>
+        
+        {plan.ai_review && (
+          <div className="mt-4 bg-void-panel/50 border border-system-cyan/20 rounded-xl p-4 relative overflow-hidden">
+            <div className="flex items-center gap-2 mb-3">
+              <BrainCircuit className="w-4 h-4 text-system-cyan" />
+              <span className="text-xs font-mono text-system-cyan uppercase tracking-widest border border-system-cyan/20 px-2 py-0.5 rounded">
+                OPIK AI ANALYSIS
+              </span>
+            </div>
+          </div>
+          <p className="text-sm text-white/70 font-sans leading-relaxed mb-3">
+            {plan.ai_review.reasoning}
+          </p>
+          
+          <div className="flex flex-wrap gap-2">
+            {plan.ai_review.key_factors.map((factor, idx) => (
+              <span
+                key={idx}
+                className="text-xs font-mono text-system-cyan bg-system-cyan/10 border border-system-cyan/20 px-2 py-0.5 rounded"
+              >
+                {factor}
+              </span>
+            ))}
+          </div>
+        </div>
+          )}
 
         {quest.status === "COMPLETED" && quest.xp_awarded !== undefined && (
           <div className="mt-4 bg-green-500/10 border-green-500/20 rounded-lg p-3 text-center">
@@ -146,15 +157,15 @@ export function QuestCard({ quest }: QuestCardProps) {
               </div>
             </div>
           </div>
-        )}
-
-        {quest.ai_feedback && (
-          <div className="mt-4 bg-system-cyan/5 border border-system-cyan/20 rounded-lg p-3">
-            <div className="flex items-center gap-2 mb-3">
-              <BrainCircuit className="w-4 h-4 text-system-cyan" />
-              <span className="text-xs font-mono text-system-cyan uppercase tracking-widest border border-system-cyan/20 px-2 py-0.5 rounded">
-                AI FEEDBACK
-              </span>
+          
+          {quest.ai_feedback && (
+            <div className="mt-4 bg-system-cyan/5 border border-system-cyan/20 rounded-lg p-3">
+              <div className="flex items-center gap-2 mb-3">
+                <BrainCircuit className="w-4 h-4 text-system-cyan" />
+                <span className="text-xs font-mono text-system-cyan uppercase tracking-widest border border-system-cyan/20 px-2 py-0.5 rounded">
+                  AI FEEDBACK
+                </span>
+              </div>
             </div>
             <p className="text-sm text-white/70 font-sans leading-relaxed">
               {quest.ai_feedback}
