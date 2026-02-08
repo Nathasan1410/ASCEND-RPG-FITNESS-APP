@@ -53,7 +53,7 @@ USER PROFILE:
   Provide a detailed analysis of this workout performance.
 `;
 
-  const client: any = await getOpikClient();
+  const client: any = getOpikClient();
   let trace: any = null;
   if (client && typeof client.trace === 'function') {
     trace = client.trace({

@@ -6,7 +6,7 @@ export async function sendTraceToOpik(traceName: string, data: {
   tags?: string[];
   startTime?: number;
 }) {
-  const client = await getOpikClient();
+  const client = getOpikClient();
   
   console.log(`[Opik] Trace: ${traceName}`, {
     input: data.input,
@@ -15,7 +15,7 @@ export async function sendTraceToOpik(traceName: string, data: {
     timestamp: new Date().toISOString(),
   });
 
-  if (!client || typeof client.trace !== 'function') {
+  if (!client) {
     console.log(`[Opik] Trace not sent: Opik client not available`);
     return null;
   }
@@ -28,11 +28,6 @@ export async function sendTraceToOpik(traceName: string, data: {
       tags: data.tags,
     });
     
-    if (data.startTime) {
-      trace.update({ startTime: data.startTime });
-    }
-    
-    trace.end();
     console.log(`[Opik] ✓ Trace sent: ${traceName}`);
     return trace;
   } catch (error: any) {
@@ -45,7 +40,7 @@ export async function sendSpanToOpik(spanName: string, parentTrace: any, data: {
   output?: any;
   input?: any;
 }) {
-  const client = await getOpikClient();
+  const client = getOpikClient();
   
   console.log(`[Opik] Span: ${spanName}`, data);
 
@@ -55,8 +50,8 @@ export async function sendSpanToOpik(spanName: string, parentTrace: any, data: {
   }
 
   try {
-    if (!parentTrace || typeof parentTrace.span !== 'function') {
-      console.log(`[Opik] Span not sent: No valid parent trace`);
+    if (!parentTrace) {
+      console.log(`[Opik] Span not sent: No parent trace`);
       return null;
     }
     
@@ -66,7 +61,6 @@ export async function sendSpanToOpik(spanName: string, parentTrace: any, data: {
       output: data.output,
     });
     
-    span.end();
     console.log(`[Opik] ✓ Span sent: ${spanName}`);
     return span;
   } catch (error: any) {
@@ -97,7 +91,7 @@ export function getOpikTags(data: any): string[] {
 }
 
 export async function sendMetricToOpik(metricName: string, value: number, metadata?: any) {
-  const client = await getOpikClient();
+  const client = getOpikClient();
   
   console.log(`[Opik] Metric: ${metricName} = ${value}`, metadata);
 
@@ -107,27 +101,25 @@ export async function sendMetricToOpik(metricName: string, value: number, metada
   }
 
   try {
-    if (typeof client.trace === 'function') {
-      const trace = client.trace({
-        name: `metric_${metricName}`,
-        input: { metricName, value, metadata },
-        output: { value },
-        tags: ['metric'],
-      });
-      trace.end();
-    }
+    const trace = client.trace({
+      name: `metric_${metricName}`,
+      input: { metricName, value, metadata },
+      output: { value },
+      tags: ['metric'],
+    });
+    console.log(`[Opik] ✓ Metric sent: ${metricName}`);
   } catch (error: any) {
     console.error(`[Opik] ✗ Failed to send metric ${metricName}:`, error.message);
   }
 }
 
 export async function logErrorToOpik(errorName: string, inputError: any, inputContext?: any) {
-  const client = await getOpikClient();
+  const client = getOpikClient();
   
   console.error(`[Opik] Error: ${errorName}`, {
-    message: (inputError as any)?.message || "Unknown error",
-    name: (inputError as any)?.name || "UnknownError",
-    stack: (inputError as any)?.stack || "No stack trace available",
+    message: inputError?.message || "Unknown error",
+    name: inputError?.name || "UnknownError",
+    stack: inputError?.stack || "No stack trace available",
     context: inputContext,
     timestamp: new Date().toISOString(),
   });
@@ -138,26 +130,24 @@ export async function logErrorToOpik(errorName: string, inputError: any, inputCo
   }
 
   try {
-    if (typeof client.trace === 'function') {
-      const trace = client.trace({
-        name: `error_${errorName}`,
-        input: {
-          errorName,
-          errorMessage: (inputError as any)?.message || "Unknown error",
-          errorStack: (inputError as any)?.stack || "No stack trace available",
-          context: inputContext,
-        },
-        tags: ['error', 'failure'],
-      });
-      trace.end();
-    }
+    const trace = client.trace({
+      name: `error_${errorName}`,
+      input: {
+        errorName,
+        errorMessage: inputError?.message || "Unknown error",
+        errorStack: inputError?.stack || "No stack trace available",
+        context: inputContext,
+      },
+      tags: ['error', 'failure'],
+    });
+    console.log(`[Opik] ✓ Error logged: ${errorName}`);
   } catch (error: any) {
     console.error(`[Opik] ✗ Failed to log error ${errorName}:`, error.message);
   }
 }
 
 export async function isOpikAvailable(): Promise<boolean> {
-  const client = await getOpikClient();
+  const client = getOpikClient();
   return client !== null;
 }
 
@@ -166,10 +156,10 @@ export async function getOpikStatus(): Promise<{
   projectName: string | null;
   apiKeyPresent: boolean;
 }> {
-  const client = await getOpikClient();
+  const client = getOpikClient();
   return {
     available: client !== null,
-    projectName: null,
+    projectName: client ? "ascend-fitness-rpg" : null,
     apiKeyPresent: !!process.env.OPIK_API_KEY,
   };
 }

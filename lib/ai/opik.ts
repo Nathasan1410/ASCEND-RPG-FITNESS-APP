@@ -1,48 +1,32 @@
-let opikClient: any = null;
-let initPromise: Promise<any> | null = null;
+// Opik SDK Client for AI Observability & Tracing
+// Based on AlterEgo's proven working implementation
 
-async function initializeOpikClient() {
-  if (initPromise) {
-    return initPromise;
-  }
+import { Opik } from "opik";
 
-  initPromise = (async () => {
-    try {
-      const apiKey = process.env.OPIK_API_KEY;
-      
-      if (!apiKey) {
-        console.warn("[Opik] OPIK_API_KEY not set, Opik disabled");
-        return null;
-      }
+// Singleton instance
+let opikInstance: Opik | null = null;
 
-      console.log("[Opik] Initializing Opik client with dynamic import...");
-      
-      const opikModule = await import("opik");
-      const { Opik } = opikModule;
-      
-      const client = new Opik({
-        apiKey: apiKey,
-      });
-
-      console.log("[Opik] ✓ Opik client initialized successfully");
-      return client;
-    } catch (error: any) {
-      console.error("[Opik] ✗ Failed to initialize Opik client:", error.message);
-      if (error.code === 'ERR_REQUIRE_ESM') {
-        console.error("[Opik] Module compatibility issue detected. Opik SDK requires ESM environment.");
-      }
+export function getOpikClient(): Opik | null {
+  if (!opikInstance) {
+    if (!process.env.OPIK_API_KEY) {
+      console.warn("[Opik] OPIK_API_KEY not set - Opik disabled");
       return null;
     }
-  })();
 
-  return initPromise;
+    console.log("[Opik] Initializing Opik client...");
+    opikInstance = new Opik({
+      apiKey: process.env.OPIK_API_KEY,
+      projectName: "ascend-fitness-rpg",
+    });
+    console.log("[Opik] ✓ Opik client initialized");
+  }
+  return opikInstance;
 }
 
-export async function getOpikClient() {
-  if (opikClient !== null) {
-    return opikClient;
+// Flush all pending traces
+export async function flushOpik(): Promise<void> {
+  if (opikInstance) {
+    await opikInstance.flush();
+    console.log("[Opik] ✓ Traces flushed");
   }
-  
-  opikClient = await initializeOpikClient();
-  return opikClient;
 }
