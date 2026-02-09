@@ -136,25 +136,10 @@ export const JudgeVerdictSchema = z.object({
 });
 export type JudgeVerdict = z.infer<typeof JudgeVerdictSchema>;
 
-// Quest Bypass Types
-export const QuestBypassReason = z.enum([
-  "Manual Override - Good Run",
-  "Manual Override - Verification Needed",
-  "Manual Override - Technical Issue",
-  "Manual Override - User Dispute",
-  "Manual Override - Special Circumstance",
-]);
-
-export const QuestBypassType = z.enum([
-  "judge_manual_override",
-  "admin_force_approve",
-  "emergency_override",
-]);
-
 export const QuestBypassInputSchema = z.object({
   quest_id: z.string().uuid(),
-  bypass_reason: z.enum(QuestBypassReason),
-  bypass_type: z.enum(QuestBypassType).default("judge_manual_override"),
+  bypass_reason: z.string().min(1).max(255),
+  bypass_type: z.string().default("judge_manual_override"),
   notes: z.string().optional(),
 });
 

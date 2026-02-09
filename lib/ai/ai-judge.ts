@@ -167,11 +167,12 @@ Return a JSON verdict:
 
     const verdict: JudgeVerdict = {
       status: finalStatus,
-      integrity_score,
-      effort_score,
-      safetyScore,
+      integrity_score: integrityScore,
+      effort_score: effortScore,
+      safety_score: safetyScore,
       final_xp: plan.base_xp * ((integrityScore + effortScore + safetyScore) / 3),
       message,
+      verification_status: "Auto_Approved",
       cheating_detected: cheatingStatus,
       cheating_reason: cheatingDetection.reason,
     } as any;
