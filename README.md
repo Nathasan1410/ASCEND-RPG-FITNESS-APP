@@ -2,6 +2,7 @@
 
 | Link | Description |
 |------|-------------|
+| [VIDEO INTRODUCTION & DEMO](https://youtu.be/berWi_a0w0s) | Watch the 3-minute demo video |
 | [LIVE DEMO](https://ascend-rpg-fitness.vercel.app/) | Live application demo |
 | [HOW DO WE USE OPIK AI](https://ascend-rpg-fitness.vercel.app/domain/best-of-OPIK) | Documentation on using OPIK AI |
 | [COST PLANNING](https://ascend-rpg-fitness.vercel.app/roadmap/cost-planning) | Cost planning and budget breakdown |
@@ -30,6 +31,16 @@ The only changes made after the last technical commit are related to documentati
 - Monetization system documentation
 
 These changes have been authorized for commit and push by the project team specifically for maintaining documentation accuracy and completeness.
+
+---
+
+## Video Introduction & Demo
+
+[![ASCEND: Fitness RPG - Demo Video](https://img.youtube.com/vi/berWi_a0w0s/0.jpg)](https://youtu.be/berWi_a0w0s)
+
+Watch the 3-minute introduction video to see ASCEND in action.
+
+---
 
 ---
 
