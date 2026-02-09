@@ -12,6 +12,10 @@ interface ReportButtonProps {
 }
 
 export function ReportButton({ targetUserId, targetLogId, targetUsername }: ReportButtonProps) {
+  if (!targetUserId) {
+    return null;
+  }
+
   const [isReporting, setIsReporting] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [reason, setReason] = useState("Suspicious_Pattern");
@@ -23,11 +27,16 @@ export function ReportButton({ targetUserId, targetLogId, targetUsername }: Repo
       return;
     }
 
+    if (!targetUserId) {
+      toast.error("Target user not found. Please refresh and try again.");
+      return;
+    }
+
     setIsReporting(true);
     try {
       await submitReport({
         target_user_id: targetUserId,
-        target_log_id: targetLogId,
+        target_log_id: targetLogId || undefined,
         reason: reason as any,
         description: description,
       });
@@ -44,7 +53,10 @@ export function ReportButton({ targetUserId, targetLogId, targetUsername }: Repo
   return (
     <>
       <button
-        onClick={() => setShowModal(true)}
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowModal(true);
+        }}
         className="text-status-danger/60 hover:text-status-danger transition-colors p-2 rounded hover:bg-status-danger/10"
         title="Report Suspicious Activity"
       >
