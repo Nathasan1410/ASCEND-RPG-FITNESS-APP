@@ -1,6 +1,6 @@
 import Groq from "groq-sdk";
 import { type FeedbackAdjustment } from "@/types/schemas";
-import { sendTraceToOpik, logFeedbackScores } from "./opik-helper";
+import { logFeedbackScores } from "./opik-helper";
 
 const apiKey = process.env.GROQ_API_KEY;
 
@@ -75,7 +75,7 @@ HUMAN FEEDBACK:
 
 Analyze this feedback and return adjustment values.
 Only return JSON. No other text.
-`;
+ `;
 
   try {
     const completion = await groq.chat.completions.create({
@@ -111,51 +111,10 @@ Only return JSON. No other text.
 
     console.log("[Feedback Analyzer] Human feedback analysis:", JSON.stringify(result, null, 2));
 
-    await sendTraceToOpik("human_feedback_analysis", {
-      startTime: analysisStartTime,
-      input: {
-        ai_integrity: input.aiScores.integrity,
-        ai_effort: input.aiScores.effort,
-        ai_safety: input.aiScores.safety,
-        perceived_exertion: input.humanFeedback.perceived_exertion,
-        rpe_actual: input.humanFeedback.rpe_actual,
-        has_anomalies: !!input.humanFeedback.anomalies_injuries,
-        anomalies_length: input.humanFeedback.anomalies_injuries?.length || 0,
-      },
-      output: {
-        integrity_adjustment: result.integrity_adjustment,
-        effort_adjustment: result.effort_adjustment,
-        safety_adjustment: result.safety_adjustment,
-        final_integrity: result.final_integrity,
-        final_effort: result.final_effort,
-        final_safety: result.final_safety,
-        reasoning: result.adjustment_reasoning,
-      },
-      tags: [
-        "human_feedback",
-        "feedback_analysis",
-        result.integrity_adjustment > 0 ? "integrity_boost" : result.integrity_adjustment < 0 ? "integrity_penalty" : "integrity_neutral",
-        result.safety_adjustment < 0 ? "safety_concern" : "safety_ok",
-      ],
-    });
-
     return result;
 
   } catch (error: any) {
     console.error("[Feedback Analyzer] Analysis failed:", error);
-
-    await sendTraceToOpik("feedback_analysis_error", {
-      startTime: analysisStartTime,
-      input: {
-        error: error?.message,
-        perceived_exertion: input.humanFeedback.perceived_exertion,
-      },
-      output: {
-        status: "ERROR",
-        message: "Human feedback analysis failed",
-      },
-      tags: ["error", "feedback_analysis_failed"],
-    });
 
     return {
       integrity_adjustment: 0,
@@ -167,16 +126,6 @@ Only return JSON. No other text.
       adjustment_reasoning: `Analysis failed: ${error?.message || "Unknown error"}`,
     };
   }
-}
-
-export function calculateAdjustedXP(
-  baseXP: number,
-  integrity: number,
-  effort: number,
-  safety: number
-): number {
-  const avgScore = (integrity + effort + safety) / 3;
-  return Math.floor(baseXP * avgScore);
 }
 
 export async function logHumanFeedbackScores(
@@ -225,4 +174,14 @@ export async function logHumanFeedbackScores(
   } catch (error) {
     console.error("[Feedback Analyzer] Failed to log feedback scores:", error);
   }
+}
+
+export function calculateAdjustedXP(
+  baseXP: number,
+  integrity: number,
+  effort: number,
+  safety: number
+): number {
+  const avgScore = (integrity + effort + safety) / 3;
+  return Math.floor(baseXP * avgScore);
 }

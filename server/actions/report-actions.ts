@@ -72,7 +72,7 @@ export async function submitReport(input: unknown) {
 
   if (moderation.confidence > 0.8 && moderation.action !== "DISMISS") {
     const penalty = moderation.recommended_penalty;
-    if (penalty.xp_reduction || penalty.hunter_status_change) {
+    if (penalty && (penalty.xp_reduction || penalty.hunter_status_change)) {
       const updateData: any = {};
 
       if (penalty.xp_reduction) {

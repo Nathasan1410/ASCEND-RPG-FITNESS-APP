@@ -40,7 +40,7 @@ Actions:
 - PENALTY: High credibility + high severity, apply immediate XP reduction
 - ESCALATE: High severity but uncertain, requires human admin review
 
-Return JSON:
+ Return JSON:
 {
   "credibility_score": 0.0-1.0,
   "severity_score": 0.0-1.0,
@@ -52,7 +52,9 @@ Return JSON:
     "quest_status_change": null or "Failed",
     "hunter_status_change": null or "Flagged" or "Corrupted"
   }
-}`;
+}
+
+CRITICAL: Always return a complete recommended_penalty object. If no penalty is needed, set xp_reduction to null, quest_status_change to null, and hunter_status_change to null. Never return recommended_penalty as null or undefined.`;
 
 interface ReportModerationInput {
   reportId: string;
