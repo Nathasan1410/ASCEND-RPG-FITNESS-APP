@@ -363,15 +363,17 @@ Final XP = Base XP × Integrity × Effort × Safety × Class Synergy × Streak B
 | Report System | ✅ |
 | Mobile Navigation | ✅ |
 | Settings Page | ✅ |
+| Quest History Page | ✅ |
+| Friends System | ✅ |
 
 ### ⚠️ In Progress / TODO
 
 | Feature | Priority | Notes |
 |---------|----------|-------|
-| Social Feed | P1 | Code exists, navigation blocked |
-| Friends System | P1 | Database ready, UI needed |
-| Quest History Page | P1 | Navigation blocked |
-| Computer Vision Integration | P2 | Mock implementation ready |
+| Social Feed | P1 | UI exists with demo data, real-time posting pending |
+| Friends System | P2 | Fully functional - search, add, remove friends implemented |
+| Quest History Page | ✅ | **Complete** - `/dashboard/quests` with full history + AI judge system |
+| Computer Vision Integration | P2 | Mock implementation ready, awaiting real CV API integration |
 | Guilds/Clans | P2 | Not implemented |
 | Achievements | P2 | Database seeded, UI needed |
 | Weekly Challenges | P2 | Not implemented |
