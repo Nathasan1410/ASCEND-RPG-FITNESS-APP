@@ -131,6 +131,8 @@ export const JudgeVerdictSchema = z.object({
     confidence: z.number().min(0).max(1),
     confidence_message: z.string(),
   }).optional(),
+  cheating_detected: z.boolean().default(false),
+  cheating_reason: z.string().nullable().default(null),
 });
 export type JudgeVerdict = z.infer<typeof JudgeVerdictSchema>;
 
