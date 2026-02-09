@@ -97,7 +97,7 @@ export class ExperimentRunner {
     }
     
     const verdict: JudgeVerdict = {
-      status: aiVerdict.status === "FLAGGED" ? "FLAGGED" as const : aiVerdict.status,
+      status: aiVerdict.status,
       integrity_score: aiVerdict.integrity_score,
       effort_score: aiVerdict.effort_score,
       safety_score: aiVerdict.safety_score,
@@ -111,6 +111,8 @@ export class ExperimentRunner {
         agility_add: 0,
         stamina_add: 0,
       },
+      cheating_detected: false,
+      cheating_reason: null,
     };
     
     return verdict;

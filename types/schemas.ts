@@ -109,7 +109,7 @@ export type FeedbackAdjustment = z.infer<typeof FeedbackAdjustmentSchema>;
 
 // Judge Verdict (Opik Output)
 export const JudgeVerdictSchema = z.object({
-  status: z.enum(["APPROVED", "REJECTED", "FLAGGED", "PENDING_VERIFICATION"]),
+  status: z.enum(["APPROVED", "REJECTED", "FLAGGED", "PENDING_VERIFICATION", "QUEST_BYPASSED"]),
   integrity_score: z.number().min(0).max(1),
   effort_score: z.number().min(0).max(1),
   safety_score: z.number().min(0).max(1),
@@ -135,6 +135,30 @@ export const JudgeVerdictSchema = z.object({
   cheating_reason: z.string().nullable().default(null),
 });
 export type JudgeVerdict = z.infer<typeof JudgeVerdictSchema>;
+
+// Quest Bypass Types
+export const QuestBypassReason = z.enum([
+  "Manual Override - Good Run",
+  "Manual Override - Verification Needed",
+  "Manual Override - Technical Issue",
+  "Manual Override - User Dispute",
+  "Manual Override - Special Circumstance",
+]);
+
+export const QuestBypassType = z.enum([
+  "judge_manual_override",
+  "admin_force_approve",
+  "emergency_override",
+]);
+
+export const QuestBypassInputSchema = z.object({
+  quest_id: z.string().uuid(),
+  bypass_reason: z.enum(QuestBypassReason),
+  bypass_type: z.enum(QuestBypassType).default("judge_manual_override"),
+  notes: z.string().optional(),
+});
+
+export type QuestBypassInput = z.infer<typeof QuestBypassInputSchema>;
 
 // Onboarding Form
 export const OnboardingSchema = z.object({
