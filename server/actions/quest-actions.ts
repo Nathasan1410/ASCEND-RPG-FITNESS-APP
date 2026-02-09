@@ -121,9 +121,9 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
     
     // Send trace to Opik with comprehensive error tracking
     let traceId: string | null = null;
-    
+
     try {
-      traceId = await sendTraceToOpik("quest_generation_success", {
+      const traceResult = await sendTraceToOpik("quest_generation_success", {
         startTime: generationStartTime,
         input: {
           user_id: user.id,
@@ -177,21 +177,23 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
           runningExperimentId ? `experiment_${runningExperimentId}` : undefined,
         ],
       });
-      
+
+      traceId = traceResult.traceId;
+
       console.log("[QuestAction] Trace sent successfully");
       console.log(`[QuestAction] ✓ Trace ID: ${traceId || 'N/A'}`);
       console.log(`[QuestAction] Trace creation and sending completed`);
-      
+
     } catch (traceError) {
       const error = traceError as Error;
       console.error("[QuestAction] Failed to send trace to Opik:", traceError);
       console.error("[QuestAction] Error name:", error?.name || "Unknown error");
       console.error("[QuestAction] Error message:", error?.message || "Unknown error");
       console.error("[QuestAction] Error stack:", error?.stack || "No stack trace");
-      
+
       // Attempt to log the trace failure to Opik
       try {
-        await sendTraceToOpik("quest_generation_trace_error", {
+        const errorTraceResult = await sendTraceToOpik("quest_generation_trace_error", {
           startTime: generationStartTime,
           input: {
             user_id: user.id,

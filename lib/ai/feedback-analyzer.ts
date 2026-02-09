@@ -1,6 +1,6 @@
 import Groq from "groq-sdk";
 import { type FeedbackAdjustment } from "@/types/schemas";
-import { sendTraceToOpik } from "./opik-helper";
+import { sendTraceToOpik, logFeedbackScores } from "./opik-helper";
 
 const apiKey = process.env.GROQ_API_KEY;
 
@@ -177,4 +177,52 @@ export function calculateAdjustedXP(
 ): number {
   const avgScore = (integrity + effort + safety) / 3;
   return Math.floor(baseXP * avgScore);
+}
+
+export async function logHumanFeedbackScores(
+  traceId: string | null,
+  adjustments: FeedbackAdjustment
+): Promise<void> {
+  if (!traceId) {
+    console.log("[Feedback Analyzer] No trace ID available, skipping feedback score logging");
+    return;
+  }
+
+  try {
+    await logFeedbackScores(traceId, [
+      {
+        name: "human_integrity_adjustment",
+        value: adjustments.integrity_adjustment,
+        reason: adjustments.adjustment_reasoning,
+      },
+      {
+        name: "human_effort_adjustment",
+        value: adjustments.effort_adjustment,
+        reason: adjustments.adjustment_reasoning,
+      },
+      {
+        name: "human_safety_adjustment",
+        value: adjustments.safety_adjustment,
+        reason: adjustments.adjustment_reasoning,
+      },
+      {
+        name: "final_integrity_score",
+        value: adjustments.final_integrity,
+        reason: "Final score after human feedback",
+      },
+      {
+        name: "final_effort_score",
+        value: adjustments.final_effort,
+        reason: "Final score after human feedback",
+      },
+      {
+        name: "final_safety_score",
+        value: adjustments.final_safety,
+        reason: "Final score after human feedback",
+      },
+    ]);
+    console.log("[Feedback Analyzer] ✓ Feedback scores logged to Opik");
+  } catch (error) {
+    console.error("[Feedback Analyzer] Failed to log feedback scores:", error);
+  }
 }

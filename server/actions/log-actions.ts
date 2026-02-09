@@ -6,7 +6,7 @@ import { QuestLogInputSchema, type WorkoutPlan } from "@/types/schemas";
 import { levelFromXp, rankFromLevel } from "@/lib/gamification/leveling";
 import { revalidatePath } from "next/cache";
 import { sendTraceToOpik, logErrorToOpik } from "@/lib/ai/opik-helper";
-import { analyzeHumanFeedback, calculateAdjustedXP } from "@/lib/ai/feedback-analyzer";
+import { analyzeHumanFeedback, calculateAdjustedXP, logHumanFeedbackScores } from "@/lib/ai/feedback-analyzer";
 
 function getErrorMessage(error: unknown): string {
   if (error instanceof Error) {
@@ -226,10 +226,11 @@ export async function submitQuestLog(input: unknown) {
     });
 
     // STEP 5.5: Analyze Human Feedback (if provided)
+    let humanFeedbackAnalysisResult: any = null;
     if (validated.perceived_exertion !== undefined || validated.anomalies_injuries) {
       console.log("[QuestLog] Human feedback detected, analyzing...");
       try {
-        const humanFeedbackAnalysis = await analyzeHumanFeedback({
+        humanFeedbackAnalysisResult = await analyzeHumanFeedback({
           aiScores: {
             integrity: evaluation.integrity_score,
             effort: evaluation.effort_score,
@@ -242,9 +243,9 @@ export async function submitQuestLog(input: unknown) {
           },
         });
 
-        evaluation.integrity_score = humanFeedbackAnalysis.final_integrity;
-        evaluation.effort_score = humanFeedbackAnalysis.final_effort;
-        evaluation.safety_score = humanFeedbackAnalysis.final_safety;
+        evaluation.integrity_score = humanFeedbackAnalysisResult.final_integrity;
+        evaluation.effort_score = humanFeedbackAnalysisResult.final_effort;
+        evaluation.safety_score = humanFeedbackAnalysisResult.final_safety;
         evaluation.final_xp = calculateAdjustedXP(
           plan.base_xp,
           evaluation.integrity_score,
@@ -253,9 +254,9 @@ export async function submitQuestLog(input: unknown) {
         );
 
         console.log("[QuestLog] Human feedback adjustments applied:", {
-          integrity_adjustment: humanFeedbackAnalysis.integrity_adjustment,
-          effort_adjustment: humanFeedbackAnalysis.effort_adjustment,
-          safety_adjustment: humanFeedbackAnalysis.safety_adjustment,
+          integrity_adjustment: humanFeedbackAnalysisResult.integrity_adjustment,
+          effort_adjustment: humanFeedbackAnalysisResult.effort_adjustment,
+          safety_adjustment: humanFeedbackAnalysisResult.safety_adjustment,
           final_xp: evaluation.final_xp,
         });
       } catch (feedbackError: any) {
@@ -270,6 +271,7 @@ export async function submitQuestLog(input: unknown) {
 
     // Track human feedback impact
     let humanFeedbackData: any = null;
+    let traceId: string | null = null;
     if (validated.perceived_exertion !== undefined || validated.anomalies_injuries !== undefined) {
       humanFeedbackData = {
         perceived_exertion: validated.perceived_exertion,
@@ -278,9 +280,8 @@ export async function submitQuestLog(input: unknown) {
       };
     }
 
-    
     // Send trace to Opik
-    await sendTraceToOpik("quest_evaluation_complete", {
+    const traceResult = await sendTraceToOpik("quest_evaluation_complete", {
       startTime: evaluationStartTime,
       input: {
         quest_id: validated.quest_id,
@@ -325,6 +326,17 @@ export async function submitQuestLog(input: unknown) {
         humanFeedbackData ? "human_feedback_submitted" : undefined,
       ].filter(Boolean),
     });
+
+    traceId = traceResult.traceId;
+
+    // Log feedback scores to Opik trace if human feedback was analyzed
+    if (humanFeedbackAnalysisResult) {
+      try {
+        await logHumanFeedbackScores(traceId, humanFeedbackAnalysisResult);
+      } catch (error) {
+        console.error("[QuestLog] Failed to log feedback scores to Opik:", error);
+      }
+    }
   } catch (error: any) {
     console.error("[QuestLog] Evaluation failed:", error);
     await logErrorToOpik("quest_log_evaluation_failed", error, {

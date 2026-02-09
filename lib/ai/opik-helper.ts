@@ -5,7 +5,7 @@ export async function sendTraceToOpik(traceName: string, data: {
   output?: any;
   tags?: string[];
   startTime?: number;
-}): Promise<string | null> {
+}): Promise<{ traceId: string | null; trace: any | null }> {
   const client = getOpikClient();
   
   const filteredTags = (data.tags || []).filter((tag): tag is string => tag !== undefined && tag !== null);
@@ -19,7 +19,7 @@ export async function sendTraceToOpik(traceName: string, data: {
 
   if (!client) {
     console.log(`[Opik] Trace not sent: Opik client not available`);
-    return null;
+    return { traceId: null, trace: null };
   }
 
   try {
@@ -31,10 +31,10 @@ export async function sendTraceToOpik(traceName: string, data: {
     });
     
     console.log(`[Opik] ✓ Trace sent: ${traceName}`);
-    return (trace as any).id || null;
+    return { traceId: (trace as any).id || null, trace: trace };
   } catch (error: any) {
     console.error(`[Opik] ✗ Failed to send trace ${traceName}:`, error.message);
-    return null;
+    return { traceId: null, trace: null };
   }
 }
 
@@ -151,6 +151,37 @@ export async function logErrorToOpik(errorName: string, inputError: any, inputCo
 export async function isOpikAvailable(): Promise<boolean> {
   const client = getOpikClient();
   return client !== null;
+}
+
+export async function logFeedbackScores(traceId: string, scores: Array<{
+  name: string;
+  value: number;
+  reason?: string;
+}>): Promise<boolean> {
+  const client = getOpikClient();
+  
+  console.log(`[Opik] Feedback scores for trace ${traceId}:`, scores);
+
+  if (!client) {
+    console.log(`[Opik] Feedback scores not sent: Opik client not available`);
+    return false;
+  }
+
+  try {
+    client.logTracesFeedbackScores(scores.map(score => ({
+      id: traceId,
+      name: score.name,
+      value: score.value,
+      reason: score.reason || undefined,
+    })));
+    
+    await client.flush();
+    console.log(`[Opik] ✓ Feedback scores sent for trace ${traceId}`);
+    return true;
+  } catch (error: any) {
+    console.error(`[Opik] ✗ Failed to log feedback scores for trace ${traceId}:`, error.message);
+    return false;
+  }
 }
 
 export async function getOpikStatus(): Promise<{
