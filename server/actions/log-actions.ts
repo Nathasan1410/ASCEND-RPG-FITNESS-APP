@@ -225,12 +225,19 @@ export async function submitQuestLog(input: unknown) {
       time_ms: evaluationTime,
     });
 
+    // Track human feedback data
+    const humanFeedbackData = (validated.perceived_exertion !== undefined || validated.anomalies_injuries) ? {
+      perceived_exertion: validated.perceived_exertion,
+      anomalies_injuries: validated.anomalies_injuries,
+      had_human_feedback: true,
+    } : null;
+
     // STEP 5.5: Analyze Human Feedback (if provided)
-    let humanFeedbackAnalysisResult: any = null;
-    if (validated.perceived_exertion !== undefined || validated.anomalies_injuries) {
+    let humanFeedbackAnalysis = null;
+    if (humanFeedbackData) {
       console.log("[QuestLog] Human feedback detected, analyzing...");
       try {
-        humanFeedbackAnalysisResult = await analyzeHumanFeedback({
+        humanFeedbackAnalysis = await analyzeHumanFeedback({
           aiScores: {
             integrity: evaluation.integrity_score,
             effort: evaluation.effort_score,
@@ -243,9 +250,9 @@ export async function submitQuestLog(input: unknown) {
           },
         });
 
-        evaluation.integrity_score = humanFeedbackAnalysisResult.final_integrity;
-        evaluation.effort_score = humanFeedbackAnalysisResult.final_effort;
-        evaluation.safety_score = humanFeedbackAnalysisResult.final_safety;
+        evaluation.integrity_score = humanFeedbackAnalysis.final_integrity;
+        evaluation.effort_score = humanFeedbackAnalysis.final_effort;
+        evaluation.safety_score = humanFeedbackAnalysis.final_safety;
         evaluation.final_xp = calculateAdjustedXP(
           plan.base_xp,
           evaluation.integrity_score,
@@ -254,9 +261,9 @@ export async function submitQuestLog(input: unknown) {
         );
 
         console.log("[QuestLog] Human feedback adjustments applied:", {
-          integrity_adjustment: humanFeedbackAnalysisResult.integrity_adjustment,
-          effort_adjustment: humanFeedbackAnalysisResult.effort_adjustment,
-          safety_adjustment: humanFeedbackAnalysisResult.safety_adjustment,
+          integrity_adjustment: humanFeedbackAnalysis.integrity_adjustment,
+          effort_adjustment: humanFeedbackAnalysis.effort_adjustment,
+          safety_adjustment: humanFeedbackAnalysis.safety_adjustment,
           final_xp: evaluation.final_xp,
         });
       } catch (feedbackError: any) {
@@ -267,17 +274,6 @@ export async function submitQuestLog(input: unknown) {
           perceived_exertion: validated.perceived_exertion,
         });
       }
-    }
-
-    // Track human feedback impact
-    let humanFeedbackData: any = null;
-    let traceId: string | null = null;
-    if (validated.perceived_exertion !== undefined || validated.anomalies_injuries !== undefined) {
-      humanFeedbackData = {
-        perceived_exertion: validated.perceived_exertion,
-        anomalies_injuries: validated.anomalies_injuries,
-        had_human_feedback: true,
-      };
     }
 
     // Send trace to Opik
@@ -313,7 +309,7 @@ export async function submitQuestLog(input: unknown) {
         ai_final_xp: evaluation.final_xp || 0,
         ai_feedback: evaluation.message || "",
         had_human_feedback: !!humanFeedbackData,
-        human_impact_applied: !!humanFeedbackData,
+        human_impact_applied: !!humanFeedbackAnalysis,
       },
       tags: [
         "success",
@@ -327,12 +323,21 @@ export async function submitQuestLog(input: unknown) {
       ].filter(Boolean),
     });
 
-    traceId = traceResult.traceId;
+    const traceId = traceResult.traceId;
 
     // Log feedback scores to Opik trace if human feedback was analyzed
-    if (humanFeedbackAnalysisResult) {
+    if (humanFeedbackAnalysis) {
       try {
-        await logHumanFeedbackScores(traceId, humanFeedbackAnalysisResult);
+        await logHumanFeedbackScores(traceId, humanFeedbackAnalysis);
+      } catch (error) {
+        console.error("[QuestLog] Failed to log feedback scores to Opik:", error);
+      }
+    }
+
+    // Log feedback scores to Opik trace if human feedback was analyzed
+    if (humanFeedbackAnalysis) {
+      try {
+        await logHumanFeedbackScores(traceId, humanFeedbackAnalysis);
       } catch (error) {
         console.error("[QuestLog] Failed to log feedback scores to Opik:", error);
       }
