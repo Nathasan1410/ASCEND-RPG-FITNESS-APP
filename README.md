@@ -1,0 +1,448 @@
+## Important Links
+
+| Link | Description |
+|------|-------------|
+| [LIVE DEMO](https://ascend-rpg-fitness.vercel.app/) | Live application demo |
+| [HOW DO WE USE OPIK AI](https://ascend-rpg-fitness.vercel.app/domain/best-of-OPIK) | Documentation on using OPIK AI |
+| [COST PLANNING](https://ascend-rpg-fitness.vercel.app/roadmap/cost-planning) | Cost planning and budget breakdown |
+| [MONETIZATION MODEL PLAN](https://ascend-rpg-fitness.vercel.app/roadmap/monetization-system) | Monetization strategy and model |
+| [GITBOOK](https://nathasan1410.gitbook.io/ascend-fitness-rpg/) | Official documentation on GitBook |
+| [ROADMAP](https://ascend-rpg-fitness.vercel.app/roadmap) | Project roadmap and milestones |
+| [HELP](https://ascend-rpg-fitness.vercel.app/roadmap) | Help and support resources |
+
+---
+
+## Disclaimers
+
+### Last Technical Change
+**LAST TECHNICAL CHANGE MADE AT:** 2026-02-09 17:37:15 +0700 (Commit: cba7717 - docs: add INDEX.md for documentation navigation hub)
+
+### Documentation-Only Commit Authorization
+**ALL CHANGES MADE AFTER THE LAST TECHNICAL CHANGE ARE FOR DOCUMENTATION PURPOSES ONLY.** No features or technical implementation were touched.
+
+The only changes made after the last technical commit are related to documentation updates, including:
+- `/gitbook` - Documentation on GitBook
+- `/roadmap` - Roadmap updates
+- `/help` - Help documentation
+- `README.md` - This file
+- Cost planning documentation
+- Best of OPIK documentation
+- Monetization system documentation
+
+These changes have been authorized for commit and push by the project team specifically for maintaining documentation accuracy and completeness.
+
+---
+
+# ASCEND: Fitness RPG
+
+> Turn workouts into epic quests, level up your character, and become the strongest hunter.
+
+**ASCEND: Fitness RPG** is a gamified fitness application inspired by Solo Leveling, where everyday workouts become RPG quests that earn you XP, unlock ranks, and prove your worth as a Hunter.
+
+## What is ASCEND?
+
+ASCEND transforms fitness motivation through gamification. Instead of mundane exercise routines, users complete **AI-generated quests** tailored to their fitness level, equipment, and goals. Each completed workout earns XP that levels up your Hunter character, unlocks ranks from E-Rank to S-Rank, and builds real physical strength.
+
+### Core Gameplay Loop
+
+1. **Generate Quest** - AI creates personalized workout based on your rank, class, equipment, and time availability
+2. **Execute Quest** - Complete exercises with timer, RPE tracking, and optional proof uploads
+3. **AI Judge Evaluation** - Opik AI evaluates your performance fairly and consistently
+4. **Earn XP & Level Up** - Receive XP based on effort, integrity, and completion quality
+5. **Rank Up** - Unlock new abilities and harder challenges as you progress
+
+---
+
+## Technical Architecture
+
+### Tech Stack
+
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| **Frontend** | Next.js 14 (App Router) | React framework with server components |
+| **Styling** | Tailwind CSS | Utility-first CSS framework |
+| **Animations** | Framer Motion | Smooth UI animations |
+| **Backend** | Next.js Server Actions | API endpoints without separate backend |
+| **Database** | Supabase (PostgreSQL) | User data, quests, logs, social features |
+| **Storage** | Supabase Storage | Workout proof media (photos/videos) |
+| **Authentication** | Supabase Auth | OAuth and email/password login |
+| **Quest Generation** | Groq (Llama-3.3-70b) | AI-powered workout generation |
+| **AI Evaluation** | **Opik AI** | LLM-as-a-Judge for fair workout evaluation |
+| **Monitoring** | Opik AI | Traces, metrics, and observability |
+
+### Key Directories
+
+```
+app/                    # Next.js 14 App Router pages
+├── dashboard/          # Main app interface
+│   ├── quest/[id]/     # Quest execution flow
+│   ├── leaderboard/     # Global rankings
+│   └── settings/       # User settings
+├── domain/             # Domain-specific pages
+│   └── best-of-OPIK/  # Opik AI documentation
+├── profile/[username]/  # Public hunter profiles
+└── roadmap/           # Project roadmap pages
+
+components/            # React components
+├── quest/            # Quest execution UI
+├── gamification/     # Level-up, rank-up effects
+├── leaderboard/      # Ranking tables
+└── layout/           # Navigation components
+
+lib/
+├── ai/
+│   ├── groq.ts                 # Quest generation (Llama-3.3-70b)
+│   ├── ai-judge.ts            # Opik AI evaluation
+│   ├── computer-vision.ts      # Proof analysis (mock)
+│   ├── opik.ts               # Opik client
+│   ├── opik-helper.ts        # Trace/metric utilities
+│   └── prompts.ts            # System prompts
+├── gamification/
+│   ├── xp-calculator.ts      # XP formulas
+│   └── leveling.ts          # Level thresholds
+├── supabase/
+│   ├── client.ts            # Browser client
+│   ├── server.ts            # Server client
+│   └── storage.ts          # File upload helpers
+└── utils/
+    ├── cn.ts                # Class merge utility
+    └── date-helpers.ts     # Date formatting
+
+server/actions/         # Server Actions (API)
+├── quest-actions.ts    # Quest generation
+├── log-actions.ts      # Quest submission + evaluation
+├── leaderboard-actions.ts
+├── profile-actions.ts
+└── report-actions.ts   # Anti-cheat reports
+```
+
+---
+
+## 🤖 The 3-Way AI System
+
+ASCEND uses a sophisticated multi-AI architecture to deliver personalized, fair, and engaging fitness experiences:
+
+### 1️⃣ Quest Generation AI (Groq - Llama-3.3-70b)
+
+**Purpose:** Generate personalized workout quests based on user profile
+
+**Input:**
+- User's current rank (E-Rank to S-Rank)
+- User's class (Novice, Striker, Tank, Assassin)
+- Available equipment (dumbbells, barbell, bodyweight, etc.)
+- Time window (15-90 minutes)
+- Muscle soreness indicators
+
+**Output:**
+- Structured workout plan with exercises
+- Set, rep, rest, and RPE targets
+- XP reward estimates
+- Completion probability analysis
+
+**Key Features:**
+- Class-specific protocols (Tank: heavy lifts, Assassin: HIIT)
+- Rank-scaled difficulty (E-Rank: 2-3 exercises, S-Rank: 6+ exercises)
+- Equipment-aware generation (bodyweight to full gym)
+- Soreness-aware (active recovery vs. progression)
+
+**Implementation:** `lib/ai/groq.ts` with `ARCHITECT_PROMPT`
+
+### 2️⃣ AI Judge (Opik AI - LLM-as-a-Judge)
+
+**Purpose:** Fair, consistent, and unbiased workout evaluation
+
+**Input:**
+- Original quest plan
+- User's workout log (duration, RPE, exercises completed)
+- User profile (rank, class)
+- Proof media (optional)
+
+**Evaluation Criteria:**
+- **Integrity Score** - Did user complete what was assigned? Checks for physically impossible completion times
+- **Effort Score** - Did user push themselves? Compares target RPE to actual RPE
+- **Safety Score** - Was workout safe for user's condition?
+- **Final XP** - Calculated from base XP × (integrity + effort + safety) / 3
+
+**Anti-Cheat Detection:**
+- Blatant cheating: Duration < 3 minutes with full completion
+- Impossible: Duration < 30 seconds (instant rejection)
+- High suspicion: Duration < 5 minutes with incomplete exercises
+- Missing proof: Claims completion without verification
+
+**Implementation:** `lib/ai/ai-judge.ts` with `JUDGE_PROMPT`
+
+### 3️⃣ Computer Vision (Planned)
+
+**Purpose:** Analyze workout proof (photos/videos) for form validation
+
+**Planned Features:**
+- Exercise type detection
+- Form scoring (0.0 - 1.0)
+- Technique analysis
+- Range of motion measurement
+- Rep counting (for videos)
+- Safety issue detection
+
+**Current Status:** Mock implementation ready for integration with real CV APIs (Google Cloud Vision, Azure Computer Vision, Replicate Pose)
+
+**Implementation:** `lib/ai/computer-vision.ts`
+
+---
+
+## 🧠 How Opik AI Powers ASCEND
+
+### The "LLM-as-a-Judge" Architecture
+
+Opik AI provides ASCEND's revolutionary evaluation system. Unlike traditional AI that generates content, Opik AI specializes in **evaluation and judgment tasks** requiring nuance, context, and fairness.
+
+### Integration Points
+
+#### 1. Quest Evaluation Traces
+
+Every workout submission sends a trace to Opik:
+
+```typescript
+await sendTraceToOpik("ai_judge_evaluation", {
+  input: {
+    quest_name: input.plan.quest_name,
+    quest_rank: input.plan.quest_rank,
+    user_class: input.user_class,
+    duration_actual: durationActual,
+    rpe_actual: log.rpe_actual,
+    has_proof: !!log.proof_media_url,
+    cheating_detected: cheatingStatus,
+  },
+  output: {
+    status: verdict.status,
+    integrity_score: verdict.integrity_score,
+    effort_score: verdict.effort_score,
+    safety_score: verdict.safety_score,
+    final_xp: verdict.final_xp,
+  },
+  tags: [verdict.status, input.user_class, input.user_rank],
+});
+```
+
+#### 2. Error Tracking
+
+All AI failures are logged for observability:
+
+```typescript
+await logErrorToOpik("groq_quest_generation_failed", error, {
+  user_rank: input.user_rank,
+  user_class: input.user_class,
+  time_window_min: input.time_window_min,
+});
+```
+
+#### 3. Metrics Collection
+
+Key performance metrics tracked in real-time:
+
+- Quest generation time
+- AI evaluation response time
+- XP distribution by rank
+- Cheating detection rate
+- User satisfaction (feedback scores)
+
+### Why Opik AI is Critical
+
+1. **Fairness:** Eliminates human bias in fitness evaluation
+2. **Consistency:** Same scoring criteria applied to all users
+3. **Scalability:** Handles millions of evaluations daily
+4. **Transparency:** Every evaluation is traceable and auditable
+5. **Continuous Learning:** Improves accuracy with more data
+
+### What We Track (and Don't Track)
+
+**We Track:**
+- Quest generation prompts and outputs
+- AI judge evaluation inputs and results
+- Performance metrics (latency, success rate)
+- Error logs for debugging
+
+**We Don't Track:**
+- Personally identifiable information in traces
+- Raw proof media (processed in-memory only)
+- User conversation history outside app
+- Biometric data (heart rate, sleep, etc.)
+
+For full transparency, see: [How We Use Opik AI](https://ascend-rpg-fitness.vercel.app/domain/best-of-OPIK)
+
+---
+
+## 🎮 Gamification System
+
+### Hunter Classes
+
+| Class | Playstyle | XP Bonus |
+|-------|-----------|----------|
+| **Novice** | Balanced introduction | 1.0x |
+| **Striker** | High volume, low rest | 1.0x |
+| **Tank** | Heavy lifts, long rest | 1.0x (class synergy) |
+| **Assassin** | HIIT, explosive moves | 1.0x |
+
+### Ranks
+
+| Rank | Quest XP | Difficulty | Features |
+|------|-----------|------------|----------|
+| **E-Rank** | 100-200 | Basic | 2-3 exercises |
+| **D-Rank** | 200-500 | Standard | 3-4 exercises |
+| **C-Rank** | 500-1000 | Intermediate | 4-5 exercises |
+| **B-Rank** | 1000-2000 | Challenging | 5-6 exercises |
+| **A-Rank** | 2000-4000 | Advanced | 6+ exercises, technique focus |
+| **S-Rank** | 4000+ | Elite | Failure sets, maximum difficulty |
+
+### XP Calculation
+
+```
+Final XP = Base XP × Integrity × Effort × Safety × Class Synergy × Streak Bonus
+```
+
+- **Class Synergy:** 1.1x if quest matches user's class
+- **Streak Bonus:** +2% per day (max 20%)
+
+### Hunter Status
+
+- **Normal:** Active hunter in good standing
+- **Verified:** Has provided valid proof
+- **Flagged:** Suspicious activity detected
+- **Corrupted:** Banned for repeated cheating
+
+---
+
+## 🛡️ Three-Layer Anti-Cheat System
+
+### Layer 1: Physics Validation (Rule-Based)
+
+- Checks for physically impossible completion times
+- Formula: `max_reps = duration_min × 80` (80 reps/min max)
+- Rejects if claimed reps > max possible
+
+### Layer 2: AI Judge (Opik AI)
+
+- Evaluates effort and integrity contextually
+- Detects sandbagging (low effort) and rushing (suspicious completion)
+- Flags suspicious patterns for review
+
+### Layer 3: Community Reporting
+
+- Users can report suspicious logs
+- Reports trigger human review
+- Repeat offenders get "Corrupted" status
+
+---
+
+## Current Status
+
+### ✅ Completed Features
+
+| Feature | Status |
+|---------|--------|
+| User Authentication (Supabase) | ✅ |
+| Onboarding Flow | ✅ |
+| Daily Quest Generation (Groq) | ✅ |
+| Quest Execution UI | ✅ |
+| AI Judge Evaluation (Opik) | ✅ |
+| XP & Leveling System | ✅ |
+| Rank Progression | ✅ |
+| Leaderboard | ✅ |
+| Public Profiles | ✅ |
+| Match History | ✅ |
+| Report System | ✅ |
+| Mobile Navigation | ✅ |
+| Settings Page | ✅ |
+
+### ⚠️ In Progress / TODO
+
+| Feature | Priority | Notes |
+|---------|----------|-------|
+| Social Feed | P1 | Code exists, navigation blocked |
+| Friends System | P1 | Database ready, UI needed |
+| Quest History Page | P1 | Navigation blocked |
+| Computer Vision Integration | P2 | Mock implementation ready |
+| Guilds/Clans | P2 | Not implemented |
+| Achievements | P2 | Database seeded, UI needed |
+| Weekly Challenges | P2 | Not implemented |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- Supabase account
+- Groq API key
+- Opik AI API key
+
+### Installation
+
+```bash
+# Clone repository
+git clone https://github.com/Nathasan1410/ASCEND-RPG-FITNESS-APP.git
+cd ASCEND-RPG-FITNESS-APP
+
+# Install dependencies
+npm install
+
+# Configure environment variables
+cp .env.example .env.local
+# Edit .env.local with your API keys
+
+# Run development server
+npm run dev
+```
+
+### Environment Variables
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+GROQ_API_KEY=your_groq_api_key
+OPIK_API_KEY=your_opik_api_key
+```
+
+---
+
+## Demo Accounts
+
+Try ASCEND with pre-configured demo accounts:
+
+| Rank | Email | Password |
+|------|-------|----------|
+| S-Rank | shadowhunter@test.com | Test123! |
+| A-Rank | thunderstrike@test.com | Test123! |
+| B-Rank | swiftwolf@test.com | Test123! |
+| C-Rank | swiftninja@test.com | Test123! |
+| E-Rank | cyberwolf@test.com | Test123! |
+
+[View all 40 demo accounts](https://ascend-rpg-fitness.vercel.app/help/demo-accounts)
+
+---
+
+## Documentation
+
+- **[GitBook](https://nathasan1410.gitbook.io/ascend-fitness-rpg/)** - Complete technical documentation
+- **[How We Use Opik AI](https://ascend-rpg-fitness.vercel.app/domain/best-of-OPIK)** - Opik integration details
+- **[Cost Planning](https://ascend-rpg-fitness.vercel.app/roadmap/cost-planning)** - Budget breakdown
+- **[Monetization Model](https://ascend-rpg-fitness.vercel.app/roadmap/monetization-system)** - Revenue strategy
+- **[Roadmap](https://ascend-rpg-fitness.vercel.app/roadmap)** - Project milestones
+
+---
+
+## Contributing
+
+This is a hackathon project. For the current phase, all commits are documentation-only. Technical features are frozen.
+
+---
+
+## License
+
+MIT License - See LICENSE file for details
+
+---
+
+**Built for Commit To Change Hackathon 2026** 🎮💪
+
+*Last Technical Change: 2026-02-09*
