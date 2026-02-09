@@ -21,7 +21,14 @@
 ### Documentation-Only Commit Authorization
 **ALL CHANGES MADE AFTER THE LAST TECHNICAL CHANGE ARE FOR DOCUMENTATION PURPOSES ONLY.** No features or technical implementation were touched.
 
-The only changes made after the last technical commit are related to documentation updates, including:
+#### Staff Authorization for Documentation Changes
+According to the hackathon staff:
+
+> "@Ezkaton @Rebecca | Encode Should the GitHub repo be strictly frozen by the deadline? Suppose I identify something I'd like to change in the docs/Readme after the deadline, can those be changed ?"
+> 
+> "No you can keep making small changes but don't change any core functionality as the judges will be judging the project as it was submitted"
+
+The project team has been authorized to make documentation-only updates including:
 - `/gitbook` - Documentation on GitBook
 - `/roadmap` - Roadmap updates
 - `/help` - Help documentation
@@ -279,6 +286,38 @@ Key performance metrics tracked in real-time:
 - Biometric data (heart rate, sleep, etc.)
 
 For full transparency, see: [How We Use Opik AI](https://ascend-rpg-fitness.vercel.app/domain/best-of-OPIK)
+
+---
+
+## 🎨 Opik AI Flow Diagrams
+
+ASCEND uses Opik AI's LLM-as-a-Judge technology in multiple scenarios to ensure fair, consistent evaluation of user workouts. The following diagrams illustrate how Opik AI processes different types of user reports and workout scenarios:
+
+### User False Report Scenario
+![User False Report](https://example.com/opik-flow-false-report.png)
+*User reports suspicious activity, but the report is determined to be a personal attack rather than a valid report - no penalty applied.*
+
+### System/Architect Judge with Llama
+![System/Architect Judge](https://example.com/opik-flow-system-judge.png)
+*System architect (Llama) evaluates user reports and provides judgment through Opik AI, ensuring consistent evaluation across all reports.*
+
+### Workout Verifier (User Not Feeling Well)
+![Workout Verifier - User Not Feeling Well](https://example.com/opik-flow-workout-verifier-sick.png)
+*User reports difficulty completing workout due to illness - fair evaluation with appropriate XP penalty applied.*
+
+### Workout Planner
+![Workout Planner](https://example.com/opik-flow-workout-planner.png)
+*Llama generates workout plan, Opik AI evaluates user feedback and provides rating (7/10) for workout suitability.*
+
+### User Accepted Report
+![User Accepted Report](https://example.com/opik-flow-user-accepted-report.png)
+*Valid user report of suspicious activity leads to verification and appropriate XP penalty applied.*
+
+### Workout Verifier
+![Workout Verifier](https://example.com/opik-flow-workout-verifier.png)
+*User completes workout in record time - Opik AI verifies completion and applies appropriate penalty for rushing.*
+
+---
 
 ---
 
