@@ -157,6 +157,21 @@ export default function BestOfOpikPage() {
               ASCEND is only fitness RPG in world that leverages exclusive power of Opik AI's LLM-as-a-Judge technology. This isn't just AI—it's future of fair fitness evaluation.
             </p>
 
+            <div className="bg-void-panel/30 rounded-xl p-6 border border-white/10 mt-6">
+              <div className="flex items-start space-x-3">
+                <div className="w-8 h-8 bg-status-success/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <CheckCircle className="w-5 h-5 text-status-success" />
+                </div>
+                <div>
+                  <h4 className="font-semibold text-white mb-2">Documentation Changes Authorized</h4>
+                  <div className="text-sm text-white/40 space-y-2">
+                    <p><strong>Rebecca (Encode Staff):</strong> "No you can keep making small changes but don't change any core functionality as the judges will be judging the project as it was submitted"</p>
+                    <p className="text-xs text-white/30 mt-2">Changes to documentation (including this page) are permitted after the hackathon deadline for maintaining accuracy and completeness.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-white/40">
               <span className="flex items-center">
                 <CheckCircle className="w-4 h-4 mr-1 text-status-success" />
@@ -252,6 +267,82 @@ export default function BestOfOpikPage() {
                 ))}
               </div>
             </motion.div>
+</motion.div>
+        </div>
+      </section>
+
+{/* Opik AI Flow Diagrams */}
+      <section className="py-16 bg-void-panel/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Opik AI <span className="text-system-cyan">Flow Diagrams</span>
+            </h2>
+            <p className="text-white/40 text-lg">
+              Visual representations of how Opik AI processes different workout scenarios and user reports
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="bg-void-panel/50 rounded-2xl p-6 border border-white/10">
+              <h3 className="text-lg font-bold text-white mb-3">User False Report</h3>
+              <div className="bg-void-panel/30 rounded-lg p-4 mb-3">
+                <img src="/opik-ai/flow-diagrams/user-false-report.png" alt="User False Report" className="w-full rounded-lg" />
+              </div>
+              <p className="text-sm text-white/40">
+                User reports suspicious activity, but the report is determined to be a personal attack rather than a valid report - no penalty applied.
+              </p>
+            </div>
+
+            <div className="bg-void-panel/50 rounded-2xl p-6 border border-white/10">
+              <h3 className="text-lg font-bold text-white mb-3">System/Architect Judge</h3>
+              <div className="bg-void-panel/30 rounded-lg p-4 mb-3">
+                <img src="/opik-ai/flow-diagrams/system-architect-judge.png" alt="System/Architect Judge" className="w-full rounded-lg" />
+              </div>
+              <p className="text-sm text-white/40">
+                System architect (Llama) evaluates user reports and provides judgment through Opik AI, ensuring consistent evaluation across all reports.
+              </p>
+            </div>
+
+            <div className="bg-void-panel/50 rounded-2xl p-6 border border-white/10">
+              <h3 className="text-lg font-bold text-white mb-3">Workout Verifier (User Sick)</h3>
+              <div className="bg-void-panel/30 rounded-lg p-4 mb-3">
+                <img src="/opik-ai/flow-diagrams/workout-verifier-sick.png" alt="Workout Verifier - User Not Feeling Well" className="w-full rounded-lg" />
+              </div>
+              <p className="text-sm text-white/40">
+                User reports difficulty completing workout due to illness - fair evaluation with appropriate XP penalty applied.
+              </p>
+            </div>
+
+            <div className="bg-void-panel/50 rounded-2xl p-6 border border-white/10">
+              <h3 className="text-lg font-bold text-white mb-3">Workout Planner</h3>
+<div className="bg-void-panel/30 rounded-lg p-4 mb-3">
+                <img src="/opik-ai/flow-diagrams/workout-verifier.png" alt="Workout Verifier" className="w-full rounded-lg" />
+              </div>
+              <p className="text-sm text-white/40">
+                Llama generates workout plan, Opik AI evaluates user feedback and provides rating (7/10) for workout suitability.
+              </p>
+            </div>
+
+            <div className="bg-void-panel/50 rounded-2xl p-6 border border-white/10">
+              <h3 className="text-lg font-bold text-white mb-3">User Accepted Report</h3>
+<div className="bg-void-panel/30 rounded-lg p-4 mb-3">
+                <img src="/opik-ai/flow-diagrams/user-false-report.png" alt="User False Report" className="w-full rounded-lg" />
+              </div>
+              <p className="text-sm text-white/40">
+                Valid user report of suspicious activity leads to verification and appropriate XP penalty applied.
+              </p>
+            </div>
+
+            <div className="bg-void-panel/50 rounded-2xl p-6 border border-white/10">
+              <h3 className="text-lg font-bold text-white mb-3">Workout Verifier</h3>
+<div className="bg-void-panel/30 rounded-lg p-4 mb-3">
+                <img src="/opik-ai/flow-diagrams/user-accepted-report.png" alt="User Accepted Report" className="w-full rounded-lg" />
+              </div>
+              <p className="text-sm text-white/40">
+                User completes workout in record time - Opik AI verifies completion and applies appropriate penalty for rushing.
+              </p>
+            </div>
           </div>
         </div>
       </section>
