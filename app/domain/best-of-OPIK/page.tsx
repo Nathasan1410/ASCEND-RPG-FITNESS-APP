@@ -267,7 +267,7 @@ export default function BestOfOpikPage() {
                 ))}
               </div>
             </motion.div>
-</motion.div>
+          </div>
         </div>
       </section>
 
