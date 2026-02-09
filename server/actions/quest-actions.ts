@@ -66,6 +66,16 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
   
   console.log("[QuestAction] No existing valid quest found, will generate new one");
 
+  // Fetch user feedback patterns for personalization
+  const { data: feedbackPatterns } = await supabase
+    .from("user_feedback_patterns")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("frequency", { ascending: false })
+    .limit(5);
+
+  const topAnomalies = feedbackPatterns?.map((f: any) => f.anomaly_type) || [];
+
   // Check for running A/B experiments
   let runningExperimentId: string | undefined;
   try {
@@ -125,6 +135,8 @@ export async function generateDailyQuest(input: GenerateQuestInput) {
           equipment: profile.equipment || [],
           muscle_soreness_count: input.muscle_soreness.length,
           muscle_soreness: input.muscle_soreness,
+          feedback_patterns_count: topAnomalies.length,
+          top_anomalies: topAnomalies,
           variant_id: variantId,
           experiment_id: runningExperimentId,
           quest_type: "Daily",
