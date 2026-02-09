@@ -267,6 +267,17 @@ export async function submitQuestLog(input: unknown) {
         });
       }
     }
+
+    // Track human feedback impact
+    let humanFeedbackData: any = null;
+    if (validated.perceived_exertion !== undefined || validated.anomalies_injuries !== undefined) {
+      humanFeedbackData = {
+        perceived_exertion: validated.perceived_exertion,
+        anomalies_injuries: validated.anomalies_injuries,
+        had_human_feedback: true,
+      };
+    }
+
     
     // Send trace to Opik
     await sendTraceToOpik("quest_evaluation_complete", {
@@ -283,6 +294,7 @@ export async function submitQuestLog(input: unknown) {
         rpe_actual: validated.rpe_actual,
         variant_id: variantId,
         experiment_id: experimentId,
+        human_feedback: humanFeedbackData,
       },
       output: {
         status: evaluation.status,
@@ -299,6 +311,8 @@ export async function submitQuestLog(input: unknown) {
         ai_safety_score: evaluation.safety_score || 0,
         ai_final_xp: evaluation.final_xp || 0,
         ai_feedback: evaluation.message || "",
+        had_human_feedback: !!humanFeedbackData,
+        human_impact_applied: !!humanFeedbackData,
       },
       tags: [
         "success",
@@ -308,6 +322,7 @@ export async function submitQuestLog(input: unknown) {
         plan.quest_type,
         variantId ? `variant_${variantId}` : undefined,
         experimentId ? `ab_test` : undefined,
+        humanFeedbackData ? "human_feedback_submitted" : undefined,
       ].filter(Boolean),
     });
   } catch (error: any) {
@@ -434,7 +449,7 @@ export async function submitQuestLog(input: unknown) {
     
     let newRank = profile.rank_tier;
     const questType = (quest.plan_json as any).quest_type;
-    
+
     if (questType === "RankUp" && evaluation.status === "APPROVED") {
       // If they passed the exam, calculate the true rank based on level
       newRank = rankFromLevel(newLevel);

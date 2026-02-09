@@ -73,6 +73,12 @@ export function MatchHistory({ logs, onLogClick, isOwnProfile = false, currentUs
                   </div>
                 )}
               </div>
+              {log.quests === null && (
+                <div className="flex items-center gap-1 text-xs text-status-warning mt-1">
+                  <AlertCircle className="w-3 h-3" />
+                  <span>Quest data not available</span>
+                </div>
+              )}
               <div className="flex items-center gap-4 text-xs text-white/40 font-mono">
                 <span>{formatQuestDate(log.completed_at || "")}</span>
                 <span className="flex items-center gap-1">

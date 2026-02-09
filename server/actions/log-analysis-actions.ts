@@ -26,8 +26,24 @@ export async function getLogAnalysis(logId: string) {
   if (!log) throw new Error("Log not found");
 
   const quest = log.quests?.plan_json as any;
+  const questData = log.quests as any;
 
-  if (!quest) throw new Error("Quest not found");
+  if (!quest) {
+    return {
+      log_id: log.id,
+      quest_name: "Unknown Protocol",
+      quest_rank: questData?.rank_difficulty || "E-Rank",
+      quest_type: "Unknown",
+      completed_at: log.completed_at,
+      xp_awarded: log.xp_awarded,
+      integrity_score: log.integrity_score,
+      effort_score: log.effort_score,
+      safety_score: log.safety_score,
+      duration_actual: log.duration_actual,
+      analysis: "Quest data is not available for this log entry. This may happen if the quest was deleted or archived.",
+      error: "Quest not found",
+    };
+  }
 
   const { data: profileData } = await supabase
     .from("profiles")

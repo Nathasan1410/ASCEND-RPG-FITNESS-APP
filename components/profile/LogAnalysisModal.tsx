@@ -29,7 +29,8 @@ interface AnalysisData {
     effort_explanation: string;
     safety_explanation: string;
     suggestions: string[];
-  };
+  } | string;
+  error?: string;
 }
 
 export function LogAnalysisModal({ isOpen, onClose, logId }: LogAnalysisModalProps) {
@@ -157,52 +158,60 @@ export function LogAnalysisModal({ isOpen, onClose, logId }: LogAnalysisModalPro
 
               {/* AI Analysis */}
               <div className="space-y-4">
-                <h4 className="text-sm font-display font-bold text-white uppercase tracking-wider">
-                  Opik Assessment
-                </h4>
-
-                {/* Summary */}
-                <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-                  <p className="text-white/80 text-sm leading-relaxed">{analysisData.analysis.summary}</p>
-                </div>
-
-                {/* Detailed Breakdown */}
-                <div className="space-y-3">
-                  <AnalysisSection
-                    icon={Shield}
-                    title="Integrity Analysis"
-                    content={analysisData.analysis.integrity_explanation}
-                  />
-                  <AnalysisSection
-                    icon={Activity}
-                    title="Effort Analysis"
-                    content={analysisData.analysis.effort_explanation}
-                  />
-                  <AnalysisSection
-                    icon={Target}
-                    title="Safety Assessment"
-                    content={analysisData.analysis.safety_explanation}
-                  />
-                </div>
-
-                {/* Suggestions */}
-                {analysisData.analysis.suggestions.length > 0 && (
-                  <div className="space-y-2">
-                    <h4 className="text-xs font-mono text-white/40 uppercase tracking-wider">
-                      Recommendations
-                    </h4>
-                    <ul className="space-y-2">
-                      {analysisData.analysis.suggestions.map((suggestion, index) => (
-                        <li
-                          key={index}
-                          className="flex items-start gap-2 text-sm text-white/70 bg-system-cyan/5 border border-system-cyan/10 rounded-lg p-3"
-                        >
-                          <span className="text-system-cyan font-mono mt-0.5">{index + 1}.</span>
-                          <span>{suggestion}</span>
-                        </li>
-                      ))}
-                    </ul>
+                {typeof analysisData.analysis === "string" ? (
+                  <div className="bg-status-warning/10 border border-status-warning/30 rounded-lg p-4">
+                    <p className="text-status-warning text-sm">{analysisData.analysis}</p>
                   </div>
+                ) : (
+                  <>
+                    <h4 className="text-sm font-display font-bold text-white uppercase tracking-wider">
+                      Opik Assessment
+                    </h4>
+
+                    {/* Summary */}
+                    <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                      <p className="text-white/80 text-sm leading-relaxed">{analysisData.analysis.summary}</p>
+                    </div>
+
+                    {/* Detailed Breakdown */}
+                    <div className="space-y-3">
+                      <AnalysisSection
+                        icon={Shield}
+                        title="Integrity Analysis"
+                        content={analysisData.analysis.integrity_explanation}
+                      />
+                      <AnalysisSection
+                        icon={Activity}
+                        title="Effort Analysis"
+                        content={analysisData.analysis.effort_explanation}
+                      />
+                      <AnalysisSection
+                        icon={Target}
+                        title="Safety Assessment"
+                        content={analysisData.analysis.safety_explanation}
+                      />
+                    </div>
+
+                    {/* Suggestions */}
+                    {analysisData.analysis.suggestions.length > 0 && (
+                      <div className="space-y-2">
+                        <h4 className="text-xs font-mono text-white/40 uppercase tracking-wider">
+                          Recommendations
+                        </h4>
+                        <ul className="space-y-2">
+                          {analysisData.analysis.suggestions.map((suggestion: string, index: number) => (
+                            <li
+                              key={index}
+                              className="flex items-start gap-2 text-sm text-white/70 bg-system-cyan/5 border border-system-cyan/10 rounded-lg p-3"
+                            >
+                              <span className="text-system-cyan font-mono mt-0.5">{index + 1}.</span>
+                              <span>{suggestion}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </>
