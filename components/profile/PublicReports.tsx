@@ -24,19 +24,32 @@ interface PublicReportsProps {
 export function PublicReports({ targetUserId }: PublicReportsProps) {
   const [reports, setReports] = useState<PublicReport[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchReports() {
       const supabase = createClient();
-      const { data } = await supabase
-        .from("public_reports_view")
-        .select("*")
-        .eq("target_user_id", targetUserId)
-        .order("created_at", { ascending: false })
-        .limit(20);
+      try {
+        const { data, error } = await supabase
+          .from("public_reports_view")
+          .select("*")
+          .eq("target_user_id", targetUserId)
+          .order("created_at", { ascending: false })
+          .limit(20);
 
-      setReports(data || []);
-      setLoading(false);
+        if (error) {
+          setError("Reports feature not available yet. Database update required.");
+          setReports([]);
+        } else {
+          setReports(data || []);
+          setError(null);
+        }
+      } catch (err) {
+        setError("Failed to load reports.");
+        setReports([]);
+      } finally {
+        setLoading(false);
+      }
     }
 
     fetchReports();

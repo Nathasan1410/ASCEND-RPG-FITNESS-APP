@@ -42,7 +42,7 @@ export function MatchHistory({ logs, onLogClick, isOwnProfile = false, currentUs
   return (
     <div className="space-y-3">
       {logs.map((log) => {
-        const plan = log.quests?.plan_json as WorkoutPlan;
+        const plan = log.quests?.plan_json as WorkoutPlan | undefined;
         const integrity = (log.integrity_score || 0) * 100;
         const isVerified = log.verification_status === "Verified" || log.verification_status === "Auto_Approved";
 
@@ -56,13 +56,15 @@ export function MatchHistory({ logs, onLogClick, isOwnProfile = false, currentUs
             )}
           >
             <div className="flex-1">
-              <div className="flex items-center gap-2 mb-1">
-                <span className={cn(
-                  "text-[10px] font-mono uppercase px-1.5 py-0.5 rounded border",
-                  isVerified ? "text-system-cyan border-system-cyan/30" : "text-white/40 border-white/10"
-                )}>
-                  {log.quests?.rank_difficulty}
-                </span>
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                {log.quests?.rank_difficulty && (
+                  <span className={cn(
+                    "text-[10px] font-mono uppercase px-1.5 py-0.5 rounded border",
+                    isVerified ? "text-system-cyan border-system-cyan/30" : "text-white/40 border-white/10"
+                  )}>
+                    {log.quests.rank_difficulty}
+                  </span>
+                )}
                 <h4 className="font-bold text-white text-sm">{plan?.quest_name || "Unknown Protocol"}</h4>
                 {(log.report_count || 0) > 0 && (
                   <div className="flex items-center gap-1 text-xs font-mono text-status-warning bg-status-warning/10 px-2 py-0.5 rounded border border-status-warning/20">
