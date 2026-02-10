@@ -1,223 +1,36 @@
 # Architecture
 
-> **System Overview & Technical Stack**
-
----
-
-## High-Level Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    FRONTEND LAYER                         │
-│  Next.js 14 + React 18 + Tailwind CSS + Framer Motion   │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    API LAYER                             │
-│         Server Actions + API Routes                       │
-└────────────────────┬────────────────────────────────────────┘
-                     │
-        ┌────────────┼────────────┐
-        ▼            ▼            ▼
-┌───────────┐  ┌──────────┐  ┌──────────────┐
-│ Supabase  │  │ Groq LLM │  │   OPIK AI   │
-│  Backend  │  │          │  │   (Judge)    │
-│ Database  │  └──────────┘  └──────────────┘
-│ Auth      │
-│ Storage   │
-└───────────┘
-```
-
----
-
 ## Tech Stack
 
-### Frontend
-| Technology | Purpose |
-|------------|----------|
-| **Next.js 14** | React framework with App Router |
-| **React 18+** | UI library |
-| **TypeScript 5** | Type safety |
-| **Tailwind CSS 3.4** | Styling |
-| **Framer Motion** | Animations |
-| **Lucide React** | Icons |
+**Frontend:** Next.js 14 (App Router), React 18+, TypeScript 5, Tailwind CSS 3.4, Framer Motion, Lucide React
 
-### Backend
-| Technology | Purpose |
-|------------|----------|
-| **Supabase** | Database, Auth, Storage |
-| **PostgreSQL 15** | Primary database |
-| **Edge Functions** | Serverless compute |
-| **Row-Level Security** | Data protection |
+**Backend:** Supabase (PostgreSQL 15), Supabase Auth, Supabase Storage, Supabase Edge Functions
 
-### AI Services
-| Technology | Purpose |
-|------------|----------|
-| **Groq LLM** | Quest generation (Llama 3.3 70B) |
-| **OPIK AI** | Quest evaluation (LLM-as-a-Judge) |
-| **OPIK SDK** | Observability & tracing |
-
----
-
-## System Components
-
-### 1. Database (Supabase/PostgreSQL)
-- **Tables**: Users, quests, match_history, social_feed, etc.
-- **Relationships**: Foreign keys with cascade rules
-- **RLS Policies**: Row-level security for data protection
-- **Indexes**: Optimized for query performance
-
-### 2. Authentication (Supabase Auth)
-- **Methods**: Email/password, OAuth (GitHub, Google)
-- **Session Management**: JWT tokens
-- **Protected Routes**: Middleware-based
-- **User Profiles**: Additional user data in profiles table
-
-### 3. Storage (Supabase Storage)
-- **Buckets**: proof-uploads, avatars, social-images
-- **Access Control**: RLS policies on buckets
-- **Public URLs**: CDN delivery
-- **File Validation**: Type and size limits
-
-### 4. AI Services
-- **Groq API**: Fast quest generation
-- **OPIK API**: Quest evaluation and tracing
-- **Fallback System**: Pre-built quest templates
-- **Error Handling**: Graceful degradation
-
-### 5. API Layer
-- **Server Actions**: Database mutations
-- **API Routes**: External integrations
-- **Validation**: Zod schema validation
-- **Error Handling**: Centralized error management
-
----
+**AI:** Groq LLM (Llama 3.3 70B) for quest generation, OPIK AI (LLM-as-a-Judge) for evaluation, OPIK SDK for tracing
 
 ## Data Flow
 
-### Quest Generation Flow
-```
-User clicks "Generate Quest"
-  ↓
-Server Action called
-  ↓
-Fetch user profile (rank, class, equipment, goals)
-  ↓
-Build prompt with user data
-  ↓
-Call Groq LLM API
-  ↓
-Receive JSON response
-  ↓
-Validate with Zod schema
-  ↓
-Save quest to database
-  ↓
-Return quest to UI
-  ↓
-Display quest to user
-```
+Quest Generation: User clicks generate → Server action fetches profile → Groq LLM generates quest → Response validated with Zod → Quest saved to database → Quest displayed
 
-### Quest Evaluation Flow
-```
-User completes quest and uploads proof
-  ↓
-Server Action called
-  ↓
-Upload proof to Supabase Storage
-  ↓
-Fetch quest details
-  ↓
-Start OPIK AI trace
-  ↓
-Evaluate form score (40%)
-  ↓
-Evaluate effort score (30%)
-  ↓
-Evaluate consistency score (30%)
-  ↓
-Calculate overall score
-  ↓
-Determine XP multiplier (0.8x - 1.5x)
-  ↓
-Calculate final XP
-  ↓
-Generate feedback and suggestions
-  ↓
-Update match_history table
-  ↓
-Update user XP in profiles table
-  ↓
-End OPIK AI trace
-  ↓
-Return results to UI
-```
-
----
+Quest Evaluation: User completes quest → Proof uploaded to storage → OPIK AI evaluates (form 40%, effort 30%, consistency 30%) → Overall score calculated → XP multiplier applied → XP awarded → Trace logged
 
 ## Security
 
-### Authentication & Authorization
-- **JWT Tokens**: Secure session management
-- **Protected Routes**: Middleware guards
-- **Role-Based Access**: User permissions
-- **Session Expiry**: Automatic logout
+Row-Level Security (RLS) policies restrict data access. Users can only see own data. XP cannot be manipulated by others. Proof uploads private to user. Leaderboards show anonymized data.
 
-### Data Protection
-- **RLS Policies**: Users can only see their own data
-- **Encrypted Storage**: Passwords hashed
-- **Secure API**: API keys in environment variables
-- **HTTPS Only**: Encrypted communication
+## Database
 
-### Anti-Cheat
-- **Proof Validation**: Required for XP
-- **Time Detection**: Anomaly detection
-- **XP Limits**: Maximum XP enforcement
-- **Community Reports**: User moderation
+**Key Tables:** profiles (user stats), quests (generated workouts), match_history (completions), social_feed (posts), friends (relationships), reports (community reports)
 
----
+**Relationships:** profiles → quests (one-to-many), profiles → match_history (one-to-many), profiles → social_feed (one-to-many)
 
-## Performance Optimization
+## Performance
 
-### Frontend
-- **Code Splitting**: Route-based splitting
-- **Image Optimization**: Next.js Image component
-- **Lazy Loading**: Dynamic imports
-- **Memoization**: React.useMemo/useCallback
+Frontend: Code splitting, image optimization, lazy loading, memoization
 
-### Backend
-- **Database Indexes**: Optimized queries
-- **Connection Pooling**: Supabase manages
-- **Caching**: Redis for frequently accessed data
-- **CDN**: Supabase Storage CDN
+Backend: Database indexes, connection pooling, caching, CDN for static assets
 
----
-
-## Monitoring & Observability
-
-### OPIK AI Tracing
-- **Quest Generation**: Trace every generation request
-- **Quest Evaluation**: Trace every evaluation
-- **Performance Metrics**: Response times, success rates
-- **Error Tracking**: All errors traced and logged
-
-### Application Monitoring
-- **Error Logging**: Centralized error tracking
-- **Performance Metrics**: Page load times
-- **User Analytics**: Feature usage tracking
-- **Uptime Monitoring**: Service availability
-
----
-
-## Documentation
-
-- [System Overview](./system-overview.md) - Complete architecture details
-- [Backend Architecture](./backend-architecture.md) - Server-side design
-- [Frontend Architecture](./frontend-architecture.md) - Client-side design
-- [Database Schema](./schema.md) - Tables and relationships
-- [Security Implementation](./rls-implementation.md) - RLS policies
-- [Performance Optimization](./frontend-optimization.md) - Optimization techniques
+[Technical Details](./system-overview.md) • [Backend](./backend-architecture.md) • [Frontend](./frontend-architecture.md) • [Database](./schema.md)
 
 ---
 
