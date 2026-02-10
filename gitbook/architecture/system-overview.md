@@ -1,7 +1,5 @@
 # System Overview
 
-<figure><img src="../../.gitbook/assets/architecture-hero.png" alt=""><figcaption><p>ASCEND system architecture overview</p></figcaption></figure>
-
 ASCEND is a full-stack fitness RPG built with modern web technologies and AI integration.
 
 ## Architecture Diagram
@@ -41,14 +39,14 @@ graph TB
 
 ## System Components
 
-| Component | Technology | Purpose |
-| --------- | ---------- | ------- |
-| **Frontend** | Next.js 14, React 18 | User interface |
-| **Backend** | Next.js API Routes | Server-side logic |
-| **Database** | PostgreSQL (Supabase) | Data persistence |
-| **Auth** | Supabase Auth | User authentication |
-| **AI Generation** | Groq LLM | Quest creation |
-| **AI Evaluation** | OPIK AI | Quest scoring |
+| Component         | Technology            | Purpose             |
+| ----------------- | --------------------- | ------------------- |
+| **Frontend**      | Next.js 14, React 18  | User interface      |
+| **Backend**       | Next.js API Routes    | Server-side logic   |
+| **Database**      | PostgreSQL (Supabase) | Data persistence    |
+| **Auth**          | Supabase Auth         | User authentication |
+| **AI Generation** | Groq LLM              | Quest creation      |
+| **AI Evaluation** | OPIK AI               | Quest scoring       |
 
 ## Data Flow
 
@@ -60,23 +58,23 @@ graph TB
 
 ## Deployment
 
-| Service | Platform |
-| ------- | -------- |
-| Frontend | Vercel |
-| Database | Supabase |
+| Service     | Platform              |
+| ----------- | --------------------- |
+| Frontend    | Vercel                |
+| Database    | Supabase              |
 | AI Services | Groq API, OPIK AI API |
 
 ## Security
 
-| Aspect | Implementation |
-| ------- | -------------- |
-| Authentication | Supabase Auth with JWT |
+| Aspect          | Implementation                     |
+| --------------- | ---------------------------------- |
+| Authentication  | Supabase Auth with JWT             |
 | Data encryption | TLS in transit, encryption at rest |
-| API security | Rate limiting, API keys |
-| User data | Private by default |
+| API security    | Rate limiting, API keys            |
+| User data       | Private by default                 |
 
-[Learn about Tech Stack →](./tech-stack.md)
+[Learn about Tech Stack →](tech-stack.md)
 
----
+***
 
-*Last Updated: February 11, 2026*
+_Last Updated: February 11, 2026_

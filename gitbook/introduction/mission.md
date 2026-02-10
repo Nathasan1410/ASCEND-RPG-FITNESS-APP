@@ -1,7 +1,5 @@
 # Mission
 
-<figure><img src="../.gitbook/assets/mission-banner.png" alt=""><figcaption><p>Make fitness engaging through gamification</p></figcaption></figure>
-
 > Transform the fitness experience from boring chores into epic quests
 
 ## Why ASCEND?
@@ -12,12 +10,12 @@
 
 ## Our Vision
 
-| Element | Traditional Fitness | ASCEND |
-| ------- | ------------------ | ------ |
-| Workouts | Repetitive routines | AI-generated quests |
-| Progress | Numbers and stats | XP and levels |
-| Motivation | Self-discipline | Social competition |
-| Goals | Weight, reps | Hunter rank E→S |
+| Element    | Traditional Fitness | ASCEND              |
+| ---------- | ------------------- | ------------------- |
+| Workouts   | Repetitive routines | AI-generated quests |
+| Progress   | Numbers and stats   | XP and levels       |
+| Motivation | Self-discipline     | Social competition  |
+| Goals      | Weight, reps        | Hunter rank E→S     |
 
 ## Core Values
 
@@ -31,12 +29,12 @@
 
 ## What's Next
 
-| Priority | Feature | Status |
-| -------- | ------- | ------ |
-| 1 | Enhanced OPIK AI evaluation | In Development |
-| 2 | Mobile app | Q2 2026 |
-| 3 | Multiplayer quests | Q3 2026 |
+| Priority | Feature                     | Status         |
+| -------- | --------------------------- | -------------- |
+| 1        | Enhanced OPIK AI evaluation | In Development |
+| 2        | Mobile app                  | Q2 2026        |
+| 3        | Multiplayer quests          | Q3 2026        |
 
----
+***
 
-*Last Updated: February 11, 2026*
+_Last Updated: February 11, 2026_

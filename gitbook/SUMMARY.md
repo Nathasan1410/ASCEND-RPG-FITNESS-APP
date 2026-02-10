@@ -1,8 +1,8 @@
-# Table of Contents
+# Table of contents
 
 ## INTRODUCTION
 
-* [Overview](introduction/overview.md)
+* [Overview](README.md)
 * [Mission](introduction/mission.md)
 * [Problem & Solution](introduction/problem-and-solution.md)
 
