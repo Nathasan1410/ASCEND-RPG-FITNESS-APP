@@ -1,6 +1,6 @@
 # Introduction
 
-ASCEND is a gamified fitness app that transforms workouts into RPG quests. Complete AI-generated workouts, earn XP, level up, and climb hunter rankings from E to S rank.
+ASCEND transforms workouts into RPG quests. Complete AI-generated workouts, earn XP, level up, and climb hunter rankings from E to S rank.
 
 ## OPIK AI
 
@@ -17,7 +17,3 @@ Proof uploads required for XP. Time anomaly detection prevents fast completions.
 ## Social Network
 
 Hunter Network feed shows completions. Kudos and respects system. Global, rank-specific, and class-specific leaderboards.
-
----
-
-*Last Updated: February 10, 2026*

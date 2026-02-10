@@ -2,6 +2,19 @@
 
 Groq LLM (Llama 3.3 70B) generates unique workout quests. Each quest is personalized to user's rank, class, equipment, goals, and time constraints.
 
+## Quest Generation Flow
+
+```mermaid
+graph LR
+    A[User Profile] --> B[Groq LLM]
+    B --> C[Quest JSON]
+    C --> D[Zod Validation]
+    D --> E[Save to Database]
+
+    style B fill:#ff0066
+    style D fill:#00a67e
+```
+
 ## Quest Examples
 
 | Rank | Class | Duration | XP | Exercises |
@@ -11,21 +24,20 @@ Groq LLM (Llama 3.3 70B) generates unique workout quests. Each quest is personal
 
 ## Classes
 
-**Tank:** Strength focus, compound movements, 6-10 reps, heavier weights
+**Tank** - Strength focus, compound movements, 6-10 reps, heavier weights
 
-**Striker:** Speed focus, explosive movements, 15-20 reps, moderate weights
+**Striker** - Speed focus, explosive movements, 15-20 reps, moderate weights
 
-**Assassin:** Agility focus, HIIT circuits, bodyweight, plyometrics
+**Assassin** - Agility focus, HIIT circuits, bodyweight, plyometrics
 
 ## Configuration
 
-Model: Llama 3.3 70B Versatile
-
-Temperature: 0.7
-
-Max Tokens: 1,000
-
-Response Format: Structured JSON
+| Setting | Value |
+|----------|--------|
+| Model | Llama 3.3 70B Versatile |
+| Temperature | 0.7 |
+| Max Tokens | 1,000 |
+| Response Format | Structured JSON |
 
 ## Validation
 

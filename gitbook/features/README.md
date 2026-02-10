@@ -21,7 +21,3 @@ Hunter Network feed shows quest completions from all users. Give kudos (1x) or r
 Choose hunter class: Tank (strength), Striker (speed), or Assassin (agility). Quests adapt to class specialization with different exercise emphasis and rep ranges.
 
 [Quest System Details](./quest-system.md) • [Anti-Cheat Details](./anti-cheat.md) • [Gamification Details](./gamification.md) • [Social Features Details](./social-feed.md)
-
----
-
-*Last Updated: February 10, 2026*

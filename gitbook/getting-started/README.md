@@ -13,14 +13,19 @@ Start immediately with demo accounts at any rank level. All accounts are pre-con
 
 [View all 40 demo accounts](./demo-accounts.md)
 
-## First Quest
+## Quest Completion Flow
 
-1. Click Generate Quest on dashboard
-2. Select equipment, choose goals
-3. Wait 1-2 seconds for AI quest generation
-4. Complete exercises, track sets and reps
-5. Upload proof (photo/video)
-6. Receive XP from OPIK AI evaluation
+```mermaid
+graph LR
+    A[Generate Quest] --> B[Complete Workout]
+    B --> C[Upload Proof]
+    C --> D[OPIK AI Evaluates]
+    D --> E[Earn XP]
+
+    style A fill:#00a67e
+    style D fill:#00a67e
+    style E fill:#f59e0b
+```
 
 ## Hunter Ranks
 

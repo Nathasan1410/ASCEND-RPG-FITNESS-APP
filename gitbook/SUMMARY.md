@@ -13,7 +13,3 @@
 [Architecture](./architecture/README.md) - Tech stack, system design
 
 [Developer Resources](./developer-resources/README.md) - Technical documentation
-
----
-
-*Last Updated: February 10, 2026*

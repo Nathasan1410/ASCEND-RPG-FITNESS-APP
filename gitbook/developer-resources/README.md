@@ -12,46 +12,42 @@
 
 ## Project Structure
 
-app/ - Next.js App Router (dashboard, feed, leaderboard, profile)
+**app/** - Next.js App Router (dashboard, feed, leaderboard, profile)
 
-components/ - Reusable React components
+**components/** - Reusable React components
 
-lib/ - Utilities, AI integration (groq, opik), constants
+**lib/** - Utilities, AI integration (groq, opik), constants
 
-server/ - Server actions (quest, log, report, profile)
+**server/** - Server actions (quest, log, report, profile)
 
-supabase/ - Database migrations
+**supabase/** - Database migrations
 
-types/ - TypeScript types
+**types/** - TypeScript types
 
-public/ - Static assets
+**public/** - Static assets
 
 ## Key Libraries
 
-**Frontend:** next, react, typescript, tailwindcss, framer-motion, lucide-react, zod, zustand
+**Frontend** - next, react, typescript, tailwindcss, framer-motion, lucide-react, zod, zustand
 
-**Backend:** @supabase/supabase-js, supabase
+**Backend** - @supabase/supabase-js, supabase
 
-**AI:** groq-sdk, opik
+**AI** - groq-sdk, opik
 
 ## Environment Variables
 
+```
 NEXT_PUBLIC_SUPABASE_URL=your-project-url
-
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
-
 GROQ_API_KEY=your-groq-api-key
-
 OPIK_API_KEY=your-opik-api-key
+```
 
 ## Getting Started
 
+```bash
 npm install
-
 npm run dev
+```
 
 Available scripts: dev, build, start, lint, test
-
----
-
-*Last Updated: February 10, 2026*

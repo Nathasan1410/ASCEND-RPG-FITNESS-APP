@@ -2,10 +2,24 @@
 
 OPIK AI evaluates every quest completion using three factors: form quality (40%), effort level (30%), and consistency (30%). Overall score determines XP multiplier.
 
+## System Flow
+
+```mermaid
+graph LR
+    A[Complete Quest] --> B[Upload Proof]
+    B --> C[OPIK AI Evaluates]
+    C --> D[Calculate Score]
+    D --> E[Apply XP Multiplier]
+    E --> F[Log Trace]
+
+    style C fill:#00a67e
+    style E fill:#f59e0b
+```
+
 ## XP Multipliers
 
 | Overall Score | Grade | Multiplier |
-|---------------|--------|-----------|
+|--------------|--------|-----------|
 | 0.90-1.00 | S | 1.5x |
 | 0.80-0.89 | A | 1.3x |
 | 0.70-0.79 | B | 1.1x |

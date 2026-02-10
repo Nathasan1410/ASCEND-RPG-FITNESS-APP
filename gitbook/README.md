@@ -1,40 +1,37 @@
 # ASCEND: Fitness RPG
 
-> Turn Workouts into Epic Quests
-
----
-
 ## Tech Stack
 
 Next.js 14 • React 18 • TypeScript 5 • Supabase (PostgreSQL) • Groq LLM • OPIK AI
 
----
-
 ## Overview
 
-ASCEND is a gamified fitness app that transforms workouts into RPG quests. Users complete AI-generated workouts, earn XP, level up, and climb hunter rankings from E to S rank.
+Gamified fitness app that transforms workouts into RPG quests. Complete AI-generated workouts, earn XP, level up, and climb hunter rankings from E to S rank.
 
----
+## System Flow
+
+```mermaid
+graph LR
+    A[Generate Quest] --> B[Complete Workout]
+    B --> C[Upload Proof]
+    C --> D[OPIK AI Evaluate]
+    D --> E[Earn XP]
+    E --> F[Level Up]
+
+    style A fill:#00a67e
+    style D fill:#00a67e
+    style E fill:#f59e0b
+```
 
 ## Core Features
 
-### OPIK AI Evaluation
+**OPIK AI** - Multi-factor evaluation (form 40%, effort 30%, consistency 30%) determines XP multipliers (0.8x-1.5x). Every evaluation is traced and viewable by users.
 
-Multi-factor evaluation (form 40%, effort 30%, consistency 30%) determines XP multipliers (0.8x-1.5x). Every evaluation is traced and viewable by users.
+**AI Quest Generation** - Groq LLM (Llama 3.3 70B) generates unique workouts tailored to rank (E-S), class (Tank/Striker/Assassin), equipment, and goals.
 
-### AI Quest Generation
+**Anti-Cheat** - Proof uploads required for XP. Time anomaly detection prevents fast completions. OPIK AI moderates community reports.
 
-Groq LLM (Llama 3.3 70B) generates unique workouts tailored to rank (E-S), class (Tank/Striker/Assassin), equipment, and goals.
-
-### Anti-Cheat System
-
-Proof uploads required for XP. Time anomaly detection prevents fast completions. OPIK AI moderates community reports.
-
-### Social Network
-
-Hunter Network feed shows completions. Kudos and respects system. Global, rank-specific, and class-specific leaderboards.
-
----
+**Social Network** - Hunter Network feed shows completions. Kudos and respects system. Global, rank-specific, and class-specific leaderboards.
 
 ## Quick Start
 
@@ -45,9 +42,7 @@ Hunter Network feed shows completions. Kudos and respects system. Global, rank-s
 | B | swiftwolf@test.com | Test123! | 52 | 104,000 |
 | C | swiftninja@test.com | Test123! | 22 | 44,000 |
 
-[All 40 demo accounts](./getting-started/demo-accounts.md)
-
----
+[View all 40 demo accounts](./getting-started/demo-accounts.md)
 
 ## Documentation
 
