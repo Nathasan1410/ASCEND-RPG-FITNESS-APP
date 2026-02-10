@@ -297,25 +297,354 @@ ASCEND uses Opik AI's LLM-as-a-Judge technology in multiple scenarios to ensure 
 ![User False Report](public/opik-ai/flow-diagrams/user-false-report.png)
 *User reports suspicious activity, but the report is determined to be a personal attack rather than a valid report - no penalty applied.*
 
+**Real Production Example:**
+
+**Input:**
+```json
+{
+  "report_id": "2993a29b-b7b6-431d-8cc8-a90e9e040b6f",
+  "reason": "Impossible_Stats",
+  "target_user_id": "afbf86e8-043d-431d-b7ee-2787c371403d",
+  "has_log_data": false
+}
+```
+
+**Output:**
+```json
+{
+  "credibility_score": 0.2,
+  "severity_score": 0,
+  "action": "DISMISS",
+  "confidence": 0.8,
+  "reasoning": "The report lacks specific details and evidence, making it seem malicious or a personal attack.",
+  "xp_reduction": null,
+  "status_change": null,
+  "hunter_status_change": null
+}
+```
+
 ### System/Architect Judge with Llama
 ![System/Architect Judge](public/opik-ai/flow-diagrams/system-architect-judge.png)
 *System architect (Llama) evaluates user reports and provides judgment through Opik AI, ensuring consistent evaluation across all reports.*
+
+**Real Production Example - D-Rank Striker Protocol:**
+
+**Input:**
+```json
+{
+  "user_class": "Striker",
+  "user_rank": "D-Rank",
+  "time_window_min": 30,
+  "equipment_count": 8,
+  "muscle_soreness_count": 0,
+  "proof_disabled": true
+}
+```
+
+**Output:**
+```json
+{
+  "quest_name": "D-Rank Striker Protocol",
+  "quest_rank": "D-Rank",
+  "quest_type": "Daily",
+  "exercise_count": 4,
+  "xp_reward": 300,
+  "estimated_duration_min": 30,
+  "completion_probability": 65,
+  "generation_time_ms": 1634,
+  "requires_proof": false,
+  "proof_type": "None"
+}
+```
+
+**Real Production Example - A-Rank Assassin Protocol:**
+
+**Input:**
+```json
+{
+  "user_class": "Assassin",
+  "user_rank": "A-Rank",
+  "time_window_min": 30,
+  "equipment_count": 0,
+  "muscle_soreness_count": 0,
+  "proof_disabled": true
+}
+```
+
+**Output:**
+```json
+{
+  "quest_name": "A-Rank Viper Protocol",
+  "quest_rank": "A-Rank",
+  "quest_type": "Daily",
+  "exercise_count": 6,
+  "xp_reward": 2500,
+  "estimated_duration_min": 30,
+  "completion_probability": 55,
+  "generation_time_ms": 1863,
+  "requires_proof": false,
+  "proof_type": "None"
+}
+```
 
 ### Workout Verifier (User Not Feeling Well)
 ![Workout Verifier - User Not Feeling Well](public/opik-ai/flow-diagrams/workout-verifier-sick.png)
 *User reports difficulty completing workout due to illness - fair evaluation with appropriate XP penalty applied.*
 
+**Note:** This scenario handles cases where users report not feeling well during workouts. The production traces show standard evaluation patterns, with contextual adjustments for health situations.
+
 ### Workout Planner
 ![Workout Planner](public/opik-ai/flow-diagrams/workout-planner.png)
 *Llama generates workout plan, Opik AI evaluates user feedback and provides rating (7/10) for workout suitability.*
+
+**Real Production Example - D-Rank Striker:**
+
+**Input:**
+```json
+{
+  "user_id": "77735844-5d29-49ea-b1ae-5d5919ddb6e0",
+  "username": "Nathan123",
+  "user_rank": "D-Rank",
+  "user_level": 1,
+  "time_window_min": 30,
+  "equipment_count": 8,
+  "equipment": [
+    "Pull-up Bar",
+    "Dumbbells",
+    "Kettlebell",
+    "Barbell",
+    "Resistance Bands",
+    "Bench",
+    "Jump Rope",
+    "Treadmill"
+  ],
+  "muscle_soreness_count": 0,
+  "muscle_soreness": [],
+  "feedback_patterns_count": 0,
+  "top_anomalies": [],
+  "quest_type": "Daily",
+  "environment": "production"
+}
+```
+
+**Output:**
+```json
+{
+  "quest_name": "D-Rank Striker Protocol",
+  "quest_rank": "D-Rank",
+  "quest_type": "Daily",
+  "quest_narrative": "You have been assigned a daily protocol to enhance your striking capabilities. This 30-minute routine is designed to push your limits and improve your overall performance....",
+  "exercise_count": 4,
+  "exercise_names": [
+    "Jumping Rope",
+    "Dumbbell Squats",
+    "Kettlebell Swings",
+    "Pull-ups"
+  ],
+  "xp_reward": 300,
+  "xp_potential": 300,
+  "estimated_duration_min": 30,
+  "target_class": "Striker",
+  "requires_proof": false,
+  "proof_type": "None",
+  "completion_probability": 65,
+  "ai_review_reasoning": "This protocol is designed to challenge your cardiovascular endurance and muscular strength, which are essential for a Striker. The exercises are chosen to work multiple muscle groups at once, improvin",
+  "ai_review_key_factors": [
+    "Cardio Heavy",
+    "Full Body",
+    "Compound Exercises"
+  ],
+  "stat_gain": {
+    "strength": 10,
+    "agility": 15,
+    "stamina": 12
+  },
+  "generation_time_ms": 1639,
+  "generation_status": "success",
+  "fallback_used": false
+}
+```
+
+**Real Production Example - S-Rank Assassin:**
+
+**Input:**
+```json
+{
+  "user_id": "5e9985cb-8700-4f0e-be01-4865f9d9c54d",
+  "username": "VoidWalker",
+  "user_rank": "S-Rank",
+  "user_level": 95,
+  "time_window_min": 30,
+  "equipment_count": 0,
+  "equipment": [],
+  "muscle_soreness_count": 0,
+  "muscle_soreness": [],
+  "feedback_patterns_count": 0,
+  "top_anomalies": [],
+  "quest_type": "Daily",
+  "environment": "production"
+}
+```
+
+**Output:**
+```json
+{
+  "quest_name": "Shadow Dance Protocol",
+  "quest_rank": "S-Rank",
+  "quest_type": "Special",
+  "quest_narrative": "You have been assigned a high-intensity bodyweight protocol to push your limits and refine your skills. Your mission, should you choose to accept it, is to complete the following exercises within the ...",
+  "exercise_count": 6,
+  "exercise_names": [
+    "Burpees",
+    "Mountain Climbers",
+    "Tuck Jumps",
+    "Plank Hold",
+    "Squat Jumps",
+    "Push-Up to Side Plank"
+  ],
+  "xp_reward": 4500,
+  "xp_potential": 4500,
+  "estimated_duration_min": 30,
+  "target_class": "Assassin",
+  "requires_proof": false,
+  "proof_type": "None",
+  "completion_probability": 55,
+  "ai_review_reasoning": "As an S-Rank Assassin, you require a high-intensity protocol that challenges your agility, strength, and stamina. This quest is designed to push your limits and refine your skills with a focus on expl",
+  "ai_review_key_factors": [
+    "High Intensity",
+    "Explosive Power",
+    "Full Body Engagement"
+  ],
+  "stat_gain": {
+    "strength": 15,
+    "agility": 20,
+    "stamina": 30
+  },
+  "generation_time_ms": 2186,
+  "generation_status": "success",
+  "fallback_used": false
+}
+```
 
 ### User Accepted Report
 ![User Accepted Report](public/opik-ai/flow-diagrams/user-accepted-report.png)
 *Valid user report of suspicious activity leads to verification and appropriate XP penalty applied.*
 
+**Real Production Example - Moderation Error Handling:**
+
+**Input:**
+```json
+{
+  "report_id": "be8dc7bb-d0fa-4f9f-8955-e3e559e44d5f",
+  "reason": "Suspicious_Pattern",
+  "error": "Cannot read properties of null (reading 'xp_reduction')"
+}
+```
+
+**Output:**
+```json
+{
+  "status": "ERROR",
+  "message": "AI moderation failed"
+}
+```
+
+**Note:** This example demonstrates error handling when the moderation system encounters issues. The system is designed to handle such errors gracefully while maintaining data integrity.
+
 ### Workout Verifier
 ![Workout Verifier](public/opik-ai/flow-diagrams/workout-verifier.png)
 *User completes workout in record time - Opik AI verifies completion and applies appropriate penalty for rushing.*
+
+**Real Production Example 1 - Cheating Detection:**
+
+**Input:**
+```json
+{
+  "quest_name": "Titan's Fury Protocol",
+  "quest_rank": "S-Rank",
+  "quest_type": "Daily",
+  "user_class": "Tank",
+  "user_rank": "S-Rank",
+  "duration_actual": 1,
+  "rpe_actual": 1,
+  "has_proof": false,
+  "proof_type": "None",
+  "cheating_detected": true,
+  "cheating_reason": "Completed a full workout in under 3 minutes - physically impossible to complete all exercises properly"
+}
+```
+
+**Output:**
+```json
+{
+  "status": "REJECTED",
+  "integrity_score": 0,
+  "effort_score": 0,
+  "safety_score": 0,
+  "final_xp": 0,
+  "message": "BLATANT CHEATING - Unreasonably fast completion detected"
+}
+```
+
+**Real Production Example 2 - Partial Effort (XP Penalty Applied):**
+
+**Input:**
+```json
+{
+  "quest_id": "b129d74a-31ab-49eb-8a7a-c49a5cc775b5",
+  "quest_name": "A-Rank Elimination Protocol",
+  "user_id": "5e9985cb-8700-4f0e-be01-4865f9d9c54d",
+  "user_rank": "A-Rank",
+  "user_class": "Assassin",
+  "has_proof": false,
+  "proof_type": "None",
+  "duration_actual": 1,
+  "rpe_actual": 10
+}
+```
+
+**Output:**
+```json
+{
+  "status": "REJECTED",
+  "integrity_score": 0.6,
+  "effort_score": 1,
+  "safety_score": 0.8,
+  "overall_score": 0.80,
+  "final_xp": 1200,
+  "xp_multiplier": 0.48,
+  "verification_status": "Auto_Approved",
+  "evaluation_time_ms": 668,
+  "ai_integrity_score": 0.6,
+  "ai_effort_score": 1,
+  "ai_safety_score": 0.8,
+  "ai_final_xp": 1200,
+  "ai_feedback": ""
+}
+```
+
+**Real Production Example 3 - XP Awarded with Level Up:**
+
+**Input:**
+```json
+{
+  "quest_id": "23e91e50-239e-412a-b4ce-0d62ab3598d1",
+  "user_id": "5e9985cb-8700-4f0e-be01-4865f9d9c54d",
+  "has_proof": false
+}
+```
+
+**Output:**
+```json
+{
+  "xp_awarded": 1000,
+  "new_level": 95,
+  "new_rank": "A-Rank",
+  "leveled_up": true,
+  "ranked_up": false,
+  "total_operation_time_ms": 2583
+}
+```
 
 **Note:** Flow diagram images are placeholders. Full documentation with detailed flow diagrams and real trace examples is available at: [Opik AI Flow Diagrams](https://nathasan1410.gitbook.io/ascend-fitness-rpg/7-ai-implementation/opik-ai-flow-diagrams)
 
