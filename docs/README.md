@@ -1,32 +1,53 @@
-# ASCEND: FITNESS RPG - Documentation
+# ASCEND: Fitness RPG
 
-Main documentation hub for ASCEND project.
+## Tech Stack
 
-## 📚 Documentation Structure
+Next.js 14 • React 18 • TypeScript 5 • Supabase (PostgreSQL) • Groq LLM • OPIK AI
 
-### Public Documentation (`/public`)
-Accessible documentation that can be shared publicly on GitHub.
+## Overview
 
-- **[Technical Documentation](/technical/)** - Implementation details, A/B testing, quick reference
-- **[Business Documentation](/business/)** - Market analysis, monetization, cost planning
-- **[Guides](/guides/)** - Development guides, future roadmap
+Gamified fitness app that transforms workouts into RPG quests. Complete AI-generated workouts, earn XP, level up, and climb hunter rankings from E to S rank.
 
-### Private Documentation (`/private`)
-Internal documentation for development sessions, summaries, and strategies.
+## System Flow
 
-- **[Sessions](/private/sessions/)** - Session reports and guides
-- **[Summaries](/private/summaries/)** - Work summaries and completion reports
-- **[Pitch](/private/pitch/)** - Pitch scripts and strategies
-- **[Prompts](/private/prompts/)** - Internal development prompts
-- **[Reports](/private/reports/)** - Internal reports and fixes
+```mermaid
+graph LR
+    A[Generate Quest] --> B[Complete Workout]
+    B --> C[Upload Proof]
+    C --> D[OPIK AI Evaluate]
+    D --> E[Earn XP]
+    E --> F[Level Up]
 
-## 🚀 Quick Links
+    style A fill:#00a67e
+    style D fill:#00a67e
+    style E fill:#f59e0b
+```
 
-- **[Main README](/public/README.md)** - Project overview and quick start
-- **[GitBook Documentation](/gitbook/)** - Complete technical documentation (11 sections)
-- **[Technical Docs](/public/technical/)** - A/B testing implementation, quick reference
-- **[Business Docs](/public/business/)** - Market analysis, monetization strategy
+## Core Features
+
+**OPIK AI** - Multi-factor evaluation (form 40%, effort 30%, consistency 30%) determines XP multipliers (0.8x-1.5x). Every evaluation is traced and viewable by users.
+
+**AI Quest Generation** - Groq LLM (Llama 3.3 70B) generates unique workouts tailored to rank (E-S), class (Tank/Striker/Assassin), equipment, and goals.
+
+**Anti-Cheat** - Proof uploads required for XP. Time anomaly detection prevents fast completions. OPIK AI moderates community reports.
+
+**Social Network** - Hunter Network feed shows completions. Kudos and respects system. Global, rank-specific, and class-specific leaderboards.
+
+## Quick Start
+
+| Rank | Email | Password | Level | XP |
+|-------|--------|-----------|--------|-----|
+| S | shadowhunter@test.com | Test123! | 95 | 245,000 |
+| A | thunderstrike@test.com | Test123! | 78 | 156,000 |
+| B | swiftwolf@test.com | Test123! | 52 | 104,000 |
+| C | swiftninja@test.com | Test123! | 22 | 44,000 |
+
+[View all 40 demo accounts](./getting-started/demo-accounts.md)
+
+## Documentation
+
+[Introduction](./introduction/README.md) • [OPIK AI](./opik-ai/README.md) • [AI Integration](./ai-integration/README.md) • [Getting Started](./getting-started/README.md) • [Features](./features/README.md) • [Architecture](./architecture/README.md) • [Developer Resources](./developer-resources/README.md)
 
 ---
 
-**Last Updated:** February 9, 2026
+*Last Updated: February 10, 2026*

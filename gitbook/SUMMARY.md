@@ -1,15 +1,50 @@
-# Documentation
+# Table of Contents
 
-[Introduction](./introduction/README.md) - Project overview
+## INTRODUCTION
 
-[OPIK AI](./opik-ai/README.md) - Quest evaluation system
+* [Overview](introduction/overview.md)
+* [Mission](introduction/mission.md)
+* [Problem & Solution](introduction/problem-and-solution.md)
 
-[AI Integration](./ai-integration/README.md) - Quest generation
+## OPIK AI
 
-[Getting Started](./getting-started/README.md) - Demo accounts, quick start
+* [Overview](opik-ai/overview.md)
+* [Judge System](opik-ai/judge-system.md)
+* [Flow Diagrams](opik-ai/flow-diagrams.md)
+* [Trace Implementation](opik-ai/trace-implementation.md)
 
-[Features](./features/README.md) - Quest system, anti-cheat, social
+## AI INTEGRATION
 
-[Architecture](./architecture/README.md) - Tech stack, system design
+* [Overview](ai-integration/overview.md)
+* [Technical Details](ai-integration/technical-details.md)
 
-[Developer Resources](./developer-resources/README.md) - Technical documentation
+## GETTING STARTED
+
+* [Quick Start](getting-started/quick-start.md)
+* [Demo Accounts](getting-started/demo-accounts.md)
+* [First Quest Guide](getting-started/first-quest.md)
+
+## HOW ASCEND WORKS
+
+* [Quest Flow](how-ascend-works/quest-flow.md)
+* [XP System](how-ascend-works/xp-system.md)
+* [Completion Guide](how-ascend-works/completion-guide.md)
+
+## FEATURES
+
+* [Quest System](features/quest-system.md)
+* [Gamification](features/gamification.md)
+* [Anti-Cheat](features/anti-cheat.md)
+* [Hunter Ranking](features/hunter-ranking.md)
+* [Social Network](features/social-network.md)
+
+## ARCHITECTURE
+
+* [System Overview](architecture/system-overview.md)
+* [Tech Stack](architecture/tech-stack.md)
+* [Data Flow](architecture/data-flow.md)
+
+## DEVELOPERS
+
+* [API Reference](developers/api-reference.md)
+* [Contributing](developers/contributing.md)
