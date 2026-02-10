@@ -294,27 +294,27 @@ For full transparency, see: [How We Use Opik AI](https://ascend-rpg-fitness.verc
 ASCEND uses Opik AI's LLM-as-a-Judge technology in multiple scenarios to ensure fair, consistent evaluation of user workouts. The following diagrams illustrate how Opik AI processes different types of user reports and workout scenarios:
 
 ### User False Report Scenario
-![User False Report](/opik-ai/flow-diagrams/user-false-report.png)
+![User False Report](public/opik-ai/flow-diagrams/user-false-report.png)
 *User reports suspicious activity, but the report is determined to be a personal attack rather than a valid report - no penalty applied.*
 
 ### System/Architect Judge with Llama
-![System/Architect Judge](/opik-ai/flow-diagrams/system-architect-judge.png)
+![System/Architect Judge](public/opik-ai/flow-diagrams/system-architect-judge.png)
 *System architect (Llama) evaluates user reports and provides judgment through Opik AI, ensuring consistent evaluation across all reports.*
 
 ### Workout Verifier (User Not Feeling Well)
-![Workout Verifier - User Not Feeling Well](/opik-ai/flow-diagrams/workout-verifier-sick.png)
+![Workout Verifier - User Not Feeling Well](public/opik-ai/flow-diagrams/workout-verifier-sick.png)
 *User reports difficulty completing workout due to illness - fair evaluation with appropriate XP penalty applied.*
 
 ### Workout Planner
-![Workout Planner](/opik-ai/flow-diagrams/workout-planner.png)
+![Workout Planner](public/opik-ai/flow-diagrams/workout-planner.png)
 *Llama generates workout plan, Opik AI evaluates user feedback and provides rating (7/10) for workout suitability.*
 
 ### User Accepted Report
-![User Accepted Report](/opik-ai/flow-diagrams/user-accepted-report.png)
+![User Accepted Report](public/opik-ai/flow-diagrams/user-accepted-report.png)
 *Valid user report of suspicious activity leads to verification and appropriate XP penalty applied.*
 
 ### Workout Verifier
-![Workout Verifier](/opik-ai/flow-diagrams/workout-verifier.png)
+![Workout Verifier](public/opik-ai/flow-diagrams/workout-verifier.png)
 *User completes workout in record time - Opik AI verifies completion and applies appropriate penalty for rushing.*
 
 **Note:** Flow diagram images are placeholders. Full documentation with detailed flow diagrams and real trace examples is available at: [Opik AI Flow Diagrams](https://nathasan1410.gitbook.io/ascend-fitness-rpg/7-ai-implementation/opik-ai-flow-diagrams)
