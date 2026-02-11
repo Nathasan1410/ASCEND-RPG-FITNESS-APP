@@ -1948,5 +1948,99 @@ export const featureDetails: FeatureDetail[] = [
         available: false
       }
     }
+  },
+  {
+    id: 'health-app-integration',
+    name: 'Health App Integration',
+    status: 'In Progress',
+    priority: 'High',
+    category: 'Core',
+    progress: 15,
+    lastUpdated: '2026-02-11',
+    description: {
+      userFacing: 'Automatically sync your workouts from Strava and Google Fit to ASCEND. Opik AI will verify your completed activities against these external platforms for trusted workout verification, ensuring you get fair XP for every real workout you complete.',
+      technical: 'OAuth integration with Strava API and Google Fit API for authenticating and importing user activity data. Automatic workout detection and matching with ASCEND quest logs. Opik AI verification layer that cross-references external activity data with user-submitted workouts. Data synchronization for real-time tracking and validation.',
+      problemStatement: 'Users need trusted verification for their workouts beyond self-reported data. Manual proof uploads are inconvenient, and users already track workouts in apps like Strava and Google Fit.',
+      currentLimitations: [
+        'Strava API rate limits',
+        'Google Fit API complexity',
+        'Time zone synchronization challenges',
+        'Activity type matching accuracy'
+      ],
+      solution: 'Health app integration that connects to Strava and Google Fit APIs. Opik AI cross-references external activity data to verify self-reported workouts, creating a multi-source trust system. Automatic activity detection imports and matches workouts.',
+      userBenefits: [
+        'Seamless workout syncing from Strava/Google Fit',
+        'Trusted verification through external platforms',
+        'Automatic activity detection and logging',
+        'No manual proof uploads required',
+        'Enhanced accuracy in XP evaluation',
+        'Centralized fitness data in one place',
+        'Historical workout history import'
+      ],
+      businessValue: 'Builds trust through multi-platform verification, increases user retention by reducing friction in proof submission, and creates competitive advantage with authentic workout tracking.'
+    },
+    timeline: {
+      targetDate: 'June 2026',
+      quarter: 'Q2 2026',
+      phases: [
+        { name: 'Research & Planning', status: 'completed', date: 'Feb 2026' },
+        { name: 'API Integration', status: 'in_progress', date: 'Feb 2026' },
+        { name: 'OAuth Authentication', status: 'pending', date: 'Mar 2026' },
+        { name: 'Data Synchronization', status: 'pending', date: 'Mar 2026' },
+        { name: 'Opik AI Verification', status: 'pending', date: 'Apr 2026' },
+        { name: 'Testing', status: 'pending', date: 'Apr 2026' },
+        { name: 'Beta Release', status: 'pending', date: 'May 2026' }
+      ],
+      dependencies: ['xp-ai-judge-system', 'proof-upload', 'opik-integration']
+    },
+    milestones: {
+      completed: [
+        { id: '1', name: 'API Research', date: '2026-02-11', description: 'Completed research on Strava and Google Fit APIs' },
+        { id: '2', name: 'Architecture Design', date: '2026-02-15', description: 'Designed data sync and verification architecture' }
+      ],
+      upcoming: [
+        { id: '3', name: 'Strava OAuth Implementation', date: '2026-03-01', description: 'Implement Strava authentication and data import', priority: 'High' },
+        { id: '4', name: 'Google Fit Integration', date: '2026-03-15', description: 'Connect Google Fit API for activity sync', priority: 'High' },
+        { id: '5', name: 'Automatic Activity Detection', date: '2026-04-01', description: 'AI-powered matching of external activities to quests', priority: 'High' },
+        { id: '6', name: 'Opik Verification Layer', date: '2026-04-15', description: 'Cross-reference external data for trusted verification', priority: 'High' },
+        { id: '7', name: 'Beta Launch', date: '2026-05-01', description: 'Release feature to selected users for testing', priority: 'Medium' }
+      ],
+      total: 7,
+      completedCount: 2,
+      percentage: 29,
+      nextMilestone: { id: '3', name: 'Strava OAuth Implementation', date: '2026-03-01', description: 'Implement Strava authentication and data import', priority: 'High' }
+    },
+    implementation: {
+      overallProgress: 15,
+      estimatedCompletion: 'June 2026',
+      status: 'On Track',
+      phases: [
+        { id: '1', name: 'Research & Design', status: 'completed', progress: 100, completedDate: '2026-02-11' },
+        { id: '2', name: 'Strava Integration', status: 'in_progress', progress: 30 },
+        { id: '3', name: 'Google Fit Integration', status: 'pending', progress: 0 },
+        { id: '4', name: 'Opik Verification', status: 'pending', progress: 0 },
+        { id: '5', name: 'Testing & QA', status: 'pending', progress: 0 }
+      ],
+      tasks: [
+        { id: '1', name: 'Research Strava API capabilities', status: 'completed', assignee: 'Backend Developer', estimatedHours: 16 },
+        { id: '2', name: 'Research Google Fit API capabilities', status: 'completed', assignee: 'Backend Developer', estimatedHours: 12 },
+        { id: '3', name: 'Design data sync architecture', status: 'completed', assignee: 'Tech Lead', estimatedHours: 8 },
+        { id: '4', name: 'Implement Strava OAuth flow', status: 'in_progress', assignee: 'Backend Developer', estimatedHours: 24 },
+        { id: '5', name: 'Implement Google Fit OAuth', status: 'pending', assignee: 'Backend Developer', estimatedHours: 20 },
+        { id: '6', name: 'Build activity matching algorithm', status: 'pending', assignee: 'AI Engineer', estimatedHours: 16 },
+        { id: '7', name: 'Create Opik verification pipeline', status: 'pending', assignee: 'AI Engineer', estimatedHours: 12 },
+        { id: '8', name: 'Build user sync settings UI', status: 'pending', assignee: 'Frontend Developer', estimatedHours: 8 },
+        { id: '9', name: 'Implement real-time sync status', status: 'pending', assignee: 'Frontend Developer', estimatedHours: 6 }
+      ],
+      technical: {
+        technologies: ['Strava API', 'Google Fit API', 'OAuth 2.0', 'Next.js', 'Supabase', 'Opik AI', 'TypeScript', 'React Query'],
+        apiEndpoints: ['/api/health-app/connect/strava', '/api/health-app/connect/google-fit', '/api/health-app/sync', '/api/health-app/verify'],
+        databaseChanges: ['Created health_app_connections table', 'Added external_activities table', 'Created activity_verification table'],
+        documentation: ['Strava API docs', 'Google Fit API docs', 'OAuth implementation guide', 'Activity matching algorithm docs']
+      },
+      demo: {
+        available: false
+      }
+    }
   }
 ];

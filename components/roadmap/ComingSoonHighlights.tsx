@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, Crown, Zap, Apple, Scale, Users, MessageCircle, ArrowRight, ExternalLink } from "lucide-react";
+import { Sparkles, Crown, Zap, Apple, Scale, Users, MessageCircle, ArrowRight, ExternalLink, HeartPulse } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import Link from "next/link";
 
@@ -83,6 +83,17 @@ const comingSoonFeatures: ComingSoonFeature[] = [
     borderColor: "border-green-400/30",
     comingSoonText: "Q4 2026",
     status: "Planned"
+  },
+  {
+    id: "health-app-integration",
+    name: "Health App Integration",
+    description: "Connect Strava and Google Fit for automatic workout tracking and Opik AI verification",
+    icon: HeartPulse,
+    color: "text-red-400",
+    bgColor: "bg-red-400/10",
+    borderColor: "border-red-400/30",
+    comingSoonText: "Q2 2026",
+    status: "In Progress"
   },
   {
     id: "hunter-network",
