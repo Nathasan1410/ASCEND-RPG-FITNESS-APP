@@ -291,6 +291,8 @@ For full transparency, see: [How We Use Opik AI](https://ascend-rpg-fitness.verc
 
 ## 🎨 Opik AI Flow Diagrams
 
+(examples are being taken from the OPIK AI dashboard, not using screenshot to maximize the spaces)
+
 ASCEND uses Opik AI's LLM-as-a-Judge technology in multiple scenarios to ensure fair, consistent evaluation of user workouts. The following diagrams illustrate how Opik AI processes different types of user reports and workout scenarios:
 
 ### User False Report Scenario
